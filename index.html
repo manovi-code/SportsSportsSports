@@ -1297,16 +1297,7 @@
   .cc-bf{display:flex;justify-content:space-between;align-items:center;padding:5px 8px;border-top:1px solid #e3d6b8;background:#efe4c9;flex:0 0 auto;font-size:9px;font-weight:900;color:#8a5a12;letter-spacing:.6px}
   .cc-empty{color:#7a7360;font-style:italic}
   @media (max-width:560px){
-    .cc-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-    .cc{--w:100%;--h:260px;width:100%}
-    .cc-ppg{bottom:66px;left:8px}.cc-ppg b{font-size:31px}
-    .cc-circ{width:48px;height:48px;bottom:52px;right:6px}
-    .cc-ln{font-size:15px;max-width:calc(100% - 50px)}.cc-fn{font-size:9px}
-    .cc-plate{padding:6px 8px 7px}.cc-tm{font-size:9.5px}
-    .cc-yt{bottom:106px;left:7px}.cc-yt.yt-pill{font-size:9.5px;padding:2px 6px}
-    .cc-slot{font-size:9.5px;padding:2px 6px}.cc-rar{font-size:8px;padding:2px 5px}
-    .cc-hsbig{bottom:48px}.cc-flip-hint{display:none}
-    .cc-bb{font-size:10px;padding:5px 6px 6px}.cc-sg{grid-template-columns:repeat(2,1fr)}
+    .cc-flip-hint{display:none}
     .tb-vt.seg button{padding:7px 14px;font-size:13.5px}
     .tb-bar.tb-sticky{margin:8px -4px 10px;padding:7px}
   }
@@ -1406,6 +1397,122 @@
     #ticker *,#ticker *::before,#ticker *::after{animation:none!important}
     #ticker .gx-rings i:first-child{transform:scale(.85);opacity:.9}
   }
+  /* ===== ⚔️ Matchup (head-to-head this week) ===== */
+  .mu{margin:6px 0 16px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(0,0,0,.12));overflow:hidden}
+  .mu-h{display:flex;align-items:center;gap:8px;padding:10px 12px;cursor:pointer;user-select:none;background:none;border:0;color:inherit;font:inherit;width:100%;text-align:left}
+  .mu-h b{font-size:16px;font-weight:900}.mu-h small{color:var(--muted);font-size:12px}.mu-h .car{margin-left:auto;transition:transform .2s;color:var(--muted)}.mu.closed .mu-h .car{transform:rotate(-90deg)}
+  .mu.closed .mu-b{display:none}.mu-b{padding:0 12px 12px}
+  .mu-sb{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:10px;border-radius:12px;background:rgba(0,0,0,.25)}
+  .mu-tm{display:flex;align-items:center;gap:10px;min-width:0}.mu-tm.op{flex-direction:row-reverse;text-align:right}
+  .mu-tm img,.mu-tm .ph{width:46px;height:46px;border-radius:50%;object-fit:cover;background:#fff2;flex:0 0 auto;display:grid;place-items:center;font-weight:900}
+  .mu-tm .nm{min-width:0}.mu-tm .nm b{display:block;font-size:14px;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mu-tm .nm i{font-style:normal;color:var(--muted);font-size:11.5px}
+  .mu-tm .sc{margin-left:auto;text-align:right}.mu-tm.op .sc{margin-left:0;margin-right:auto;text-align:left}
+  .mu-tm .sc b{display:block;font-size:28px;font-weight:900;line-height:1;font-variant-numeric:tabular-nums}.mu-tm .sc i{font-style:normal;color:var(--muted);font-size:11px}
+  .mu-tm.lead .sc b{color:#4ade80}
+  .mu-mid{text-align:center;font-size:11px;color:var(--muted)}.mu-mid b{display:block;font-size:15px;color:var(--text,#fff)}
+  .mu-wp{margin-top:8px}.mu-wpb{display:flex;height:10px;border-radius:6px;overflow:hidden;background:#ef4444}.mu-wpb span{background:linear-gradient(90deg,#16a34a,#4ade80);transition:width .6s}
+  .mu-wpl{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:3px}.mu-wpl b{color:var(--text,#fff)}
+  .mu-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0 6px}.mu-bar .sp{flex:1}
+  .mu-rp{background:var(--panel);color:var(--text,#fff);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font:inherit;font-size:12.5px;font-weight:800;cursor:pointer}
+  .mu-rows{display:flex;flex-direction:column;gap:8px}
+  .mu-r{display:grid;grid-template-columns:1fr 74px 1fr;align-items:center;gap:6px;padding:6px 4px;border-radius:12px;background:rgba(255,255,255,.025);position:relative}
+  .mu-sd{display:flex;align-items:center;gap:10px;justify-content:flex-end;min-width:0}.mu-sd.op{justify-content:flex-start}
+  .mu-sd.me{flex-direction:row}.mu-sd.me .mu-inf{text-align:right}
+  .mu-inf{min-width:0;font-size:12px;line-height:1.3}.mu-inf .pj{color:var(--muted)}.mu-inf .ac{font-size:18px;font-weight:900;font-variant-numeric:tabular-nums}.mu-inf .gs{font-size:11px;color:var(--muted);white-space:nowrap}.mu-inf .gs.in{color:#f87171;font-weight:800}
+  .mu-vs{position:relative;text-align:center;font-size:11px;color:var(--muted);z-index:2}
+  .mu-vs .sl{display:inline-block;font-weight:900;font-size:11px;color:#111;background:var(--accent);border-radius:6px;padding:1px 6px}
+  .mu-vs .v{display:block;font-weight:900;font-size:17px;color:var(--text,#fff);letter-spacing:1px;margin:2px 0}
+  .mu-vs .dl{display:block;font-weight:800;font-size:12px}.mu-vs .dl.up{color:#4ade80}.mu-vs .dl.dn{color:#f87171}
+  .mu-boom{position:absolute;left:50%;top:50%;width:70px;height:70px;margin:-35px 0 0 -35px;border-radius:50%;pointer-events:none;opacity:0;transform:scale(0);
+    background:radial-gradient(circle,#fff 0 12%,#ffe066 18%,rgba(255,140,0,.85) 34%,rgba(255,80,0,0) 62%),conic-gradient(from 0deg,transparent 0 6%,#ffd23f 6% 9%,transparent 9% 18%,#fff 18% 20%,transparent 20% 31%,#ffd23f 31% 34%,transparent 34% 44%,#fff 44% 46%,transparent 46% 56%,#ffd23f 56% 59%,transparent 59% 69%,#fff 69% 71%,transparent 71% 81%,#ffd23f 81% 84%,transparent 84% 94%,#fff 94% 96%,transparent 96%);
+    -webkit-mask:radial-gradient(circle,#000 55%,transparent 70%);mask:radial-gradient(circle,#000 55%,transparent 70%)}
+  /* small matchup card */
+  .mc{--w:110px;--h:150px;width:var(--w);height:var(--h);flex:0 0 auto;position:relative;border-radius:10px;padding:3px;display:block;text-decoration:none;color:#fff;
+    background:linear-gradient(135deg,#6f7787,#e3e8f0 22%,#8b93a3 40%,#f4f6fa 58%,#7d8494 78%,#cfd5df);box-shadow:0 6px 16px rgba(0,0,0,.45)}
+  .mc.r-rare{background:linear-gradient(135deg,#0d4fb8,#7cc4ff 22%,#1565d8 42%,#c4e6ff 58%,#0f57c6 78%,#5fb0ff)}
+  .mc.r-epic{background:linear-gradient(135deg,#4b0f8f,#d38bff 22%,#6a1fc0 42%,#f1d4ff 58%,#5a16a8 78%,#b56aff)}
+  .mc.r-leg{background:linear-gradient(135deg,#8a6a1c,#ffe08a 20%,#b8862b 38%,#fff6cf 55%,#a97a1f 74%,#ffd35a 90%,#8a6a1c);box-shadow:0 6px 16px rgba(0,0,0,.5),0 0 12px rgba(255,200,61,.35)}
+  .mc.empty{background:#333;opacity:.5}
+  .mc-in{position:relative;width:100%;height:100%;border-radius:8px;overflow:hidden;background:radial-gradient(circle at 50% 30%,var(--tc1,#3a4252),#11151c 75%)}
+  .mc-ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+  .mc-hs{position:absolute;left:50%;bottom:28%;width:96%;transform:translateX(-50%);object-fit:contain}
+  .mc-lg{position:absolute;right:-12%;top:8%;width:70%;opacity:.18}
+  .mc-fd{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),transparent 30%,transparent 50%,rgba(0,0,0,.92) 82%)}
+  .mc-pos{position:absolute;left:4px;top:4px;font-size:9.5px;font-weight:900;background:rgba(0,0,0,.65);border-radius:4px;padding:1px 4px}
+  .mc-pt{position:absolute;right:4px;top:4px;font-size:12px;font-weight:900;background:rgba(0,0,0,.7);border-radius:4px;padding:0 4px;font-variant-numeric:tabular-nums}
+  .mc-pl{position:absolute;left:0;right:0;bottom:0;padding:3px 5px 4px;line-height:1.1}
+  .mc-pl b{display:block;font-size:12px;font-weight:900;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mc-pl i{display:block;font-style:normal;font-size:9.5px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mc-ck{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none}
+  .mc-ck path{fill:none;stroke:#fff;stroke-width:2.2;stroke-linejoin:round;filter:drop-shadow(0 0 1px #000)}
+  /* end states (static; reduced motion and after the animation ran) */
+  .mu-rows.done .mc.lose{opacity:.5;filter:grayscale(1)}.mu-rows.done .mc.lose .mc-ck{opacity:.85}
+  .mu-rows.done .mc.win{box-shadow:0 0 0 2px #4ade80,0 6px 18px rgba(0,0,0,.5)}
+  .mu-rows.done .mu-sd.win .ac{color:#4ade80}
+  /* animation, run once per row (staggered via --d) */
+  @keyframes muLungeL{0%{transform:none}25%{transform:translateX(-8px) rotate(-3deg)}50%{transform:translateX(34px) scale(1.1) rotate(4deg)}70%{transform:translateX(28px) scale(1.08)}100%{transform:none}}
+  @keyframes muLungeR{0%{transform:none}25%{transform:translateX(8px) rotate(3deg)}50%{transform:translateX(-34px) scale(1.1) rotate(-4deg)}70%{transform:translateX(-28px) scale(1.08)}100%{transform:none}}
+  @keyframes muBoom{0%{opacity:0;transform:scale(.2) rotate(0)}15%{opacity:1;transform:scale(1.25) rotate(20deg)}100%{opacity:0;transform:scale(1.7) rotate(45deg)}}
+  @keyframes muShake{0%,100%{transform:none}20%{transform:translateX(-6px) rotate(-3deg)}40%{transform:translateX(5px) rotate(2deg)}60%{transform:translateX(-4px) rotate(-1deg)}80%{transform:translateX(2px)}}
+  @keyframes muCrack{0%{opacity:0}100%{opacity:.85}}
+  .mu-rows.play .mc.win.l{animation:muLungeL .6s cubic-bezier(.3,.7,.3,1) var(--d) 1 both;z-index:3}
+  .mu-rows.play .mc.win.r{animation:muLungeR .6s cubic-bezier(.3,.7,.3,1) var(--d) 1 both;z-index:3}
+  .mu-rows.play .mu-boom{animation:muBoom .55s ease-out calc(var(--d) + .26s) 1 both}
+  .mu-rows.play .mc.lose{animation:muShake .45s ease-out calc(var(--d) + .3s) 1 both;transition:opacity .4s calc(var(--d) + .7s),filter .4s calc(var(--d) + .7s);opacity:.5;filter:grayscale(1)}
+  .mu-rows.play .mc.lose .mc-ck{animation:muCrack .15s linear calc(var(--d) + .3s) 1 both}
+  .mu-rows.play .mc.win{transition:box-shadow .3s calc(var(--d) + .4s);box-shadow:0 0 0 2px #4ade80,0 6px 18px rgba(0,0,0,.5)}
+  @media (prefers-reduced-motion:reduce){.mu-rows.play .mc,.mu-rows.play .mu-boom,.mu-rows.play .mc-ck{animation:none!important;transition:none!important}.mu-rows.play .mc.lose .mc-ck{opacity:.85}}
+  .mu-tbw{overflow-x:auto}.mu-tb{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .mu-tb th{font-size:11px;color:var(--muted);text-align:right;padding:5px 6px;border-bottom:1px solid var(--line);white-space:nowrap}.mu-tb th.n,.mu-tb td.n{text-align:left}
+  .mu-tb td{text-align:right;padding:5px 6px;border-bottom:1px solid rgba(255,255,255,.05);white-space:nowrap}
+  .mu-tb td.n b{font-weight:800}.mu-tb td.n i{font-style:normal;color:var(--muted);font-size:11px;margin-left:4px}
+  .mu-tb td.sl{text-align:center;font-weight:900;color:var(--accent)}.mu-tb tr.w-me td.me-n,.mu-tb tr.w-op td.op-n{color:#4ade80}
+  .mu-tb td.up{color:#4ade80;font-weight:800}.mu-tb td.dn{color:#f87171;font-weight:800}.mu-tb .gl{color:#f87171;font-size:10px;font-weight:800;margin-left:4px}
+  .mu-bn{margin-top:10px}.mu-bnh{background:none;border:0;color:var(--muted);font:inherit;font-weight:800;font-size:13px;cursor:pointer;padding:6px 0}
+  .mu-bng{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mu-bng h6{margin:4px 0;font-size:12px;color:var(--muted)}
+  .mu-bnr{display:flex;gap:6px;align-items:center;font-size:12px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05)}.mu-bnr img{width:24px;height:24px;border-radius:50%;object-fit:cover;background:#fff1}
+  .mu-bnr span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mu-bnr i{font-style:normal;color:var(--muted)}.mu-bnr b{font-variant-numeric:tabular-nums}
+  .mu-ld{color:var(--muted);font-size:13px;padding:8px 0}
+  @media (max-width:700px){
+    .mc{--w:90px;--h:125px}.mc-pl b{font-size:10.5px}.mc-pl i{font-size:8.5px}
+    .mu-r{grid-template-columns:1fr 58px 1fr;gap:3px;padding:6px 2px}
+    .mu-sd{flex-direction:column!important;align-items:center;gap:4px}.mu-sd .mu-inf{text-align:center!important}
+    .mu-sd.me .mu-inf{order:2}
+    .mu-inf .ac{font-size:15px}.mu-inf{font-size:11px}
+    .mu-tm .sc b{font-size:22px}.mu-tm img,.mu-tm .ph{width:34px;height:34px}.mu-tm .nm b{font-size:12px;white-space:normal}
+    .mu-sb{gap:6px;padding:8px}.mu-tm{gap:6px;flex-wrap:wrap}.mu-tm .sc{margin-left:0}.mu-tm.op .sc{margin-right:0}
+    @keyframes muLungeL{0%{transform:none}25%{transform:translateX(-5px)}50%{transform:translateX(18px) scale(1.08)}100%{transform:none}}
+    @keyframes muLungeR{0%{transform:none}25%{transform:translateX(5px)}50%{transform:translateX(-18px) scale(1.08)}100%{transform:none}}
+  }
+  /* ===== bigger trading cards + enlarged back overlay ===== */
+  .cc-grid{grid-template-columns:repeat(auto-fill,260px);gap:20px}
+  .cc{--w:260px;--h:380px}
+  .cc-bb{font-size:12px}.cc-bb h5{font-size:10.5px}.cc-sg b{font-size:13px}.cc-sg i{font-size:10px}.cc-vs{font-size:12px}.cc-cm{font-size:12px}.cc-nx{font-size:11.5px}
+  @media (max-width:560px){.cc-grid{grid-template-columns:minmax(0,340px);justify-content:center;gap:16px}.cc{--w:100%;--h:480px;width:100%;max-width:340px}}
+  #ccBig{position:fixed;inset:0;z-index:9999;background:rgba(5,8,14,.74);display:flex;align-items:center;justify-content:center;padding:14px}
+  #ccBig[hidden]{display:none}
+  html.ccb-open{overflow:hidden}
+  .ccb{width:min(92vw,420px);max-height:94vh;overflow:auto;border-radius:16px;padding:5px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.7);animation:ccbIn .28s cubic-bezier(.3,1.3,.5,1);
+    background:linear-gradient(135deg,#6f7787,#e3e8f0 22%,#8b93a3 40%,#f4f6fa 58%,#7d8494 78%,#cfd5df)}
+  .ccb.r-rare{background:linear-gradient(135deg,#0d4fb8,#7cc4ff 22%,#1565d8 42%,#c4e6ff 58%,#0f57c6 78%,#5fb0ff)}
+  .ccb.r-epic{background:linear-gradient(135deg,#4b0f8f,#d38bff 22%,#6a1fc0 42%,#f1d4ff 58%,#5a16a8 78%,#b56aff)}
+  .ccb.r-leg{background:linear-gradient(135deg,#8a6a1c,#ffe08a 20%,#b8862b 38%,#fff6cf 55%,#a97a1f 74%,#ffd35a 90%,#8a6a1c)}
+  @keyframes ccbIn{from{transform:scale(.6) rotateY(90deg);opacity:0}to{transform:none;opacity:1}}
+  @media (prefers-reduced-motion:reduce){.ccb{animation:none}}
+  .ccb .cc-stock{height:auto;border-radius:12px}
+  .ccb .cc-bb{overflow:visible;font-size:14px;padding:12px 14px 16px}
+  .ccb .cc-bh{padding:12px 54px 12px 14px;margin-bottom:10px}.ccb .cc-bh b{font-size:19px}.ccb .cc-bh i{font-size:13px}.ccb .cc-bh img.hs{width:52px;height:52px}
+  .ccb .cc-bh .cc-bl{bottom:-12px;right:12px}.ccb .cc-bh a.espn{font-size:14px}
+  .ccb .cc-bb h5{font-size:12.5px;margin:14px 0 6px}.ccb .cc-bb h5:first-child{margin-top:4px}
+  .ccb .cc-sg{grid-template-columns:repeat(3,1fr);gap:6px}.ccb .cc-sg div{padding:5px 2px}.ccb .cc-sg b{font-size:18px}.ccb .cc-sg i{font-size:12px}
+  .ccb .cc-vs{font-size:14px}.ccb .cc-vs th,.ccb .cc-vs td{padding:4px 6px}.ccb .cc-vs thead th{font-size:12px}
+  .ccb .cc-cm{font-size:14px;min-height:30px;gap:8px}.ccb .cc-cm .d{font-size:13px;min-width:38px}.ccb .cc-cm .cm-tag{font-size:11px;padding:2px 5px}.ccb .cc-cm .tr-eye{width:26px;height:26px;font-size:13px}
+  .ccb .cc-nx{font-size:13.5px;white-space:normal;margin-top:8px}.ccb .cc-nx b{font-size:12px}
+  .ccb .cc-trd{margin-top:8px;gap:10px}.ccb .cc-tk{font-size:14px}.ccb .cc-l3 span{font-size:14px}.ccb .cc-trd svg{width:120px;height:34px}
+  .ccb .cc-bio,.ccb .cc-news,.ccb .cc-empty{font-size:13.5px}.ccb .cc-x{display:none}
+  .ccb .yt-pill{font-size:12px;padding:3px 9px}.ccb .yt-pill b{font-size:11px}.ccb .tr-pace{font-size:14px}
+  .ccb-x{position:absolute;top:12px;right:12px;z-index:5;width:36px;height:36px;border-radius:50%;border:2px solid #fff;background:rgba(0,0,0,.55);color:#fff;font-size:17px;font-weight:900;cursor:pointer;line-height:1}
+  .ccb-x:focus-visible{outline:3px solid #ffc83d}
 </style>
 </head>
 <body>
@@ -3726,10 +3833,178 @@ function rosterSection(sp){
   }
   return h;
 }
+/* ===================== ⚔️ Matchup: this week's head-to-head (ESPN football leagues) =====================
+   One league request: view=mMatchupScore&view=mBoxscore&view=mTeam&scoringPeriodId=<current>. Verified Oct 11 2026 on
+   league 1486623708: schedule[].home/away carry totalPoints(Live), totalProjectedPoints(Live), winProbability (0–1) and
+   rosterForCurrentScoringPeriod.entries[] (lineupSlotId + playerPoolEntry.player.stats: statSourceId 0 actual / 1 projected,
+   statSplitTypeId 1 for the week). L3 averages come from one view=kona_playercard request for both rosters. */
+var MU_KEY = 'mannMatchup.v1', MU_UI_KEY = 'mannMatchupUI.v1';
+var MU = { d: (v => v && typeof v === 'object' ? v : {})(lsGet(MU_KEY, null)), ui: { open: true, view: 'cards', bench: false, ...(lsGet(MU_UI_KEY, null) || {}) }, played: new Set(), io: null };
+const muSaveUI = () => lsSet(MU_UI_KEY, MU.ui);
+async function muLoad(sp, L){
+  const st = await efJSON(efLeagueUrl(sp, L.season, L.leagueId, 'view=mStatus'));
+  const per = (st.status && st.status.latestScoringPeriod) || st.scoringPeriodId, mp = (st.status && st.status.currentMatchupPeriod) || per;
+  const [d, pro] = await Promise.all([efJSON(efLeagueUrl(sp, L.season, L.leagueId, `view=mMatchupScore&view=mBoxscore&view=mTeam&scoringPeriodId=${per}`)), efProTeams(sp, L.season)]);
+  const tid = +L.teamId, g = (d.schedule || []).find(x => x.matchupPeriodId === mp && ((x.home && x.home.teamId === tid) || (x.away && x.away.teamId === tid)));
+  if (!g) { MU.d[sp] = { t: Date.now(), lg: L.leagueId + ':' + L.teamId, per, mp, none: true }; return; }
+  const tm = id => { const t = (d.teams || []).find(x => x.id === id) || {}, o = (t.record || {}).overall || {};
+    return { id, name: (t.name || [t.location, t.nickname].filter(Boolean).join(' ') || 'Team ' + id).trim(), abbrev: t.abbrev || '', logo: t.logo || '', rec: o.wins != null ? `${o.wins}-${o.losses}${o.ties ? '-' + o.ties : ''}` : '' }; };
+  const side = s => { if (!s) return null; const r = s.rosterForCurrentScoringPeriod || s.rosterForMatchupPeriod || {};
+    return { ...tm(s.teamId), live: typeof s.totalPointsLive === 'number' ? s.totalPointsLive : s.totalPoints ?? 0, proj: s.totalProjectedPointsLive ?? s.totalProjectedPoints ?? null,
+             proj0: s.totalProjectedPoints ?? null, wp: typeof s.winProbability === 'number' ? s.winProbability : null, ps: efRoster(sp, { roster: r }, pro).players }; };
+  const me = g.home && g.home.teamId === tid ? side(g.home) : side(g.away), op = g.home && g.home.teamId === tid ? side(g.away) : side(g.home);
+  // L3: last 3 completed weeks of fantasy points, both rosters, one request
+  const all = [...me.ps, ...(op ? op.ps : [])], ids = [...new Set(all.map(p => Number(p.dst ? p.eid : p.eid)).filter(x => x && !isNaN(x)))], l3 = {};
+  try { const s = +L.season, filt = { players: { filterIds: { value: ids }, filterStatsForTopScoringPeriodIds: { value: 20, additionalValue: ['00' + s] } } };
+    const r = await fetchWithTimeout(efLeagueUrl(sp, L.season, L.leagueId, 'view=kona_playercard'), 20000, { credentials: 'omit', headers: { 'X-Fantasy-Filter': JSON.stringify(filt) } });
+    if (r.ok) for (const e of ((await r.json()).players || [])) { const pl = e.player || {}, w = {};
+      for (const x of pl.stats || []) if (x.statSourceId === 0 && x.statSplitTypeId === 1 && x.seasonId === s && x.scoringPeriodId < per && typeof x.appliedTotal === 'number') w[x.scoringPeriodId] = x.appliedTotal;
+      const v = Object.keys(w).map(Number).sort((a, b) => a - b).slice(-3).map(k => w[k]); if (v.length) l3[String(pl.id)] = r1(v.reduce((a, b) => a + b, 0) / v.length); }
+  } catch (e) { console.warn('matchup L3', e); }
+  MU.d[sp] = { t: Date.now(), lg: L.leagueId + ':' + L.teamId, per, mp, me, op, l3 };
+}
+function muNow(p){   // game status for a matchup player (uses the dashboard's NFL scoreboard)
+  const n = playerNow(p), act = p.pts && p.pts.act;
+  if (!n) return act != null ? { t: 'Played', s: 'post' } : { t: p.pts && p.pts.proj === 0 ? 'BYE / out' : '', s: '' };
+  if (n.state === 'in') return { t: n.detail || 'LIVE', s: 'in' };
+  if (n.state === 'post') return { t: 'Final', s: 'post' };
+  return { t: `${dayLabelET(new Date(n.date))} ${timeET(new Date(n.date)).replace(' ET', '')}`, s: 'pre' };
+}
+function muPairs(sp, D){
+  const S = SLOTS[sp], st = s => (s ? s.ps : []).filter(p => !S.bench.includes(p.sid) && !S.ir.includes(p.sid));
+  const pj = p => (p && p.pts && p.pts.proj) || 0, A = st(D.me), B = st(D.op), out = [];
+  const sids = [...new Set([...A, ...B].map(p => p.sid))].sort((a, b) => (S.order.indexOf(a) + 1 || 99) - (S.order.indexOf(b) + 1 || 99));
+  for (const sid of sids) { const a = A.filter(p => p.sid === sid).sort((x, y) => pj(y) - pj(x)), b = B.filter(p => p.sid === sid).sort((x, y) => pj(y) - pj(x)), n = Math.max(a.length, b.length);
+    for (let i = 0; i < n; i++) out.push({ slot: (S.names[sid] || '') + (n > 1 ? i + 1 : ''), a: a[i] || null, b: b[i] || null }); }
+  return out.map(r => { const sa = r.a ? muNow(r.a) : null, sb = r.b ? muNow(r.b) : null, done = (!r.a || sa.s === 'post') && (!r.b || sb.s === 'post');
+    const v = p => p && p.pts ? (done ? p.pts.act ?? 0 : p.pts.proj ?? 0) : null, va = v(r.a), vb = v(r.b);
+    const d = va == null ? -(vb || 0) : vb == null ? va : va - vb;
+    return { ...r, sa, sb, done, dl: r1(d), win: d > 0 ? 'a' : d < 0 ? 'b' : '' }; });
+}
+const muTier = (p, rank) => p ? ccTier(rank[p.eid] || rank[p.id] || null)[0] : 'common';
+function muCard(p, rank, side, res){
+  if (!p) return `<div class="mc empty ${side}"><div class="mc-in"></div></div>`;
+  const art = cardArt(p), a = p.pts || {}, sh = p.short || p.name, last = p.dst ? p.name.replace(/\s*D\/ST$/, '') + ' D/ST' : String(p.name).split(' ').slice(1).join(' ') || p.name;
+  const colors = p.team && p.team !== 'FA' ? teamColorVars('nfl', p.team, '', '') : '';
+  return `<a class="mc r-${muTier(p, rank)} ${side}${res ? ' ' + res : ''}" href="${esc(p.dst ? p.link : `https://www.espn.com/nfl/player/_/id/${p.eid}`)}" target="_blank" rel="noopener" title="${esc(p.name)} · ${esc(p.pos)} · ${esc(p.team)}" style="${esc(colors)}"><div class="mc-in">
+    ${art ? `<img class="mc-ph" src="${esc(art)}" alt="" loading="lazy" draggable="false" referrerpolicy="no-referrer" onerror="this.remove()">`
+          : `${p.teamLogo && !p.dst ? `<img class="mc-lg" src="${esc(p.teamLogo)}" alt="" loading="lazy">` : ''}<img class="mc-hs" src="${esc(p.headshot)}" alt="" loading="lazy" draggable="false" onerror="this.style.visibility='hidden'">`}
+    <div class="mc-fd"></div><span class="mc-pos">${esc(p.pos)}</span><span class="mc-pt">${a.act != null ? esc(a.act) : a.proj != null ? esc(a.proj) : '–'}</span>
+    <div class="mc-pl"><b>${esc(last)}</b><i>${esc(p.team)} · ${esc(sh)}</i></div>
+    <svg class="mc-ck" viewBox="0 0 100 140" preserveAspectRatio="none" aria-hidden="true"><path d="M58 0 L50 22 L62 34 L46 56 L55 70 L40 92 L48 108 L36 140"/><path d="M50 22 L30 30 L22 46"/><path d="M46 56 L70 64 L84 60"/><path d="M40 92 L22 98 L10 112"/></svg></div></a>`;
+}
+function muInf(p, s, me){
+  if (!p) return '<div class="mu-inf"></div>';
+  const a = p.pts || {};
+  return `<div class="mu-inf"><div class="ac">${a.act != null ? esc(a.act) : '–'}</div><div class="pj">proj ${a.proj ?? '–'}</div><div class="gs ${s.s}">${esc(s.t)}</div></div>`;
+}
+function muScore(D){
+  const { me, op } = D, nm = t => t ? t : { name: 'Bye', rec: '', live: 0, proj: 0 };
+  const A = nm(me), B = nm(op), anyLive = (A.live || 0) + (B.live || 0) > 0;
+  let wp = A.wp;
+  if (wp == null && A.proj != null && B.proj != null) { const z = (A.proj - B.proj) / 22, t = 1 / (1 + 0.2316419 * Math.abs(z)), q = 0.3989423 * Math.exp(-z * z / 2) * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274)))); wp = z > 0 ? 1 - q : q; }
+  const pct = wp == null ? 50 : Math.round(wp * 100), mg = anyLive ? r1(A.live - B.live) : r1((A.proj || 0) - (B.proj || 0));
+  const logo = t => t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="efLogoFail(this)" data-ab="${esc(t.abbrev || t.name)}">` : `<span class="ph">${esc((t.abbrev || t.name || '?').slice(0, 3))}</span>`;
+  const tmH = (t, cls, lead) => `<div class="mu-tm ${cls}${lead ? ' lead' : ''}">${logo(t)}<div class="nm"><b>${esc(t.name)}</b><i>${esc(t.rec ? t.rec : '')}${cls === 'me' ? ' · You' : ''}</i></div>
+    <div class="sc"><b>${esc(r1(t.live || 0))}</b><i>proj ${t.proj != null ? esc(r1(t.proj)) : '–'}</i></div></div>`;
+  return `<div class="mu-sb">${tmH(A, 'me', mg > 0)}<div class="mu-mid">${anyLive ? 'LIVE' : 'PROJ'} MARGIN<b>${mg > 0 ? '+' : ''}${mg}</b>Wk ${esc(D.per)}</div>${tmH(B, 'op', mg < 0)}</div>
+    <div class="mu-wp" title="${A.wp != null ? 'ESPN win probability' : 'Win chance estimated from projections'}"><div class="mu-wpb"><span style="width:${pct}%"></span></div>
+    <div class="mu-wpl"><span><b>${pct}%</b> win${A.wp == null ? ' (est.)' : ''}</span><span>${esc(B.name)} <b>${100 - pct}%</b></span></div></div>`;
+}
+function muSection(sp){
+  if (sp !== 'nfl') return '';
+  const L = espnLinks[sp]; if (!L || L.source === 'paste' || !L.leagueId || !L.teamId) return '';
+  const D = MU.d[sp], ok = D && D.lg === L.leagueId + ':' + L.teamId, open = MU.ui.open;
+  const head = `<button class="mu-h" data-mu="open" aria-expanded="${open}"><b>⚔️ Matchup</b><small>${ok && D.op ? `Week ${esc(D.per)} · vs ${esc(D.op.name)}` : 'This week\'s head-to-head'}</small><span class="car" aria-hidden="true">▾</span></button>`;
+  if (!ok) return `<section class="mu${open ? '' : ' closed'}" id="fzMatchup">${head}<div class="mu-b"><div class="mu-ld">${FZX_ERR['mu:' + sp] ? 'Couldn\'t load this week\'s matchup. Retrying shortly.' : 'Loading this week\'s matchup…'}</div></div></section>`;
+  if (D.none) return `<section class="mu${open ? '' : ' closed'}" id="fzMatchup">${head}<div class="mu-b"><div class="mu-ld">No matchup this week (bye or offseason).</div></div></section>`;
+  const C = CMP.d.nfl, rank = C ? cmpRank(C) : {}, rows = muPairs(sp, D), v = MU.ui.view, l3 = D.l3 || {};
+  const sig = sp + ':' + D.per;
+  let body;
+  if (v === 'table') {
+    const td = (x, k) => x != null ? esc(x) : '–', nm = p => p ? `<b>${esc(p.short || p.name)}</b><i>${esc(p.team)}</i>` : '<i>empty</i>';
+    const st = (p, s) => p && s.s === 'in' ? `<span class="gl">LIVE</span>` : '';
+    body = `<div class="mu-tbw"><table class="mu-tb"><thead><tr><th class="n">You</th><th>Proj</th><th>Actual</th><th title="Average of the last 3 weeks">L3</th><th>Slot</th><th title="Your edge: projected, or actual once both games are final">Δ</th><th class="n">${esc(D.op ? D.op.name : 'Opponent')}</th><th>Proj</th><th>Actual</th><th>L3</th></tr></thead><tbody>${rows.map(r =>
+      `<tr class="${r.win === 'a' ? 'w-me' : r.win === 'b' ? 'w-op' : ''}"><td class="n me-n">${nm(r.a)}${st(r.a, r.sa)}</td><td>${td(r.a && r.a.pts && r.a.pts.proj)}</td><td>${td(r.a && r.a.pts && r.a.pts.act)}</td><td>${td(r.a && l3[r.a.eid])}</td>
+       <td class="sl">${esc(r.slot)}</td><td class="${r.dl > 0 ? 'up' : r.dl < 0 ? 'dn' : ''}">${r.dl > 0 ? '+' : ''}${r.dl}${r.done ? '' : '*'}</td>
+       <td class="n op-n">${nm(r.b)}${st(r.b, r.sb)}</td><td>${td(r.b && r.b.pts && r.b.pts.proj)}</td><td>${td(r.b && r.b.pts && r.b.pts.act)}</td><td>${td(r.b && l3[r.b.eid])}</td></tr>`).join('')}</tbody></table></div>
+      <div class="tb-foot">Δ = your edge in points · * projected (actual once both games are final) · L3 = average of the last 3 weeks</div>`;
+  } else {
+    body = `<div class="mu-rows${MU.played.has(sig) ? ' done' : ''}" data-musig="${esc(sig)}">${rows.map((r, i) => {
+      const ra = r.win === 'a' ? 'win' : r.win === 'b' ? 'lose' : '', rb = r.win === 'b' ? 'win' : r.win === 'a' ? 'lose' : '';
+      return `<div class="mu-r" style="--d:${(i * 0.25).toFixed(2)}s"><div class="mu-sd me ${ra}">${muInf(r.a, r.sa, 1)}${muCard(r.a, rank, 'l', ra)}</div>
+        <div class="mu-vs"><span class="sl">${esc(r.slot)}</span><span class="v">VS</span><span class="dl ${r.dl > 0 ? 'up' : r.dl < 0 ? 'dn' : ''}" title="${r.done ? 'Final' : 'Projected'} edge">${r.dl > 0 ? '◀ +' + r.dl : r.dl < 0 ? '+' + (-r.dl) + ' ▶' : 'even'}</span><span class="mu-boom" aria-hidden="true"></span></div>
+        <div class="mu-sd op ${rb}">${muCard(r.b, rank, 'r', rb)}${muInf(r.b, r.sb, 0)}</div></div>`; }).join('')}</div>`;
+  }
+  const S = SLOTS[sp], bn = s => (s ? s.ps : []).filter(p => S.bench.includes(p.sid) || S.ir.includes(p.sid)).sort((a, b) => ((b.pts || {}).proj || 0) - ((a.pts || {}).proj || 0));
+  const bl = (s, t) => `<div><h6>${esc(t)}</h6>${bn(s).map(p => `<div class="mu-bnr"><img src="${esc(p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><span>${esc(p.short || p.name)} <i>${esc(p.pos)} · ${esc(p.team)}${S.ir.includes(p.sid) ? ' · IR' : ''}</i></span><b>${(p.pts || {}).act ?? '–'}</b><i>/ ${(p.pts || {}).proj ?? '–'}</i></div>`).join('') || '<div class="mu-ld">Empty</div>'}</div>`;
+  const bench = `<div class="mu-bn"><button class="mu-bnh" data-mu="bench" aria-expanded="${MU.ui.bench}">${MU.ui.bench ? '▾' : '▸'} Bench (both teams)</button>${MU.ui.bench ? `<div class="mu-bng">${bl(D.me, 'Your bench')}${bl(D.op, (D.op ? D.op.name : 'Opponent') + ' bench')}</div>` : ''}</div>`;
+  return `<section class="mu${open ? '' : ' closed'}" id="fzMatchup">${head}<div class="mu-b">${muScore(D)}
+    <div class="mu-bar"><div class="tb-vt seg" role="group" aria-label="Matchup view"><button data-mu="v:cards" aria-pressed="${v === 'cards'}" class="${v === 'cards' ? 'on' : ''}"><span class="ic" aria-hidden="true">🃏</span>Cards</button><button data-mu="v:table" aria-pressed="${v === 'table'}" class="${v === 'table' ? 'on' : ''}"><span class="ic" aria-hidden="true">▦</span>Table</button></div><span class="sp"></span>${v === 'cards' ? '<button class="mu-rp" data-mu="replay">⟲ Replay</button>' : ''}</div>
+    ${body}${bench}</div></section>`;
+}
+function muRender(sp){
+  const el = document.getElementById('fzMatch'); if (!el) return;
+  const h = muSection(sp); if (el._h === h) return;   // unchanged: keep DOM (and the finished animation) as is
+  el._h = h; el.innerHTML = h; muObserve();
+}
+function muPlay(rows){
+  rows.classList.remove('play', 'done'); void rows.offsetWidth; rows.classList.add('play'); MU.played.add(rows.dataset.musig);
+  const el = document.getElementById('fzMatch'); if (el) el._h = muSection(MU_SP());   // later re-renders keep the end state
+}
+const MU_SP = () => MN.fsTab;
+function muObserve(){
+  const rows = document.querySelector('#fzMatch .mu-rows'); if (!rows || rows.classList.contains('play') || rows.classList.contains('done')) return;
+  if (!('IntersectionObserver' in window)) return muPlay(rows);
+  if (MU.io) MU.io.disconnect();
+  MU.io = new IntersectionObserver(es => { for (const e of es) if (e.isIntersecting) { MU.io.disconnect(); muPlay(e.target); } }, { threshold: 0, rootMargin: '0px 0px -25% 0px' });
+  MU.io.observe(rows);
+}
+function ensureMu(sp){
+  if (sp !== 'nfl') return;
+  const L = espnLinks[sp]; if (!L || L.source === 'paste' || !L.leagueId || !L.teamId) return;
+  const D = MU.d[sp], k = 'mu:' + sp, now = Date.now();
+  const live = D && D.me && [...D.me.ps, ...(D.op ? D.op.ps : [])].some(p => { const n = playerGame(p); return n && n.state === 'in'; });
+  const stale = !D || D.lg !== L.leagueId + ':' + L.teamId || now - D.t > (live ? 60e3 : 5 * 60e3);
+  if (!stale || FZX_BUSY.has(k) || (FZX_ERR[k] && now - FZX_ERR[k] < 2 * 60e3)) return;
+  FZX_BUSY.add(k);
+  muLoad(sp, L).then(() => { delete FZX_ERR[k]; try { lsSet(MU_KEY, MU.d); } catch (_) {} }).catch(e => { FZX_ERR[k] = Date.now(); console.warn('matchup', e); })
+    .finally(() => { FZX_BUSY.delete(k); if (state.tab === FANTASY_TAB && MN.fsTab === sp) muRender(sp); });
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest && e.target.closest('[data-mu]'); if (!b) return; e.preventDefault();
+  const a = b.dataset.mu, sp = MU_SP();
+  if (a === 'replay') { const r = document.querySelector('#fzMatch .mu-rows'); if (r) muPlay(r); return; }
+  if (a === 'open') MU.ui.open = !MU.ui.open; else if (a === 'bench') MU.ui.bench = !MU.ui.bench; else if (a.startsWith('v:')) MU.ui.view = a.slice(2);
+  muSaveUI(); muRender(sp); const f = document.querySelector(`[data-mu="${CSS.escape(a)}"]`); if (f) f.focus({ preventScroll: true });
+  if (a === 'open' && MU.ui.open) muObserve();
+});
+
+/* flipped trading card opens its back as a centered, enlarged overlay (✕ / Esc / tap outside closes and flips the card back) */
+function ccBigOpen(c){
+  const st = c.querySelector('.cc-stock'); if (!st) return;
+  let o = document.getElementById('ccBig');
+  if (!o) { o = document.createElement('div'); o.id = 'ccBig'; o.hidden = true; o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true'); document.body.appendChild(o); }
+  const tier = [...c.classList].find(x => /^r-/.test(x)) || 'r-common', nm = (c.querySelector('.cc-bh b') || {}).textContent || 'Player';
+  o.setAttribute('aria-label', nm + ' card back');
+  o.innerHTML = `<div class="ccb ${tier}" style="${(c.getAttribute('style') || '').replace(/"/g, '&quot;')}"><button class="ccb-x" data-ccbig-x title="Close (Esc)" aria-label="Close ${nm.replace(/[<>"&]/g, '')} card">✕</button>${st.outerHTML}</div>`;
+  o.dataset.k = c.dataset.cc; o._from = document.activeElement; o.hidden = false; document.documentElement.classList.add('ccb-open');
+  const x = o.querySelector('.ccb-x'); if (x) x.focus({ preventScroll: true });
+}
+function ccBigClose(){
+  const o = document.getElementById('ccBig'); if (!o || o.hidden) return;
+  o.hidden = true; o.innerHTML = ''; document.documentElement.classList.remove('ccb-open');
+  const k = o.dataset.k, c = k && document.querySelector(`.cc[data-cc="${CSS.escape(k)}"]`);
+  if (c && c.classList.contains('flipped')) { c.classList.remove('flipped'); CC.flip.delete(k); const b = c.querySelector('.cc-in'); if (b) { b.setAttribute('aria-pressed', 'false'); b.focus({ preventScroll: true }); } }
+}
+document.addEventListener('click', e => { const o = document.getElementById('ccBig'); if (!o || o.hidden) return;
+  if (e.target === o || (e.target.closest && e.target.closest('#ccBig [data-ccbig-x], #ccBig [data-ccclose]'))) { e.preventDefault(); e.stopPropagation(); ccBigClose(); } }, true);
+document.addEventListener('keydown', e => { const o = document.getElementById('ccBig'); if (e.key === 'Escape' && o && !o.hidden) { e.preventDefault(); e.stopPropagation(); ccBigClose(); } }, true);
 function renderFantasy(){
   const el = document.getElementById('games'), side = document.getElementById('news');
   side.classList.add('static');
-  if (el.dataset.view !== FANTASY_TAB) { el.dataset.view = FANTASY_TAB; el.innerHTML = `<div id="fzHead"></div><div id="mnPlayers"></div><div id="fzWatchLink"></div><div id="fzPick"></div><div id="fzComps"></div><div id="mnFF"></div>`; }
+  if (el.dataset.view !== FANTASY_TAB) { el.dataset.view = FANTASY_TAB; el.innerHTML = `<div id="fzHead"></div><div id="fzMatch"></div><div id="mnPlayers"></div><div id="fzWatchLink"></div><div id="fzPick"></div><div id="fzComps"></div><div id="mnFF"></div>`; }
+  if (!document.getElementById('fzMatch')) { const fh = document.getElementById('fzHead'); if (fh) fh.insertAdjacentHTML('afterend', '<div id="fzMatch"></div>'); }
   if (!document.getElementById('fzPick')) { const wl = document.getElementById('fzWatchLink'); if (wl) wl.insertAdjacentHTML('afterend', '<div id="fzPick"></div>'); }
   if (!document.getElementById('fzComps')) { const ff = document.getElementById('mnFF'); if (ff) ff.insertAdjacentHTML('beforebegin', '<div id="fzComps"></div>'); }
   if (!fantasySel.includes(MN.fsTab)) MN.fsTab = fantasySel[0];
@@ -3768,6 +4043,7 @@ function renderFantasy(){
   side.innerHTML = fantasySidebar(sp);
   try { renderCardRow(); } catch (_) {}
   ensureFzExtras(sp);
+  try { muRender(sp); ensureMu(sp); } catch (e) { console.warn('matchup', e); }
 }
 
 /* ===================== Comps & Movers (ESPN football leagues) =====================
@@ -4256,7 +4532,7 @@ function ccCard(p, scope, C, rank, i){
 function ccGrid(list, scope, C, rank){ return `<div class="cc-grid" role="list">${list.map((p, i) => ccCard(p, scope, C, rank, i)).join('')}</div>`; }
 (() => {
   const RM = matchMedia('(prefers-reduced-motion: reduce)');
-  const flip = c => { const k = c.dataset.cc, on = !c.classList.contains('flipped'); c.classList.toggle('flipped', on); on ? CC.flip.add(k) : CC.flip.delete(k); const b = c.querySelector('.cc-in'); if (b) b.setAttribute('aria-pressed', on); };
+  const flip = c => { const k = c.dataset.cc, on = !c.classList.contains('flipped'); c.classList.toggle('flipped', on); on ? CC.flip.add(k) : CC.flip.delete(k); const b = c.querySelector('.cc-in'); if (b) b.setAttribute('aria-pressed', on); if (on) ccBigOpen(c); };
   document.addEventListener('click', e => { const c = e.target.closest && e.target.closest('.cc'); if (!c || e.target.closest('a,button,input,select')) return; if (c._drag) { c._drag = false; return; } flip(c); });
   document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('cc-in')) { e.preventDefault(); flip(e.target.closest('.cc')); } });
   document.addEventListener('click', e => { const x = e.target.closest && e.target.closest('[data-ccclose]'); if (!x) return; const c = x.closest('.cc'); if (c && c.classList.contains('flipped')) { flip(c); const b = c.querySelector('.cc-in'); if (b) b.focus({ preventScroll: true }); } });
