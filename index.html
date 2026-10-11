@@ -1484,6 +1484,69 @@
     @keyframes muLungeL{0%{transform:none}25%{transform:translateX(-5px)}50%{transform:translateX(18px) scale(1.08)}100%{transform:none}}
     @keyframes muLungeR{0%{transform:none}25%{transform:translateX(5px)}50%{transform:translateX(-18px) scale(1.08)}100%{transform:none}}
   }
+  /* ===== compact matchup (Oct 11): ~65% card size, tighter spacing; matchup only, trading cards untouched ===== */
+  .mu{margin:4px 0 12px;border-radius:12px}
+  .mu-h{padding:7px 10px;gap:6px}.mu-h b{font-size:14px}.mu-h small{font-size:11px}
+  .mu-b{padding:0 8px 8px}
+  .mu-sb{gap:8px;padding:6px 8px;border-radius:10px}
+  .mu-tm{gap:7px}.mu-tm img,.mu-tm .ph{width:30px;height:30px;font-size:11px}
+  .mu-tm .nm b{font-size:12.5px}.mu-tm .nm i{font-size:10.5px}
+  .mu-tm .sc b{font-size:20px}.mu-tm .sc i{font-size:10px}
+  .mu-mid{font-size:10px}.mu-mid b{font-size:13px}
+  .mu-wp{margin-top:5px}.mu-wpb{height:6px;border-radius:4px}.mu-wpl{font-size:10.5px;margin-top:2px}
+  .mu-bar{margin:6px 0 4px;gap:6px}.mu-bar .tb-vt.seg button{padding:5px 12px;font-size:12.5px}.mu-bar .tb-vt.seg button .ic{font-size:14px}
+  .mu-rp{padding:4px 9px;font-size:11.5px;border-radius:7px}
+  .mu-rows{gap:4px}
+  .mu-r{grid-template-columns:1fr 54px 1fr;gap:4px;padding:3px 3px;border-radius:9px}
+  .mu-sd{gap:7px}
+  .mu-inf{font-size:10.5px;line-height:1.2}.mu-inf .ac{font-size:14px}.mu-inf .gs{font-size:9.5px}
+  .mu-vs{font-size:10px}.mu-vs .sl{font-size:9.5px;padding:0 5px;border-radius:5px}.mu-vs .v{font-size:12px;margin:1px 0}.mu-vs .dl{font-size:10.5px}
+  .mu-boom{width:46px;height:46px;margin:-23px 0 0 -23px}
+  .mc{--w:74px;--h:100px;border-radius:7px;padding:2px;box-shadow:0 3px 9px rgba(0,0,0,.45)}
+  .mc-in{border-radius:5px}
+  .mc-pos{left:2px;top:2px;font-size:8px;padding:0 3px;border-radius:3px}
+  .mc-pt{right:2px;top:2px;font-size:9.5px;padding:0 3px;border-radius:3px}
+  .mc-pl{padding:2px 3px 3px}.mc-pl b{font-size:9px}.mc-pl i{font-size:7.5px}
+  .mc-ck path{stroke-width:1.6}
+  .mu-rows.done .mc.win,.mu-rows.play .mc.win{box-shadow:0 0 0 2px #4ade80,0 3px 10px rgba(0,0,0,.5)}
+  @keyframes muLungeL{0%{transform:none}25%{transform:translateX(-5px) rotate(-3deg)}50%{transform:translateX(22px) scale(1.1) rotate(4deg)}70%{transform:translateX(18px) scale(1.08)}100%{transform:none}}
+  @keyframes muLungeR{0%{transform:none}25%{transform:translateX(5px) rotate(3deg)}50%{transform:translateX(-22px) scale(1.1) rotate(-4deg)}70%{transform:translateX(-18px) scale(1.08)}100%{transform:none}}
+  @keyframes muShake{0%,100%{transform:none}20%{transform:translateX(-4px) rotate(-3deg)}40%{transform:translateX(3px) rotate(2deg)}60%{transform:translateX(-2px) rotate(-1deg)}80%{transform:translateX(1px)}}
+  .mu-tb{font-size:11.5px}.mu-tb th{font-size:10px;padding:3px 5px}.mu-tb td{padding:2px 5px;line-height:1.25}.mu-tb td.n i{font-size:10px;margin-left:3px}
+  .mu-bn{margin-top:6px}.mu-bnh{font-size:12px;padding:3px 0}
+  .mu-bng{gap:8px}.mu-bng h6{font-size:11px;margin:2px 0}
+  .mu-bnr{font-size:11px;padding:2px 0;gap:5px}.mu-bnr img{width:18px;height:18px}
+  .mu-ld{font-size:12px;padding:5px 0}
+  @media (max-width:700px){
+    .mc{--w:60px;--h:82px}.mc-pl b{font-size:8px}.mc-pl i{display:none}.mc-pos{font-size:7px}.mc-pt{font-size:8.5px}
+    .mu-r{grid-template-columns:1fr 44px 1fr;gap:2px;padding:3px 1px}
+    .mu-sd{flex-direction:row!important;align-items:center;gap:4px}.mu-sd.me{justify-content:flex-end}.mu-sd.op{justify-content:flex-start}
+    .mu-sd.me .mu-inf{order:0;text-align:right!important}.mu-sd.op .mu-inf{text-align:left!important}
+    .mu-inf{font-size:9.5px}.mu-inf .ac{font-size:13px}.mu-inf .gs{font-size:8.5px;white-space:normal}
+    .mu-vs .v{font-size:11px}.mu-vs .dl{font-size:9.5px}.mu-vs .sl{font-size:9px}
+    .mu-tm .sc b{font-size:17px}.mu-tm img,.mu-tm .ph{width:24px;height:24px}.mu-tm .nm b{font-size:11px}
+    .mu-sb{gap:4px;padding:5px 6px}.mu-tm{gap:4px}
+    .mu-tb{font-size:10.5px}.mu-tb th{font-size:9.5px;padding:3px 4px}.mu-tb td{padding:2px 4px}
+    @keyframes muLungeL{0%{transform:none}25%{transform:translateX(-3px)}50%{transform:translateX(12px) scale(1.08)}100%{transform:none}}
+    @keyframes muLungeR{0%{transform:none}25%{transform:translateX(3px)}50%{transform:translateX(-12px) scale(1.08)}100%{transform:none}}
+  }
+  /* 🛡 defense-vs-position badge (matchup) */
+  .dv{display:inline-flex;align-items:center;gap:4px;margin-top:3px;padding:2px 6px 2px 3px;border-radius:999px;font-size:9.5px;line-height:1.1;border:1px solid;white-space:nowrap;max-width:100%}
+  .mu-sd.me .dv{flex-direction:row-reverse;padding:2px 3px 2px 6px}
+  .dv.g{color:#86efac;border-color:rgba(74,222,128,.55);background:linear-gradient(90deg,rgba(22,163,74,.28),rgba(22,163,74,.08))}
+  .dv.y{color:#fde68a;border-color:rgba(250,204,21,.5);background:linear-gradient(90deg,rgba(202,138,4,.26),rgba(202,138,4,.07))}
+  .dv.r{color:#fca5a5;border-color:rgba(248,113,113,.55);background:linear-gradient(90deg,rgba(220,38,38,.28),rgba(220,38,38,.08))}
+  .dv-t{display:flex;flex-direction:column;min-width:0}.dv-t b{font-weight:900;font-size:10px}.dv-t b em{font-style:normal;opacity:.9}.dv-t i{font-style:normal;opacity:.85;font-size:9px;overflow:hidden;text-overflow:ellipsis}
+  .dv-sh{position:relative;width:18px;height:20px;flex:0 0 auto;display:grid;place-items:center}
+  .dv-sh svg{position:absolute;inset:0;width:100%;height:100%}
+  .dv-sh path{fill:var(--tc1,#2b3445);stroke:currentColor;stroke-width:1.6}
+  .dv-sh img{position:relative;width:12px;height:12px;object-fit:contain;margin-top:-1px;filter:drop-shadow(0 0 1px rgba(0,0,0,.8))}
+  .dv.sm{margin:0;padding:1px 5px 1px 2px;gap:3px;font-size:10px}.dv.sm b{font-weight:900}.dv.sm i{font-style:normal;opacity:.85}
+  .dv.sm .dv-sh{width:15px;height:17px}.dv.sm .dv-sh img{width:10px;height:10px}
+  .mu-tb th.dvc,.mu-tb td.dvc{text-align:left}
+  .mc-dv{position:absolute;left:2px;top:15px;width:7px;height:7px;border-radius:50%;box-shadow:0 0 0 1.5px rgba(0,0,0,.7)}
+  .mc-dv.g{background:#4ade80}.mc-dv.y{background:#facc15}.mc-dv.r{background:#f87171}
+  @media (max-width:700px){.dv{font-size:8.5px;padding:1px 4px 1px 2px;gap:3px}.mu-sd.me .dv{padding:1px 2px 1px 4px}.dv-t b{font-size:9px}.dv-t i{font-size:8px}.dv-sh{width:15px;height:17px}.dv-sh img{width:10px;height:10px}.mc-dv{top:12px;width:6px;height:6px}}
   /* ===== bigger trading cards + enlarged back overlay ===== */
   .cc-grid{grid-template-columns:repeat(auto-fill,260px);gap:20px}
   .cc{--w:260px;--h:380px}
@@ -3870,6 +3933,77 @@ function muNow(p){   // game status for a matchup player (uses the dashboard's N
   if (n.state === 'post') return { t: 'Final', s: 'post' };
   return { t: `${dayLabelET(new Date(n.date))} ${timeET(new Date(n.date)).replace(' ET', '')}`, s: 'pre' };
 }
+/* ===== 🛡 Defense vs position (RB / WR / TE): real ESPN data only, cached 6h =====
+   - ESPN fantasy league view=mPositionalRatings: positionAgainstOpponent.positionalRatings[posId].ratingsByOpponent[proTeamId]
+     = { average: fantasy pts allowed per game to that position (league scoring), rank: 1 = fewest allowed }. We flip rank so 1 = softest.
+   - ESPN fantasy proTeamSchedules_wl: who each pro team plays this scoring period (home/away).
+   - ESPN site team statistics (results.opponent): rush / receiving yds per game and TDs allowed by the opposing defense.
+   Fantasy proTeamId == ESPN site team id. Any missing piece hides the badge (never estimated). */
+var DVP_KEY = 'mannDvP.v1', DVP_POS = { RB: 2, WR: 3, TE: 4 };
+var DVP = { d: (v => v && typeof v === 'object' ? v : {})(lsGet(DVP_KEY, null)), busy: false, err: 0 };
+async function dvpLoad(sp, L, per){
+  const [r, sch] = await Promise.all([efJSON(efLeagueUrl(sp, L.season, L.leagueId, 'view=mPositionalRatings')), efJSON(`${EF_API}${EF[sp].game}/seasons/${L.season}?view=proTeamSchedules_wl`)]);
+  const PR = ((r.positionAgainstOpponent || {}).positionalRatings) || {}, pos = {};
+  for (const [k, id] of Object.entries(DVP_POS)) { const by = (PR[id] || {}).ratingsByOpponent || {}, ents = Object.entries(by).filter(([, v]) => v && typeof v.average === 'number');
+    if (ents.length < 20) continue;
+    const sorted = ents.slice().sort((a, b) => b[1].average - a[1].average);   // most allowed first = softest
+    pos[k] = { lg: r1(PR[id].average || 0), n: sorted.length, t: Object.fromEntries(sorted.map(([tid, v]) => [tid, { avg: r1(v.average), rk: 1 + sorted.filter(([, w]) => w.average > v.average).length }])) }; }
+  const opp = {}, abbr = {};
+  for (const t of ((sch.settings || {}).proTeams || [])) { abbr[String(t.abbrev || '').toUpperCase()] = t.id;
+    const g = ((t.proGamesByScoringPeriod || {})[per] || [])[0]; if (g) opp[t.id] = { o: g.homeProTeamId === t.id ? g.awayProTeamId : g.homeProTeamId, h: g.homeProTeamId === t.id }; }
+  const ab = Object.fromEntries(Object.entries(abbr).map(([a, id]) => [id, a]));
+  const D = { t: Date.now(), lg: L.leagueId, per, pos, opp, abbr, ab, def: (DVP.d[sp] && DVP.d[sp].per === per && DVP.d[sp].def) || {} };
+  // defensive allowed stats only for the opponents our matchup actually faces
+  const M = MU.d[sp], need = new Set();
+  for (const s of [M && M.me, M && M.op]) for (const p of (s ? s.ps : [])) if (DVP_POS[p.pos]) { const id = abbr[p.team], o = id && opp[id]; if (o) need.add(o.o); }
+  await Promise.all([...need].filter(id => !D.def[id] || Date.now() - D.def[id].t > 6 * 36e5).map(async id => { try {
+    const d = await getJSON(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${id}/statistics`);
+    const o = {}; for (const c of ((d.results || {}).opponent || [])) o[c.name] = Object.fromEntries((c.stats || []).map(x => [x.name, x.value]));
+    const n = v => typeof v === 'number' && isFinite(v) ? v : null, gp = n((o.passing || {}).teamGamesPlayed) || n((o.rushing || {}).teamGamesPlayed);
+    D.def[id] = { t: Date.now(), gp, ruY: n((o.rushing || {}).rushingYardsPerGame), ruTD: n((o.rushing || {}).rushingTouchdowns), reY: n((o.receiving || {}).receivingYardsPerGame), paTD: n((o.passing || {}).passingTouchdowns) };
+  } catch (e) { console.warn('dvp def', id, e && e.message); } }));
+  DVP.d[sp] = D; try { lsSet(DVP_KEY, DVP.d); } catch (_) {}
+}
+function ensureDvp(sp){
+  const L = espnLinks[sp], M = MU.d[sp]; if (sp !== 'nfl' || !L || !M || !M.per || M.none || DVP.busy || Date.now() - DVP.err < 2 * 60e3) return;
+  const D = DVP.d[sp], fresh = D && D.lg === L.leagueId && D.per === M.per && Date.now() - D.t < 6 * 36e5;
+  const missing = D && [M.me, M.op].some(s => s && s.ps.some(p => DVP_POS[p.pos] && D.abbr[p.team] && D.opp[D.abbr[p.team]] && !D.def[D.opp[D.abbr[p.team]].o]));
+  if (fresh && !missing) return;
+  DVP.busy = true;
+  dvpLoad(sp, L, M.per).catch(e => { DVP.err = Date.now(); console.warn('dvp', e && e.message); })
+    .finally(() => { DVP.busy = false; if (state.tab === FANTASY_TAB && MN.fsTab === sp) muRender(sp); });
+}
+// {opp abbr, home, avg, rk (1 = softest), n, lg, g: 'g'|'y'|'r', def stats} or null
+function dvpFor(p){
+  const D = DVP.d.nfl, M = MU.d.nfl; if (!p || p.dst || !DVP_POS[p.pos] || !D || !M || D.per !== M.per) return null;
+  const tid = D.abbr[p.team], o = tid && D.opp[tid], P = D.pos[p.pos]; if (!o || !P) return null;
+  const r = P.t[o.o]; if (!r) return null;
+  const oa = D.ab[o.o] || '', third = P.n / 3;
+  return { oa, oid: o.o, h: o.h, avg: r.avg, rk: r.rk, n: P.n, lg: P.lg, pos: p.pos, g: r.rk <= Math.round(third) ? 'g' : r.rk > Math.round(P.n - third) ? 'r' : 'y', def: D.def[o.o] || null };
+}
+const DVP_WORD = { g: 'Soft matchup', y: 'Neutral matchup', r: 'Tough matchup' };
+function dvpTitle(x){
+  const d = x.def, st = [];
+  if (d && x.pos === 'RB') { if (d.ruY != null) st.push(`${Math.round(d.ruY)} rush yds/g allowed`); if (d.ruTD != null) st.push(`${d.ruTD} rush TD allowed`); }
+  if (d && x.pos !== 'RB') { if (d.reY != null) st.push(`${Math.round(d.reY)} rec yds/g allowed`); if (d.paTD != null) st.push(`${d.paTD} pass TD allowed`); }
+  return `${DVP_WORD[x.g]}: ${x.h ? 'vs' : '@'} ${x.oa} allows ${x.avg} fantasy pts/g to ${x.pos}s (league avg ${x.lg}) · #${x.rk} of ${x.n} softest vs ${x.pos}${st.length ? ' · ' + st.join(' · ') : ''}${d && d.gp ? ` (${d.gp} games)` : ''}. Source: ESPN.`;
+}
+function dvpKey(x){ const d = x.def; if (!d) return '';
+  return x.pos === 'RB' ? (d.ruY != null ? `${Math.round(d.ruY)} ruY` : '') : (d.reY != null ? `${Math.round(d.reY)} reY` : ''); }
+function dvpShield(x){
+  const logo = `https://a.espncdn.com/i/teamlogos/nfl/500/${esc(x.oa.toLowerCase())}.png`, cv = teamColorVars('nfl', x.oa, '', '');
+  return `<span class="dv-sh" style="${esc(cv)}"><svg viewBox="0 0 20 22" aria-hidden="true"><path d="M10 1 L19 4 V10 C19 16 15 19.5 10 21 C5 19.5 1 16 1 10 V4 Z"/></svg><img src="${logo}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"></span>`;
+}
+function dvpBadge(x){
+  if (!x) return '';
+  const k = dvpKey(x);
+  return `<div class="dv ${x.g}" title="${esc(dvpTitle(x))}">${dvpShield(x)}<span class="dv-t"><b>${x.h ? 'vs' : '@'} ${esc(x.oa)} <em>#${x.rk}</em></b><i>${x.avg} pts/g${k ? ' · ' + esc(k) : ''}</i></span></div>`;
+}
+function dvpCell(x){
+  if (!x) return '<td class="dvc">–</td>';
+  const k = dvpKey(x);
+  return `<td class="dvc"><span class="dv ${x.g} sm" title="${esc(dvpTitle(x))}">${dvpShield(x)}<b>${x.h ? '' : '@'}${esc(x.oa)} #${x.rk}</b><i>${x.avg}${k ? ' · ' + esc(k) : ''}</i></span></td>`;
+}
 function muPairs(sp, D){
   const S = SLOTS[sp], st = s => (s ? s.ps : []).filter(p => !S.bench.includes(p.sid) && !S.ir.includes(p.sid));
   const pj = p => (p && p.pts && p.pts.proj) || 0, A = st(D.me), B = st(D.op), out = [];
@@ -3889,14 +4023,14 @@ function muCard(p, rank, side, res){
   return `<a class="mc r-${muTier(p, rank)} ${side}${res ? ' ' + res : ''}" href="${esc(p.dst ? p.link : `https://www.espn.com/nfl/player/_/id/${p.eid}`)}" target="_blank" rel="noopener" title="${esc(p.name)} · ${esc(p.pos)} · ${esc(p.team)}" style="${esc(colors)}"><div class="mc-in">
     ${art ? `<img class="mc-ph" src="${esc(art)}" alt="" loading="lazy" draggable="false" referrerpolicy="no-referrer" onerror="this.remove()">`
           : `${p.teamLogo && !p.dst ? `<img class="mc-lg" src="${esc(p.teamLogo)}" alt="" loading="lazy">` : ''}<img class="mc-hs" src="${esc(p.headshot)}" alt="" loading="lazy" draggable="false" onerror="this.style.visibility='hidden'">`}
-    <div class="mc-fd"></div><span class="mc-pos">${esc(p.pos)}</span><span class="mc-pt">${a.act != null ? esc(a.act) : a.proj != null ? esc(a.proj) : '–'}</span>
+    <div class="mc-fd"></div><span class="mc-pos">${esc(p.pos)}</span>${(x => x ? `<span class="mc-dv ${x.g}" title="${esc(DVP_WORD[x.g])} (#${x.rk} vs ${esc(x.pos)})"></span>` : '')(dvpFor(p))}<span class="mc-pt">${a.act != null ? esc(a.act) : a.proj != null ? esc(a.proj) : '–'}</span>
     <div class="mc-pl"><b>${esc(last)}</b><i>${esc(p.team)} · ${esc(sh)}</i></div>
     <svg class="mc-ck" viewBox="0 0 100 140" preserveAspectRatio="none" aria-hidden="true"><path d="M58 0 L50 22 L62 34 L46 56 L55 70 L40 92 L48 108 L36 140"/><path d="M50 22 L30 30 L22 46"/><path d="M46 56 L70 64 L84 60"/><path d="M40 92 L22 98 L10 112"/></svg></div></a>`;
 }
 function muInf(p, s, me){
   if (!p) return '<div class="mu-inf"></div>';
   const a = p.pts || {};
-  return `<div class="mu-inf"><div class="ac">${a.act != null ? esc(a.act) : '–'}</div><div class="pj">proj ${a.proj ?? '–'}</div><div class="gs ${s.s}">${esc(s.t)}</div></div>`;
+  return `<div class="mu-inf"><div class="ac">${a.act != null ? esc(a.act) : '–'}</div><div class="pj">proj ${a.proj ?? '–'}</div><div class="gs ${s.s}">${esc(s.t)}</div>${dvpBadge(dvpFor(p))}</div>`;
 }
 function muScore(D){
   const { me, op } = D, nm = t => t ? t : { name: 'Bye', rec: '', live: 0, proj: 0 };
@@ -3924,11 +4058,11 @@ function muSection(sp){
   if (v === 'table') {
     const td = (x, k) => x != null ? esc(x) : '–', nm = p => p ? `<b>${esc(p.short || p.name)}</b><i>${esc(p.team)}</i>` : '<i>empty</i>';
     const st = (p, s) => p && s.s === 'in' ? `<span class="gl">LIVE</span>` : '';
-    body = `<div class="mu-tbw"><table class="mu-tb"><thead><tr><th class="n">You</th><th>Proj</th><th>Actual</th><th title="Average of the last 3 weeks">L3</th><th>Slot</th><th title="Your edge: projected, or actual once both games are final">Δ</th><th class="n">${esc(D.op ? D.op.name : 'Opponent')}</th><th>Proj</th><th>Actual</th><th>L3</th></tr></thead><tbody>${rows.map(r =>
-      `<tr class="${r.win === 'a' ? 'w-me' : r.win === 'b' ? 'w-op' : ''}"><td class="n me-n">${nm(r.a)}${st(r.a, r.sa)}</td><td>${td(r.a && r.a.pts && r.a.pts.proj)}</td><td>${td(r.a && r.a.pts && r.a.pts.act)}</td><td>${td(r.a && l3[r.a.eid])}</td>
+    body = `<div class="mu-tbw"><table class="mu-tb"><thead><tr><th class="n">You</th><th>Proj</th><th>Actual</th><th title="Average of the last 3 weeks">L3</th><th class="dvc" title="Opposing NFL defense vs this position (ESPN). #1 = softest, green = soft, red = tough">Opp D</th><th>Slot</th><th title="Your edge: projected, or actual once both games are final">Δ</th><th class="n">${esc(D.op ? D.op.name : 'Opponent')}</th><th>Proj</th><th>Actual</th><th>L3</th><th class="dvc" title="Opposing NFL defense vs this position (ESPN)">Opp D</th></tr></thead><tbody>${rows.map(r =>
+      `<tr class="${r.win === 'a' ? 'w-me' : r.win === 'b' ? 'w-op' : ''}"><td class="n me-n">${nm(r.a)}${st(r.a, r.sa)}</td><td>${td(r.a && r.a.pts && r.a.pts.proj)}</td><td>${td(r.a && r.a.pts && r.a.pts.act)}</td><td>${td(r.a && l3[r.a.eid])}</td>${dvpCell(dvpFor(r.a))}
        <td class="sl">${esc(r.slot)}</td><td class="${r.dl > 0 ? 'up' : r.dl < 0 ? 'dn' : ''}">${r.dl > 0 ? '+' : ''}${r.dl}${r.done ? '' : '*'}</td>
-       <td class="n op-n">${nm(r.b)}${st(r.b, r.sb)}</td><td>${td(r.b && r.b.pts && r.b.pts.proj)}</td><td>${td(r.b && r.b.pts && r.b.pts.act)}</td><td>${td(r.b && l3[r.b.eid])}</td></tr>`).join('')}</tbody></table></div>
-      <div class="tb-foot">Δ = your edge in points · * projected (actual once both games are final) · L3 = average of the last 3 weeks</div>`;
+       <td class="n op-n">${nm(r.b)}${st(r.b, r.sb)}</td><td>${td(r.b && r.b.pts && r.b.pts.proj)}</td><td>${td(r.b && r.b.pts && r.b.pts.act)}</td><td>${td(r.b && l3[r.b.eid])}</td>${dvpCell(dvpFor(r.b))}</tr>`).join('')}</tbody></table></div>
+      <div class="tb-foot">Δ = your edge in points · * projected (actual once both games are final) · L3 = average of the last 3 weeks · Opp D = this week's NFL defense vs RB/WR/TE (ESPN): #1 = softest, pts/g allowed to the position, ruY/reY = rush/rec yds per game allowed</div>`;
   } else {
     body = `<div class="mu-rows${MU.played.has(sig) ? ' done' : ''}" data-musig="${esc(sig)}">${rows.map((r, i) => {
       const ra = r.win === 'a' ? 'win' : r.win === 'b' ? 'lose' : '', rb = r.win === 'b' ? 'win' : r.win === 'a' ? 'lose' : '';
@@ -3940,7 +4074,7 @@ function muSection(sp){
   const bl = (s, t) => `<div><h6>${esc(t)}</h6>${bn(s).map(p => `<div class="mu-bnr"><img src="${esc(p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><span>${esc(p.short || p.name)} <i>${esc(p.pos)} · ${esc(p.team)}${S.ir.includes(p.sid) ? ' · IR' : ''}</i></span><b>${(p.pts || {}).act ?? '–'}</b><i>/ ${(p.pts || {}).proj ?? '–'}</i></div>`).join('') || '<div class="mu-ld">Empty</div>'}</div>`;
   const bench = `<div class="mu-bn"><button class="mu-bnh" data-mu="bench" aria-expanded="${MU.ui.bench}">${MU.ui.bench ? '▾' : '▸'} Bench (both teams)</button>${MU.ui.bench ? `<div class="mu-bng">${bl(D.me, 'Your bench')}${bl(D.op, (D.op ? D.op.name : 'Opponent') + ' bench')}</div>` : ''}</div>`;
   return `<section class="mu${open ? '' : ' closed'}" id="fzMatchup">${head}<div class="mu-b">${muScore(D)}
-    <div class="mu-bar"><div class="tb-vt seg" role="group" aria-label="Matchup view"><button data-mu="v:cards" aria-pressed="${v === 'cards'}" class="${v === 'cards' ? 'on' : ''}"><span class="ic" aria-hidden="true">🃏</span>Cards</button><button data-mu="v:table" aria-pressed="${v === 'table'}" class="${v === 'table' ? 'on' : ''}"><span class="ic" aria-hidden="true">▦</span>Table</button></div><span class="sp"></span>${v === 'cards' ? '<button class="mu-rp" data-mu="replay">⟲ Replay</button>' : ''}</div>
+    <div class="mu-bar"><div class="tb-vt seg${v === 'table' ? ' v-table' : ''}" role="group" aria-label="Matchup view"><button data-mu="v:cards" aria-pressed="${v === 'cards'}" class="${v === 'cards' ? 'on' : ''}"><span class="ic" aria-hidden="true">🃏</span>Cards</button><button data-mu="v:table" aria-pressed="${v === 'table'}" class="${v === 'table' ? 'on' : ''}"><span class="ic" aria-hidden="true">▦</span>Table</button></div><span class="sp"></span>${v === 'cards' ? '<button class="mu-rp" data-mu="replay">⟲ Replay</button>' : ''}</div>
     ${body}${bench}</div></section>`;
 }
 function muRender(sp){
@@ -3969,7 +4103,8 @@ function ensureMu(sp){
   if (!stale || FZX_BUSY.has(k) || (FZX_ERR[k] && now - FZX_ERR[k] < 2 * 60e3)) return;
   FZX_BUSY.add(k);
   muLoad(sp, L).then(() => { delete FZX_ERR[k]; try { lsSet(MU_KEY, MU.d); } catch (_) {} }).catch(e => { FZX_ERR[k] = Date.now(); console.warn('matchup', e); })
-    .finally(() => { FZX_BUSY.delete(k); if (state.tab === FANTASY_TAB && MN.fsTab === sp) muRender(sp); });
+    .finally(() => { FZX_BUSY.delete(k); if (state.tab === FANTASY_TAB && MN.fsTab === sp) muRender(sp); ensureDvp(sp); });
+  ensureDvp(sp);
 }
 document.addEventListener('click', e => {
   const b = e.target.closest && e.target.closest('[data-mu]'); if (!b) return; e.preventDefault();
