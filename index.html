@@ -3,6 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>/* storage check: if this browser blocks or can't write localStorage (private mode, in-app browser, sandboxed frame, full quota),
+   fall back to an in-memory store so the page still runs, and remember why so a banner can explain that settings won't stick. */
+(function(){
+  var why = '';
+  try { var ls = window.localStorage, k = '__mannProbe'; ls.setItem(k, '1'); if (ls.getItem(k) !== '1') why = 'readback'; ls.removeItem(k); }
+  catch (e) { why = (e && e.name) || 'blocked'; }
+  if (why === 'QuotaExceededError') {   // full of rebuildable caches: clear those and check again before giving up
+    try { var L = window.localStorage, CK = /^(mannCardArt|mannComps|mannAthleteCache|mannLogoDark|mannPlayerExtra|mannFzExtras|mannSleeper|mannTeams\.|mannRoto\.)/;
+      for (var j = L.length - 1; j >= 0; j--) { var x = L.key(j); if (x && CK.test(x)) L.removeItem(x); }
+      L.setItem('__mannProbe', '1'); L.removeItem('__mannProbe'); why = ''; } catch (_) {}
+  }
+  if (!why) return;
+  // window.name survives reloads in the same tab, so settings at least last for this tab (big rebuildable caches are left out)
+  var CACHE = /^(mannCardArt|mannComps|mannAthleteCache|mannLogoDark|mannPlayerExtra|mannFzExtras|mannSleeper|mannTeams\.|mannRoto\.|mannPlayerStatus|mannTeamColors)/, wt = 0;
+  var m = {}; try { if (String(window.name).indexOf('mannLS:') === 0) m = JSON.parse(String(window.name).slice(7)) || {}; } catch (_) { m = {}; }
+  var keep = function(){ clearTimeout(wt); wt = setTimeout(function(){ try { var o = {}; for (var k in m) if (!CACHE.test(k)) o[k] = m[k]; var j = JSON.stringify(o); if (j.length < 1.5e6) window.name = 'mannLS:' + j; } catch (_) {} }, 0); };
+  var mem = { getItem: function(k){ k = String(k); return Object.prototype.hasOwnProperty.call(m, k) ? m[k] : null; }, setItem: function(k, v){ m[String(k)] = String(v); keep(); },
+    removeItem: function(k){ delete m[String(k)]; keep(); }, clear: function(){ m = {}; keep(); }, key: function(i){ return Object.keys(m)[i] ?? null; } };
+  Object.defineProperty(mem, 'length', { get: function(){ return Object.keys(m).length; } });
+  // keep whatever is still readable (quota-full case) so an existing setup isn't lost from view
+  try { var o = window.localStorage; for (var i = 0; i < o.length; i++) { var kk = o.key(i); if (!(kk in m)) m[kk] = o.getItem(kk); } } catch (_) {}
+  try { Object.defineProperty(window, 'localStorage', { configurable: true, value: mem }); } catch (_) {}
+  window.__LS_BROKEN = why;
+})();</script>
 <script>/* ticker position before first paint (default: bottom, like a TV crawl) */try{var tp=JSON.parse(localStorage.getItem('mannTickerPos.v1')||'"bottom"');if(tp!=='top')document.documentElement.classList.add('tk-bottom')}catch(e){document.documentElement.classList.add('tk-bottom')}</script>
 <title>Mann's Sports Dashboard</title>
 <style>
@@ -4474,14 +4498,22 @@ function parseLeagueInput(str){
   const s = String(str || '').trim(); if (!s) return null;
   const out = {};
   if (/^\d{1,12}$/.test(s)) { out.leagueId = s; return out; }
-  let u; try { u = new URL(/^https?:/i.test(s) ? s : 'https://' + s); } catch (_) { return null; }
-  if (!/(^|\.)espn\.com$/i.test(u.hostname)) return null;
-  const id = u.searchParams.get('leagueId'); if (!id || !/^\d+$/.test(id)) return null;
+  let t = s; try { t = decodeURIComponent(s); } catch (_) {}
+  // a pasted share message ("Check out my team! https://fantasy.espn.com/...") or a bare host: use the ESPN link inside it
+  const m = t.match(/(?:https?:\/\/)?[a-z0-9.-]*espn\.com\/[^\s"'<>]*/i), raw = m ? m[0] : t;
+  let u = null; try { u = new URL(/^https?:/i.test(raw) ? raw : 'https://' + raw); } catch (_) {}
+  const q = (k) => { const r = u && (u.searchParams.get(k) || new URLSearchParams((u.hash || '').replace(/^#[^?]*\??/, '')).get(k)); if (r) return r; const x = t.match(new RegExp('[?&#]' + k + '=(\\d+)', 'i')); return x ? x[1] : null; };
+  let id = q('leagueId');
+  const api = t.match(/games\/(ffl|flb|fhl|fba)\/seasons\/(\d{4})\/segments\/\d+\/leagues\/(\d+)/i);   // an lm-api-reads league URL
+  if (!id && api) id = api[3];
+  if (!id) { const n = t.match(/leagueId\D{0,3}(\d{3,12})/i); if (n) id = n[1]; }
+  if (!id || !/^\d+$/.test(id)) return null;
+  if (u && !/(^|\.)espn\.com$/i.test(u.hostname) && !/espn/i.test(t)) return null;
   out.leagueId = id;
-  const seg = u.pathname.split('/').filter(Boolean)[0] || '';
-  out.sp = { football: 'nfl', baseball: 'mlb', hockey: 'nhl', basketball: 'nba' }[seg.toLowerCase()];
-  if (u.searchParams.get('seasonId')) out.season = u.searchParams.get('seasonId');
-  if (u.searchParams.get('teamId')) out.teamId = u.searchParams.get('teamId');
+  const segs = u ? u.pathname.toLowerCase().split('/').filter(Boolean) : [], SP = { football: 'nfl', baseball: 'mlb', hockey: 'nhl', basketball: 'nba' };
+  out.sp = segs.map(x => SP[x]).find(Boolean) || (api ? { ffl: 'nfl', flb: 'mlb', fhl: 'nhl', fba: 'nba' }[api[1].toLowerCase()] : undefined);
+  const season = q('seasonId') || (api && api[2]); if (season) out.season = season;
+  const team = q('teamId'); if (team) out.teamId = team;
   return out;
 }
 async function efJSON(url){
@@ -5879,8 +5911,11 @@ function obFinish(skipFs){
   const ids = lsGet(TEAMIDS_KEY, {}) || {}; OB.stars.forEach(k => { if (OB.ids[k]) ids[k] = OB.ids[k]; }); lsSet(TEAMIDS_KEY, ids);
   const fm = lsGet(FAVMETA_KEY, {}) || {}; Object.entries(OB.meta).forEach(([k, m]) => { if (OB.stars.has(k)) fm[k] = { ...(fm[k] || {}), ...m }; }); lsSet(FAVMETA_KEY, fm);
   lsSet(FANTASY_KEY, fs.filter(k => FSPORTS[k]));
-  try { localStorage.setItem(TAB_KEY, 'mynews'); localStorage.setItem(PROFILE_KEY, JSON.stringify({ t: Date.now() })); localStorage.removeItem(OB_KEY); } catch (e) {}
-  location.reload();
+  try { localStorage.setItem(TAB_KEY, 'mynews'); } catch (e) {}
+  lsSet(PROFILE_KEY, { t: Date.now() }); try { localStorage.removeItem(OB_KEY); } catch (e) {}
+  try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) {}   // ask the browser not to evict saved settings
+  if (!localStorage.getItem(PROFILE_KEY)) { OB.el.hidden = true; document.body.classList.remove('ob-open'); lsWarn(true); return; }   // never reload into setup again
+  setTimeout(() => location.reload(), 30);   // let the tab-memory fallback (window.name) flush first
 }
 document.addEventListener('click', e => {
   if (!OB.el || OB.el.hidden || !OB.el.contains(e.target)) return;
@@ -5906,6 +5941,18 @@ document.addEventListener('input', e => {
   OB.q[q.dataset.obq] = q.value; const b = OB.el.querySelector(`[data-oblg="${q.dataset.obq}"]`); if (b) b.innerHTML = obTeamsHtml(q.dataset.obq);
 });
 document.getElementById('obRerun').addEventListener('click', () => obOpen(false));
+/* storage warning: shown when this browser won't save settings (see the storage check at the top) */
+function lsWarn(force){
+  if (!window.__LS_BROKEN && !force) return;
+  let b = document.getElementById('lsWarn'); if (b) { b.hidden = false; return; }
+  b = document.createElement('div'); b.id = 'lsWarn'; b.setAttribute('role', 'alert');
+  b.style.cssText = 'position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:90;max-width:min(680px,94vw);background:#3a1212;border:1px solid #c0392b;color:#fff;padding:10px 14px;border-radius:10px;font-size:14px;line-height:1.4;box-shadow:0 8px 30px rgba(0,0,0,.5);display:flex;gap:10px;align-items:flex-start';
+  const name = window.__LS_BROKEN === 'QuotaExceededError' ? 'this browser has no storage room for this site (common in private/incognito windows)' : 'this browser is blocking site storage here (private/incognito window, an in-app browser, or a blocked-cookies setting)';
+  b.innerHTML = `<span>⚠️ <b>Settings can't be saved:</b> ${name}. Your setup works until you close this tab. Open the link in a regular Chrome, Edge or Safari tab to keep it.</span><button type="button" class="btn" style="flex:none" aria-label="Dismiss">✕</button>`;
+  b.querySelector('button').onclick = () => { b.hidden = true; };
+  document.body.appendChild(b);
+}
+lsWarn();
 if (OB_NEW) obOpen(true);
 </script>
 </body>
