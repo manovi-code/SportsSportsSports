@@ -1825,6 +1825,27 @@
   .tr-cf.High{color:#7ff0b0}.tr-cf.Medium{color:#ffd76a}.tr-cf.Low{color:#ff9aa2}
   .tr-sg{align-items:flex-start}.tr-sgd{padding-top:14px}
   @media (max-width:640px){ .tr .mu-b{max-height:620px} }
+  .te-mode{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:12px;background:var(--panel2);border:1px solid var(--line)}
+  .te-mode button{font:inherit;font-size:14px;font-weight:900;padding:9px 6px;border-radius:9px;border:0;background:transparent;color:var(--muted);cursor:pointer}.te-mode button.on{background:#ffc83d;color:#111}
+  .te-sub{font-size:12px;color:var(--muted)}
+  .te-card{border:1px solid var(--line);border-radius:14px;background:var(--panel2);overflow:hidden}
+  .te-main{padding:10px 12px;cursor:pointer}.te-main:hover,.te-main:focus-visible{background:#ffffff08;outline:none}
+  .te-with{font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;align-items:center;gap:4px}.te-with b{color:var(--text,#fff)}
+  .te-with .tg{font-style:normal;font-size:10.5px;font-weight:800;padding:1px 8px;border-radius:999px;border:1px solid #3ddc8466;color:#7ff0b0}.te-with .tg.ed{border-color:#ffc83d88;color:#ffd76a}.te-with .tg.sh{border-color:#ff8a8a88;color:#ffb0b0}.te-with .tg.bl{border-color:#5cb8ff88;color:#9ad2ff}
+  .te-sw{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin:8px 0}
+  .te-side h6{margin:0 0 4px;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted)}
+  .te-x{font-size:24px;font-weight:900;color:#ffc83d}
+  .te-p{display:flex;align-items:center;gap:9px;margin:3px 0}.te-p img{width:46px;height:46px;border-radius:50%;object-fit:cover;object-position:50% 12%;background:#0004;flex:none;border:2px solid var(--line)}
+  .te-p b{display:block;font-size:17px;font-weight:900;line-height:1.15;word-break:normal;overflow-wrap:anywhere}.te-p i{font-style:normal;font-size:12px;color:var(--muted)}.te-p em{font-style:normal;font-size:9.5px;padding:0 3px}
+  .te-why{margin:4px 0 8px;font-size:14px;line-height:1.35}
+  .te-bars{display:flex;flex-direction:column;gap:4px}.te-bar{display:grid;grid-template-columns:42px 1fr 70px;align-items:center;gap:8px;font-size:12px}.te-bar span{color:var(--muted);font-weight:700}
+  .te-bar i{height:10px;border-radius:999px;background:#ffffff14;overflow:hidden}.te-bar s{display:block;height:100%;border-radius:999px;background:#3ddc84}.te-bar s.dn{background:#ff6b75}.te-bar b{font-weight:900;text-align:right;font-variant-numeric:tabular-nums}
+  .te-det{border-top:1px solid var(--line);padding:6px 12px;font-size:12px}.te-det summary{cursor:pointer;color:var(--muted);font-weight:700}.te-det[open]{padding-bottom:10px}.te-det .tr-mx{margin:6px 0 4px}
+  .tr-res .te-det{border-top:0;padding:6px 0 0}
+  .tr .mu-b{max-height:680px}
+  .te-vd{font-size:18px!important}.te-bh{margin-top:6px}.te-none .linkbtn{font-size:inherit}
+  .tr .tr-sel{max-width:420px}
+  @media (max-width:640px){ .te-sw{grid-template-columns:1fr} .te-x{text-align:center;transform:rotate(90deg);line-height:1} .te-p b{font-size:16px} }
   /* ===== matchup inside one scrollable card (Oct 12) ===== */
   .mu{display:flex;flex-direction:column;max-height:420px;box-shadow:0 8px 22px rgba(0,0,0,.35)}
   .mu.closed{max-height:none}
@@ -4780,6 +4801,14 @@ function trConf(r, give, get){
   if (r.poMe != null && r.poMe > 0 && r.poOp > 0) s += 1;
   return s >= 3 ? 'High' : s >= 1 ? 'Medium' : 'Low';
 }
+function trEasy(D, r, give, get, avg){
+  const nO = trNeeds(D, r.op, avg), nM = trNeeds(D, r.me, avg), ps = a => [...new Set(a.map(p => p.pos))], art = p => /^[AEIOU]|^RB|^(?:FLEX)/.test(p) ? 'an' : 'a';
+  const gp = ps(give), rp = ps(get), N = w => w.length > 1 ? 'help at ' + w.join(' and ') : `${art(w[0])} ${w[0]}`;
+  const them = gp.some(p => (nO.find(x => x.pos === p) || {}).need) ? `They need ${N(gp)}` : `They upgrade at ${gp.join(' and ')}`;
+  const spare = give.every(p => (r.a0.starts[p.id] || 0) <= D.weeks.length / 2);
+  const you = rp.some(p => (nM.find(x => x.pos === p) || {}).need) ? `you need ${N(rp)}` : `you upgrade at ${rp.join(' and ')}`;
+  return `${them}; ${you}${spare ? ` and ${give.length > 1 ? 'those guys mostly sit' : trNm(give[0]) + ' mostly sits'} on your bench` : ''}.`;
+}
 function trSuggest(D, big){
   const me = D.teams.find(t => t.id === D.me); if (!me) return [];
   const ok = p => !p.ir && p.base != null && !p.dst && p.pos !== 'K', mine = me.ps.filter(ok), out = [], avg = trPosAvg(D);
@@ -4806,7 +4835,7 @@ function trSuggest(D, big){
   const use = {}, top = [];   // any one player shows up in at most 2 suggestions
   for (const x of out) { const ids = [...x.give, ...x.get]; if (ids.some(id => (use[id] || 0) >= 2)) continue; ids.forEach(id => use[id] = (use[id] || 0) + 1);
     const g = x.give.map(id => trPl(D, id)), t = x.get.map(id => trPl(D, id));
-    x.tags = trTags(x.r, g, t); x.why = trWhy(D, x.r, g, t, avg); x.conf = trConf(x.r, g, t); x.ros = x.r.rosSw; x.po = x.r.poMe; x.poOp = x.r.poOp;
+    x.tags = trTags(x.r, g, t); x.why = trWhy(D, x.r, g, t, avg); x.easy = trEasy(D, x.r, g, t, avg); x.conf = trConf(x.r, g, t); x.ros = x.r.rosSw; x.po = x.r.poMe; x.poOp = x.r.poOp;
     delete x.r; top.push(x); if (top.length >= (big ? 6 : 8)) break; }
   return top;
 }
@@ -4832,7 +4861,7 @@ function trSection(sp){
   if (sp !== 'nfl') return '';
   const L = espnLinks[sp]; if (!L || L.source === 'paste' || !L.leagueId || !L.teamId) return '';
   const D = TR.d, ok = D && D.lg === L.leagueId + ':' + L.teamId, open = TR.ui.open;
-  const head = `<button class="mu-h" data-tr="open" aria-expanded="${open}"><b>🔄 Trade Lab</b><small>1-for-1 win-wins · ROS + playoffs · analysis only</small><span class="car" aria-hidden="true">▾</span></button>`;
+  const head = `<button class="mu-h" data-tr="open" aria-expanded="${open}"><b>🔄 Trade Lab</b><small>Trades that help both teams · analysis only</small><span class="car" aria-hidden="true">▾</span></button>`;
   const wrap = b => `<section class="mu tr${open ? '' : ' closed'}" id="fzTrade">${head}<div class="mu-b">${b}</div></section>`;
   if (!open) return wrap('');
   if (!ok) return wrap(`<div class="mu-ld">${TR.err && Date.now() - TR.err < 12e4 ? 'Couldn\'t load league rosters. Retrying shortly.' : 'Loading every team\'s roster…'}</div>`);
@@ -4845,36 +4874,42 @@ function trSection(sp){
   if (!TR.sug || TR.sug.t !== D.t) TR.sug = { t: D.t, v: trSuggest(D) };
   const big = !!TR.ui.big; if (big && (!TR.sugB || TR.sugB.t !== D.t) && !TR.bigBusy) { TR.bigBusy = true; setTimeout(() => { try { TR.sugB = { t: D.t, v: trSuggest(D, true) }; } catch (e) { console.warn('trade big', e); TR.sugB = { t: D.t, v: [] }; } TR.bigBusy = false; trRender(MN.fsTab); }, 30); }
   const sug = big ? (TR.sugB && TR.sugB.t === D.t ? TR.sugB.v : null) : TR.sug.v, sk = big ? 'sugb:' : 'sug:';
+  const sg = v => (v > 0 ? '+' : '') + v;
+  const bar = (dm, dop) => { const mx = Math.max(Math.abs(dm), Math.abs(dop), 1); const w = v => Math.max(4, Math.round(Math.abs(v) / mx * 100));
+    return `<div class="te-bars"><div class="te-bar"><span>You</span><i><s class="${dm >= 0 ? 'up' : 'dn'}" style="width:${w(dm)}%"></s></i><b class="${dm >= 0 ? 'up' : 'dn'}">${sg(dm)}/wk</b></div><div class="te-bar"><span>Them</span><i><s class="${dop >= 0 ? 'up' : 'dn'}" style="width:${w(dop)}%"></s></i><b class="${dop >= 0 ? 'up' : 'dn'}">${sg(dop)}/wk</b></div></div>`; };
+  const pp = p => `<span class="te-p"><img src="${esc(p.hs)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><span><b>${esc(p.name)}</b><i>${esc([p.pos, p.team].filter(Boolean).join(' · '))}${p.inj ? ` · <em class="st Q">${esc(p.inj)}</em>` : ''}</i></span></span>`;
+  // builder
   let res = '';
   if (op && give.length && get.length) {
-    const r = trEval(D, op.id, give, get), tot = Math.abs(r.dMe) + Math.abs(r.dOp);
-    // verdict: who gains more starting-lineup points per week (ESPN proj/g); 50 = even
-    const m = r.dMe === r.dOp ? 50 : Math.max(3, Math.min(97, Math.round(50 + 50 * (r.dMe - r.dOp) / Math.max(tot, 1)))), win = r.dMe > 0 && r.dOp > 0;
-    const vt = win && Math.abs(m - 50) <= 15 ? ['ww', '🤝 Win-win · fair'] : Math.abs(m - 50) <= 12 ? ['fair', '⚖️ Fair'] : m > 50 ? ['me', '✅ Lopsided — in your favor'] : ['op', '⚠️ Lopsided — favors ' + op.name];
-    res = `<div class="tr-res"><div class="tr-meter" title="Starting-lineup gain per week, you vs them (ESPN proj/g)"><i style="left:${m}%"></i><span>Them</span><span>Even</span><span>You</span></div>
-      <div class="tr-vd ${vt[0]}">${esc(vt[1])}</div>
-      <div class="tr-kpi"><div><b class="${r.dMe > 0 ? 'up' : r.dMe < 0 ? 'dn' : ''}">${r.dMe > 0 ? '+' : ''}${r.dMe}</b><i>Your lineup pts/wk (ROS avg)<br>${r.a0.v} → ${r.a1.v}</i></div><div><b class="${r.dOp > 0 ? 'up' : r.dOp < 0 ? 'dn' : ''}">${r.dOp > 0 ? '+' : ''}${r.dOp}</b><i>${esc(op.abbrev || op.name)} lineup pts/wk<br>${r.b0.v} → ${r.b1.v}</i></div>
-      <div><b class="${r.rosSw > 0 ? 'up' : r.rosSw < 0 ? 'dn' : ''}">${r.rosSw > 0 ? '+' : ''}${r.rosSw}</b><i>Your ROS lineup pts<br>wks ${esc(D.weeks[0])}–${esc(D.end)}</i></div>
-      ${r.poMe != null ? `<div><b class="${r.poMe > 0 ? 'up' : r.poMe < 0 ? 'dn' : ''}">${r.poMe > 0 ? '+' : ''}${r.poMe}</b><i>Playoff wks ${esc(D.poW[0])}–${esc(D.poW[D.poW.length - 1])}<br>them ${r.poOp > 0 ? '+' : ''}${r.poOp}</i></div>` : ''}
-      ${r.rosGive != null && r.rosGet != null ? `<div><b>${r.rosGet} <small>vs</small> ${r.rosGive}</b><i>ROS player pts<br>you get vs you give</i></div>` : ''}</div>
+    const r = trEval(D, op.id, give, get);
+    const vt = r.dMe > 0 && r.dOp > 0 ? ['ww', 'Good for both ✅'] : r.dMe <= 0 && r.dOp <= 0 ? ['op', 'Bad for both ❌'] : r.dMe > r.dOp ? ['me', 'Helps you more ⚠️ (they lose)'] : ['op', 'Helps them more ⚠️ (you lose)'];
+    res = `<div class="tr-res"><div class="tr-vd te-vd ${vt[0]}">${esc(vt[1])}</div>${bar(r.dMe, r.dOp)}
+      <details class="te-det"><summary>Details</summary>
+      <div class="tr-kpi"><div><b class="${r.dMe > 0 ? 'up' : r.dMe < 0 ? 'dn' : ''}">${sg(r.dMe)}</b><i>Your lineup pts/wk (ROS avg)<br>${r.a0.v} → ${r.a1.v}</i></div><div><b class="${r.dOp > 0 ? 'up' : r.dOp < 0 ? 'dn' : ''}">${sg(r.dOp)}</b><i>${esc(op.abbrev || op.name)} lineup pts/wk<br>${r.b0.v} → ${r.b1.v}</i></div>
+      <div><b class="${r.rosSw > 0 ? 'up' : r.rosSw < 0 ? 'dn' : ''}">${sg(r.rosSw)}</b><i>Your ROS lineup pts<br>wks ${esc(D.weeks[0])}–${esc(D.end)}</i></div>
+      ${r.poMe != null ? `<div><b class="${r.poMe > 0 ? 'up' : r.poMe < 0 ? 'dn' : ''}">${sg(r.poMe)}</b><i>Playoff wks ${esc(D.poW[0])}–${esc(D.poW[D.poW.length - 1])}<br>them ${sg(r.poOp)}</i></div>` : ''}</div>
       <div class="tr-sides">${trSideTbl(get, 'You get')}${trSideTbl(give, 'You give')}</div>
-      ${give.length !== get.length ? `<div class="tb-foot">${give.length > get.length ? esc(op.name) + ' would need to drop ' + (give.length - get.length) : 'You would need to drop ' + (get.length - give.length)} bench player${Math.abs(give.length - get.length) > 1 ? 's' : ''} to make room.</div>` : ''}</div>`;
-  } else res = `<div class="mu-ld">${!op ? 'Pick a team to trade with, or load a suggested trade below.' : 'Tap players on both sides to build the trade.'}</div>`;
-  const sugH = !sug ? '<div class="mu-ld">Crunching 2-for-1 and 2-for-2 deals…</div>' : sug.length ? sug.map((x, i) => { const t = D.teams.find(z => z.id === x.op), g = x.give.map(id => trPl(D, id)), r = x.get.map(id => trPl(D, id));
-      const sg = v => (v > 0 ? '+' : '') + v;
-      return `<button class="tr-sg" data-tr="${sk}${i}"><span class="tr-sgn">#${i + 1}</span><span class="tr-sgb"><i>with ${esc(t.name)} · <span class="tr-cf ${esc(x.conf)}">${esc(x.conf)} confidence</span></i><b>Give ${esc(g.map(p => p.name + ' (' + p.pos + ')').join(' + '))}</b><b>Get ${esc(r.map(p => p.name + ' (' + p.pos + ')').join(' + '))}</b>
-        <span class="tr-tags">${x.tags.map(([c, l]) => `<em class="tg ${c}">${esc(l)}</em>`).join('')}</span><small class="tr-why">${esc(x.why)}</small>
-        <span class="tr-mx"><span>ROS swing <b class="${x.ros > 0 ? 'up' : 'dn'}">${sg(x.ros)}</b></span>${x.po != null ? `<span>Playoffs wk ${esc(D.poW[0])}–${esc(D.poW[D.poW.length - 1])} <b class="${x.po > 0 ? 'up' : x.po < 0 ? 'dn' : ''}">${sg(x.po)}</b> you · <b class="${x.poOp > 0 ? 'up' : x.poOp < 0 ? 'dn' : ''}">${sg(x.poOp)}</b> them</span>` : ''}</span></span>
-        <span class="tr-sgd"><b class="up">${sg(x.dMe)}</b><i>you/wk</i><b class="up">${sg(x.dOp)}</b><i>them/wk</i></span></button>`; }).join('')
-    : `<div class="mu-ld">${big ? 'No bigger deal beats the 1-for-1s for both teams (needs +3/wk each).' : 'No realistic win-win 1-for-1 trades right now.'}</div>`;
+      ${trNeedRow(D, me, avg, 'You')}${trNeedRow(D, op, avg, op.name)}
+      ${give.length !== get.length ? `<div class="tb-foot">${give.length > get.length ? esc(op.name) + ' would need to drop ' + (give.length - get.length) : 'You would need to drop ' + (get.length - give.length)} bench player${Math.abs(give.length - get.length) > 1 ? 's' : ''} to make room.</div>` : ''}</details></div>`;
+  } else res = `<div class="mu-ld">${!op ? 'Pick a team, then tap who you give and who you want.' : 'Tap one or two players on each side.'}</div>`;
+  const tg = x => { const s = x.tags.filter(t => t[0] === 'sh' || t[0] === 'bl'); return (s.length ? s : x.tags.slice(0, 1)); };
+  const sugH = !sug ? '<div class="mu-ld">Finding 2-player deals that help both teams…</div>' : sug.length ? sug.map((x, i) => { const t = D.teams.find(z => z.id === x.op), g = x.give.map(id => trPl(D, id)), r = x.get.map(id => trPl(D, id));
+      return `<div class="te-card"><div class="te-main" role="button" tabindex="0" data-tr="${sk}${i}" title="Load into the trade builder"><div class="te-with">#${i + 1} · with <b>${esc(t.name)}</b>${tg(x).map(([c, l]) => ` <em class="tg ${c}">${esc(l)}</em>`).join('')}</div>
+        <div class="te-sw"><div class="te-side"><h6>You give</h6>${g.map(pp).join('')}</div><div class="te-x" aria-hidden="true">⇄</div><div class="te-side"><h6>You get</h6>${r.map(pp).join('')}</div></div>
+        <p class="te-why">${esc(x.easy)}</p>${bar(x.dMe, x.dOp)}</div>
+        <details class="te-det"><summary>Details</summary><div class="tr-mx"><span>ROS swing <b class="${x.ros > 0 ? 'up' : 'dn'}">${sg(x.ros)}</b></span>${x.po != null ? `<span>Playoffs wk ${esc(D.poW[0])}–${esc(D.poW[D.poW.length - 1])} <b>${sg(x.po)}</b> you · <b>${sg(x.poOp)}</b> them</span>` : ''}<span>Confidence <b class="tr-cf ${esc(x.conf)}">${esc(x.conf)}</b></span></div>
+        <small class="tr-why">${esc(x.why)}</small>${x.tags.length ? `<span class="tr-tags">${x.tags.map(([c, l]) => `<em class="tg ${c}">${esc(l)}</em>`).join('')}</span>` : ''}</details></div>`; }).join('')
+    : `<div class="mu-ld te-none">${big ? 'No 2-player deal helps both teams enough right now (each side needs +3/wk and it has to beat the 1-for-1s).' : 'No 1-for-1 trade helps both teams right now. Try <button class="linkbtn" data-tr="mode:2">2-player deals</button>.'}</div>`;
   return wrap(`<div class="tr-sc">
-    <div class="tr-bld"><div class="tr-col"><h6>You give · ${esc(me.name)}</h6><div class="tr-list">${srt(me.ps).map(p => trChip(p, 'g', TR.ui.give.includes(p.id))).join('')}</div></div>
-      <div class="tr-col"><h6><select class="tr-sel" data-trsel="1" aria-label="Team to trade with"><option value="">Trade with…</option>${others.map(t => `<option value="${esc(t.id)}"${t.id === TR.ui.team ? ' selected' : ''}>${esc(t.name)}</option>`).join('')}</select></h6>
-        <div class="tr-list">${op ? srt(op.ps).map(p => trChip(p, 'r', TR.ui.get.includes(p.id))).join('') : '<div class="mu-ld">Choose a team.</div>'}</div></div></div>
-    ${trNeedRow(D, me, avg, 'You')}${op ? trNeedRow(D, op, avg, op.name) : ''}
+    <div class="te-mode" role="tablist"><button role="tab" class="${big ? '' : 'on'}" aria-selected="${!big}" data-tr="mode:1">1-for-1</button><button role="tab" class="${big ? 'on' : ''}" aria-selected="${big}" data-tr="mode:2">2-player deals</button></div>
+    <div class="te-sub">Only trades where <b>both teams</b> get better. Tap a card to load it below.</div>
+    <div class="tr-sgs">${sugH}</div>
+    <h6 class="tr-h6 te-bh">🛠️ Build your own</h6>
+    <select class="tr-sel" data-trsel="1" aria-label="Team to trade with"><option value="">Trade with…</option>${others.map(t => `<option value="${esc(t.id)}"${t.id === TR.ui.team ? ' selected' : ''}>${esc(t.name)}</option>`).join('')}</select>
     ${res}${give.length || get.length ? '<button class="linkbtn tr-clr" data-tr="clear">Clear trade</button>' : ''}
-    <div class="tr-sgh"><h6 class="tr-h6">🥷 Suggested trades · ${big ? 'bigger deals (both +3/wk)' : '1-for-1 · both lineups improve'}</h6><button class="tr-big${big ? ' on' : ''}" data-tr="big" aria-pressed="${big}">Bigger deals</button></div><div class="tr-sgs">${sugH}</div>
-    <div class="tb-foot">All inputs from ESPN. Value/g = 55% ESPN proj + 30% PPG + 15% last-3 (small samples pulled toward the projection), then each week × that opponent's pts allowed to the position, × injury (Q/D/O/IR discounts), 0 on byes. Gains = best legal lineup every week ${esc(D.weeks[0])}–${esc(D.end)} (incl. playoffs) using your roster plus the top waiver free agents as replacement, so positional scarcity and bye coverage count. Suggestions need the other manager to gain ≥ +1/wk and a fair value gap; ranked by the smaller of the two gains. ROS = Value-weighted pts left · PPG = season average · L3 = last 3 weeks · Sched = remaining opponents' pts/g allowed to the position vs average (+ = easier) · Need/depth = starters vs league-average starter. Analysis only; nothing is sent to ESPN.</div></div>`);
+    <div class="tr-bld"><div class="tr-col"><h6>Pick who you give</h6><div class="tr-list">${srt(me.ps).map(p => trChip(p, 'g', TR.ui.give.includes(p.id))).join('')}</div></div>
+      <div class="tr-col"><h6>Pick who you want</h6><div class="tr-list">${op ? srt(op.ps).map(p => trChip(p, 'r', TR.ui.get.includes(p.id))).join('') : '<div class="mu-ld">Choose a team above.</div>'}</div></div></div>
+    <div class="tb-foot">All inputs from ESPN. Gains = your best legal lineup every week ${esc(D.weeks[0])}–${esc(D.end)} (incl. playoffs), using a blend of ESPN projection, season PPG and last-3, adjusted for opponents, byes and injuries, with top waiver free agents as replacement. Analysis only; nothing is sent to ESPN.</div></div>`);
 }
 function trRender(sp){
   const el = document.getElementById('fzTrade0'); if (!el) return;
@@ -4895,11 +4930,13 @@ document.addEventListener('click', e => {
   else if (a.startsWith('g:')) { const id = a.slice(2); U.give = U.give.includes(id) ? U.give.filter(x => x !== id) : U.give.concat(id); }
   else if (a.startsWith('r:')) { const id = a.slice(2); U.get = U.get.includes(id) ? U.get.filter(x => x !== id) : U.get.concat(id); }
   else if (a === 'big') U.big = !U.big;
+  else if (a.startsWith('mode:')) U.big = a === 'mode:2';
   else if (a.startsWith('sug:') || a.startsWith('sugb:')) { const L = a.startsWith('sugb:') ? TR.sugB : TR.sug, x = L && L.v[+a.split(':')[1]]; if (x) { U.team = x.op; U.give = x.give.slice(); U.get = x.get.slice(); } }
   trSaveUI(); trRender(sp); ensureTr(sp);
   if (a.startsWith('sug')) { const r = document.querySelector('#fzTrade .tr-res'), sc = document.querySelector('#fzTrade .mu-b'); if (r && sc) sc.scrollTop = r.offsetTop - sc.offsetTop - 8; }
   const f = document.querySelector(`[data-tr="${CSS.escape(a)}"]`); if (f && !a.startsWith('sug')) f.focus({ preventScroll: true });
 });
+document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('te-main')) { e.preventDefault(); e.target.click(); } });
 document.addEventListener('change', e => {
   const s = e.target.closest && e.target.closest('[data-trsel]'); if (!s) return;
   TR.ui.team = s.value; TR.ui.get = []; trSaveUI(); trRender(MN.fsTab);
