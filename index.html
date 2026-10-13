@@ -2111,6 +2111,46 @@
   .hv-wrap iframe{transform:scale(1.35)}
   .hv-tag{position:absolute;left:6px;bottom:6px;font:800 9px system-ui;background:rgba(200,0,0,.85);color:#fff;padding:2px 6px;border-radius:999px;letter-spacing:.5px}
   @media (prefers-reduced-motion:reduce){.hv-wrap{animation:none}}
+  /* ===== Oct 12d: Spin-it made apparent ===== */
+  .sx-b{position:relative;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;flex:none;border-radius:50%;border:0;padding:0;margin:0 3px;cursor:pointer;font-size:13px;line-height:1;vertical-align:middle;
+    background:radial-gradient(circle at 35% 30%,#3a1d6e,#160b2e);box-shadow:0 0 0 1.5px rgba(241,7,163,.75),0 0 10px rgba(123,47,247,.7);overflow:hidden;z-index:6}
+  .sx-b::after{content:"";position:absolute;inset:0;border-radius:50%;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);background-size:250% 100%;animation:sxSheen 3.5s linear infinite;pointer-events:none}
+  .sx-b span{display:block;transition:transform .5s}
+  .sx-b:hover span,.sx-b:focus-visible span{animation:sxIco .7s linear infinite}
+  .sx-b:hover{box-shadow:0 0 0 2px #ff5fd2,0 0 16px rgba(241,7,163,.9)}
+  @keyframes sxIco{to{transform:rotate(360deg)}}
+  .sx-b.on-card{position:absolute;left:8px;top:32px;margin:0;width:26px;height:26px;font-size:15px}
+  .pc>.sx-b.on-card{top:3px;left:3px;width:24px;height:24px;font-size:14px}
+  .pc>.hx-x{top:4px;bottom:auto;right:auto;left:31px}
+  .meta .sx-fab{position:relative;right:auto;bottom:auto;top:auto;padding:7px 14px 7px 10px;font-size:13px;margin-right:2px}.meta .sx-fab .ic{font-size:17px}
+  .pl-card>.sx-b.on-card,.fzc>.sx-b.on-card,.wt-p>.sx-b.on-card{top:6px;left:6px}
+  html.sx-nobdg .sx-b{display:none!important}
+  .sx-fab{display:inline-flex;align-items:center;gap:8px;padding:10px 18px 10px 12px;font:900 14px/1 system-ui;letter-spacing:1.5px;border-radius:999px;background:#170c30;isolation:isolate;overflow:visible;
+    box-shadow:0 8px 26px rgba(123,47,247,.55);animation:sxPulse 8s ease-in-out infinite}
+  .sx-fab::before{content:"";position:absolute;inset:-3px;border-radius:inherit;z-index:-2;background:conic-gradient(from var(--sxa,0deg),#7b2ff7,#f107a3,#ff8a00,#ffd34d,#2fd4ff,#7b2ff7);animation:sxRot 3s linear infinite}
+  .sx-fab::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;background:linear-gradient(135deg,#1d0f3d,#2a0f45)}
+  @property --sxa{syntax:'<angle>';initial-value:0deg;inherits:false}
+  @keyframes sxRot{to{--sxa:360deg}}
+  .sx-fab .ic{display:inline-block;font-size:20px;animation:sxIco 2.4s linear infinite}
+  .sx-fab:hover .ic{animation-duration:.6s}
+  @keyframes sxPulse{0%,88%,100%{transform:none}92%{transform:scale(1.12)}96%{transform:scale(.97)}}
+  @media (max-width:1440px){.meta .sx-fab{padding:6px 8px}.meta .sx-fab .lb{display:none}}
+  @media (max-width:700px){.meta .sx-fab{padding:7px 9px}.sx-fab .lb{display:none}.sx-fab .ic{font-size:22px}}
+  .sx-menu button.sx-hero{display:flex;align-items:center;gap:8px;background:linear-gradient(90deg,#7b2ff7,#f107a3,#ff8a00,#7b2ff7);background-size:300% 100%;animation:sxHero 4s linear infinite;font-size:15px;padding:10px 12px}
+  .sx-menu button.sx-hero .ic{display:inline-block;font-size:18px;animation:sxIco 1.2s linear infinite}
+  @keyframes sxHero{to{background-position:300% 0}}
+  .sx-coach{position:fixed;z-index:10065;width:min(300px,calc(100vw - 24px));background:linear-gradient(135deg,#25104d,#3d0f4a);color:#fff;border-radius:14px;padding:14px 14px 12px;box-shadow:0 0 0 2px #f107a3,0 16px 40px rgba(0,0,0,.6),0 0 30px rgba(241,7,163,.4);font-size:13.5px;line-height:1.4;animation:sxCoach .45s cubic-bezier(.3,1.5,.5,1) both}
+  .sx-coach b.nw{display:inline-block;background:#ffd34d;color:#2a1600;font:900 10px system-ui;padding:2px 6px;border-radius:5px;margin-right:6px;letter-spacing:1px}
+  .sx-coach .ar{position:absolute;top:-8px;left:var(--ax,24px);width:16px;height:16px;background:#25104d;transform:rotate(45deg);box-shadow:-2px -2px 0 0 #f107a3}
+  .sx-coach.up .ar{top:auto;bottom:-8px;box-shadow:2px 2px 0 0 #f107a3;background:#3d0f4a}
+  .sx-coach .bt{display:flex;gap:8px;margin-top:10px;justify-content:flex-end}
+  .sx-coach button{border:0;border-radius:8px;padding:7px 12px;font:800 13px system-ui;cursor:pointer}
+  .sx-coach .try{background:linear-gradient(90deg,#7b2ff7,#f107a3);color:#fff}.sx-coach .ok{background:#ffffff1f;color:#fff}
+  @keyframes sxCoach{from{opacity:0;transform:translateY(10px) scale(.9)}}
+  .sx-ring-hl{outline:3px solid #ffd34d;outline-offset:2px;animation:sxBlink 1s ease-in-out infinite}
+  @keyframes sxBlink{50%{outline-color:transparent}}
+  html.sx-hid .sx-b::after,html.sx-hid .sx-fab,html.sx-hid .sx-fab::before,html.sx-hid .sx-fab .ic,html.sx-hid .sx-hero{animation-play-state:paused!important}
+  @media (prefers-reduced-motion:reduce){.sx-b::after,.sx-b span,.sx-fab,.sx-fab::before,.sx-fab .ic,.sx-menu button.sx-hero,.sx-menu button.sx-hero .ic,.sx-coach,.sx-ring-hl{animation:none!important}}
 </style>
 </head>
 <body>
@@ -2153,7 +2193,7 @@
 <div class="modal" id="favsModal" hidden>
   <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="favsTitle" style="width:min(640px,100%)">
     <div class="modal-head"><div><h2 id="favsTitle">Manage favorites</h2><p>Teams pin their games and news; players get live stats and injury alerts.</p></div><button class="btn" data-close-favs>✕</button></div>
-    <div class="favs-body"><div class="usearch" data-usearch><span class="ico">🔍</span><input type="search" placeholder="Add a team or player…" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-label="Search teams and players"><kbd>/</kbd><div class="us-results" role="listbox" hidden></div></div><div class="fav-list" id="favList"></div><label class="fav-row"><input type="checkbox" id="wheelDrift"> Slowly auto-scroll the header team wheel when idle (pauses on hover; off if your system reduces motion)</label><label class="fav-row"><input type="checkbox" id="hoverHL" checked> Hover highlights: hover a player card (or long-press → ▶ Preview on phones) to play a muted clip</label><label class="fav-row" style="gap:6px;flex-wrap:wrap">YouTube API key (optional, saved only on this device): <input type="password" id="ytKey" autocomplete="off" placeholder="AIza…" style="flex:1;min-width:160px;padding:4px 8px;border-radius:6px;border:1px solid #33405f;background:#151c30;color:#fff"></label></div>
+    <div class="favs-body"><div class="usearch" data-usearch><span class="ico">🔍</span><input type="search" placeholder="Add a team or player…" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-label="Search teams and players"><kbd>/</kbd><div class="us-results" role="listbox" hidden></div></div><div class="fav-list" id="favList"></div><label class="fav-row"><input type="checkbox" id="wheelDrift"> Slowly auto-scroll the header team wheel when idle (pauses on hover; off if your system reduces motion)</label><label class="fav-row"><input type="checkbox" id="sxBadgesCb" checked> Spin-it badges: show a 🌀 button on player cards, table rows, matchups and teams</label><label class="fav-row"><input type="checkbox" id="hoverHL" checked> Hover highlights: hover a player card (or long-press → ▶ Preview on phones) to play a muted clip</label><label class="fav-row" style="gap:6px;flex-wrap:wrap">YouTube API key (optional, saved only on this device): <input type="password" id="ytKey" autocomplete="off" placeholder="AIza…" style="flex:1;min-width:160px;padding:4px 8px;border-radius:6px;border:1px solid #33405f;background:#151c30;color:#fff"></label></div>
   </div>
 </div>
 <div class="toast" id="toast" hidden></div>
@@ -6859,7 +6899,7 @@ function pcCard(p, mk){
   if (key && key.replace(/<[^>]+>/g, '').length > 24) sts = sts.slice(0, hasT ? 4 : 6);   // a 2-line note: drop the 7th stat so the bio line still fits
   const bioL = [[bio.ht, bio.wt].filter(Boolean).join(' · '), bio.age ? 'Age ' + bio.age : '', bio.col, bio.exp].filter(Boolean);
   const tags = mk ? '' : (p.roster ? `<span title="On your fantasy roster${p.roster.slot ? ' (' + esc(p.roster.slot) + ')' : ''}">🎮${p.roster.slot ? ' ' + esc(p.roster.slot) : ''}</span>` : '') + (p.fav ? '<span title="★ favorite">★</span>' : '');
-  return `<div class="pc r-${rc}" role="listitem"><div class="pc-flip${fl ? ' flipped' : ''}" data-pcflip="${esc(p.id)}" tabindex="0" role="button" aria-pressed="${fl}" aria-label="${esc(p.name)} card. Press to flip for stats" style="${esc(colors)}">
+  return `<div class="pc r-${rc}" data-plcard="${esc(p.id)}" data-sp="${esc(psp(p))}" role="listitem"><div class="pc-flip${fl ? ' flipped' : ''}" data-pcflip="${esc(p.id)}" tabindex="0" role="button" aria-pressed="${fl}" aria-label="${esc(p.name)} card. Press to flip for stats" style="${esc(colors)}">
     <div class="pc-face pc-front${art ? ' has-art' : ''}">${art ? `<img class="pc-art" src="${esc(art)}" alt="" loading="lazy" draggable="false" referrerpolicy="no-referrer" onerror="this.closest('.pc-front').classList.remove('has-art');this.remove()"><div class="pc-artfade"></div>` : ''}<div class="pc-shine"></div>
       ${mk === 'a' ? (bad => `<span class="pc-mk a${bad ? ' ' + esc(inj.cls) : ''}" title="${bad ? esc(inj.status) + ' (starting lineup' : 'Active starter (lineup'}${p.roster.slot ? ' slot ' + esc(p.roster.slot) : ''})">${bad ? esc(inj.cls === 'IR' ? inj.code : inj.status) : 'Active'}${p.roster.slot ? ' · ' + esc(p.roster.slot) : ''}</span>`)(inj && ['O', 'D', 'IR'].includes(inj.cls)) : mk ? `<span class="pc-mk ${mk}" title="${mk === 'w' ? 'On your Fantasy Watch list' : 'On your fantasy roster' + (p.roster && p.roster.slot ? ' (' + esc(p.roster.slot) + ')' : '')}">${mk === 'w' ? '👁 Watch' : rosLbl(p)}</span>` : ''}
       ${p.roster && (mk === 'a' || (mk === 'r' && !'bi'.includes(slotGroup(p)))) ? '<span class="pc-rost" title="On your ESPN fantasy roster">ROSTERED</span>' : ''}
@@ -7632,7 +7672,7 @@ function sxMenu(e, x, y){
     isP && FSPORTS[e.sp] ? ['watch', watched ? '👁 Remove from Fantasy Watch' : '👁 Add to Fantasy Watch'] : null, fk ? ['fav', fav ? '★ Unfavorite team' : '☆ Favorite team'] : null,
     e.card && HV.on ? ['hv', '▶ Preview highlights'] : null, ['copy', '📋 Copy stats'], e.card ? ['hide', '✕ Hide card'] : null].filter(Boolean);
   m.innerHTML = `<div class="sx-mh">${(isP ? e.hs : e.logo) ? `<img src="${esc(isP ? e.hs : e.logo)}" alt="" onerror="this.style.visibility='hidden'">` : ''}<span><b>${esc(e.name)}</b><i>${esc(isP ? [e.pos, e.team, (FSPORTS[e.sp] || {}).label].filter(Boolean).join(' · ') : (CAT[e.lg] || {}).label || '')}</i></span></div>`
-    + items.map(([a, l, c]) => `<button role="menuitem" data-sxa="${a}"${c ? ` class="${c}"` : ''}>${esc(l)}${a === 'spin' ? '<span class="sx-k">Enter</span>' : ''}</button>`).join('');
+    + items.map(([a, l, c]) => `<button role="menuitem" data-sxa="${a}"${c ? ` class="${c}"` : ''}>${a === 'spin' ? '<span class="ic" aria-hidden="true">🌀</span>SPIN-IT' : esc(l)}${a === 'spin' ? '<span class="sx-k">Enter</span>' : ''}</button>`).join('');
   document.body.appendChild(m); SX.menu = m;
   const r = m.getBoundingClientRect(); m.style.left = Math.max(6, Math.min(x, innerWidth - r.width - 6)) + 'px'; m.style.top = Math.max(6, Math.min(y, innerHeight - r.height - 6)) + 'px';
   m.querySelector('button').focus({ preventScroll: true });
@@ -7751,14 +7791,14 @@ document.addEventListener('click', ev => { if (SX.sup && Date.now() - SX.sup < 8
 document.addEventListener('keydown', ev => { if (ev.key === 'Escape') { if (SX.menu) { sxCloseMenu(); ev.stopPropagation(); } else if (SX.ov) { sxClose(); ev.stopPropagation(); } else if (HX.list) hxCloseList(); } }, true);
 window.addEventListener('scroll', () => sxCloseMenu(), { passive: true }); window.addEventListener('resize', () => sxCloseMenu(), { passive: true });
 (() => { const b = document.createElement('button'); b.className = 'sx-fab'; b.type = 'button'; b.textContent = '🌀 Spin-it'; b.title = 'Spin-it: spin any player or team (or right-click / long-press anything)';
-  b.addEventListener('click', sxSearchOpen); (document.querySelector('header') || document.body).appendChild(b); })();
+  b.addEventListener('click', sxSearchOpen); (document.querySelector('header .meta') || document.querySelector('header') || document.body).prepend(b); })();
 
 /* ===================== hide player cards (view only — never touches the roster or watch list) ===================== */
 const HX_KEY = 'mannHiddenCards.v1', HX = { s: new Set(lsGet(HX_KEY, []) || []), meta: lsGet(HX_KEY + '.m', {}) || {}, list: null, raf: 0 };
-const HX_SEL = '.pl-card[data-plcard],.fzc[data-plcard],.cc[data-plcard],.wt-p[data-plcard]';
+const HX_SEL = '.pc[data-plcard],.pl-card[data-plcard],.fzc[data-plcard],.cc[data-plcard],.wt-p[data-plcard]';
 const hxStyle = document.createElement('style'); document.head.appendChild(hxStyle);
 function hxSave(){ lsSet(HX_KEY, [...HX.s]); lsSet(HX_KEY + '.m', HX.meta); hxCss(); hxSync(); }
-function hxCss(){ hxStyle.textContent = [...HX.s].map(id => `[data-plcard="${CSS.escape(id)}"]:is(.pl-card,.fzc,.cc,.wt-p,.fl-line){display:none!important}`).join('\n'); }
+function hxCss(){ hxStyle.textContent = [...HX.s].map(id => `[data-plcard="${CSS.escape(id)}"]:is(.pc,.pl-card,.fzc,.cc,.wt-p,.fl-line){display:none!important}`).join('\n'); }
 function hxToast(msg, undo){ document.querySelectorAll('.sx-toast').forEach(t => t.remove()); const t = document.createElement('div'); t.className = 'sx-toast'; t.setAttribute('role', 'status');
   t.innerHTML = `<span>${esc(msg)}</span>${undo ? '<button>Undo</button>' : ''}`; document.body.appendChild(t); if (undo) t.querySelector('button').onclick = () => { undo(); t.remove(); }; setTimeout(() => t.remove(), 5000); }
 function hxHide(id, name){ id = String(id); const p = sxPlayer(id); HX.s.add(id); HX.meta[id] = { n: name || p.name, hs: p.hs }; hxSave(); hxToast(`Hidden · ${name || p.name}`, () => hxShow(id)); }
@@ -7830,7 +7870,7 @@ setInterval(cyCheck, 1500); setTimeout(cyCheck, 0);
 
 /* ===================== Hover highlights: ESPN clip (athlete-tagged) -> YouTube (known id / optional API key) -> nothing ===================== */
 const HV = { on: lsGet('mannHoverHL.v1', true) !== false, key: (() => { try { return localStorage.getItem('mannYtKey.v1') || ''; } catch (_) { return ''; } })(), c: lsGet('mannHoverHLCache.v1', {}) || {}, t: 0, cur: null, scrollT: 0, src: {} };
-const HV_SEL = '.cc[data-plcard],.pl-card[data-plcard],.fzc[data-plcard],.wt-p[data-plcard]';
+const HV_SEL = '.pc[data-plcard],.cc[data-plcard],.pl-card[data-plcard],.fzc[data-plcard],.wt-p[data-plcard]';
 function hvSave(){ const ks = Object.keys(HV.c); if (ks.length > 150) ks.sort((a, b) => HV.c[a].t - HV.c[b].t).slice(0, ks.length - 150).forEach(k => delete HV.c[k]); lsSet('mannHoverHLCache.v1', HV.c); }
 function hvPick(vids, id, name){
   const nm = String(name || '').toLowerCase(), tagged = v => (v.categories || []).some(c => String(c.athleteId || (c.athlete || {}).id || '') === String(id));
@@ -7871,6 +7911,48 @@ document.addEventListener('pointerdown', e => { if (HV.cur && e.pointerType === 
 function hvPreview(card){ card._hvTouch = true; HV.pend = card; hvStart(card); }
 (() => { const cb = document.getElementById('hoverHL'), k = document.getElementById('ytKey'); if (cb) { cb.checked = HV.on; cb.addEventListener('change', () => { HV.on = cb.checked; lsSet('mannHoverHL.v1', HV.on); if (!HV.on) hvStop(); }); }
   if (k) { k.value = HV.key; k.addEventListener('change', () => { HV.key = k.value.trim(); try { HV.key ? localStorage.setItem('mannYtKey.v1', HV.key) : localStorage.removeItem('mannYtKey.v1'); } catch (_) {} Object.keys(HV.c).forEach(x => { if (!HV.c[x].v) delete HV.c[x]; }); hvSave(); }); } })();
+
+/* ===== Oct 12d: Spin-it badges, shortcut, coach mark ===== */
+const SXB = { on: lsGet('mannSpinBadges.v1', true) !== false };
+document.documentElement.classList.toggle('sx-nobdg', !SXB.on);
+const sxBtn = cls => { const b = document.createElement('button'); b.type = 'button'; b.className = 'sx-b' + (cls ? ' ' + cls : ''); b.innerHTML = '<span aria-hidden="true">🌀</span>'; b.title = 'Spin-it: What Have You Done For Me Lately score'; b.setAttribute('aria-label', 'Spin-it'); return b; };
+function sxBadges(){
+  if (!SXB.on) return;
+  document.querySelectorAll(HX_SEL).forEach(c => { if (!c.querySelector(':scope>.sx-b')) c.appendChild(sxBtn('on-card')); });
+  document.querySelectorAll('.tb tbody tr:not(.tb-grp)').forEach(tr => { if (tr.querySelector('.sx-b')) return; const im = tr.querySelector('th img, td img'); if (im) im.before(sxBtn()); });
+  document.querySelectorAll('.mu-b .ms-th').forEach(t => { if (!t.nextElementSibling || !t.nextElementSibling.classList.contains('sx-b')) t.after(sxBtn()); });
+  document.querySelectorAll('[data-star]').forEach(s => { if (s.closest('.sx-menu,.ob,#favList')) return; const pv = s.previousElementSibling; if (!pv || !pv.classList.contains('sx-b')) s.before(sxBtn()); });
+}
+document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('.sx-b'); if (!b) return; e.preventDefault(); e.stopPropagation();
+  let ent = null; const st = b.nextElementSibling && b.nextElementSibling.dataset && b.nextElementSibling.dataset.star;
+  if (st) { const [lg, ab] = st.split(':'); ent = sxTeam(lg, ab); } else ent = sxDetect(b.parentElement);
+  if (ent) sxOpen(ent); else toast('Spin-it: couldn\'t tell who this is'); }, true);
+['pointerdown', 'mousedown'].forEach(n => document.addEventListener(n, e => { if (e.target.closest && e.target.closest('.sx-b')) e.stopPropagation(); }, { capture: true, passive: true }));
+// hook into the existing observer pass
+const _hxSync = hxSync; hxSync = function(){ _hxSync(); hxObs.disconnect(); try { sxBadges(); } finally { hxObs.observe(document.body, { childList: true, subtree: true }); } };
+// floating button restyle + shortcut
+(() => { const f = document.querySelector('.sx-fab'); if (f) { f.innerHTML = '<span class="ic" aria-hidden="true">🌀</span><span class="lb">SPIN-IT</span>'; f.title = 'Spin-it (S): spin any player or team for the What Have You Done For Me Lately score'; f.setAttribute('aria-label', 'Spin-it'); f.setAttribute('aria-keyshortcuts', 'S'); } })();
+document.addEventListener('keydown', e => { if ((e.key === 's' || e.key === 'S') && !e.ctrlKey && !e.metaKey && !e.altKey && !SX.ov && !/^(INPUT|TEXTAREA|SELECT)$/.test((e.target || {}).tagName || '') && !(e.target || {}).isContentEditable) { e.preventDefault(); sxSearchOpen(); } });
+document.addEventListener('visibilitychange', () => document.documentElement.classList.toggle('sx-hid', document.hidden));
+// settings toggle
+(() => { const cb = document.getElementById('sxBadgesCb'); if (!cb) return; cb.checked = SXB.on; cb.addEventListener('change', () => { SXB.on = cb.checked; lsSet('mannSpinBadges.v1', SXB.on); document.documentElement.classList.toggle('sx-nobdg', !SXB.on); if (SXB.on) hxSync(); }); })();
+// first-visit coach mark
+function sxTopPlayer(){ const R = players.filter(p => p.roster); const C = CMP.d && CMP.d.nfl; let best = null, bs = -1;
+  R.forEach(p => { const e = sxPlayer(peid(p), psp(p)); const s = psp(p) === 'nfl' ? sxPlayerScore(e) : null; const v = s ? s.s : -1; if (v > bs) { bs = v; best = e; } }); return best || (R[0] ? sxPlayer(peid(R[0]), psp(R[0])) : null); }
+function sxCoach(force){
+  if (!force && lsGet('mannSpinCoach.v1', false)) return; if (document.querySelector('.sx-coach,.sx-ov,.cy-ov,#ccBig:not([hidden]),.modal:not([hidden]),.ob')) { if (!force) setTimeout(sxCoach, 4000); return; }
+  const tgt = [...document.querySelectorAll('.cc>.sx-b,.pl-card>.sx-b,.fzc>.sx-b,.sx-b')].find(b => { const r = b.getBoundingClientRect(); return r.width && r.top > 60 && r.bottom < innerHeight - 160; }) || document.querySelector('.sx-fab');
+  if (!tgt) return; const r = tgt.getBoundingClientRect(), c = document.createElement('div'); c.className = 'sx-coach'; c.setAttribute('role', 'dialog'); c.setAttribute('aria-label', 'New: Spin-it');
+  c.innerHTML = `<span class="ar"></span><div><b class="nw">NEW</b><b>Spin-it 🌀</b></div><div style="margin-top:4px">Tap 🌀 or right-click (long-press on phones) any player or team for the <b>What Have You Done For Me Lately</b> score.</div><div class="bt"><button class="ok" type="button">Got it</button><button class="try" type="button">Try it 🌀</button></div>`;
+  document.body.appendChild(c); const W = c.offsetWidth, H = c.offsetHeight, below = r.bottom + 12 + H < innerHeight - 10;
+  const left = Math.max(12, Math.min(innerWidth - W - 12, r.left + r.width / 2 - 24)); c.style.left = left + 'px'; c.style.top = (below ? r.bottom + 12 : r.top - H - 12) + 'px';
+  if (!below) c.classList.add('up'); c.style.setProperty('--ax', Math.max(10, Math.min(W - 26, r.left + r.width / 2 - left - 8)) + 'px'); tgt.classList.add('sx-ring-hl');
+  const done = () => { lsSet('mannSpinCoach.v1', true); c.remove(); tgt.classList.remove('sx-ring-hl'); document.removeEventListener('keydown', esc, true); };
+  const esc = e => { if (e.key === 'Escape') { e.stopPropagation(); done(); } }; document.addEventListener('keydown', esc, true);
+  c.querySelector('.ok').onclick = done; c.querySelector('.try').onclick = () => { done(); const p = sxTopPlayer(); p ? sxOpen(p) : sxSearchOpen(); };
+  c.querySelector('.try').focus({ preventScroll: true });
+}
+setTimeout(() => sxCoach(), 7000);
 
 </script>
 </body>
