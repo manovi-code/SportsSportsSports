@@ -1728,6 +1728,61 @@
   .cc .cc-art.has-art .cc-circ{display:block;left:auto;right:10px;top:auto;bottom:118px;width:70px;height:70px;padding:3px;background:#fffaf0;box-shadow:0 0 0 2px var(--tc,#3a4766),0 6px 14px rgba(0,0,0,.55)}
   .cc .cc-art.has-art .cc-circ img{object-position:50% 10%;transform:scale(1.15) translateY(5%)}
   .cc .cc-art.has-art .cc-ppg{right:auto;left:10px;align-items:flex-start}
+
+  /* ===== Oct 12c: fix — pc-mk got top (Topps) + bottom (has-art) and stretched into a solid box over the action photo ===== */
+  .pc .pc-front.has-art .pc-mk{top:12px;bottom:auto;height:auto}
+  .pc .pc-front.has-art .pc-rost{top:auto;bottom:61px}
+  .pc .pc-front.has-art .pc-inj{right:auto;left:12px;top:30px}
+  .pc .pc-front.has-art .pc-circ{right:12px;top:30px;width:34%;height:auto;aspect-ratio:1;z-index:3;border:2.5px solid #fffaf0;background:#fffaf0;box-shadow:0 0 0 1.5px var(--tc,#3a4766),0 3px 8px rgba(0,0,0,.6)}
+  .pc .pc-front.has-art .pc-circ img{display:block;border-radius:50%;object-position:50% 8%;transform:scale(1.3) translateY(9%)}
+  /* ===== 💎 Rarity tiers ===== */
+  .rar-pill,.pc-rar{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;padding:2px 6px;border-radius:5px;white-space:nowrap;color:#111;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+  .rar-pill b{font-weight:900;opacity:.75;margin-left:2px}
+  .r-common .cc-rar,.rar-pill.r-common,.pc.r-common .pc-rar{background:linear-gradient(135deg,#f4f5f7,#a9b0ba);color:#333}
+  .r-unc .cc-rar,.rar-pill.r-unc,.pc.r-unc .pc-rar{background:linear-gradient(135deg,#d9ffe4,#3fbf6a);color:#063b18}
+  .r-rare .cc-rar,.rar-pill.r-rare,.pc.r-rare .pc-rar{background:linear-gradient(135deg,#d6efff,#3d8bff);color:#04224f}
+  .r-epic .cc-rar,.rar-pill.r-epic,.pc.r-epic .pc-rar{background:linear-gradient(135deg,#f0d4ff,#a35cff);color:#2a0650}
+  .r-ultra .cc-rar,.rar-pill.r-ultra,.pc.r-ultra .pc-rar{background:linear-gradient(120deg,#ffd0a8,#ff5a2e 35%,#ff2e6a 60%,#ffb03a);background-size:200% 200%;animation:rarHolo 4s linear infinite;color:#3a0700}
+  .r-leg .cc-rar,.rar-pill.r-leg,.pc.r-leg .pc-rar{background:linear-gradient(115deg,#8a6a1c,#ffe08a 25%,#fff6cf 40%,#d9a637 60%,#ffd35a 80%,#8a6a1c);background-size:250% 100%;animation:rarHolo 3s linear infinite;color:#3a2600}
+  @keyframes rarHolo{0%{background-position:0% 50%}100%{background-position:250% 50%}}
+  /* big cards: foil frames for the two new tiers */
+  .cc.r-unc .cc-face{background:linear-gradient(135deg,#1d6b3a,#7be0a0 30%,#2f8a4e 60%,#a7f0c2)}
+  .cc.r-common .cc-face{background:linear-gradient(135deg,#5b626c,#c9ced6 35%,#7b838e 65%,#dfe3e8)}
+  .cc.r-ultra .cc-face{background:linear-gradient(125deg,#a3200f,#ff8a3d 18%,#ff2e6a 36%,#ffd27a 52%,#ff5a2e 70%,#c2185b 88%);background-size:260% 260%;animation:ccFoil 5s linear infinite;box-shadow:0 14px 34px rgba(0,0,0,.55),0 0 20px rgba(255,90,46,.35)}
+  .cc.r-unc .cc-front{box-shadow:0 14px 30px rgba(0,0,0,.55),inset 0 0 0 2px #3fbf6a}
+  .cc.r-ultra .cc-front{box-shadow:0 14px 30px rgba(0,0,0,.55),inset 0 0 0 3px #ff5a2e,0 0 16px rgba(255,90,46,.3)}
+  .cc.r-common .cc-front{box-shadow:0 14px 30px rgba(0,0,0,.55),inset 0 0 0 2px #a9b0ba}
+  .cc.r-ultra .cc-holo{opacity:.22}
+  .ccb.r-unc{background:linear-gradient(135deg,#1d6b3a,#7be0a0 30%,#2f8a4e 60%,#a7f0c2)}
+  .ccb.r-ultra{background:linear-gradient(125deg,#a3200f,#ff8a3d 18%,#ff2e6a 36%,#ffd27a 52%,#ff5a2e 70%,#c2185b 88%)}
+  .mc.r-unc,.ms-th.r-unc{background:linear-gradient(135deg,#1d6b3a,#7be0a0 30%,#2f8a4e 60%,#a7f0c2)}
+  .mc.r-ultra,.ms-th.r-ultra{background:linear-gradient(125deg,#a3200f,#ff8a3d 25%,#ff2e6a 50%,#ffd27a 75%,#ff5a2e)}
+  /* compact row cards: tier-colored outer foil ring + badge on the cream border */
+  .pc{--rc:#a9b0ba}.pc.r-unc{--rc:#3fbf6a}.pc.r-rare{--rc:#3d8bff}.pc.r-epic{--rc:#a35cff}.pc.r-ultra{--rc:#ff5a2e}.pc.r-leg{--rc:#e0aa2e}
+  .pc .pc-front{box-shadow:0 0 0 2px var(--rc),0 8px 18px rgba(0,0,0,.5),inset 0 0 0 1px rgba(0,0,0,.18)!important}
+  .pc.r-leg .pc-front{box-shadow:0 0 0 2.5px #e0aa2e,0 0 14px rgba(255,200,61,.45),0 8px 18px rgba(0,0,0,.5)!important}
+  .pc.r-ultra .pc-front{box-shadow:0 0 0 2.5px #ff5a2e,0 0 12px rgba(255,90,46,.4),0 8px 18px rgba(0,0,0,.5)!important}
+  .pc .pc-rar{position:absolute;left:9px;bottom:52px;z-index:5;font-size:7.5px;padding:1px 5px;letter-spacing:.6px}
+  .pc .pc-front.has-art .pc-rost,.pc .pc-rost{bottom:66px}
+  .pc-holo{position:absolute;inset:0;z-index:2;pointer-events:none;border-radius:inherit;mix-blend-mode:color-dodge;opacity:.28;background:linear-gradient(125deg,rgba(255,0,132,.5),rgba(255,214,0,.45) 20%,rgba(0,255,163,.45) 40%,rgba(0,178,255,.5) 60%,rgba(191,0,255,.45) 80%);background-size:300% 300%;animation:ccHolo 6s linear infinite}
+  .pc.r-leg .pc-holo{background:linear-gradient(115deg,transparent 20%,rgba(255,230,140,.7) 40%,rgba(255,255,255,.8) 48%,rgba(255,200,61,.6) 56%,transparent 75%);background-size:250% 100%;animation:rarHolo 3.2s linear infinite;mix-blend-mode:overlay;opacity:.7}
+  .rar-chg{display:inline-flex;align-items:center;gap:2px;font-size:8.5px;font-weight:900;padding:1px 5px;border-radius:999px;letter-spacing:.4px;text-transform:uppercase;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.45)}
+  .rar-chg.up{background:#1f8a4c;color:#eafff1;border:1px solid #7ee2a0}.rar-chg.dn{background:#a8323e;color:#fff0f1;border:1px solid #ff9aa1}
+  .pc .rar-chg{position:absolute;right:8px;bottom:52px;z-index:5;font-size:7.5px}
+  .tb .rar-chg{margin-left:4px}
+  .rar-hist{margin:4px 0 2px;display:flex;flex-direction:column;gap:2px}
+  .rar-hl{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.4px}
+  .rar-hl i{font-style:normal;font-weight:600;opacity:.7;text-transform:none}
+  .rar-svg{display:block;max-width:100%;height:auto;border-radius:4px;background:rgba(255,255,255,.35);box-shadow:inset 0 0 0 1px rgba(0,0,0,.2)}
+  .rar-hist.cc .rar-svg{width:100%}.rar-hist.pc{margin:2px 0}.rar-hist.pc .rar-hl{font-size:8.5px}
+  .rar-i{all:unset;cursor:pointer;font-size:11px;line-height:1;padding:1px 3px;border-radius:4px;opacity:.85}
+  .rar-i:hover,.rar-i:focus-visible{opacity:1;background:rgba(0,0,0,.12)}
+  .rar-ih{font-size:11px;font-weight:800;color:#c9b8ff;border:1px solid #5b4a8f;padding:2px 7px;border-radius:999px;margin-left:6px;opacity:1}
+  .rar-pop{position:fixed;z-index:10050;max-height:80vh;overflow:auto;background:#141b2b;color:#e8ecf4;border:1px solid #3a4766;border-radius:12px;padding:12px 14px;box-shadow:0 16px 40px rgba(0,0,0,.6);font-size:12.5px;line-height:1.4}
+  .rar-pop p{margin:6px 0}.rar-pop ul{margin:4px 0 6px;padding-left:18px}
+  .rar-key{display:grid;grid-template-columns:auto 1fr;gap:4px 8px;align-items:center;margin:6px 0}.rar-key i{font-style:normal;color:#9aa4b8;font-size:11.5px}
+  .rar-px{all:unset;cursor:pointer;position:absolute;right:10px;top:8px;font-weight:900;opacity:.7}
+  @media (prefers-reduced-motion:reduce){.rar-pill,.pc-rar,.cc-rar,.pc-holo,.cc.r-ultra .cc-face{animation:none!important}}
   /* ===== 🔄 Trade Lab (Oct 12) ===== */
   .mu.tr{max-height:none}
   .tr .mu-b{overflow:auto;overscroll-behavior:contain;max-height:520px}
@@ -1775,6 +1830,87 @@
   .tb-bar.tb-sticky{top:calc(var(--stack-h,0px) + var(--tabs-h,0px) + 4px)}
   .news{top:calc(var(--stack-h,0px) + var(--tabs-h,0px) + 10px)}
   [id],.section-title{scroll-margin-top:calc(var(--stack-h,180px) + var(--tabs-h,0px) + 12px)}
+/* ===== matchup rows + Topps corner (Oct 12 pm) ===== */
+  /* Cards mode: one column, one mirrored row per slot */
+  .mu{max-height:560px}
+  .ms-list,.mu-rows.ms-list{display:flex!important;flex-direction:column;gap:6px}
+  .ms{grid-template-columns:minmax(0,1fr) 64px minmax(0,1fr);gap:6px;align-items:stretch}
+  .ms-sd{height:auto;min-height:96px;align-items:stretch;gap:10px;padding:7px 10px 7px 7px;overflow:visible}
+  .ms-sd.op{padding:7px 7px 7px 10px}
+  .ms-th{width:62px;height:82px;align-self:center;overflow:visible}
+  .ms-th img:first-child{border-radius:4px}
+  .ms-lg{position:absolute;right:-6px;bottom:8px;width:24px;height:24px;padding:2px;border-radius:50%;background:#fffaf0;box-shadow:0 0 0 1.5px var(--tc1,#555),0 2px 5px rgba(0,0,0,.5);object-fit:contain;z-index:2}
+  .ms-sd.op .ms-lg{right:auto;left:-6px}
+  .ms-pos{font-size:9px;line-height:13px}
+  .ms-i{gap:3px;justify-content:center}
+  .ms-n{align-items:center}
+  .ms-n b{font-size:14.5px;white-space:normal;overflow:visible;text-overflow:clip;line-height:1.15}
+  .ms-win{font-size:13px;line-height:1;filter:drop-shadow(0 0 4px rgba(250,204,21,.6))}
+  .ms-sub{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;font-size:10.5px;color:var(--muted)}
+  .ms-sd.op .ms-sub,.ms-sd.op .ms-dvw{justify-content:flex-end}
+  .ms-sub .ms-tm{font-size:10.5px}
+  .ms-x{font-weight:700;color:#cbd5e1}
+  .ms-gs{font-size:11px;color:#cbd5e1;font-variant-numeric:tabular-nums;line-height:1.25}
+  .ms-gs.in{color:#fca5a5;font-weight:800}.ms-gs.pre{color:var(--muted)}
+  .ms-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#ef4444;margin-right:5px;vertical-align:1px;animation:msDot 1.2s ease-in-out infinite}
+  @keyframes msDot{50%{opacity:.25}}
+  .ms-sl{font-size:11px;font-weight:700;color:#e2e8f0;line-height:1.25}
+  .ms-dvw{display:flex}.ms-dvw .dv{margin:0;flex-wrap:wrap;white-space:normal;max-width:100%}.ms-dvw .dv b,.ms-dvw .dv i{white-space:nowrap;overflow:visible}
+  .ms-p{width:66px;justify-content:center}
+  .ms-p b{font-size:26px}.ms-p i{font-size:10.5px}
+  .ms-pb{height:5px}
+  .ms-c{gap:4px}
+  .ms-c .sl{font-size:11px;padding:2px 8px;line-height:14px}
+  .ms-c .dl{font-size:12px;font-weight:900;display:flex;align-items:center;gap:2px}
+  .ms-c .dl .ar{font-style:normal;display:inline-block}
+  .ms-st{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  .ms-sh{width:52px;height:5px}
+  .ms-ck,.mu-boom{display:none!important}
+  /* result: loser just dimmed, winner glow + pulse, edge arrow slides */
+  .mu-rows.play .ms-sd.lose,.mu-rows.done .ms-sd.lose{opacity:.75!important;filter:none!important;animation:none!important}
+  .mu-rows.play .ms-sd.win.me,.mu-rows.play .ms-sd.win.op{animation:msPulse .9s ease-out var(--d) 1 both}
+  @keyframes msPulse{0%{transform:none}40%{transform:scale(1.015)}100%{transform:none}}
+  @keyframes msArL{0%{transform:translateX(14px);opacity:0}100%{transform:none;opacity:1}}
+  @keyframes msArR{0%{transform:translateX(-14px);opacity:0}100%{transform:none;opacity:1}}
+  .mu-rows.play .ms-c .dl.up .ar{animation:msArL .5s ease-out calc(var(--d) + .2s) 1 both}
+  .mu-rows.play .ms-c .dl.dn .ar{animation:msArR .5s ease-out calc(var(--d) + .2s) 1 both}
+  @media (prefers-reduced-motion:reduce){.ms-dot,.mu-rows.play .ms-c .dl .ar{animation:none!important}}
+  @media (max-width:760px){.mu{max-height:520px}}
+  @container mub (max-width:560px){
+    .ms{grid-template-columns:minmax(0,1fr) 38px minmax(0,1fr);gap:3px}
+    .ms-sd,.ms-sd.op{flex-direction:column;align-items:stretch;min-height:0;height:auto;gap:4px;padding:6px 6px;text-align:left}
+    .ms-sd.op{text-align:right}
+    .ms-th{width:100%;height:auto;display:flex;align-items:center;gap:6px;padding:0;background:none!important;box-shadow:none!important}
+    .ms-sd.op .ms-th{flex-direction:row-reverse}
+    .ms-th img:first-child{width:40px;height:48px;flex:0 0 auto;border-radius:6px;border:2px solid #cfd5df}
+    .ms-th.r-leg img:first-child{border-color:#ffd35a}.ms-th.r-ultra img:first-child{border-color:#ff5a2e}.ms-th.r-epic img:first-child{border-color:#b56aff}.ms-th.r-rare img:first-child{border-color:#5fb0ff}.ms-th.r-unc img:first-child{border-color:#3fbf6a}
+    .ms-th img.ms-lg{left:28px;right:auto;bottom:-2px;width:18px;height:18px}.ms-sd.op .ms-th img.ms-lg{left:auto;right:28px}
+    .ms-pos{position:static;width:auto;background:none;color:var(--muted);font-size:9px}
+    .ms-p{width:auto;flex-direction:row;align-items:baseline;gap:5px;flex-wrap:wrap}.ms-sd.op .ms-p{justify-content:flex-end}
+    .ms-p b{font-size:20px}.ms-p i{font-size:9.5px}.ms-pb{flex-basis:100%}
+    .ms-n b{font-size:12px}.ms-sd.op .ms-n{justify-content:flex-end}
+    .ms-sub,.ms-gs,.ms-sl{font-size:9.5px}.ms-sub .ms-tm{font-size:9.5px}
+    .ms-x{display:inline}
+    .ms-m .dvk,.ms-dvw .dvk{display:inline}.ms-dvw .dv{font-size:9px}
+    .ms-c .sl{font-size:9px;padding:1px 4px}.ms-c .dl{font-size:10px}.ms-sh{width:32px}
+  }
+  /* table: no truncation */
+  .mu-tb td.n b,.mu-tb td.n i{white-space:nowrap;overflow:visible;text-overflow:clip;max-width:none}
+  .mu-tb .dv,.mu-tb .dv b,.mu-tb .dv i{overflow:visible;text-overflow:clip;max-width:none}
+  /* Topps corner: round headshot bottom-right with the team logo riding its upper-left edge */
+  .cc .cc-art .cc-circ,.cc .cc-art.has-art .cc-circ{display:block;position:absolute;left:auto;top:auto;right:8px;bottom:50px;width:27%;height:auto;aspect-ratio:1;padding:3px;border-radius:50%;overflow:visible;z-index:4;background:#fffaf0;box-shadow:0 0 0 2.5px var(--tc,#3a4766),0 6px 14px rgba(0,0,0,.55)}
+  .cc .cc-art .cc-circ img:first-child{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:50% 12%;transform:none;background:radial-gradient(circle at 50% 35%,color-mix(in srgb,var(--tc,#3a4766) 70%,#fff),var(--tc2,var(--tc,#1b2336)))}
+  .cc .cc-circ .cc-clg{position:absolute;left:-7px;top:-7px;width:40%;height:40%;padding:2px;border-radius:50%;background:#fff;object-fit:contain;box-shadow:0 0 0 1.5px var(--tc,#3a4766),0 2px 5px rgba(0,0,0,.5)}
+  .cc .cc-tm img{display:none}
+  .cc .cc-plate{padding-right:12px;z-index:3}
+  .cc .cc-plate::before{content:"";position:absolute;left:-2px;right:-2px;bottom:0;height:64px;z-index:-1;background:linear-gradient(100deg,var(--tc,#3a4766),color-mix(in srgb,var(--tc,#3a4766) 70%,#000));clip-path:polygon(0 22%,100% 0,100% 100%,0 100%);box-shadow:inset 0 2px 0 rgba(255,255,255,.35)}
+  .cc .cc-tm .ps{border-radius:4px 0 0 4px;width:auto;min-width:30px;height:20px;padding:0 12px 0 6px;clip-path:polygon(0 0,100% 50%,0 100%);background:var(--tc2,#fffaf0);color:#fff;border:0;bottom:46px;left:6px;font-size:10px;box-shadow:none;background:linear-gradient(90deg,#fffaf0,#e9dcb8);color:#1b1b1b}
+  .cc .cc-art.has-art .cc-ppg,.cc .cc-ppg{right:auto;left:10px;align-items:flex-start;bottom:70px}
+  .ms-th img.ms-lg{width:24px;height:24px;padding:2px;border-radius:50%;background:#fffaf0;object-fit:contain}
+  .mup-wk .cc-sg b{color:#f8fafc}.mup-wk .cc-sg i{color:#94a3b8}.mup-wk .cc-nx{color:#e2e8f0}.mup-wk .cc-nx b{color:#fbbf24}
+  .mup .mup-cc{--w:220px;--h:320px}.mup-b{max-height:320px}
+  #muPop.sheet .mup-cc{--w:220px;--h:320px}
+  @container mub (max-width:560px){.ms-sub .ms-tm{display:inline}.ms-th .ms-pos{display:none}.ms-p b{font-size:18px}}
 </style>
 </head>
 <body>
@@ -1802,7 +1938,7 @@
 
 <main>
   <section class="pc-wrap" id="pcWrap" hidden aria-label="Player cards">
-    <div class="pc-head"><span class="pc-title"><span id="pcTitleTxt">🃏 My Players</span> <small id="pcCount"></small></span><span class="pc-hint">Hover or tap a card to flip it · ↗ opens ESPN</span><button class="fmin-btn" id="pcToggle" aria-expanded="true" aria-controls="pcRw" title="Minimize or expand the player cards"><span class="chev" aria-hidden="true">▾</span>Minimize</button></div>
+    <div class="pc-head"><span class="pc-title"><span id="pcTitleTxt">🃏 My Players</span> <small id="pcCount"></small> <button class="rar-i rar-ih" data-rarinfo="1" title="How rarity works" aria-label="How rarity works">💎 Rarity ⓘ</button></span><span class="pc-hint">Hover or tap a card to flip it · ↗ opens ESPN</span><button class="fmin-btn" id="pcToggle" aria-expanded="true" aria-controls="pcRw" title="Minimize or expand the player cards"><span class="chev" aria-hidden="true">▾</span>Minimize</button></div>
     <div class="pc-rw" id="pcRw"><button class="pc-arr l" data-dir="-1" aria-label="Scroll cards left" tabindex="-1">‹</button><div class="pc-row" id="pcRow" role="list"></div><button class="pc-arr r" data-dir="1" aria-label="Scroll cards right" tabindex="-1">›</button></div>
   </section>
   <div id="favSection"></div>
@@ -1931,12 +2067,12 @@
 (function(){
   const RE = /(\/teamlogos\/[a-z0-9-]+\/500)\//i, KEY = 'mannLogoDark.v1';
   let DK = {}; try { DK = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
-  const busy = new Set(); let saveT = 0; const MQ = []; let mIn = 0;
+  const busy = new Set(); let saveT = 0; const MQ = []; let mIn = 0; let cdnNoCors = false;   // CDN dropped CORS once: stop probing this session (avoids a console error per logo)
   for (const k of Object.keys(DK)) if (k.indexOf('/combiner/') < 0) delete DK[k];   // drop entries keyed by old full-size URLs
   const save = () => { clearTimeout(saveT); saveT = setTimeout(() => { try { const ks = Object.keys(DK); if (ks.length > 600) ks.slice(0, ks.length - 600).forEach(k => delete DK[k]); localStorage.setItem(KEY, JSON.stringify(DK)); } catch (e) {} }, 1500); };
   const small = u => u.replace(/&w=\d+&h=\d+/, '') + '&w=24&h=24';
   function measure(u){
-    if (!u || u.indexOf('/combiner/') < 0 || u in DK || busy.has(u) || !window.createImageBitmap) return; busy.add(u);
+    if (cdnNoCors || !u || u.indexOf('/combiner/') < 0 || u in DK || busy.has(u) || !window.createImageBitmap) return; busy.add(u);
     MQ.push(u); pump();
   }
   function pump(){
@@ -1946,7 +2082,7 @@
       const d = x.getImageData(0, 0, 24, 24).data; let n = 0, br = 0; for (let i = 0; i < d.length; i += 4) if (d[i + 3] > 128) { n++; if (Math.max(d[i], d[i + 1], d[i + 2]) > 150) br++; }
       DK[u] = n && br / n < .3 ? 1 : 0; save(); if (bm.close) bm.close();
       if (DK[u]) document.querySelectorAll('img[data-lgx]').forEach(mark);
-    }).catch(() => { DK[u] = 0; save(); }).finally(() => { busy.delete(u); mIn--; pump(); });   // a failed check is remembered: no re-fetch on every render
+    }).catch(e => { if (e instanceof TypeError) { cdnNoCors = true; MQ.length = 0; busy.delete(u); return; } DK[u] = 0; save(); }).finally(() => { busy.delete(u); mIn--; pump(); });   // a failed check is remembered: no re-fetch on every render
     }
   }
   const mark = img => { if (DK[img.src]) img.classList.add('lg-dk'); };
@@ -2939,8 +3075,8 @@ const TCOL = lsGet(TCOL_KEY, {}); const tcolPending = {};
 function ensureTeamColor(lg, abbr){
   const k = lg + ':' + String(abbr).toUpperCase(), c = TCOL[k];
   if ((c && Date.now() - c.t < 30 * 864e5) || tcolPending[k] || !CAT[lg]) return;
-  tcolPending[k] = resolveTeamId(k).then(id => getJSON(`${API}${CAT[lg].path}/teams/${encodeURIComponent(id)}`, 12000)).then(d => {
-    const t = d.team || {}; TCOL[k] = { t: Date.now(), c: t.color ? '#' + t.color : '', a: t.alternateColor ? '#' + t.alternateColor : '' }; lsSet(TCOL_KEY, TCOL);
+  tcolPending[k] = resolveTeamId(k).then(id => getTeamDoc(lg, id)).then(d => {
+    const t = d || {}; TCOL[k] = { t: Date.now(), c: t.color ? '#' + t.color : '', a: t.alternateColor ? '#' + t.alternateColor : '' }; lsSet(TCOL_KEY, TCOL);
     clearTimeout(ensureTeamColor.tm); ensureTeamColor.tm = setTimeout(() => { renderFavorites(); rerenderPlayers(); }, 150);
   }).catch(() => { TCOL[k] = { t: Date.now() - 29 * 864e5, c: '', a: '' }; }).finally(() => { delete tcolPending[k]; });
 }
@@ -3242,15 +3378,48 @@ async function loadTeam(s){
   const info = MN.teamInfo[s.key];
   if (!info || now - info._t > 30*60e3) {
     const id = await resolveTeamId(s.key);
-    const t = (await getJSON(API + L.path + '/teams/' + encodeURIComponent(id))).team || {};
+    const t = await getTeamDoc(s.lg, id);
     if (!t.id) throw new Error('team not found');
     const rec = ((t.record || {}).items || [])[0], nx = (t.nextEvent || [])[0];
     MN.teamInfo[s.key] = { _t: now, id: t.id, name: t.displayName || s.abbr, logo: ((t.logos || [])[0] || {}).href || '',
       color: t.color ? '#' + t.color : '', record: rec ? rec.summary : '', standing: t.standingSummary || '',
       link: ((t.links || [])[0] || {}).href || '', next: nx ? { name: nx.shortName || nx.name, date: new Date(nx.date) } : null };
   }
-  const d = await getJSON(API + L.path + '/news?team=' + MN.teamInfo[s.key].id + '&limit=' + CONFIG.teamHeadlines);
+  let d, lastErr;
+  for (let i = 0; i < 3; i++) {   // retry with backoff (0.8s, 2.4s)
+    try { d = await getJSON(API + L.path + '/news?team=' + MN.teamInfo[s.key].id + '&limit=' + CONFIG.teamHeadlines); break; }
+    catch (e) { lastErr = e; if (i < 2) await new Promise(z => setTimeout(z, 800 * 3 ** i)); }
+  }
+  if (!d) throw lastErr;
   MN.teamNews[s.key] = { _t: now, items: mapArticles(d.articles).slice(0, CONFIG.teamHeadlines) };
+}
+// ESPN's site.api /teams/{id} endpoint stopped sending CORS headers (Oct 2026), so browsers block it ("Failed to fetch").
+// The core API (sports.core.api.espn.com) is CORS-enabled; build the same shape from it + /teams/{id}/schedule (also CORS-OK).
+const TEAMDOC = {};
+function getTeamDoc(lg, id){
+  const k = lg + ':' + id;
+  if (TEAMDOC[k] && Date.now() - TEAMDOC[k].t < 30*60e3) return TEAMDOC[k].p;
+  const p = (async () => {
+    const [sport, league] = CAT[lg].path.split('/');
+    const https = u => String(u || '').replace(/^http:/, 'https:');
+    const c = await getJSON(`https://sports.core.api.espn.com/v2/sports/${sport}/leagues/${league}/teams/${encodeURIComponent(id)}?lang=en&region=us`, 15000);
+    if (!c || !c.id) return {};
+    const t = { id: String(c.id), abbreviation: c.abbreviation, displayName: c.displayName, shortDisplayName: c.shortDisplayName, location: c.location, name: c.name,
+      color: c.color || '', alternateColor: c.alternateColor || '', logos: c.logos || [], links: (c.links || []).filter(l => (l.rel || []).includes('clubhouse')).concat(c.links || []), record: { items: [] }, nextEvent: [] };
+    const [rec, sch] = await Promise.allSettled([
+      c.record && c.record.$ref ? getJSON(https(c.record.$ref), 12000) : Promise.resolve(null),
+      getJSON(`${API}${CAT[lg].path}/teams/${encodeURIComponent(id)}/schedule`, 12000)]);
+    if (rec.status === 'fulfilled' && rec.value) { const tot = (rec.value.items || []).find(r => r.type === 'total' || r.name === 'overall') || (rec.value.items || [])[0]; if (tot) t.record.items.push({ summary: tot.summary || tot.displayValue }); }
+    if (sch.status === 'fulfilled' && sch.value) {
+      const st = (sch.value.team || {}); if (st.standingSummary) t.standingSummary = st.standingSummary;
+      if (!t.record.items.length && st.recordSummary) t.record.items.push({ summary: st.recordSummary });
+      const nx = (sch.value.events || []).find(e => new Date(e.date) > Date.now() - 4*36e5 && !(((e.competitions || [])[0] || {}).status || {}).type?.completed);
+      if (nx) t.nextEvent.push({ shortName: nx.shortName, name: nx.name, date: nx.date });
+    }
+    return t;
+  })();
+  TEAMDOC[k] = { t: Date.now(), p }; p.catch(() => delete TEAMDOC[k]);
+  return p;
 }
 
 const FF_CATS = [
@@ -3668,7 +3837,7 @@ function playerGame(p){
   return games.find(g => g.state === 'in') || games.filter(g => g.state === 'post' && Date.now() - g.date < CONFIG.playerFinalHours*36e5).pop() || games.find(g => g.state === 'pre') || null;
 }
 async function loadPlayerBoxes(){
-  const ap = dataPlayers(); if (!ap.length) return;
+  const ap = [...dataPlayers(), ...muAllPlayers()]; if (!ap.length) return;
   const now = Date.now(), need = new Map();
   for (const p of ap) { const g = playerGame(p); if (g && g.state !== 'pre') need.set(g.lg + ':' + g.id, g); }
   await Promise.all([...need.entries()].map(async ([k, g]) => {
@@ -3813,7 +3982,7 @@ function teamNewsCard(s){
   if (!items && err) {
     const kw = (info.name || g.name || '').split(' ').slice(0, -1).join(' ') || s.abbr;
     items = (state.news[s.lg] || []).filter(a => a.title.toLowerCase().includes(kw.toLowerCase()));
-    note = `Couldn't load team news (${esc(err.msg)}). ${items.length ? 'Showing league headlines that mention them.' : 'Will retry shortly.'}`;
+    note = items.length ? 'Showing league headlines that mention them.' : `Team news is taking a break. <a href="${esc(teamUrl(s.key))}" target="_blank" rel="noopener">See ${esc(name)} on ESPN ›</a>`;
   }
   const sub = [CAT[s.lg].short, info.record, info.standing].filter(Boolean).join(' · ');
   const next = info.next && info.next.date > Date.now() - 4*36e5 ? `Next: ${info.next.name}, ${dayLabelET(info.next.date)} ${timeET(info.next.date)}` : '';
@@ -4125,12 +4294,15 @@ async function muLoad(sp, L){
   } catch (e) { console.warn('matchup L3', e); }
   MU.d[sp] = { t: Date.now(), lg: L.leagueId + ':' + L.teamId, per, mp, me, op, l3 };
 }
+function muAllPlayers(){ try { const D = MU.d.nfl; return D && D.me ? [...D.me.ps, ...(D.op ? D.op.ps : [])].map(p => ({ ...p, sp: 'nfl' })) : []; } catch (_) { return []; } }
 function muNow(p){   // game status for a matchup player (uses the dashboard's NFL scoreboard)
   const n = playerNow(p), act = p.pts && p.pts.act;
   if (!n) return act != null ? { t: 'Played', s: 'post' } : { t: p.pts && p.pts.proj === 0 ? 'BYE / out' : '', s: '' };
-  if (n.state === 'in') return { t: n.detail || 'LIVE', s: 'in' };
-  if (n.state === 'post') return { t: 'Final', s: 'post' };
-  return { t: `${dayLabelET(new Date(n.date))} ${timeET(new Date(n.date)).replace(' ET', '')}`, s: 'pre' };
+  const line = n.line || '';
+  if (n.state === 'in') return { t: n.detail || 'LIVE', s: 'in', g: `${n.head || ''}${n.detail ? ' · ' + n.detail : ''}`, line };
+  if (n.state === 'post') return { t: 'Final', s: 'post', g: `Final · ${n.head || ''}`, line };
+  const ko = `${dayLabelET(new Date(n.date))} ${timeET(new Date(n.date))}`;
+  return { t: ko.replace(' ET', ''), s: 'pre', g: `${n.head || ''} · ${ko}`, line: '' };
 }
 /* ===== 🛡 Defense vs position (RB / WR / TE): real ESPN data only, cached 6h =====
    - ESPN fantasy league view=mPositionalRatings: positionAgainstOpponent.positionalRatings[posId].ratingsByOpponent[proTeamId]
@@ -4214,7 +4386,7 @@ function muPairs(sp, D){
     const d = va == null ? -(vb || 0) : vb == null ? va : va - vb;
     return { ...r, sa, sb, done, dl: r1(d), win: d > 0 ? 'a' : d < 0 ? 'b' : '' }; });
 }
-const muTier = (p, rank) => p ? ccTier(rank[p.eid] || rank[p.id] || null)[0] : 'common';
+const muTier = (p, rank) => { if (!p) return 'common'; const r = rarById(p.eid || p.id); return r ? RAR_T[r.i][0] : RAR_T[{ leg: 5, epic: 3, rare: 2 }[ccTier(rank[p.eid] || rank[p.id] || null)[0]] ?? 0][0]; };
 function muCard(p, rank, side, res){
   if (!p) return `<div class="mc empty ${side}"><div class="mc-in"></div></div>`;
   const art = "", a = p.pts || {}, sh = p.short || p.name, last = p.dst ? p.name.replace(/\s*D\/ST$/, '') + ' D/ST' : String(p.name).split(' ').slice(1).join(' ') || p.name;
@@ -4245,14 +4417,19 @@ function dvpMini(x){
 const MS_CK = '<svg class="mc-ck ms-ck" viewBox="0 0 200 60" preserveAspectRatio="none" aria-hidden="true"><path d="M120 0 L108 14 L124 24 L100 38 L112 46 L96 60"/><path d="M108 14 L80 18 L64 30"/><path d="M100 38 L140 44 L168 40"/></svg>';
 function msSide(p, s, side, res, rank, l3, key){
   if (!p) return `<div class="ms-sd ${side} empty"><span class="ms-e">Empty slot</span></div>`;
-  const a = p.pts || {}, x = dvpFor(p), inj = muInj(p), art = p.headshot, tier = muTier(p, rank), L3 = l3[p.eid];
+  const a = p.pts || {}, x = dvpFor(p), inj = muInj(p), tier = muTier(p, rank), L3 = l3[p.eid];
   const colors = p.team && p.team !== 'FA' ? teamColorVars('nfl', p.team, '', '') : '', live = s && s.s === 'in';
   const pr = a.act != null && a.proj > 0 ? Math.min(100, Math.round(a.act / a.proj * 100)) : null;
+  const logo = p.teamLogo && !p.dst ? `<img class="ms-lg" src="${esc(p.teamLogo)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '';
+  const crown = res === 'win' ? '<span class="ms-win" title="Winning this slot" aria-label="winning">👑</span>' : '';
   return `<div class="ms-sd ${side}${res ? ' ' + res : ''}${x ? ' dv-' + x.g : ''}${live ? ' live' : ''}" style="${esc(colors)}" data-mup="${key}" tabindex="0" role="button" aria-haspopup="dialog" aria-label="${esc(p.name)}, ${esc(p.pos)} ${esc(p.team)}: card details">
-    <span class="ms-th r-${tier}"><img src="${esc(art)}" alt="" loading="lazy" draggable="false" referrerpolicy="no-referrer" onerror="if(this.src!=='${esc(p.headshot)}'){this.src='${esc(p.headshot)}'}else{this.style.visibility='hidden'}"><span class="ms-pos">${esc(p.pos)}</span></span>
-    <div class="ms-i"><div class="ms-n"><b>${esc(p.short || p.name)}</b><span class="ms-tm">${esc(p.team)}</span>${inj ? `<span class="ms-inj" title="${esc(inj.status)}">${esc(inj.code)}</span>` : ''}</div>
-      <div class="ms-m">${s && s.t ? `<span class="ms-gs ${s.s}">${esc(s.t)}</span>` : ''}${L3 != null ? `<span class="ms-x" title="Average of the last 3 weeks">L3 ${esc(L3)}</span>` : ''}${a.lw != null ? `<span class="ms-x lw" title="Last week">LW ${esc(a.lw)}</span>` : ''}${x ? dvpMini(x) : ''}</div></div>
-    <div class="ms-p"><b>${a.act != null ? esc(a.act) : '–'}</b><i>proj ${a.proj ?? '–'}</i>${pr != null ? `<span class="ms-pb${a.act >= a.proj ? ' hit' : ''}" title="${a.act} of ${a.proj} projected (${pr}%)"><i style="width:${pr}%"></i></span>` : ''}</div>${MS_CK}</div>`;
+    <span class="ms-th r-${tier}"><img src="${esc(p.headshot)}" alt="" loading="lazy" draggable="false" referrerpolicy="no-referrer" onerror="this.style.visibility='hidden'">${logo}<span class="ms-pos">${esc(p.pos)}</span></span>
+    <div class="ms-i"><div class="ms-n"><b>${esc(p.name)}</b>${crown}</div>
+      <div class="ms-sub"><span class="ms-tm">${esc(p.team)} · ${esc(p.pos)}</span>${inj ? `<span class="ms-inj" title="${esc(inj.status)}">${esc(inj.code)}</span>` : ''}${L3 != null ? `<span class="ms-x" title="Average of the last 3 weeks">L3 ${esc(L3)}</span>` : ''}${a.lw != null ? `<span class="ms-x" title="Last week">LW ${esc(a.lw)}</span>` : ''}</div>
+      ${s && (s.g || s.t) ? `<div class="ms-gs ${s.s}">${live ? '<i class="ms-dot"></i>' : ''}${esc(s.g || s.t)}</div>` : ''}
+      ${s && s.line ? `<div class="ms-sl" title="Live stat line">${esc(s.line)}</div>` : ''}
+      ${x ? `<div class="ms-dvw">${dvpMini(x)}</div>` : ''}</div>
+    <div class="ms-p"><b>${a.act != null ? esc(a.act) : '–'}</b><i>proj ${a.proj ?? '–'}</i>${pr != null ? `<span class="ms-pb${a.act >= a.proj ? ' hit' : ''}" title="${a.act} of ${a.proj} projected (${pr}%)"><i style="width:${pr}%"></i></span>` : ''}</div></div>`;
 }
 /* ---- matchup player popover (hover on desktop after 250ms, tap on touch → centered sheet). One element, delegated listeners, no per-render listeners. ---- */
 var MUP = { key: null, mode: '', pinned: false, tOpen: 0, tClose: 0, from: null };
@@ -4385,7 +4562,7 @@ function muSection(sp){
       if (r.a) MU.pm['a' + i] = { p: r.a, s: r.sa, slot: r.slot, me: 1 }; if (r.b) MU.pm['b' + i] = { p: r.b, s: r.sb, slot: r.slot, me: 0 };
       const pa = r.a && r.a.pts && r.a.pts.proj, pb = r.b && r.b.pts && r.b.pts.proj, sh = pa > 0 && pb > 0 ? Math.round(pa / (pa + pb) * 100) : null;
       return `<div class="ms" style="--d:${(i * 0.22).toFixed(2)}s">${msSide(r.a, r.sa, 'me', ra, rank, l3, 'a' + i)}
-        <div class="ms-c"><span class="sl">${esc(r.slot)}</span><span class="dl ${r.dl > 0 ? 'up' : r.dl < 0 ? 'dn' : ''}" title="${r.done ? 'Final' : 'Projected'} edge">${r.dl > 0 ? '◀ +' + r.dl : r.dl < 0 ? '+' + (-r.dl) + ' ▶' : 'even'}</span>${sh != null ? `<span class="ms-sh" title="Share of this slot's projected points: you ${sh}% · them ${100 - sh}%"><i style="width:${sh}%"></i></span>` : ''}<span class="mu-boom" aria-hidden="true"></span></div>
+        <div class="ms-c"><span class="sl">${esc(r.slot)}</span><span class="dl ${r.dl > 0 ? 'up' : r.dl < 0 ? 'dn' : ''}" title="${r.done ? 'Final' : 'Projected'} edge"><em class="ar">${r.dl > 0 ? '◀' : r.dl < 0 ? '▶' : ''}</em>${r.dl ? '+' + Math.abs(r.dl) : 'even'}</span><span class="ms-st">${r.done ? 'final' : 'proj'}</span>${sh != null ? `<span class="ms-sh" title="Share of this slot's projected points: you ${sh}% · them ${100 - sh}%"><i style="width:${sh}%"></i></span>` : ''}<span class="mu-boom" aria-hidden="true"></span></div>
         ${msSide(r.b, r.sb, 'op', rb, rank, l3, 'b' + i)}</div>`; }).join('')}</div>`;
   }
   const S = SLOTS[sp], bn = s => (s ? s.ps : []).filter(p => S.bench.includes(p.sid) || S.ir.includes(p.sid)).sort((a, b) => ((b.pts || {}).proj || 0) - ((a.pts || {}).proj || 0));
@@ -4425,7 +4602,8 @@ function ensureMu(sp){
   if (!stale || FZX_BUSY.has(k) || (FZX_ERR[k] && now - FZX_ERR[k] < 2 * 60e3)) return;
   FZX_BUSY.add(k);
   muLoad(sp, L).then(() => { delete FZX_ERR[k]; try { lsSet(MU_KEY, MU.d); } catch (_) {} }).catch(e => { FZX_ERR[k] = Date.now(); console.warn('matchup', e); })
-    .finally(() => { FZX_BUSY.delete(k); if (state.tab === FANTASY_TAB && MN.fsTab === sp) muRender(sp); ensureDvp(sp); });
+    .finally(() => { FZX_BUSY.delete(k); if (state.tab === FANTASY_TAB && MN.fsTab === sp) muRender(sp); ensureDvp(sp);
+      loadPlayerBoxes().then(() => { if (state.tab === FANTASY_TAB && MN.fsTab === sp) muRender(sp); }).catch(e => console.warn('mu boxes', e)); });
   ensureDvp(sp);
 }
 document.addEventListener('click', e => {
@@ -4701,14 +4879,15 @@ async function cmpFetch(sp, L, f){
   return r.json();
 }
 async function cmpLoad(sp, L){
-  const s = +L.season, base = { filterSlotIds: { value: [0, 2, 4, 6, 17, 16] }, filterStatsForTopScoringPeriodIds: { value: 6, additionalValue: ['00' + s, '11' + s + (+L.period || '')] } };   // + this week's ESPN projection   // 6 weeks of per-week points for comp sparklines
+  const s = +L.season, base = { filterSlotIds: { value: [0, 2, 4, 6, 17, 16] }, filterStatsForTopScoringPeriodIds: { value: 6, additionalValue: ['00' + s, '10' + s, '11' + s + (+L.period || '')] } };   // + this week's ESPN projection   // 6 weeks of per-week points for comp sparklines
   const [a, b, pro] = await Promise.all([cmpFetch(sp, L, { players: { ...base, sortPercOwned: { sortPriority: 1, sortAsc: false }, limit: 300 } }),
     cmpFetch(sp, L, { players: { ...base, sortPercChanged: { sortPriority: 1, sortAsc: false }, limit: 40 } }).catch(() => ({ players: [] })),
     efProTeams(sp, String(s)).catch(() => ({}))]);
   const tid = +L.teamId, per = +(a.scoringPeriodId || L.period || 0), out = {};
   for (const e of [...(a.players || []), ...(b.players || [])]) { const pl = e.player || {}, pos = EF[sp].pos[pl.defaultPositionId]; if (!pos || out[pl.id]) continue;
-    let tot = null, avg = null, proj = null; const w = {};
-    for (const x of pl.stats || []) { if (x.statSourceId === 1 && x.statSplitTypeId === 1 && x.seasonId === s && typeof x.appliedTotal === 'number' && (!per || x.scoringPeriodId === per)) { proj = r1(x.appliedTotal); continue; }
+    let tot = null, avg = null, proj = null, sproj = null; const w = {};
+    for (const x of pl.stats || []) { if (x.statSourceId === 1 && x.statSplitTypeId === 0 && x.seasonId === s && x.scoringPeriodId === 0 && typeof x.appliedTotal === 'number') { sproj = r1(x.appliedTotal); continue; }
+      if (x.statSourceId === 1 && x.statSplitTypeId === 1 && x.seasonId === s && typeof x.appliedTotal === 'number' && (!per || x.scoringPeriodId === per)) { proj = r1(x.appliedTotal); continue; }
       if (x.statSourceId !== 0 || x.seasonId !== s || typeof x.appliedTotal !== 'number') continue;
       if (x.statSplitTypeId === 0 && x.scoringPeriodId === 0) { tot = x.appliedTotal; avg = x.appliedAverage ?? null; }
       else if (x.statSplitTypeId === 1 && x.scoringPeriodId) w[x.scoringPeriodId] = x.appliedTotal; }
@@ -4717,12 +4896,12 @@ async function cmpLoad(sp, L){
     const t = pro[pl.proTeamId] || null, o = pl.ownership || {};
     out[pl.id] = { id: String(pl.id), n: pl.fullName || '', pos, tm: t ? t.abbr : '', tmN: t ? t.name : '', tot: tot == null ? null : r1(tot),
       ppg: avg != null ? r1(avg) : null, gp: avg ? Math.round(tot / avg) : 0, lw: wks.length ? r1(w[wks[0]]) : null, lwk: wks[0] || null,
-      ss, wk: wks.slice(0, 8).reverse().map(k => r1(w[k])), proj,
+      ss, wk: wks.slice(0, 8).reverse().map(k => r1(w[k])), wkP: wks.slice(0, 8).reverse(), proj, sproj,
       own: o.percentOwned != null ? r1(o.percentOwned) : null, chg: o.percentChange != null ? Math.round(o.percentChange * 100) / 100 : null,
       st: e.onTeamId === tid ? 'mine' : e.onTeamId ? 'team' : e.status === 'WAIVERS' ? 'wv' : 'fa', inj: pl.injuryStatus && pl.injuryStatus !== 'ACTIVE' ? pl.injuryStatus : '' };
   }
   if (!Object.keys(out).length) throw new Error('no players');
-  CMP.d[sp] = { t: Date.now(), v: 5, lg: L.leagueId + ':' + L.teamId, per, p: out };
+  CMP.d[sp] = { t: Date.now(), v: 6, lg: L.leagueId + ':' + L.teamId, per, p: out };
   try { lsSet(CMP_KEY, CMP.d); } catch (_) {}
 }
 const cmpDst = x => x.pos === 'D/ST';
@@ -5039,6 +5218,8 @@ function tbCols(kind, pos, hasLive){   // kind: 'main' | 'sub'
   else cols.push({ k: 'avail', l: 'Avail', v: R => R.me ? -1 : ({ fa: 0, wv: 1, team: 2, mine: 3 })[R.st] ?? 4, fmt: R => R.me ? (R.g === 'w' ? '<span class="cm-tag wv">WATCH</span>' : '<span class="cm-tag mine">YOU</span>') : R.x ? cmpTag(R.x) : '–' });
   cols.push({ k: 'pos', l: 'Pos', v: R => R.pos, fmt: R => esc(R.pos || '–') });
   cols.push(n('rk', 'Pos Rk', { fmt: R => R.rk ? esc(R.pos) + R.rk : '–', lowBetter: 1 }));
+  cols.push({ k: 'rar', l: 'Rarity', num: 1, v: R => { const r = R.x ? rarById(R.x.id) : null; return r ? r.i * 1000 + r.pct : null; }, fmt: R => { const r = R.x ? rarById(R.x.id) : null; if (!r) return '–'; const t = RAR_T[r.i];
+    return `<span class="rar-pill r-${t[0]}" title="${esc(rarTip(t[1], r))}">${t[3]} ${esc(t[1])} <b>${Math.round(r.pct)}</b></span>${rarBadge(R.x.id)}`; } });
   cols.push(n('ppg', 'PPG', { heat: 1, key: 1, b: 1 }));
   cols.push(n('lw', 'Last Wk', { heat: 1, key: 1 }));
   if (kind === 'main') cols.push(n('proj', 'Proj', { heat: 1 }));
@@ -5105,6 +5286,117 @@ var CC = { flip: new Set() };
 const ytUrl = (name, team) => 'https://www.youtube.com/results?search_query=' + encodeURIComponent([name, team, '2026', 'highlights'].filter(Boolean).join(' ')).replace(/%20/g, '+');
 function ytPill(name, team, cls){ return `<a class="yt-pill${cls ? ' ' + cls : ''}" href="${esc(ytUrl(name, team))}" target="_blank" rel="noopener" title="${esc(name)} highlights on YouTube" aria-label="${esc(name)} highlights on YouTube"><b aria-hidden="true">▶</b><span>Highlights</span></a>`; }
 const ccTier = rk => !rk ? ['common', 'Common'] : rk <= 5 ? ['leg', 'Legendary'] : rk <= 12 ? ['epic', 'Epic'] : rk <= 24 ? ['rare', 'Rare'] : ['common', 'Common'];
+
+// ===== 💎 Rarity (Oct 12): 6 tiers from a composite of real ESPN league data, with hysteresis + 60-day local history =====
+const RAR_T = [['common', 'Common', 0, '○'], ['unc', 'Uncommon', 40, '◇'], ['rare', 'Rare', 65, '●'], ['epic', 'Unique', 83, '◆'], ['ultra', 'Ultra Rare', 93, '✦'], ['leg', 'Legendary', 98, '★']];
+const RAR_W = { ppg: .45, proj: .25, form: .15, own: .15 }, RAR_HY = 2, RAR_KEY = 'rarHist:v1', RAR_DAYS = 60;
+const RAR = { t: -1, m: {} }; let RARH = lsGet(RAR_KEY, {}); if (!RARH || typeof RARH !== 'object') RARH = {};
+const rarDay = (ms = Date.now()) => Math.floor((ms - 4 * 3600e3) / 864e5);
+const rarIdx = pct => { let i = 0; RAR_T.forEach((t, k) => { if (pct >= t[2]) i = k; }); return i; };
+function rarHyst(prev, pct, raw){   // must clear a tier line by RAR_HY points to change tier (stops day-to-day flapping)
+  if (prev == null || prev === raw) return raw;
+  let i = raw;
+  const mg = k => Math.min(RAR_HY, ((k < 5 ? RAR_T[k + 1][2] : 100) - RAR_T[k][2]) / 2);   // 2 pts (1 pt for the 2%-wide Legendary band)
+  if (raw > prev) while (i > prev && pct < RAR_T[i][2] + mg(i)) i--;
+  else while (i < prev && pct > RAR_T[i + 1][2] - mg(i + 1)) i++;
+  return i;
+}
+function rarPctl(vals){   // percentile 0-100 within the list (ties share the mid rank); null stays null
+  const xs = vals.filter(v => v != null).sort((a, b) => a - b), n = xs.length;
+  return vals.map(v => { if (v == null || n < 2) return v == null ? null : 50; let lo = 0, eq = 0; for (const y of xs) { if (y < v) lo++; else if (y === v) eq++; } return 100 * (lo + (eq - 1) / 2) / (n - 1); });
+}
+const rarMean = a => a.reduce((s, v) => s + v, 0) / a.length;
+function rarRun(list){   // list: {id,pos,ppg,proj,own,wk} -> adds c (composite), pct (pool percentile), raw (tier idx), parts
+  const by = {}; for (const o of list) (by[o.pos] ||= []).push(o);
+  for (const k in by) { const L = by[k];
+    const P1 = rarPctl(L.map(o => o.ppg)), P2 = rarPctl(L.map(o => o.proj)), P3 = rarPctl(L.map(o => o.own));
+    const P4 = rarPctl(L.map(o => o.wk && o.wk.length >= 2 && o.ppg != null ? (rarMean(o.wk.slice(-3)) - o.ppg) / Math.max(Math.abs(o.ppg), 3) : null));   // last-3 trend vs season PPG
+    const P5 = rarPctl(L.map(o => { const w = o.wk; if (!w || w.length < 2) return null; const m = rarMean(w); return -Math.sqrt(rarMean(w.map(v => (v - m) ** 2))) / Math.max(m, 3); }));   // consistency = low std dev / mean
+    L.forEach((o, i) => { const f = P4[i] == null && P5[i] == null ? null : ((P4[i] ?? P5[i]) + (P5[i] ?? P4[i])) / 2;
+      o.parts = { ppg: P1[i] ?? 0, proj: P2[i], form: f, own: P3[i] };   // no games played = 0th PPG percentile
+      let s = 0, w = 0; for (const key in RAR_W) if (o.parts[key] != null) { s += o.parts[key] * RAR_W[key]; w += RAR_W[key]; }
+      o.c = w ? s / w : 0; }); }
+  const PC = rarPctl(list.map(o => o.c)); list.forEach((o, i) => { o.pct = Math.round((PC[i] ?? 0) * 10) / 10; o.raw = rarIdx(o.pct); });
+  return list;
+}
+const rarPoolX = x => ({ id: x.id, pos: x.pos, ppg: x.ppg, proj: x.sproj ?? x.proj ?? null, own: x.own, wk: x.wk || [] });
+function rarTracked(C, x){ return x.st === 'mine' || (typeof isWatched === 'function' && isWatched(x.id, 'nfl')); }
+function rarBackfill(C, ids, today){   // first sight of a player: rebuild weekly tiers from ESPN weekly scoring (PPG/form as of each week; proj + ownership are today's)
+  const ps = Object.values(C.p), per = C.per || 0, all = new Set(); ps.forEach(x => (x.wkP || []).forEach(q => all.add(q)));
+  const qs = [...all].filter(q => !per || q < per).sort((a, b) => a - b).slice(1, -1);   // skip week 1 (one game); the latest week = today's live entry
+  const H = {}; ids.forEach(id => { H[id] = []; });
+  for (const q of qs) { const list = ps.map(x => { const wk = (x.wk || []).filter((_, i) => (x.wkP || [])[i] <= q); return { ...rarPoolX(x), wk, ppg: wk.length ? r1(rarMean(wk)) : null }; });
+    rarRun(list); const d = today - Math.max(1, (per ? per - q : 1)) * 7 + 2;
+    for (const o of list) if (H[o.id]) { const h = H[o.id], pv = h.length ? h[h.length - 1][2] : null; h.push([d, o.pct, rarHyst(pv, o.pct, o.raw), 1]); } }
+  return H;
+}
+function rarCompute(C){
+  if (!C || !C.p) return RAR.m;
+  if (RAR.t === C.t && RAR.c === C) return RAR.m;
+  const list = rarRun(Object.values(C.p).map(rarPoolX)), today = rarDay(), m = {};
+  const fresh = list.filter(o => rarTracked(C, C.p[o.id]) && !(RARH[o.id] && RARH[o.id].length)).map(o => o.id);
+  if (fresh.length && Object.values(C.p).some(x => x.wkP)) Object.assign(RARH, rarBackfill(C, fresh, today));
+  for (const o of list) { const h = RARH[o.id], track = rarTracked(C, C.p[o.id]);
+    const prevE = h && [...h].reverse().find(e => e[0] < today), i = rarHyst(prevE ? prevE[2] : null, o.pct, o.raw);
+    m[o.id] = { c: Math.round(o.c * 10) / 10, pct: o.pct, raw: o.raw, i, parts: o.parts };
+    if (track) { const H2 = (RARH[o.id] ||= []), last = H2[H2.length - 1], e = [today, o.pct, i];
+      if (last && last[0] === today) H2[H2.length - 1] = e; else H2.push(e);
+      while (H2.length > RAR_DAYS || (H2.length && H2[0][0] < today - RAR_DAYS)) H2.shift(); } }
+  for (const id in RARH) { const h = RARH[id]; if (!h.length || h[h.length - 1][0] < today - RAR_DAYS) delete RARH[id]; }
+  try { lsSet(RAR_KEY, RARH); } catch (_) {}
+  RAR.t = C.t; RAR.c = C; RAR.m = m; return m;
+}
+function rarById(id, sp = 'nfl'){ const C = CMP.d && CMP.d[sp]; if (!C) return null; const m = rarCompute(C); return m[String(id)] || null; }
+function rarFor(p){ const sp = psp(p), C = CMP.d && CMP.d[sp]; if (!C) return null; const cx = cmpMe(C, p); if (!cx) return null; const r = rarCompute(C)[cx.id]; return r ? { ...r, id: cx.id } : null; }
+function rarChange(id){   // most recent tier move in the last 7 days -> {dir, from, to, d}
+  const h = RARH[id]; if (!h || h.length < 2) return null; const today = rarDay();
+  for (let k = h.length - 1; k > 0; k--) { if (h[k][2] !== h[k - 1][2]) return h[k][0] >= today - 7 ? { dir: h[k][2] > h[k - 1][2] ? 'up' : 'dn', from: h[k - 1][2], to: h[k][2], d: h[k][0] } : null; }
+  return null;
+}
+// tier for any card: [cls, label, info]; NFL uses the composite; other sports fall back to positional rank
+function rarTier(p, rk){
+  const r = p ? rarFor(p) : null;
+  if (r) return [RAR_T[r.i][0], RAR_T[r.i][1], r];
+  const [c] = ccTier(rk); const i = { leg: 5, epic: 3, rare: 2 }[c] ?? (rk ? 1 : 0); return [RAR_T[i][0], RAR_T[i][1], null];
+}
+const rarDate = d => new Date(d * 864e5 + 12 * 3600e3).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+function rarTip(tl, r){ if (!r) return tl + ' (by positional rank)';
+  const f = v => v == null ? 'n/a' : Math.round(v); return `${tl} · rarity score ${r.pct}/100 (top ${Math.max(1, Math.round(100 - r.pct))}% of the league pool)\nPPG ${f(r.parts.ppg)} · Projection ${f(r.parts.proj)} · Form ${f(r.parts.form)} · Rostered ${f(r.parts.own)} (position percentiles)`; }
+function rarBadge(id, mini){ const ch = rarChange(id); if (!ch) return '';
+  if (mini) return `<span class="rar-chg ${ch.dir}" title="${esc(`${ch.dir === 'up' ? 'Upgraded' : 'Downgraded'} from ${RAR_T[ch.from][1]} to ${RAR_T[ch.to][1]} on ${rarDate(ch.d)}`)}">${ch.dir === 'up' ? '▲ UP' : '▼ DOWN'}</span>`;
+  return `<span class="rar-chg ${ch.dir}" title="${esc(`${ch.dir === 'up' ? 'Upgraded' : 'Downgraded'} from ${RAR_T[ch.from][1]} to ${RAR_T[ch.to][1]} on ${rarDate(ch.d)}`)}">${ch.dir === 'up' ? '▲' : '▼'} ${esc(RAR_T[ch.to][1].replace('Ultra Rare', 'Ultra'))}</span>`; }
+function rarChart(id, w, h){   // step chart of rarity score with tier bands (oldest -> today)
+  const H = RARH[id]; if (!H || !H.length) return '';
+  const lo0 = Math.min(...H.map(e => e[2])), hi0 = Math.max(...H.map(e => e[2])), lo = RAR_T[Math.max(0, lo0)][2], hi = hi0 < 5 ? RAR_T[hi0 + 1][2] : 100;   // zoom to the tiers he has touched
+  const y = v => (h - 2 - (Math.max(lo, Math.min(hi, v)) - lo) / (hi - lo || 1) * (h - 4)).toFixed(1), n = H.length, x = k => (n < 2 ? w / 2 : 2 + k * (w - 4) / (n - 1)).toFixed(1);
+  const cols = ['#9aa3ad', '#3fbf6a', '#3d8bff', '#a35cff', '#ff5a2e', '#ffc83d'];
+  const bands = RAR_T.map((t, k) => { if (k < lo0 || k > hi0) return ''; const top = k < 5 ? RAR_T[k + 1][2] : 100;
+    return `<rect x="0" width="${w}" y="${y(top)}" height="${(y(t[2]) - y(top)).toFixed(1)}" fill="${cols[k]}" opacity=".38"/>${h >= 30 ? `<text x="${w - 3}" y="${(+y(top) + 8).toFixed(1)}" text-anchor="end" font-size="7" font-weight="800" fill="#1b1b1b" opacity=".6">${esc(t[1].toUpperCase())}</text>` : ''}`; }).join('');
+  let d = ''; H.forEach((e, k) => { d += k ? ` H${x(k)} V${y(e[1])}` : `M${x(0)} ${y(e[1])}`; });
+  const dots = H.map((e, k) => k && e[2] !== H[k - 1][2] ? `<circle cx="${x(k)}" cy="${y(e[1])}" r="2.6" fill="${cols[e[2]]}" stroke="#111" stroke-width=".8"/>` : '').join('');
+  const L = H[n - 1];
+  return `<svg class="rar-svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" role="img" aria-label="Rarity score history: ${esc(H.map(e => RAR_T[e[2]][1]).filter((v, k, a) => v !== a[k - 1]).join(' → '))}"><title>${esc(H.map(e => `${rarDate(e[0])}${e[3] ? ' (rebuilt)' : ''}: ${e[1]} ${RAR_T[e[2]][1]}`).join('\n'))}</title>${bands}<path d="${d}" fill="none" stroke="#1b1b1b" stroke-width="2" stroke-linejoin="round"/>${dots}<circle cx="${x(n - 1)}" cy="${y(L[1])}" r="2.4" fill="${cols[L[2]]}" stroke="#111" stroke-width=".8"/></svg>`;
+}
+function rarBack(id, w, h, cls){ const H = RARH[id]; if (!H || !H.length) return '';
+  const a = H[0], b = H[H.length - 1];
+  return `<div class="rar-hist ${cls || ''}"><span class="rar-hl">💎 Rarity <b>${b[1]}</b>${cls === 'pc' ? '' : H.length > 1 ? `<i>since ${esc(rarDate(a[0]))}</i>` : '<i>history starts today</i>'}<button class="rar-i" data-rarinfo="1" title="How rarity works" aria-label="How rarity works">ⓘ</button></span>${rarChart(id, w, h)}</div>`; }
+const RAR_INFO = `<b>💎 How rarity works</b><p>Every NFL player in your ESPN league pool (all rostered players + the top free agents, ~300+) gets a <b>rarity score</b> from real ESPN data, compared only against players at the <b>same position</b>:</p>
+<ul><li><b>45%</b> fantasy points per game this season</li><li><b>25%</b> ESPN season projection (rest-of-season outlook)</li><li><b>15%</b> form: last-3-week trend vs his average + week-to-week consistency (low std dev)</li><li><b>15%</b> % rostered across ESPN leagues</li></ul>
+<p>Each piece is a position percentile; the blend is ranked against the whole pool:</p>
+<div class="rar-key">${RAR_T.slice().reverse().map((t, k, a) => `<span class="rar-pill r-${t[0]}">${t[3]} ${t[1]}</span><i>${k === 0 ? 'top 2%' : k === 1 ? 'next 5%' : k === 2 ? 'next 10%' : k === 3 ? 'next 18%' : k === 4 ? 'next 25%' : 'the rest'}</i>`).join('')}</div>
+<p>To stop flip-flopping, a player must clear a tier line by <b>2 points</b> to move up or down. Tiers are saved once a day on this device (last 60 days); ▲/▼ marks a move in the past week, and the card back charts the score with tier bands. Points before today are rebuilt from ESPN weekly scoring.</p>`;
+function rarPop(btn){
+  let el = document.getElementById('rarPop'); if (el && !el.hidden && el._b === btn) { el.hidden = true; return; }
+  if (!el) { el = document.createElement('div'); el.id = 'rarPop'; el.className = 'rar-pop'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'How rarity works'); document.body.appendChild(el); }
+  el.innerHTML = `<button class="rar-px" data-rarclose="1" aria-label="Close">✕</button>${RAR_INFO}`; el.hidden = false; el._b = btn;
+  const r = btn.getBoundingClientRect(), W = Math.min(340, innerWidth - 16); el.style.width = W + 'px';
+  el.style.left = Math.max(8, Math.min(innerWidth - W - 8, r.left + r.width / 2 - W / 2)) + 'px';
+  const hh = el.offsetHeight; el.style.top = (r.bottom + 8 + hh < innerHeight ? r.bottom + 8 : Math.max(8, r.top - hh - 8)) + 'px';
+}
+document.addEventListener('click', e => { const b = e.target.closest('[data-rarinfo]');
+  if (b) { e.preventDefault(); e.stopPropagation(); rarPop(b); return; }
+  const p = document.getElementById('rarPop'); if (p && !p.hidden && (e.target.closest('[data-rarclose]') || !e.target.closest('#rarPop'))) p.hidden = true; }, true);
+document.addEventListener('keydown', e => { const p = document.getElementById('rarPop'); if (e.key === 'Escape' && p && !p.hidden) p.hidden = true; });
 function ccVs(p, I){   // last season vs this season, per game
   const { t, S, gpOf, ppgOf } = I, A = t.A, y0 = S - 1, out = [];
   const add = (lab, a, b, low) => { if (a == null && b == null) return; const d = a != null && b != null ? r1(b - a) : null, cls = d == null || d === 0 ? '' : (d > 0) !== !!low ? 'up' : 'dn';
@@ -5132,7 +5424,7 @@ function ccComps(p, I, rank){
 function ccCard(p, scope, C, rank, i){
   const sp = psp(p), F = FSPORTS[sp], I = wtInfo(p), R = tbFromPlayer(p, C, rank || {}), ov = PL.ov[p.id] || {}, bio = (PX[p.id] || {}).bio || {}, inj = playerInjury(p), art = cardArt(p);
   const colors = F.kind === 'team' && p.team && p.team !== 'FA' ? teamColorVars(F.lg, p.team, '', '') : '';
-  const [tc, tl] = ccTier(R.rk), key = scope + ':' + p.id, fl = CC.flip.has(key);
+  const [tc, tl, RR] = rarTier(p, R.rk), key = scope + ':' + p.id, fl = CC.flip.has(key), rid = RR ? RR.id : '';
   const parts = String(p.name || '').split(' '), first = parts.length > 1 ? parts[0] : '', last = parts.length > 1 ? parts.slice(1).join(' ') : p.name;
   const fav = !p.roster && !p.watch, g = R.g, slotTxt = p.watch ? '👁 WATCH' : fav ? '★ ' + F.label : g === 's' ? (p.roster.slot || p.pos || 'START') : g === 'b' ? 'BENCH' : g === 'i' ? 'IR' : (p.pos || 'ROSTER');
   const slotCls = p.watch ? 'w' : fav ? 'f' : g;
@@ -5143,13 +5435,13 @@ function ccCard(p, scope, C, rank, i){
             : `${p.teamLogo ? `<img class="cc-logo-bg" src="${esc(p.teamLogo)}" alt="" draggable="false">` : ''}<img class="cc-hsbig" src="${esc(p.headshot)}" alt="" loading="lazy" draggable="false" onerror="this.style.visibility='hidden'">`}
       <div class="cc-fade"></div>
       <div class="cc-top"><div class="cc-tl"><span class="cc-slot ${slotCls}" title="${p.watch ? 'On your Fantasy Watch list' : 'Fantasy lineup slot'}">${esc(slotTxt)}</span>${ytPill(p.name, team, 'cc-yt')}</div>
-        <div class="cc-tr"><span class="cc-rar" title="${esc(tl)}: ${R.rk ? esc(R.pos) + R.rk + ' by season fantasy points' : 'unranked'}">${tc === 'leg' ? '★ ' : tc === 'epic' ? '◆ ' : tc === 'rare' ? '● ' : ''}${esc(tl)}</span>${inj ? `<span class="cc-inj st ${esc(inj.cls || inj.code)}" title="${esc(inj.status)}">${esc(inj.code || inj.status)}</span>` : ''}</div></div>
+        <div class="cc-tr"><span class="cc-rar" title="${esc(rarTip(tl, RR))}">${RAR_T.find(t => t[0] === tc)[3]} ${esc(tl)}</span>${rid ? rarBadge(rid) : ''}${inj ? `<span class="cc-inj st ${esc(inj.cls || inj.code)}" title="${esc(inj.status)}">${esc(inj.code || inj.status)}</span>` : ''}</div></div>
       <span class="cc-flip-hint">TAP TO FLIP ⟲</span>
       ${ppg != null ? `<div class="cc-ppg"><b>${ppg}</b><i>FP/G${R.rk ? ' · ' + esc(R.pos) + R.rk : ''}</i></div>` : big ? `<div class="cc-ppg"><b>${esc(big[1])}</b><i>${esc(big[0].toUpperCase())}${R.rk ? ' · ' + esc(R.pos) + R.rk : ''}</i></div>` : ''}
-      <span class="cc-circ"><img src="${esc(p.headshot)}" alt="" loading="lazy" draggable="false" onerror="this.parentNode.style.display='none'"></span>
+      <span class="cc-circ"><img src="${esc(p.headshot)}" alt="" loading="lazy" draggable="false" onerror="this.style.visibility='hidden'">${p.teamLogo ? `<img class="cc-clg" src="${esc(p.teamLogo)}" alt="" draggable="false" onerror="this.remove()">` : ''}</span>
       <div class="cc-plate">${first ? `<span class="cc-fn">${esc(first)}</span>` : ''}<span class="cc-ln">${esc(last)}</span>
         <span class="cc-tm">${p.teamLogo ? `<img src="${esc(p.teamLogo)}" alt="" draggable="false">` : ''}<span class="ps">${esc(p.pos || F.label)}</span>${esc(p.team || F.label)}${bio.num ? ' · #' + esc(bio.num) : ''}</span></div>
-      ${tc === 'leg' || tc === 'epic' ? '<div class="cc-holo"></div>' : ''}<div class="cc-shine"></div><div class="cc-glare"></div></div></div>`;
+      ${tc === 'leg' || tc === 'epic' || tc === 'ultra' ? '<div class="cc-holo"></div>' : ''}<div class="cc-shine"></div><div class="cc-glare"></div></div></div>`;
   const sts = allSt.filter(([k]) => k !== 'GP').slice(0, 6), w = R.wk || [], l3 = w.slice(-3);
   let nx = '';
   if (R.next) nx = R.next.live ? `<span class="badge-live">LIVE</span> ${esc(R.next.txt || '')} ${esc(R.next.det || '')}` : `<a href="${esc(R.next.link || '#')}" target="_blank" rel="noopener">${esc(R.next.txt)}</a> · ${esc(dayLabelET(new Date(R.next.d)))} ${esc(timeET(new Date(R.next.d)))}`;
@@ -5159,6 +5451,7 @@ function ccCard(p, scope, C, rank, i){
         ${sts.length ? `<div class="cc-sg" title="${esc((ov.sv && ov.sv.name) || 'Season')}">${sts.map(([k, v]) => `<div><b>${esc(v)}</b><i>${esc(k)}</i></div>`).join('')}</div>` : `<h5>Season</h5><div class="cc-empty">${ov._t || PL.ov[p.id] ? 'No season stats yet' : 'Loading stats…'}</div>`}
         ${ccVs(p, I)}
         ${w.length || R.lw != null ? `<div class="cc-trd"><span class="cc-tk">📈</span>${w.length > 1 ? sparkSVG(w, 66, 20) : ''}${l3.length ? `<span class="cc-l3" title="Last ${l3.length} weeks">${l3.map(x => `<span>${esc(r1(x))}</span>`).join('')}</span>` : ''}${R.dir ? `<b class="tr-pace ${R.dir}">${paceArrow(R.dir)}</b>` : ''}</div>` : ''}
+        ${rid ? rarBack(rid, 220, 46, 'cc') : ''}
         ${nx ? `<div class="cc-nx"><b>Next</b> ${nx}</div>` : ''}
         ${!ov.sv && ov.last && ov.last.line ? `<div class="cc-nx"><b>Last</b> ${esc(ov.last.line)}</div>` : ''}
         ${(b => b.length && !cmpCardOk(sp) && !allSt.every(([k]) => /^(Age|Ht|Wt|Exp|College|Country)$/.test(k)) ? `<h5>Bio</h5><div class="cc-bio">${esc(b.join(' · '))}</div>` : '')([bio.age ? 'Age ' + bio.age : '', [bio.ht, bio.wt].filter(Boolean).join(', '), bio.col || bio.ctry, bio.tm && bio.tm !== p.teamName ? bio.tm : '', bio.exp].filter(Boolean))}
@@ -5566,7 +5859,7 @@ function ensureFzExtras(sp){
   }
   const need = fzxIds(sp).filter(p => { const a = FZX.ath[p.id]; return !a || now - a.t > FZX_MS.ath; }).slice(0, 30);
   for (const p of need) run('ath:' + p.id, () => fzxAth(p));
-  if (live && sp === 'nfl') { const C = CMP.d[sp]; if (!C || now - C.t > CMP_MS || C.lg !== L.leagueId + ':' + L.teamId || C.v !== 5) run('cmp:' + sp, () => cmpLoad(sp, L)); }
+  if (live && sp === 'nfl') { const C = CMP.d[sp]; if (!C || now - C.t > CMP_MS || C.lg !== L.leagueId + ':' + L.teamId || C.v !== 6) run('cmp:' + sp, () => cmpLoad(sp, L)); }
   if (jobs.length) Promise.all(jobs).then(() => { fzxSave(); if (isFzTab() && MN.fsTab === sp) renderMyNews(); });
 }
 function sparkSVG(vals, w, h, cls){
@@ -6205,7 +6498,7 @@ function pcCard(p, mk){
   const sp = psp(p), F = FSPORTS[sp], ov = PL.ov[p.id] || {}, bio = (PX[p.id] || {}).bio || {}, now = playerNow(p, true), inj = playerInjury(p);
   const colors = F.kind === 'team' && p.team && p.team !== 'FA' ? teamColorVars(F.lg, p.team, '', '') : '';
   const parts = String(p.name || '').split(' '), first = parts.length > 1 ? parts[0] : '', last = parts.length > 1 ? parts.slice(1).join(' ') : p.name;
-  const num = bio.num || '', fl = PCF.has(p.id), art = cardArt(p);
+  const num = bio.num || '', fl = PCF.has(p.id), art = cardArt(p), [rc, rl, RR] = rarTier(p, null), rid = RR ? RR.id : '';
   const tdat = mk && fantasySel.includes(sp) ? trendData(p) : null, hasT = !!(tdat && (tdat.weeks.length > 1 || tdat.pace));
   let sts = statPairs(p).slice(0, hasT ? 5 : 7);
   let key = '';
@@ -6216,10 +6509,11 @@ function pcCard(p, mk){
   if (key && key.replace(/<[^>]+>/g, '').length > 24) sts = sts.slice(0, hasT ? 4 : 6);   // a 2-line note: drop the 7th stat so the bio line still fits
   const bioL = [[bio.ht, bio.wt].filter(Boolean).join(' · '), bio.age ? 'Age ' + bio.age : '', bio.col, bio.exp].filter(Boolean);
   const tags = mk ? '' : (p.roster ? `<span title="On your fantasy roster${p.roster.slot ? ' (' + esc(p.roster.slot) + ')' : ''}">🎮${p.roster.slot ? ' ' + esc(p.roster.slot) : ''}</span>` : '') + (p.fav ? '<span title="★ favorite">★</span>' : '');
-  return `<div class="pc" role="listitem"><div class="pc-flip${fl ? ' flipped' : ''}" data-pcflip="${esc(p.id)}" tabindex="0" role="button" aria-pressed="${fl}" aria-label="${esc(p.name)} card. Press to flip for stats" style="${esc(colors)}">
+  return `<div class="pc r-${rc}" role="listitem"><div class="pc-flip${fl ? ' flipped' : ''}" data-pcflip="${esc(p.id)}" tabindex="0" role="button" aria-pressed="${fl}" aria-label="${esc(p.name)} card. Press to flip for stats" style="${esc(colors)}">
     <div class="pc-face pc-front${art ? ' has-art' : ''}">${art ? `<img class="pc-art" src="${esc(art)}" alt="" loading="lazy" draggable="false" referrerpolicy="no-referrer" onerror="this.closest('.pc-front').classList.remove('has-art');this.remove()"><div class="pc-artfade"></div>` : ''}<div class="pc-shine"></div>
       ${mk === 'a' ? (bad => `<span class="pc-mk a${bad ? ' ' + esc(inj.cls) : ''}" title="${bad ? esc(inj.status) + ' (starting lineup' : 'Active starter (lineup'}${p.roster.slot ? ' slot ' + esc(p.roster.slot) : ''})">${bad ? esc(inj.cls === 'IR' ? inj.code : inj.status) : 'Active'}${p.roster.slot ? ' · ' + esc(p.roster.slot) : ''}</span>`)(inj && ['O', 'D', 'IR'].includes(inj.cls)) : mk ? `<span class="pc-mk ${mk}" title="${mk === 'w' ? 'On your Fantasy Watch list' : 'On your fantasy roster' + (p.roster && p.roster.slot ? ' (' + esc(p.roster.slot) + ')' : '')}">${mk === 'w' ? '👁 Watch' : rosLbl(p)}</span>` : ''}
       ${p.roster && (mk === 'a' || (mk === 'r' && !'bi'.includes(slotGroup(p)))) ? '<span class="pc-rost" title="On your ESPN fantasy roster">ROSTERED</span>' : ''}
+      <span class="pc-rar" title="${esc(rarTip(rl, RR))}">${RAR_T.find(t => t[0] === rc)[3]} ${esc(rl.replace('Ultra Rare', 'Ultra'))}</span>${rid ? rarBadge(rid, 1) : ''}${rc === 'leg' || rc === 'ultra' ? '<div class="pc-holo"></div>' : ''}
       <div class="pc-top"><span class="pc-pos">${esc(p.pos || bio.pos || F.label)}</span>${num ? `<span class="pc-num">#${esc(num)}</span>` : ''}</div>
       ${inj ? `<span class="pc-inj st ${inj.cls || inj.code}" title="${esc(inj.status)}">${esc(inj.code || inj.status)}</span>` : ''}
       <img class="pc-hs" src="${esc(p.headshot)}" alt="" loading="lazy" draggable="false" onerror="this.style.visibility='hidden'">
@@ -6230,6 +6524,7 @@ function pcCard(p, mk){
       ${sts.length ? `<div class="pc-sn">${esc((ov.sv && ov.sv.name) || 'Season')}</div><table class="pc-tbl">${sts.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join('')}</table>` : `<div class="pc-sn">${ov._t ? 'No season stats yet' : 'Loading stats…'}</div>`}
       ${hasT ? `<div class="pc-tr" title="${tdat.pace ? esc(`Per-game pace ${tdat.pace.cur} ${tdat.pace.unit} vs ${tdat.pace.prev} in ${tdat.pace.py}`) : 'Fantasy points by week'}">${sparkSVG(tdat.weeks, 52, 16)}${tdat.pace ? `<b class="tr-pace ${tdat.pace.dir}">${paceArrow(tdat.pace.dir)} ${tdat.pace.cur}</b><span>vs ${tdat.pace.prev}</span>` : ''}</div>` : ''}
       ${key ? `<div class="pc-key">${key}</div>` : ''}
+      ${rid ? rarBack(rid, 128, 22, 'pc') : ''}
       ${bioL.length ? `<div class="pc-bio">${esc(bioL.join(' · '))}</div>` : ''}</div>
   </div><a class="pc-link" href="${esc(playerUrl(p))}" target="_blank" rel="noopener" title="${esc(p.name)}: open ESPN ${p.dst ? 'team' : 'player'} page" aria-label="Open ${esc(p.name)} on ESPN">↗</a>${ytPill(p.name, p.teamName || p.team, 'pc-yt')}</div>`;
 }
