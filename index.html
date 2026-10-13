@@ -1715,6 +1715,52 @@
   .cc .cc-bh{border-bottom:2px solid #241c12}
   .cc .tp-no{flex:0 0 auto;background:#fffaf0;color:#241c12;border-radius:50%;padding:4px 5px;line-height:1}
 
+
+  /* ===== Oct 12b: Topps + action shots: verified action photo fills the Topps window, centered-face headshot in a round inset (falls back to the headshot window) ===== */
+  .pc .pc-front.has-art .pc-art{inset:auto;left:9px;top:9px;width:calc(100% - 18px);height:calc(100% - 51px);border-radius:7px;z-index:1;object-position:50% 28%}
+  .pc .pc-front.has-art .pc-artfade{inset:auto;left:9px;top:9px;width:calc(100% - 18px);height:calc(100% - 51px);border-radius:7px;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,.18),transparent 30%,transparent 70%,rgba(0,0,0,.35))}
+  .pc .pc-front.has-art::before{opacity:1;z-index:0}
+  .pc .pc-front.has-art .pc-plate{background:none;height:58px;padding-right:38px}
+  .pc .pc-front.has-art .pc-ln{font-size:14px}
+  .pc .pc-front.has-art .pc-circ{left:auto;right:12px;top:12px;bottom:auto;width:48px;height:48px;z-index:3;border:2px solid #fffaf0;box-shadow:0 0 0 2px var(--tc,#3a4766),0 3px 8px rgba(0,0,0,.6)}
+  .pc .pc-front.has-art .pc-circ img{object-position:50% 10%;transform:scale(1.18) translateY(6%)}
+  .cc .cc-art.has-art .cc-photo{left:0;right:0;top:0;bottom:62px;height:calc(100% - 62px);inset:auto;object-position:50% 25%;border-radius:10px 10px 0 0}
+  .cc .cc-art.has-art .cc-circ{display:block;left:auto;right:10px;top:auto;bottom:118px;width:70px;height:70px;padding:3px;background:#fffaf0;box-shadow:0 0 0 2px var(--tc,#3a4766),0 6px 14px rgba(0,0,0,.55)}
+  .cc .cc-art.has-art .cc-circ img{object-position:50% 10%;transform:scale(1.15) translateY(5%)}
+  .cc .cc-art.has-art .cc-ppg{right:auto;left:10px;align-items:flex-start}
+  /* ===== 🔄 Trade Lab (Oct 12) ===== */
+  .mu.tr{max-height:none}
+  .tr .mu-b{overflow:auto;overscroll-behavior:contain;max-height:520px}
+  .tr-sc{display:flex;flex-direction:column;gap:10px}
+  .tr-bld{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .tr-col h6,.tr-h6{margin:0 0 6px;font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted)}
+  .tr-sel{width:100%;background:var(--panel2);color:var(--text,#fff);border:1px solid var(--line);border-radius:8px;padding:5px 6px;font:inherit;font-size:13px;text-transform:none}
+  .tr-list{display:flex;flex-direction:column;gap:4px;max-height:210px;overflow:auto;overscroll-behavior:contain;padding-right:2px}
+  .tr-chip{display:flex;align-items:center;gap:7px;width:100%;text-align:left;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:3px 7px 3px 4px;color:inherit;font:inherit;cursor:pointer;min-height:36px}
+  .tr-chip img{width:28px;height:28px;border-radius:50%;object-fit:cover;object-position:50% 12%;background:#0003;flex:none}
+  .tr-chip span{min-width:0;flex:1;line-height:1.1}.tr-chip b{display:block;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tr-chip i{font-style:normal;font-size:10.5px;color:var(--muted)}.tr-chip em{font-style:normal;font-size:9px;padding:0 3px}
+  .tr-chip s{text-decoration:none;font-weight:900;font-size:12px;font-variant-numeric:tabular-nums}
+  .tr-chip.on{border-color:#ffc83d;background:color-mix(in srgb,#ffc83d 16%,var(--panel2));box-shadow:inset 3px 0 0 #ffc83d}
+  .tr-need{display:flex;flex-wrap:wrap;align-items:center;gap:5px;font-size:11.5px}.tr-need b{margin-right:4px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tr-need span{padding:2px 7px;border-radius:999px;background:var(--panel2);border:1px solid var(--line)}.tr-need .nd{border-color:#ff6b75;color:#ff9aa2}.tr-need .sp{border-color:#3ddc84;color:#7ff0b0}
+  .tr-res{border:1px solid var(--line);border-radius:12px;padding:10px;background:rgba(0,0,0,.22)}
+  .tr-meter{position:relative;height:12px;border-radius:999px;background:linear-gradient(90deg,#e5484d,#f5a524 35%,#3ddc84 50%,#f5a524 65%,#1db954);margin:4px 0 16px}
+  .tr-meter i{position:absolute;top:-4px;width:6px;height:20px;margin-left:-3px;border-radius:3px;background:#fff;box-shadow:0 0 0 2px #000a}
+  .tr-meter span{position:absolute;top:14px;font-size:10px;color:var(--muted)}.tr-meter span:nth-of-type(1){left:0}.tr-meter span:nth-of-type(2){left:50%;transform:translateX(-50%)}.tr-meter span:nth-of-type(3){right:0}
+  .tr-vd{font-weight:900;font-size:14px;margin-bottom:8px}.tr-vd.ww,.tr-vd.me{color:#3ddc84}.tr-vd.fair{color:#ffc83d}.tr-vd.op{color:#ff8a8a}
+  .tr-kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:8px}
+  .tr-kpi div{background:var(--panel2);border-radius:10px;padding:7px 8px}.tr-kpi b{display:block;font-size:20px;font-weight:900;font-variant-numeric:tabular-nums}.tr-kpi b small{font-size:11px;color:var(--muted)}.tr-kpi i{font-style:normal;font-size:10.5px;color:var(--muted)}
+  .tr .up{color:#3ddc84}.tr .dn{color:#ff8a8a}
+  .tr-sides{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .tr-t{width:100%;border-collapse:collapse;font-size:11.5px;font-variant-numeric:tabular-nums}.tr-t th{text-align:right;color:var(--muted);font-weight:700;padding:3px 4px;border-bottom:1px solid var(--line)}.tr-t th:first-child,.tr-t td:first-child{text-align:left}
+  .tr-t td{text-align:right;padding:4px;border-bottom:1px solid #ffffff10}.tr-t td i{font-style:normal;color:var(--muted);font-size:10.5px}.tr-t em{font-style:normal;font-size:9px;padding:0 3px}
+  .tr-clr{align-self:flex-start;font-size:12px}
+  .tr-sgs{display:flex;flex-direction:column;gap:5px}
+  .tr-sg{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:6px 8px;color:inherit;font:inherit;cursor:pointer}
+  .tr-sg:hover{border-color:#ffc83d}.tr-sgn{font-weight:900;color:#ffc83d;font-size:13px}
+  .tr-sgb{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.2}.tr-sgb i{font-style:normal;font-size:10.5px;color:var(--muted)}.tr-sgb b{font-size:12px;font-weight:700}
+  .tr-sgd{display:grid;grid-template-columns:auto auto;column-gap:4px;align-items:baseline;font-size:12px}.tr-sgd i{font-style:normal;font-size:10px;color:var(--muted)}
+  @media (max-width:640px){ .tr-bld,.tr-sides{grid-template-columns:1fr} .tr-list{max-height:170px} .tr .mu-b{max-height:560px} }
   /* ===== matchup inside one scrollable card (Oct 12) ===== */
   .mu{display:flex;flex-direction:column;max-height:420px;box-shadow:0 8px 22px rgba(0,0,0,.35)}
   .mu.closed{max-height:none}
@@ -4391,6 +4437,187 @@ document.addEventListener('click', e => {
   if (a === 'open' && MU.ui.open) muObserve();
 });
 
+/* ===================== 🔄 Trade Lab (ESPN football leagues) — analysis only, nothing is sent to ESPN =====================
+   Data (all real ESPN, public league API, CORS ok):
+   - view=mTeam&view=mRoster&view=mSettings&view=mStatus: every team's roster, lineupSlotCounts, eligibleSlots, injuryStatus,
+     player.stats: 2026 statSourceId 1 / statSplitTypeId 0 = ESPN projected season (appliedAverage = proj pts/g),
+     statSourceId 0 / split 0 = season actual (appliedAverage = PPG).
+   - view=kona_playercard (one request, all rostered ids): weekly actuals (split 1) → last-3 average.
+   - proTeamSchedules_wl: remaining games per pro team (byes excluded) → ROS = ESPN proj/g × games left after this week.
+   - view=mPositionalRatings: fantasy pts allowed per game by each NFL defense to each position → remaining-schedule strength.
+   Lineup value = best legal starting lineup by ESPN proj/g (fixed slots first, then FLEX/OP). Nothing is estimated beyond that. */
+var TR_KEY = 'mannTradeLab.v1';
+var TR = { d: null, ui: { open: false, give: [], get: [], team: '', ...(lsGet(TR_KEY + '.ui', null) || {}) }, busy: false, err: 0 };
+TR.ui.give = TR.ui.give || []; TR.ui.get = TR.ui.get || [];
+const trSaveUI = () => lsSet(TR_KEY + '.ui', { open: TR.ui.open, give: TR.ui.give, get: TR.ui.get, team: TR.ui.team });
+const TR_SL = { 0: 'QB', 2: 'RB', 4: 'WR', 6: 'TE', 16: 'D/ST', 17: 'K', 23: 'FLEX', 7: 'OP', 3: 'RB/WR', 5: 'WR/TE' }, TR_POS = { 1: 'QB', 2: 'RB', 3: 'WR', 4: 'TE', 5: 'K', 16: 'D/ST' };
+const TR_PID = { QB: 1, RB: 2, WR: 3, TE: 4, K: 5, 'D/ST': 16 };
+async function trLoad(sp, L){
+  const s = +L.season;
+  const [d, sch, pr] = await Promise.all([efJSON(efLeagueUrl(sp, L.season, L.leagueId, 'view=mTeam&view=mRoster&view=mSettings&view=mStatus')),
+    efJSON(`${EF_API}${EF[sp].game}/seasons/${L.season}?view=proTeamSchedules_wl`), efJSON(efLeagueUrl(sp, L.season, L.leagueId, 'view=mPositionalRatings')).catch(() => null)]);
+  const per = (d.status && d.status.latestScoringPeriod) || d.scoringPeriodId || 1, ss = (d.settings || {}).scheduleSettings || {}, last = ss.matchupPeriodCount || null;
+  const cnt = (((d.settings || {}).rosterSettings || {}).lineupSlotCounts) || {};
+  const slots = Object.entries(cnt).filter(([k, v]) => v > 0 && TR_SL[k]).map(([k, v]) => ({ id: +k, n: v }));
+  const pro = {}, rem = {}, opps = {};
+  for (const t of ((sch.settings || {}).proTeams || [])) { pro[t.id] = String(t.abbrev || '').toUpperCase(); const gp = t.proGamesByScoringPeriod || {}; let n = 0; const o = [];
+    if (last) for (let w = per + 1; w <= last; w++) for (const g of (gp[w] || [])) { n++; o.push(g.homeProTeamId === t.id ? g.awayProTeamId : g.homeProTeamId); }
+    rem[t.id] = last ? n : null; opps[t.id] = o; }
+  // remaining-schedule fantasy pts/g allowed to a position vs the league average (positive = softer)
+  const PR = pr && pr.positionAgainstOpponent && pr.positionAgainstOpponent.positionalRatings || {};
+  const sos = (pos, ptid) => { const R = PR[TR_PID[pos]], o = opps[ptid]; if (!R || !R.ratingsByOpponent || !o || !o.length || typeof R.average !== 'number') return null;
+    const v = o.map(x => R.ratingsByOpponent[x] && R.ratingsByOpponent[x].average).filter(x => typeof x === 'number'); if (v.length < o.length * 0.8) return null;
+    return r1(v.reduce((a, b) => a + b, 0) / v.length - R.average); };
+  const teams = (d.teams || []).map(t => ({ id: String(t.id), name: (t.name || [t.location, t.nickname].filter(Boolean).join(' ') || 'Team ' + t.id).trim(), abbrev: t.abbrev || '', logo: t.logo || '',
+    ps: ((t.roster || {}).entries || []).map(e => { const pl = (e.playerPoolEntry || {}).player || {}, st = pl.stats || [];
+      const f = (src, sp2) => st.find(x => x.seasonId === s && x.scoringPeriodId === 0 && x.statSourceId === src && x.statSplitTypeId === sp2);
+      const pj = f(1, 0), ac = f(0, 0), pos = TR_POS[pl.defaultPositionId] || '', dst = pos === 'D/ST', ab = pro[pl.proTeamId] || 'FA';
+      const proj = pj && typeof pj.appliedAverage === 'number' ? r1(pj.appliedAverage) : null, g = rem[pl.proTeamId];
+      return { id: String(pl.id), name: pl.fullName || '', pos, team: ab, dst, slot: e.lineupSlotId, ir: e.lineupSlotId === 21,
+        el: (pl.eligibleSlots || []).filter(x => TR_SL[x]), proj, ppg: ac && typeof ac.appliedAverage === 'number' ? r1(ac.appliedAverage) : null,
+        gl: g, ros: proj != null && g != null ? Math.round(proj * g) : null, inj: pl.injuryStatus && !/^(ACTIVE|NORMAL)$/.test(pl.injuryStatus) ? String(pl.injuryStatus).replace('_', ' ') : '',
+        sos: pos ? sos(pos, pl.proTeamId) : null,
+        hs: dst ? (ab !== 'FA' ? `https://a.espncdn.com/i/teamlogos/nfl/500/${ab.toLowerCase()}.png` : '') : `https://a.espncdn.com/i/headshots/nfl/players/full/${pl.id}.png` }; }) }));
+  // last 3 played weeks (actual), one request for every rostered player
+  try { const ids = teams.flatMap(t => t.ps.map(p => +p.id)).filter(x => !isNaN(x)), filt = { players: { filterIds: { value: ids }, filterStatsForTopScoringPeriodIds: { value: 20, additionalValue: ['00' + s] } } };
+    const r = await fetchWithTimeout(efLeagueUrl(sp, L.season, L.leagueId, 'view=kona_playercard'), 20000, { credentials: 'omit', headers: { 'X-Fantasy-Filter': JSON.stringify(filt) } });
+    if (r.ok) { const l3 = {}; for (const e of ((await r.json()).players || [])) { const pl = e.player || {}, w = {};
+        for (const x of pl.stats || []) if (x.statSourceId === 0 && x.statSplitTypeId === 1 && x.seasonId === s && x.scoringPeriodId <= per && typeof x.appliedTotal === 'number') w[x.scoringPeriodId] = x.appliedTotal;
+        const v = Object.keys(w).map(Number).sort((a, b) => a - b).slice(-3).map(k => w[k]); if (v.length) l3[String(pl.id)] = r1(v.reduce((a, b) => a + b, 0) / v.length); }
+      for (const t of teams) for (const p of t.ps) if (l3[p.id] != null) p.l3 = l3[p.id]; }
+  } catch (e) { console.warn('trade L3', e && e.message); }
+  TR.d = { t: Date.now(), lg: L.leagueId + ':' + L.teamId, me: String(L.teamId), per, last, slots, teams };
+}
+// best legal lineup by ESPN proj/g: restrictive slots first, then flex / OP. Returns { v, st:[{p,slot}], pos:{QB:[...]} }
+function trLineup(ps, slots){
+  const pool = ps.filter(p => !p.ir && p.proj != null).sort((a, b) => b.proj - a.proj), used = new Set(), st = [];
+  const order = slots.slice().sort((a, b) => (TR_SL[a.id].length > 3 || a.id === 23 || a.id === 7 ? 1 : 0) - (TR_SL[b.id].length > 3 || b.id === 23 || b.id === 7 ? 1 : 0));
+  for (const s of order) for (let i = 0; i < s.n; i++) { const p = pool.find(x => !used.has(x.id) && x.el.includes(s.id)); if (!p) continue; used.add(p.id); st.push({ p, slot: TR_SL[s.id] }); }
+  return { v: r1(st.reduce((a, x) => a + x.p.proj, 0)), st, used };
+}
+function trSwap(ps, out, inn){ const o = new Set(out.map(p => p.id)); return ps.filter(p => !o.has(p.id)).concat(inn); }
+function trEval(D, oppId, give, get){
+  const me = D.teams.find(t => t.id === D.me), op = D.teams.find(t => t.id === oppId); if (!me || !op) return null;
+  const B = D._b || (D._b = {}), a0 = B[me.id] || (B[me.id] = trLineup(me.ps, D.slots)), b0 = B[op.id] || (B[op.id] = trLineup(op.ps, D.slots)), a1 = trLineup(trSwap(me.ps, give, get), D.slots), b1 = trLineup(trSwap(op.ps, get, give), D.slots);
+  const sum = (L, k) => L.some(p => p[k] == null) ? null : L.reduce((a, p) => a + p[k], 0);
+  return { me, op, a0, a1, b0, b1, dMe: r1(a1.v - a0.v), dOp: r1(b1.v - b0.v), rosGive: sum(give, 'ros'), rosGet: sum(get, 'ros') };
+}
+// league-average starter value per position (from every team's best lineup), used for need / surplus
+function trPosAvg(D){
+  const by = {}; for (const t of D.teams) for (const x of trLineup(t.ps, D.slots).st) (by[x.p.pos] = by[x.p.pos] || []).push(x.p.proj);
+  return Object.fromEntries(Object.entries(by).map(([k, v]) => [k, v.reduce((a, b) => a + b, 0) / v.length]));
+}
+function trNeeds(D, t, avg){
+  const L = trLineup(t.ps, D.slots), out = [];
+  for (const pos of ['QB', 'RB', 'WR', 'TE']) { if (avg[pos] == null) continue; const s = L.st.filter(x => x.p.pos === pos); if (!s.length) { out.push({ pos, d: null, need: true, bench: 0 }); continue; }
+    const d = r1(s.reduce((a, x) => a + x.p.proj, 0) / s.length - avg[pos]), bench = t.ps.filter(p => !L.used.has(p.id) && !p.ir && p.pos === pos && p.proj != null && p.proj >= avg[pos]).length;
+    out.push({ pos, d, need: d < -1, bench }); }
+  return out;
+}
+function trSuggest(D){
+  const me = D.teams.find(t => t.id === D.me); if (!me) return [];
+  const ok = p => !p.ir && p.proj != null && !p.dst && p.pos !== 'K', mine = me.ps.filter(ok), out = [];
+  for (const op of D.teams) { if (op.id === D.me) continue; const theirs = op.ps.filter(ok);
+    const tryT = (give, get) => { const r = trEval(D, op.id, give, get); if (!r || r.dMe < 0.5 || r.dOp < 0.5) return;
+      // a 2-for-1 must beat each 1-for-1 inside it (no filler players thrown in)
+      const subs = give.length > 1 ? give.map(g => [[g], get]) : get.length > 1 ? get.map(g => [give, [g]]) : [];
+      for (const [g2, r2] of subs) { const q = trEval(D, op.id, g2, r2); if (q && q.dMe >= r.dMe - 0.4 && q.dOp >= r.dOp - 0.4) return; }
+      out.push({ op: op.id, give: give.map(p => p.id), get: get.map(p => p.id), dMe: r.dMe, dOp: r.dOp, sc: Math.min(r.dMe, r.dOp) + 0.25 * (r.dMe + r.dOp), r }); };
+    for (const a of mine) for (const b of theirs) tryT([a], [b]);
+    for (let i = 0; i < mine.length; i++) for (let j = i + 1; j < mine.length; j++) for (const b of theirs) tryT([mine[i], mine[j]], [b]);
+    for (const a of mine) for (let i = 0; i < theirs.length; i++) for (let j = i + 1; j < theirs.length; j++) tryT([a], [theirs[i], theirs[j]]); }
+  out.sort((a, b) => b.sc - a.sc);
+  const use = {}, top = [];   // keep it varied: any one player shows up in at most 2 offers
+  for (const x of out) { const ids = [...x.give, ...x.get]; if (ids.some(id => (use[id] || 0) >= 2)) continue; ids.forEach(id => use[id] = (use[id] || 0) + 1); top.push(x); if (top.length >= 8) break; }
+  return top;
+}
+function trPl(D, id){ for (const t of D.teams) { const p = t.ps.find(x => x.id === id); if (p) return p; } return null; }
+function trChip(p, side, on){
+  const meta = [p.pos, p.team].filter(Boolean).join(' · ');
+  return `<button class="tr-chip${on ? ' on' : ''}" data-tr="${side}:${esc(p.id)}" aria-pressed="${!!on}" title="${esc(p.name)}${p.proj != null ? ' · ESPN proj ' + p.proj + '/g' : ''}"><img src="${esc(p.hs)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><span><b>${esc(p.name)}</b><i>${esc(meta)}${p.inj ? ` <em class="st Q">${esc(p.inj)}</em>` : ''}${p.ir ? ' · IR' : ''}</i></span><s>${p.proj != null ? p.proj : '–'}</s></button>`;
+}
+function trSideTbl(ps, lbl){
+  const h = (k, n) => ps.some(p => p[k] != null || p[k]) ? n : null;
+  const cols = [['ros', 'ROS'], ['proj', 'Proj/g'], ['ppg', 'PPG'], ['l3', 'L3'], ['sos', 'Sched']].filter(([k]) => ps.some(p => p[k] != null));
+  return `<table class="tr-t"><thead><tr><th>${esc(lbl)}</th>${cols.map(c => `<th>${c[1]}</th>`).join('')}</tr></thead><tbody>${ps.map(p => `<tr><td><b>${esc(p.name)}</b> <i>${esc(p.pos)}${p.inj ? ` · <em class="st Q">${esc(p.inj)}</em>` : ''}</i></td>${cols.map(([k]) => {
+    const v = p[k]; if (v == null) return '<td>–</td>';
+    if (k === 'l3' && p.ppg != null) return `<td class="${v > p.ppg + 1 ? 'up' : v < p.ppg - 1 ? 'dn' : ''}">${v}${v > p.ppg + 1 ? ' ▲' : v < p.ppg - 1 ? ' ▼' : ''}</td>`;
+    if (k === 'sos') return `<td class="${v > 0.5 ? 'up' : v < -0.5 ? 'dn' : ''}" title="Remaining opponents allow ${v > 0 ? '+' : ''}${v} fantasy pts/g to ${esc(p.pos)}s vs league average (ESPN)">${v > 0 ? '+' : ''}${v}</td>`;
+    return `<td>${v}</td>`; }).join('')}</tr>`).join('')}</tbody></table>`;
+}
+function trNeedRow(D, t, avg, nm){
+  const n = trNeeds(D, t, avg); if (!n.length) return '';
+  return `<div class="tr-need"><b>${esc(nm)}</b>${n.map(x => `<span class="${x.need ? 'nd' : x.bench ? 'sp' : ''}" title="Starters' ESPN proj/g vs the league-average starter at ${x.pos}${x.bench ? ` · ${x.bench} bench ${x.pos}${x.bench > 1 ? 's' : ''} at or above league-average starter` : ''}">${x.pos} ${x.d == null ? 'none' : (x.d > 0 ? '+' : '') + x.d}${x.bench ? ` · +${x.bench} depth` : ''}</span>`).join('')}</div>`;
+}
+function trSection(sp){
+  if (sp !== 'nfl') return '';
+  const L = espnLinks[sp]; if (!L || L.source === 'paste' || !L.leagueId || !L.teamId) return '';
+  const D = TR.d, ok = D && D.lg === L.leagueId + ':' + L.teamId, open = TR.ui.open;
+  const head = `<button class="mu-h" data-tr="open" aria-expanded="${open}"><b>🔄 Trade Lab</b><small>Build a trade · see who wins · analysis only</small><span class="car" aria-hidden="true">▾</span></button>`;
+  const wrap = b => `<section class="mu tr${open ? '' : ' closed'}" id="fzTrade">${head}<div class="mu-b">${b}</div></section>`;
+  if (!open) return wrap('');
+  if (!ok) return wrap(`<div class="mu-ld">${TR.err && Date.now() - TR.err < 12e4 ? 'Couldn\'t load league rosters. Retrying shortly.' : 'Loading every team\'s roster…'}</div>`);
+  const me = D.teams.find(t => t.id === D.me); if (!me) return wrap('<div class="mu-ld">Your team wasn\'t found in this league.</div>');
+  const others = D.teams.filter(t => t.id !== D.me); if (!others.some(t => t.id === TR.ui.team)) TR.ui.team = '';
+  const op = others.find(t => t.id === TR.ui.team), avg = trPosAvg(D);
+  TR.ui.give = TR.ui.give.filter(id => me.ps.some(p => p.id === id)); TR.ui.get = op ? TR.ui.get.filter(id => op.ps.some(p => p.id === id)) : [];
+  const give = TR.ui.give.map(id => trPl(D, id)).filter(Boolean), get = TR.ui.get.map(id => trPl(D, id)).filter(Boolean);
+  const srt = ps => ps.slice().sort((a, b) => (b.proj ?? -1) - (a.proj ?? -1));
+  if (!TR.sug || TR.sug.t !== D.t) TR.sug = { t: D.t, v: trSuggest(D) };
+  const sug = TR.sug.v;
+  let res = '';
+  if (op && give.length && get.length) {
+    const r = trEval(D, op.id, give, get), tot = Math.abs(r.dMe) + Math.abs(r.dOp);
+    // verdict: who gains more starting-lineup points per week (ESPN proj/g); 50 = even
+    const m = r.dMe === r.dOp ? 50 : Math.max(3, Math.min(97, Math.round(50 + 50 * (r.dMe - r.dOp) / Math.max(tot, 1)))), win = r.dMe > 0 && r.dOp > 0;
+    const vt = win && Math.abs(m - 50) <= 15 ? ['ww', '🤝 Win-win · fair'] : Math.abs(m - 50) <= 12 ? ['fair', '⚖️ Fair'] : m > 50 ? ['me', '✅ Lopsided — in your favor'] : ['op', '⚠️ Lopsided — favors ' + op.name];
+    res = `<div class="tr-res"><div class="tr-meter" title="Starting-lineup gain per week, you vs them (ESPN proj/g)"><i style="left:${m}%"></i><span>Them</span><span>Even</span><span>You</span></div>
+      <div class="tr-vd ${vt[0]}">${esc(vt[1])}</div>
+      <div class="tr-kpi"><div><b class="${r.dMe > 0 ? 'up' : r.dMe < 0 ? 'dn' : ''}">${r.dMe > 0 ? '+' : ''}${r.dMe}</b><i>Your lineup pts/wk<br>${r.a0.v} → ${r.a1.v}</i></div><div><b class="${r.dOp > 0 ? 'up' : r.dOp < 0 ? 'dn' : ''}">${r.dOp > 0 ? '+' : ''}${r.dOp}</b><i>${esc(op.abbrev || op.name)} lineup pts/wk<br>${r.b0.v} → ${r.b1.v}</i></div>
+      ${r.rosGive != null && r.rosGet != null ? `<div><b>${r.rosGet} <small>vs</small> ${r.rosGive}</b><i>ROS proj pts<br>you get vs you give</i></div>` : ''}</div>
+      <div class="tr-sides">${trSideTbl(get, 'You get')}${trSideTbl(give, 'You give')}</div>
+      ${give.length !== get.length ? `<div class="tb-foot">${give.length > get.length ? esc(op.name) + ' would need to drop ' + (give.length - get.length) : 'You would need to drop ' + (get.length - give.length)} bench player${Math.abs(give.length - get.length) > 1 ? 's' : ''} to make room.</div>` : ''}</div>`;
+  } else res = `<div class="mu-ld">${!op ? 'Pick a team to trade with, or load a suggested trade below.' : 'Tap players on both sides to build the trade.'}</div>`;
+  const sugH = sug.length ? sug.map((x, i) => { const t = D.teams.find(z => z.id === x.op), g = x.give.map(id => trPl(D, id)), r = x.get.map(id => trPl(D, id));
+      return `<button class="tr-sg" data-tr="sug:${i}"><span class="tr-sgn">#${i + 1}</span><span class="tr-sgb"><i>with ${esc(t.name)}</i><b>Give ${esc(g.map(p => p.name + ' (' + p.pos + ')').join(' + '))}</b><b>Get ${esc(r.map(p => p.name + ' (' + p.pos + ')').join(' + '))}</b></span><span class="tr-sgd"><b class="up">+${x.dMe}</b><i>you</i><b class="up">+${x.dOp}</b><i>them</i></span></button>`; }).join('')
+    : '<div class="mu-ld">No win-win 1-for-1 or 2-for-1 trades found right now.</div>';
+  return wrap(`<div class="tr-sc">
+    <div class="tr-bld"><div class="tr-col"><h6>You give · ${esc(me.name)}</h6><div class="tr-list">${srt(me.ps).map(p => trChip(p, 'g', TR.ui.give.includes(p.id))).join('')}</div></div>
+      <div class="tr-col"><h6><select class="tr-sel" data-trsel="1" aria-label="Team to trade with"><option value="">Trade with…</option>${others.map(t => `<option value="${esc(t.id)}"${t.id === TR.ui.team ? ' selected' : ''}>${esc(t.name)}</option>`).join('')}</select></h6>
+        <div class="tr-list">${op ? srt(op.ps).map(p => trChip(p, 'r', TR.ui.get.includes(p.id))).join('') : '<div class="mu-ld">Choose a team.</div>'}</div></div></div>
+    ${trNeedRow(D, me, avg, 'You')}${op ? trNeedRow(D, op, avg, op.name) : ''}
+    ${res}${give.length || get.length ? '<button class="linkbtn tr-clr" data-tr="clear">Clear trade</button>' : ''}
+    <h6 class="tr-h6">💡 Suggested trades · both starting lineups improve</h6><div class="tr-sgs">${sugH}</div>
+    <div class="tb-foot">All numbers from ESPN: Proj/g = ESPN projected pts per game · ROS = Proj/g × games left after week ${esc(D.per)}${D.last ? ' through week ' + esc(D.last) : ''} (byes excluded) · PPG = season average · L3 = last 3 weeks · Sched = remaining opponents' pts/g allowed to the position vs average (+ = easier) · Need/depth = starters vs league-average starter. Analysis only; nothing is sent to ESPN.</div></div>`);
+}
+function trRender(sp){
+  const el = document.getElementById('fzTrade0'); if (!el) return;
+  const h = trSection(sp); if (el._h === h) return; const sc = el.querySelector('.mu-b'), top = sc ? sc.scrollTop : 0;
+  el._h = h; el.innerHTML = h; const nb = el.querySelector('.mu-b'); if (nb) nb.scrollTop = top;
+}
+function ensureTr(sp){
+  if (sp !== 'nfl' || !TR.ui.open) return;
+  const L = espnLinks[sp]; if (!L || L.source === 'paste' || !L.leagueId || !L.teamId) return;
+  const D = TR.d; if ((D && D.lg === L.leagueId + ':' + L.teamId && Date.now() - D.t < 15 * 60e3) || TR.busy || (TR.err && Date.now() - TR.err < 12e4)) return;
+  TR.busy = true; trLoad(sp, L).then(() => { TR.err = 0; }).catch(e => { TR.err = Date.now(); console.warn('trade', e && e.message); }).finally(() => { TR.busy = false; if (state.tab === FANTASY_TAB && MN.fsTab === sp) trRender(sp); });
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest && e.target.closest('[data-tr]'); if (!b) return; e.preventDefault();
+  const a = b.dataset.tr, sp = MN.fsTab, U = TR.ui;
+  if (a === 'open') U.open = !U.open;
+  else if (a === 'clear') { U.give = []; U.get = []; }
+  else if (a.startsWith('g:')) { const id = a.slice(2); U.give = U.give.includes(id) ? U.give.filter(x => x !== id) : U.give.concat(id); }
+  else if (a.startsWith('r:')) { const id = a.slice(2); U.get = U.get.includes(id) ? U.get.filter(x => x !== id) : U.get.concat(id); }
+  else if (a.startsWith('sug:')) { const x = TR.sug && TR.sug.v[+a.slice(4)]; if (x) { U.team = x.op; U.give = x.give.slice(); U.get = x.get.slice(); } }
+  trSaveUI(); trRender(sp); ensureTr(sp);
+  if (a.startsWith('sug:')) { const r = document.querySelector('#fzTrade .tr-res'), sc = document.querySelector('#fzTrade .mu-b'); if (r && sc) sc.scrollTop = r.offsetTop - sc.offsetTop - 8; }
+  const f = document.querySelector(`[data-tr="${CSS.escape(a)}"]`); if (f && !a.startsWith('sug:')) f.focus({ preventScroll: true });
+});
+document.addEventListener('change', e => {
+  const s = e.target.closest && e.target.closest('[data-trsel]'); if (!s) return;
+  TR.ui.team = s.value; TR.ui.get = []; trSaveUI(); trRender(MN.fsTab);
+});
+
 /* flipped trading card opens its back as a centered, enlarged overlay (✕ / Esc / tap outside closes and flips the card back) */
 function ccBigOpen(c){
   const st = c.querySelector('.cc-stock'); if (!st) return;
@@ -4414,8 +4641,9 @@ document.addEventListener('keydown', e => { const o = document.getElementById('c
 function renderFantasy(){
   const el = document.getElementById('games'), side = document.getElementById('news');
   side.classList.add('static');
-  if (el.dataset.view !== FANTASY_TAB) { el.dataset.view = FANTASY_TAB; el.innerHTML = `<div id="fzHead"></div><div id="fzMatch"></div><div id="mnPlayers"></div><div id="fzWatchLink"></div><div id="fzPick"></div><div id="fzComps"></div><div id="mnFF"></div>`; }
+  if (el.dataset.view !== FANTASY_TAB) { el.dataset.view = FANTASY_TAB; el.innerHTML = `<div id="fzHead"></div><div id="fzMatch"></div><div id="fzTrade0"></div><div id="mnPlayers"></div><div id="fzWatchLink"></div><div id="fzPick"></div><div id="fzComps"></div><div id="mnFF"></div>`; }
   if (!document.getElementById('fzMatch')) { const fh = document.getElementById('fzHead'); if (fh) fh.insertAdjacentHTML('afterend', '<div id="fzMatch"></div>'); }
+  if (!document.getElementById('fzTrade0')) { const fm = document.getElementById('fzMatch'); if (fm) fm.insertAdjacentHTML('afterend', '<div id="fzTrade0"></div>'); }
   if (!document.getElementById('fzPick')) { const wl = document.getElementById('fzWatchLink'); if (wl) wl.insertAdjacentHTML('afterend', '<div id="fzPick"></div>'); }
   if (!document.getElementById('fzComps')) { const ff = document.getElementById('mnFF'); if (ff) ff.insertAdjacentHTML('beforebegin', '<div id="fzComps"></div>'); }
   if (!fantasySel.includes(MN.fsTab)) MN.fsTab = fantasySel[0];
@@ -4455,6 +4683,7 @@ function renderFantasy(){
   try { renderCardRow(); } catch (_) {}
   ensureFzExtras(sp);
   try { muRender(sp); ensureMu(sp); } catch (e) { console.warn('matchup', e); }
+  try { trRender(sp); ensureTr(sp); } catch (e) { console.warn('trade', e); }
 }
 
 /* ===================== Comps & Movers (ESPN football leagues) =====================
@@ -4672,7 +4901,7 @@ function wtCompare(p, I){
   return `<div class="wt-cmp"><div class="fzc-sh">📊 This season vs last season <small>per-game pace</small></div><table class="wt-tbl"><thead><tr><th></th><th>${y0}</th><th class="cur">${S}</th><th>Change</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 function wtCard(p, I){
-  const sp = psp(p), F = FSPORTS[sp], ov = I.ov, bio = (PX[p.id] || {}).bio || {}, inj = playerInjury(p), art = "";
+  const sp = psp(p), F = FSPORTS[sp], ov = I.ov, bio = (PX[p.id] || {}).bio || {}, inj = playerInjury(p), art = cardArt(p);
   const colors = F.kind === 'team' && p.team && p.team !== 'FA' ? teamColorVars(F.lg, p.team, '', '') : '';
   const parts = String(p.name || '').split(' '), first = parts.length > 1 ? parts[0] : '', last = parts.length > 1 ? parts.slice(1).join(' ') : p.name;
   const av = I.cx ? cmpTag(I.cx) : '';
@@ -4901,7 +5130,7 @@ function ccComps(p, I, rank){
     + ((L => L && L.length ? `<h5>🎯 Top ${esc(me.pos)} pickups</h5>` + L.map(r => `<div class="cc-cm" title="Pickup score ${r.score} · L3 ${r.l3 ?? '–'} · proj ${r.x.proj ?? '–'}">${cmpTag(r.x)}<span class="n">${cmpName(r.x)}</span><span class="v">${r.score}</span><span class="d ${r.up > 0 ? 'up' : r.up < 0 ? 'dn' : ''}" title="vs your weakest ${esc(me.pos)}">${r.up > 0 ? '+' : ''}${r.up}</span>${cmpEye(r.x)}</div>`).join('') : '')(pkList(C, me.pos, 3)));
 }
 function ccCard(p, scope, C, rank, i){
-  const sp = psp(p), F = FSPORTS[sp], I = wtInfo(p), R = tbFromPlayer(p, C, rank || {}), ov = PL.ov[p.id] || {}, bio = (PX[p.id] || {}).bio || {}, inj = playerInjury(p), art = "";
+  const sp = psp(p), F = FSPORTS[sp], I = wtInfo(p), R = tbFromPlayer(p, C, rank || {}), ov = PL.ov[p.id] || {}, bio = (PX[p.id] || {}).bio || {}, inj = playerInjury(p), art = cardArt(p);
   const colors = F.kind === 'team' && p.team && p.team !== 'FA' ? teamColorVars(F.lg, p.team, '', '') : '';
   const [tc, tl] = ccTier(R.rk), key = scope + ':' + p.id, fl = CC.flip.has(key);
   const parts = String(p.name || '').split(' '), first = parts.length > 1 ? parts[0] : '', last = parts.length > 1 ? parts.slice(1).join(' ') : p.name;
@@ -4909,8 +5138,8 @@ function ccCard(p, scope, C, rank, i){
   const slotCls = p.watch ? 'w' : fav ? 'f' : g;
   const allSt = statPairs(p), big = (R.ppg ?? I.ppg) != null ? null : allSt.find(([k]) => !/^(GP|Starts|Age|Ht|Wt|Exp|College|Country)$/i.test(k)) || null;
   const ppg = R.ppg ?? I.ppg, team = p.teamName || p.team || '';
-  const front = `<div class="cc-face cc-front"><div class="cc-art">
-      ${art ? `<img class="cc-photo" src="${esc(art)}" alt="" loading="lazy" draggable="false" referrerpolicy="no-referrer" onerror="this.closest('.cc').classList.add('no-art');this.remove()">`
+  const front = `<div class="cc-face cc-front"><div class="cc-art${art ? ' has-art' : ''}">
+      ${art ? `<img class="cc-photo" src="${esc(art)}" alt="" loading="lazy" draggable="false" referrerpolicy="no-referrer" onerror="this.onerror=null;this.closest('.cc-art').classList.remove('has-art');this.className='cc-hsbig';this.src='${esc(p.headshot)}'">`
             : `${p.teamLogo ? `<img class="cc-logo-bg" src="${esc(p.teamLogo)}" alt="" draggable="false">` : ''}<img class="cc-hsbig" src="${esc(p.headshot)}" alt="" loading="lazy" draggable="false" onerror="this.style.visibility='hidden'">`}
       <div class="cc-fade"></div>
       <div class="cc-top"><div class="cc-tl"><span class="cc-slot ${slotCls}" title="${p.watch ? 'On your Fantasy Watch list' : 'Fantasy lineup slot'}">${esc(slotTxt)}</span>${ytPill(p.name, team, 'cc-yt')}</div>
@@ -5976,7 +6205,7 @@ function pcCard(p, mk){
   const sp = psp(p), F = FSPORTS[sp], ov = PL.ov[p.id] || {}, bio = (PX[p.id] || {}).bio || {}, now = playerNow(p, true), inj = playerInjury(p);
   const colors = F.kind === 'team' && p.team && p.team !== 'FA' ? teamColorVars(F.lg, p.team, '', '') : '';
   const parts = String(p.name || '').split(' '), first = parts.length > 1 ? parts[0] : '', last = parts.length > 1 ? parts.slice(1).join(' ') : p.name;
-  const num = bio.num || '', fl = PCF.has(p.id), art = "";
+  const num = bio.num || '', fl = PCF.has(p.id), art = cardArt(p);
   const tdat = mk && fantasySel.includes(sp) ? trendData(p) : null, hasT = !!(tdat && (tdat.weeks.length > 1 || tdat.pace));
   let sts = statPairs(p).slice(0, hasT ? 5 : 7);
   let key = '';
