@@ -1397,6 +1397,246 @@
     #ticker *,#ticker *::before,#ticker *::after{animation:none!important}
     #ticker .gx-rings i:first-child{transform:scale(.85);opacity:.9}
   }
+  /* ===== ⚔️ Matchup (head-to-head this week) ===== */
+  .mu{margin:6px 0 16px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(0,0,0,.12));overflow:hidden}
+  .mu-h{display:flex;align-items:center;gap:8px;padding:10px 12px;cursor:pointer;user-select:none;background:none;border:0;color:inherit;font:inherit;width:100%;text-align:left}
+  .mu-h b{font-size:16px;font-weight:900}.mu-h small{color:var(--muted);font-size:12px}.mu-h .car{margin-left:auto;transition:transform .2s;color:var(--muted)}.mu.closed .mu-h .car{transform:rotate(-90deg)}
+  .mu.closed .mu-b{display:none}.mu-b{padding:0 12px 12px}
+  .mu-sb{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:10px;border-radius:12px;background:rgba(0,0,0,.25)}
+  .mu-tm{display:flex;align-items:center;gap:10px;min-width:0}.mu-tm.op{flex-direction:row-reverse;text-align:right}
+  .mu-tm img,.mu-tm .ph{width:46px;height:46px;border-radius:50%;object-fit:cover;background:#fff2;flex:0 0 auto;display:grid;place-items:center;font-weight:900}
+  .mu-tm .nm{min-width:0}.mu-tm .nm b{display:block;font-size:14px;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mu-tm .nm i{font-style:normal;color:var(--muted);font-size:11.5px}
+  .mu-tm .sc{margin-left:auto;text-align:right}.mu-tm.op .sc{margin-left:0;margin-right:auto;text-align:left}
+  .mu-tm .sc b{display:block;font-size:28px;font-weight:900;line-height:1;font-variant-numeric:tabular-nums}.mu-tm .sc i{font-style:normal;color:var(--muted);font-size:11px}
+  .mu-tm.lead .sc b{color:#4ade80}
+  .mu-mid{text-align:center;font-size:11px;color:var(--muted)}.mu-mid b{display:block;font-size:15px;color:var(--text,#fff)}
+  .mu-wp{margin-top:8px}.mu-wpb{display:flex;height:10px;border-radius:6px;overflow:hidden;background:#ef4444}.mu-wpb span{background:linear-gradient(90deg,#16a34a,#4ade80);transition:width .6s}
+  .mu-wpl{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:3px}.mu-wpl b{color:var(--text,#fff)}
+  .mu-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0 6px}.mu-bar .sp{flex:1}
+  .mu-rp{background:var(--panel);color:var(--text,#fff);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font:inherit;font-size:12.5px;font-weight:800;cursor:pointer}
+  .mu-rows{display:flex;flex-direction:column;gap:8px}
+  .mu-r{display:grid;grid-template-columns:1fr 74px 1fr;align-items:center;gap:6px;padding:6px 4px;border-radius:12px;background:rgba(255,255,255,.025);position:relative}
+  .mu-sd{display:flex;align-items:center;gap:10px;justify-content:flex-end;min-width:0}.mu-sd.op{justify-content:flex-start}
+  .mu-sd.me{flex-direction:row}.mu-sd.me .mu-inf{text-align:right}
+  .mu-inf{min-width:0;font-size:12px;line-height:1.3}.mu-inf .pj{color:var(--muted)}.mu-inf .ac{font-size:18px;font-weight:900;font-variant-numeric:tabular-nums}.mu-inf .gs{font-size:11px;color:var(--muted);white-space:nowrap}.mu-inf .gs.in{color:#f87171;font-weight:800}
+  .mu-vs{position:relative;text-align:center;font-size:11px;color:var(--muted);z-index:2}
+  .mu-vs .sl{display:inline-block;font-weight:900;font-size:11px;color:#111;background:var(--accent);border-radius:6px;padding:1px 6px}
+  .mu-vs .v{display:block;font-weight:900;font-size:17px;color:var(--text,#fff);letter-spacing:1px;margin:2px 0}
+  .mu-vs .dl{display:block;font-weight:800;font-size:12px}.mu-vs .dl.up{color:#4ade80}.mu-vs .dl.dn{color:#f87171}
+  .mu-boom{position:absolute;left:50%;top:50%;width:70px;height:70px;margin:-35px 0 0 -35px;border-radius:50%;pointer-events:none;opacity:0;transform:scale(0);
+    background:radial-gradient(circle,#fff 0 12%,#ffe066 18%,rgba(255,140,0,.85) 34%,rgba(255,80,0,0) 62%),conic-gradient(from 0deg,transparent 0 6%,#ffd23f 6% 9%,transparent 9% 18%,#fff 18% 20%,transparent 20% 31%,#ffd23f 31% 34%,transparent 34% 44%,#fff 44% 46%,transparent 46% 56%,#ffd23f 56% 59%,transparent 59% 69%,#fff 69% 71%,transparent 71% 81%,#ffd23f 81% 84%,transparent 84% 94%,#fff 94% 96%,transparent 96%);
+    -webkit-mask:radial-gradient(circle,#000 55%,transparent 70%);mask:radial-gradient(circle,#000 55%,transparent 70%)}
+  /* small matchup card */
+  .mc{--w:110px;--h:150px;width:var(--w);height:var(--h);flex:0 0 auto;position:relative;border-radius:10px;padding:3px;display:block;text-decoration:none;color:#fff;
+    background:linear-gradient(135deg,#6f7787,#e3e8f0 22%,#8b93a3 40%,#f4f6fa 58%,#7d8494 78%,#cfd5df);box-shadow:0 6px 16px rgba(0,0,0,.45)}
+  .mc.r-rare{background:linear-gradient(135deg,#0d4fb8,#7cc4ff 22%,#1565d8 42%,#c4e6ff 58%,#0f57c6 78%,#5fb0ff)}
+  .mc.r-epic{background:linear-gradient(135deg,#4b0f8f,#d38bff 22%,#6a1fc0 42%,#f1d4ff 58%,#5a16a8 78%,#b56aff)}
+  .mc.r-leg{background:linear-gradient(135deg,#8a6a1c,#ffe08a 20%,#b8862b 38%,#fff6cf 55%,#a97a1f 74%,#ffd35a 90%,#8a6a1c);box-shadow:0 6px 16px rgba(0,0,0,.5),0 0 12px rgba(255,200,61,.35)}
+  .mc.empty{background:#333;opacity:.5}
+  .mc-in{position:relative;width:100%;height:100%;border-radius:8px;overflow:hidden;background:radial-gradient(circle at 50% 30%,var(--tc1,#3a4252),#11151c 75%)}
+  .mc-ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+  .mc-hs{position:absolute;left:50%;bottom:28%;width:96%;transform:translateX(-50%);object-fit:contain}
+  .mc-lg{position:absolute;right:-12%;top:8%;width:70%;opacity:.18}
+  .mc-fd{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),transparent 30%,transparent 50%,rgba(0,0,0,.92) 82%)}
+  .mc-pos{position:absolute;left:4px;top:4px;font-size:9.5px;font-weight:900;background:rgba(0,0,0,.65);border-radius:4px;padding:1px 4px}
+  .mc-pt{position:absolute;right:4px;top:4px;font-size:12px;font-weight:900;background:rgba(0,0,0,.7);border-radius:4px;padding:0 4px;font-variant-numeric:tabular-nums}
+  .mc-pl{position:absolute;left:0;right:0;bottom:0;padding:3px 5px 4px;line-height:1.1}
+  .mc-pl b{display:block;font-size:12px;font-weight:900;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mc-pl i{display:block;font-style:normal;font-size:9.5px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mc-ck{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none}
+  .mc-ck path{fill:none;stroke:#fff;stroke-width:2.2;stroke-linejoin:round;filter:drop-shadow(0 0 1px #000)}
+  /* end states (static; reduced motion and after the animation ran) */
+  .mu-rows.done .mc.lose{opacity:.5;filter:grayscale(1)}.mu-rows.done .mc.lose .mc-ck{opacity:.85}
+  .mu-rows.done .mc.win{box-shadow:0 0 0 2px #4ade80,0 6px 18px rgba(0,0,0,.5)}
+  .mu-rows.done .mu-sd.win .ac{color:#4ade80}
+  /* animation, run once per row (staggered via --d) */
+  @keyframes muLungeL{0%{transform:none}25%{transform:translateX(-8px) rotate(-3deg)}50%{transform:translateX(34px) scale(1.1) rotate(4deg)}70%{transform:translateX(28px) scale(1.08)}100%{transform:none}}
+  @keyframes muLungeR{0%{transform:none}25%{transform:translateX(8px) rotate(3deg)}50%{transform:translateX(-34px) scale(1.1) rotate(-4deg)}70%{transform:translateX(-28px) scale(1.08)}100%{transform:none}}
+  @keyframes muBoom{0%{opacity:0;transform:scale(.2) rotate(0)}15%{opacity:1;transform:scale(1.25) rotate(20deg)}100%{opacity:0;transform:scale(1.7) rotate(45deg)}}
+  @keyframes muShake{0%,100%{transform:none}20%{transform:translateX(-6px) rotate(-3deg)}40%{transform:translateX(5px) rotate(2deg)}60%{transform:translateX(-4px) rotate(-1deg)}80%{transform:translateX(2px)}}
+  @keyframes muCrack{0%{opacity:0}100%{opacity:.85}}
+  .mu-rows.play .mc.win.l{animation:muLungeL .6s cubic-bezier(.3,.7,.3,1) var(--d) 1 both;z-index:3}
+  .mu-rows.play .mc.win.r{animation:muLungeR .6s cubic-bezier(.3,.7,.3,1) var(--d) 1 both;z-index:3}
+  .mu-rows.play .mu-boom{animation:muBoom .55s ease-out calc(var(--d) + .26s) 1 both}
+  .mu-rows.play .mc.lose{animation:muShake .45s ease-out calc(var(--d) + .3s) 1 both;transition:opacity .4s calc(var(--d) + .7s),filter .4s calc(var(--d) + .7s);opacity:.5;filter:grayscale(1)}
+  .mu-rows.play .mc.lose .mc-ck{animation:muCrack .15s linear calc(var(--d) + .3s) 1 both}
+  .mu-rows.play .mc.win{transition:box-shadow .3s calc(var(--d) + .4s);box-shadow:0 0 0 2px #4ade80,0 6px 18px rgba(0,0,0,.5)}
+  @media (prefers-reduced-motion:reduce){.mu-rows.play .mc,.mu-rows.play .mu-boom,.mu-rows.play .mc-ck{animation:none!important;transition:none!important}.mu-rows.play .mc.lose .mc-ck{opacity:.85}}
+  .mu-tbw{overflow-x:auto}.mu-tb{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .mu-tb th{font-size:11px;color:var(--muted);text-align:right;padding:5px 6px;border-bottom:1px solid var(--line);white-space:nowrap}.mu-tb th.n,.mu-tb td.n{text-align:left}
+  .mu-tb td{text-align:right;padding:5px 6px;border-bottom:1px solid rgba(255,255,255,.05);white-space:nowrap}
+  .mu-tb td.n b{font-weight:800}.mu-tb td.n i{font-style:normal;color:var(--muted);font-size:11px;margin-left:4px}
+  .mu-tb td.sl{text-align:center;font-weight:900;color:var(--accent)}.mu-tb tr.w-me td.me-n,.mu-tb tr.w-op td.op-n{color:#4ade80}
+  .mu-tb td.up{color:#4ade80;font-weight:800}.mu-tb td.dn{color:#f87171;font-weight:800}.mu-tb .gl{color:#f87171;font-size:10px;font-weight:800;margin-left:4px}
+  .mu-bn{margin-top:10px}.mu-bnh{background:none;border:0;color:var(--muted);font:inherit;font-weight:800;font-size:13px;cursor:pointer;padding:6px 0}
+  .mu-bng{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mu-bng h6{margin:4px 0;font-size:12px;color:var(--muted)}
+  .mu-bnr{display:flex;gap:6px;align-items:center;font-size:12px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05)}.mu-bnr img{width:24px;height:24px;border-radius:50%;object-fit:cover;background:#fff1}
+  .mu-bnr span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mu-bnr i{font-style:normal;color:var(--muted)}.mu-bnr b{font-variant-numeric:tabular-nums}
+  .mu-ld{color:var(--muted);font-size:13px;padding:8px 0}
+  @media (max-width:700px){
+    .mc{--w:90px;--h:125px}.mc-pl b{font-size:10.5px}.mc-pl i{font-size:8.5px}
+    .mu-r{grid-template-columns:1fr 58px 1fr;gap:3px;padding:6px 2px}
+    .mu-sd{flex-direction:column!important;align-items:center;gap:4px}.mu-sd .mu-inf{text-align:center!important}
+    .mu-sd.me .mu-inf{order:2}
+    .mu-inf .ac{font-size:15px}.mu-inf{font-size:11px}
+    .mu-tm .sc b{font-size:22px}.mu-tm img,.mu-tm .ph{width:34px;height:34px}.mu-tm .nm b{font-size:12px;white-space:normal}
+    .mu-sb{gap:6px;padding:8px}.mu-tm{gap:6px;flex-wrap:wrap}.mu-tm .sc{margin-left:0}.mu-tm.op .sc{margin-right:0}
+    @keyframes muLungeL{0%{transform:none}25%{transform:translateX(-5px)}50%{transform:translateX(18px) scale(1.08)}100%{transform:none}}
+    @keyframes muLungeR{0%{transform:none}25%{transform:translateX(5px)}50%{transform:translateX(-18px) scale(1.08)}100%{transform:none}}
+  }
+  /* ===== compact matchup (Oct 11): ~65% card size, tighter spacing; matchup only, trading cards untouched ===== */
+  .mu{margin:4px 0 12px;border-radius:12px}
+  .mu-h{padding:7px 10px;gap:6px}.mu-h b{font-size:14px}.mu-h small{font-size:11px}
+  .mu-b{padding:0 8px 8px}
+  .mu-sb{gap:8px;padding:6px 8px;border-radius:10px}
+  .mu-tm{gap:7px}.mu-tm img,.mu-tm .ph{width:30px;height:30px;font-size:11px}
+  .mu-tm .nm b{font-size:12.5px}.mu-tm .nm i{font-size:10.5px}
+  .mu-tm .sc b{font-size:20px}.mu-tm .sc i{font-size:10px}
+  .mu-mid{font-size:10px}.mu-mid b{font-size:13px}
+  .mu-wp{margin-top:5px}.mu-wpb{height:6px;border-radius:4px}.mu-wpl{font-size:10.5px;margin-top:2px}
+  .mu-bar{margin:6px 0 4px;gap:6px}.mu-bar .tb-vt.seg button{padding:5px 12px;font-size:12.5px}.mu-bar .tb-vt.seg button .ic{font-size:14px}
+  .mu-rp{padding:4px 9px;font-size:11.5px;border-radius:7px}
+  .mu-rows{gap:4px}
+  .mu-r{grid-template-columns:1fr 54px 1fr;gap:4px;padding:3px 3px;border-radius:9px}
+  .mu-sd{gap:7px}
+  .mu-inf{font-size:10.5px;line-height:1.2}.mu-inf .ac{font-size:14px}.mu-inf .gs{font-size:9.5px}
+  .mu-vs{font-size:10px}.mu-vs .sl{font-size:9.5px;padding:0 5px;border-radius:5px}.mu-vs .v{font-size:12px;margin:1px 0}.mu-vs .dl{font-size:10.5px}
+  .mu-boom{width:46px;height:46px;margin:-23px 0 0 -23px}
+  .mc{--w:74px;--h:100px;border-radius:7px;padding:2px;box-shadow:0 3px 9px rgba(0,0,0,.45)}
+  .mc-in{border-radius:5px}
+  .mc-pos{left:2px;top:2px;font-size:8px;padding:0 3px;border-radius:3px}
+  .mc-pt{right:2px;top:2px;font-size:9.5px;padding:0 3px;border-radius:3px}
+  .mc-pl{padding:2px 3px 3px}.mc-pl b{font-size:9px}.mc-pl i{font-size:7.5px}
+  .mc-ck path{stroke-width:1.6}
+  .mu-rows.done .mc.win,.mu-rows.play .mc.win{box-shadow:0 0 0 2px #4ade80,0 3px 10px rgba(0,0,0,.5)}
+  @keyframes muLungeL{0%{transform:none}25%{transform:translateX(-5px) rotate(-3deg)}50%{transform:translateX(22px) scale(1.1) rotate(4deg)}70%{transform:translateX(18px) scale(1.08)}100%{transform:none}}
+  @keyframes muLungeR{0%{transform:none}25%{transform:translateX(5px) rotate(3deg)}50%{transform:translateX(-22px) scale(1.1) rotate(-4deg)}70%{transform:translateX(-18px) scale(1.08)}100%{transform:none}}
+  @keyframes muShake{0%,100%{transform:none}20%{transform:translateX(-4px) rotate(-3deg)}40%{transform:translateX(3px) rotate(2deg)}60%{transform:translateX(-2px) rotate(-1deg)}80%{transform:translateX(1px)}}
+  .mu-tb{font-size:11.5px}.mu-tb th{font-size:10px;padding:3px 5px}.mu-tb td{padding:2px 5px;line-height:1.25}.mu-tb td.n i{font-size:10px;margin-left:3px}
+  .mu-bn{margin-top:6px}.mu-bnh{font-size:12px;padding:3px 0}
+  .mu-bng{gap:8px}.mu-bng h6{font-size:11px;margin:2px 0}
+  .mu-bnr{font-size:11px;padding:2px 0;gap:5px}.mu-bnr img{width:18px;height:18px}
+  .mu-ld{font-size:12px;padding:5px 0}
+  @media (max-width:700px){
+    .mc{--w:60px;--h:82px}.mc-pl b{font-size:8px}.mc-pl i{display:none}.mc-pos{font-size:7px}.mc-pt{font-size:8.5px}
+    .mu-r{grid-template-columns:1fr 44px 1fr;gap:2px;padding:3px 1px}
+    .mu-sd{flex-direction:row!important;align-items:center;gap:4px}.mu-sd.me{justify-content:flex-end}.mu-sd.op{justify-content:flex-start}
+    .mu-sd.me .mu-inf{order:0;text-align:right!important}.mu-sd.op .mu-inf{text-align:left!important}
+    .mu-inf{font-size:9.5px}.mu-inf .ac{font-size:13px}.mu-inf .gs{font-size:8.5px;white-space:normal}
+    .mu-vs .v{font-size:11px}.mu-vs .dl{font-size:9.5px}.mu-vs .sl{font-size:9px}
+    .mu-tm .sc b{font-size:17px}.mu-tm img,.mu-tm .ph{width:24px;height:24px}.mu-tm .nm b{font-size:11px}
+    .mu-sb{gap:4px;padding:5px 6px}.mu-tm{gap:4px}
+    .mu-tb{font-size:10.5px}.mu-tb th{font-size:9.5px;padding:3px 4px}.mu-tb td{padding:2px 4px}
+    @keyframes muLungeL{0%{transform:none}25%{transform:translateX(-3px)}50%{transform:translateX(12px) scale(1.08)}100%{transform:none}}
+    @keyframes muLungeR{0%{transform:none}25%{transform:translateX(3px)}50%{transform:translateX(-12px) scale(1.08)}100%{transform:none}}
+  }
+  /* 🛡 defense-vs-position badge (matchup) */
+  .dv{display:inline-flex;align-items:center;gap:4px;margin-top:3px;padding:2px 6px 2px 3px;border-radius:999px;font-size:9.5px;line-height:1.1;border:1px solid;white-space:nowrap;max-width:100%}
+  .mu-sd.me .dv{flex-direction:row-reverse;padding:2px 3px 2px 6px}
+  .dv.g{color:#86efac;border-color:rgba(74,222,128,.55);background:linear-gradient(90deg,rgba(22,163,74,.28),rgba(22,163,74,.08))}
+  .dv.y{color:#fde68a;border-color:rgba(250,204,21,.5);background:linear-gradient(90deg,rgba(202,138,4,.26),rgba(202,138,4,.07))}
+  .dv.r{color:#fca5a5;border-color:rgba(248,113,113,.55);background:linear-gradient(90deg,rgba(220,38,38,.28),rgba(220,38,38,.08))}
+  .dv-t{display:flex;flex-direction:column;min-width:0}.dv-t b{font-weight:900;font-size:10px}.dv-t b em{font-style:normal;opacity:.9}.dv-t i{font-style:normal;opacity:.85;font-size:9px;overflow:hidden;text-overflow:ellipsis}
+  .dv-sh{position:relative;width:18px;height:20px;flex:0 0 auto;display:grid;place-items:center}
+  .dv-sh svg{position:absolute;inset:0;width:100%;height:100%}
+  .dv-sh path{fill:var(--tc1,#2b3445);stroke:currentColor;stroke-width:1.6}
+  .dv-sh img{position:relative;width:12px;height:12px;object-fit:contain;margin-top:-1px;filter:drop-shadow(0 0 1px rgba(0,0,0,.8))}
+  .dv.sm{margin:0;padding:1px 5px 1px 2px;gap:3px;font-size:10px}.dv.sm b{font-weight:900}.dv.sm i{font-style:normal;opacity:.85}
+  .dv.sm .dv-sh{width:15px;height:17px}.dv.sm .dv-sh img{width:10px;height:10px}
+  .mu-tb th.dvc,.mu-tb td.dvc{text-align:left}
+  .mc-dv{position:absolute;left:2px;top:15px;width:7px;height:7px;border-radius:50%;box-shadow:0 0 0 1.5px rgba(0,0,0,.7)}
+  .mc-dv.g{background:#4ade80}.mc-dv.y{background:#facc15}.mc-dv.r{background:#f87171}
+  @media (max-width:700px){.dv{font-size:8.5px;padding:1px 4px 1px 2px;gap:3px}.mu-sd.me .dv{padding:1px 2px 1px 4px}.dv-t b{font-size:9px}.dv-t i{font-size:8px}.dv-sh{width:15px;height:17px}.dv-sh img{width:10px;height:10px}.mc-dv{top:12px;width:6px;height:6px}}
+  /* ===== matchup versus strips (Oct 11) ===== */
+  .mu-b{container:mub/inline-size}
+  .mu-bar{display:flex;align-items:center;gap:10px;flex-wrap:nowrap;margin:6px 0 6px}
+  .mu-bar .mu-wp{flex:1;min-width:0;margin:0}.mu-bar .mu-wpl{margin:0 0 2px}.mu-bar .mu-wpb{height:6px}
+  .ms-list{display:flex;flex-direction:column;gap:4px}
+  @container mub (min-width:1060px){.ms-list{display:grid;grid-template-columns:1fr 1fr;gap:5px 14px}}
+  .ms{display:grid;grid-template-columns:minmax(0,1fr) 58px minmax(0,1fr);gap:4px;align-items:stretch;position:relative}
+  .ms-sd{--acc:var(--tc1,#4b5563);position:relative;display:flex;align-items:center;gap:8px;min-width:0;height:54px;padding:4px 8px 4px 6px;border-radius:10px;cursor:pointer;overflow:hidden;
+    background:linear-gradient(100deg,color-mix(in srgb,var(--tc1,#334155) 38%,transparent),rgba(255,255,255,.035) 55%,rgba(255,255,255,.02));
+    border:1px solid rgba(255,255,255,.07);border-left:3px solid var(--acc);box-shadow:inset 0 1px 0 rgba(255,255,255,.06);transition:background .2s,border-color .2s}
+  .ms-sd.op{flex-direction:row-reverse;text-align:right;padding:4px 6px 4px 8px;border-left:1px solid rgba(255,255,255,.07);border-right:3px solid var(--acc);
+    background:linear-gradient(260deg,color-mix(in srgb,var(--tc1,#334155) 38%,transparent),rgba(255,255,255,.035) 55%,rgba(255,255,255,.02))}
+  .ms-sd.dv-g{--acc:#4ade80}.ms-sd.dv-y{--acc:#facc15}.ms-sd.dv-r{--acc:#f87171}
+  .ms-sd:hover,.ms-sd:focus-visible{border-color:rgba(255,255,255,.22);outline:none}.ms-sd:focus-visible{box-shadow:0 0 0 2px var(--accent)}
+  .ms-sd.empty{justify-content:center;cursor:default;color:var(--muted);font-size:11px;background:rgba(255,255,255,.02);border-style:dashed}
+  .ms-th{position:relative;flex:0 0 auto;width:36px;height:46px;border-radius:6px;padding:2px;background:linear-gradient(135deg,#6f7787,#e3e8f0 30%,#8b93a3 55%,#cfd5df)}
+  .ms-th.r-rare{background:linear-gradient(135deg,#0d4fb8,#7cc4ff 30%,#1565d8 55%,#5fb0ff)}.ms-th.r-epic{background:linear-gradient(135deg,#4b0f8f,#d38bff 30%,#6a1fc0 55%,#b56aff)}
+  .ms-th.r-leg{background:linear-gradient(135deg,#8a6a1c,#ffe08a 25%,#b8862b 45%,#fff6cf 60%,#ffd35a);box-shadow:0 0 8px rgba(255,200,61,.35)}
+  .ms-th img{width:100%;height:100%;object-fit:cover;object-position:50% 15%;border-radius:4px;background:radial-gradient(circle at 50% 30%,var(--tc1,#3a4252),#11151c 80%);display:block}
+  .ms-pos{position:absolute;left:0;right:0;bottom:-1px;text-align:center;font-size:8px;font-weight:900;color:#fff;background:rgba(0,0,0,.72);border-radius:0 0 4px 4px;line-height:11px}
+  .ms-i{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+  .ms-n{display:flex;align-items:baseline;gap:5px;min-width:0;line-height:1.1}.ms-sd.op .ms-n,.ms-sd.op .ms-m{flex-direction:row-reverse}
+  .ms-n b{font-size:13px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .ms-tm{font-size:10px;color:var(--muted);font-weight:800;flex:0 0 auto}
+  .ms-inj{flex:0 0 auto;font-size:9px;font-weight:900;color:#fff;background:#dc2626;border-radius:4px;padding:0 4px;line-height:14px}
+  .ms-m{display:flex;align-items:center;gap:6px;min-width:0;font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden}
+  .ms-gs{flex:0 0 auto}.ms-gs.in{color:#f87171;font-weight:900}.ms-gs.post{color:#cbd5e1}
+  .ms-x{flex:0 0 auto;font-variant-numeric:tabular-nums}
+  .ms-m .dv{margin:0;flex:0 1 auto;min-width:0}.ms-m .dv i{overflow:hidden;text-overflow:ellipsis}
+  .ms-p{flex:0 0 auto;width:54px;display:flex;flex-direction:column;align-items:flex-end;line-height:1.05}.ms-sd.op .ms-p{align-items:flex-start}
+  .ms-p b{font-size:19px;font-weight:900;font-variant-numeric:tabular-nums}.ms-sd.live .ms-p b{color:#fca5a5}
+  .ms-p i{font-style:normal;font-size:9.5px;color:var(--muted);white-space:nowrap}
+  .ms-pb{display:block;width:100%;height:4px;margin-top:3px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden}
+  .ms-pb i{display:block;height:100%;background:linear-gradient(90deg,#f59e0b,#fbbf24);border-radius:3px}.ms-pb.hit i{background:linear-gradient(90deg,#16a34a,#4ade80)}
+  .ms-sd.op .ms-pb{transform:scaleX(-1)}
+  .ms-c{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;z-index:2}
+  .ms-c .sl{font-weight:900;font-size:10px;color:#111;background:var(--accent);border-radius:5px;padding:1px 6px;line-height:13px}
+  .ms-c .dl{font-weight:800;font-size:10.5px;white-space:nowrap;color:var(--muted)}.ms-c .dl.up{color:#4ade80}.ms-c .dl.dn{color:#f87171}
+  .ms-sh{display:block;width:44px;height:4px;border-radius:3px;background:#ef4444;overflow:hidden}.ms-sh i{display:block;height:100%;background:#4ade80}
+  .ms-ck{opacity:0;pointer-events:none;position:absolute;inset:0;width:100%;height:100%}
+  /* strip battle: winner glows + pushes toward the middle, loser shakes, dims and cracks */
+  @keyframes msPushL{0%{transform:none}30%{transform:translateX(-5px)}55%{transform:translateX(12px) scale(1.03)}100%{transform:none}}
+  @keyframes msPushR{0%{transform:none}30%{transform:translateX(5px)}55%{transform:translateX(-12px) scale(1.03)}100%{transform:none}}
+  .mu-rows.play .ms-sd.win.me{animation:msPushL .6s cubic-bezier(.3,.7,.3,1) var(--d) 1 both;z-index:3}
+  .mu-rows.play .ms-sd.win.op{animation:msPushR .6s cubic-bezier(.3,.7,.3,1) var(--d) 1 both;z-index:3}
+  .mu-rows.play .ms-sd.win,.mu-rows.done .ms-sd.win{transition:box-shadow .3s calc(var(--d,0s) + .35s);box-shadow:0 0 0 1.5px #4ade80,0 0 18px rgba(74,222,128,.28),inset 0 0 22px rgba(74,222,128,.12)}
+  .mu-rows.play .ms-sd.lose{animation:muShake .45s ease-out calc(var(--d) + .3s) 1 both;transition:opacity .4s calc(var(--d) + .7s),filter .4s calc(var(--d) + .7s);opacity:.55;filter:grayscale(.85)}
+  .mu-rows.play .ms-sd.lose .ms-ck{animation:muCrack .15s linear calc(var(--d) + .3s) 1 both}
+  .mu-rows.done .ms-sd.lose{opacity:.55;filter:grayscale(.85)}.mu-rows.done .ms-sd.lose .ms-ck{opacity:.7}
+  .mu-rows.done .ms-sd.win .ms-p b{color:#4ade80}
+  @media (prefers-reduced-motion:reduce){.mu-rows.play .ms-sd,.mu-rows.play .ms-ck{animation:none!important;transition:none!important}.mu-rows.play .ms-sd.lose .ms-ck{opacity:.7}}
+  @container mub (max-width:560px){
+    .ms{grid-template-columns:minmax(0,1fr) 40px minmax(0,1fr);gap:3px}
+    .ms-sd{height:58px;gap:5px;padding:3px 5px 3px 4px;align-items:center}.ms-sd.op{padding:3px 4px 3px 5px}
+    .ms-th{width:28px;height:38px;padding:1.5px}.ms-pos{font-size:7px;line-height:9px}
+    .ms-i{gap:2px}.ms-n b{font-size:11px}.ms-tm{display:none}.ms-inj{font-size:8px;line-height:12px;padding:0 3px}
+    .ms-m{flex-direction:column!important;align-items:flex-start;gap:2px;font-size:9px}.ms-sd.op .ms-m{align-items:flex-end}
+    .ms-x{display:none}.ms-m .dvk{display:none}.ms-m .dv{padding:0 4px 0 1px;font-size:8.5px}.ms-m .dv .dv-sh{width:12px;height:14px}.ms-m .dv .dv-sh img{width:8px;height:8px}
+    .ms-p{width:34px}.ms-p b{font-size:15px}.ms-p i{font-size:8px}
+    .ms-c .sl{font-size:9px;padding:0 4px}.ms-c .dl{font-size:9px}.ms-sh{width:32px}
+    .mu-bar{flex-wrap:wrap;gap:6px}.mu-bar .mu-wp{order:3;flex-basis:100%}
+  }
+  /* matchup player popover / mobile sheet */
+  #muPop{position:fixed;z-index:10000}#muPop[hidden]{display:none}
+  #muPop.pop{width:min(560px,calc(100vw - 16px))}
+  #muPop.sheet{inset:0;display:flex;align-items:flex-end;justify-content:center;background:rgba(5,8,14,.72);padding:10px 8px 0}
+  html.mup-open{overflow:hidden}
+  .mup{position:relative;display:flex;gap:10px;padding:8px;border-radius:16px;background:rgba(12,16,26,.97);border:1px solid rgba(255,255,255,.14);box-shadow:0 18px 50px rgba(0,0,0,.7);animation:mupIn .18s ease-out}
+  .mup::before{content:"";position:absolute;inset:0;border-radius:16px;padding:2px;background:linear-gradient(135deg,#6f7787,#e3e8f0 30%,#8b93a3 55%,#cfd5df);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+  .mup.r-rare::before{background:linear-gradient(135deg,#0d4fb8,#7cc4ff,#1565d8,#5fb0ff)}.mup.r-epic::before{background:linear-gradient(135deg,#4b0f8f,#d38bff,#6a1fc0,#b56aff)}.mup.r-leg::before{background:linear-gradient(135deg,#8a6a1c,#ffe08a,#b8862b,#fff6cf,#ffd35a)}
+  @keyframes mupIn{from{opacity:0;transform:translateY(6px) scale(.97)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.mup{animation:none}}
+  .mup-x{position:absolute;top:6px;right:6px;z-index:5;width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.6);color:#fff;font-size:14px;cursor:pointer}
+  #muPop.pop .mup-x{display:none}#muPop.pop.pinned .mup-x{display:block}
+  .mup .mup-cc{--w:190px;--h:276px;flex:0 0 auto;cursor:default}
+  .mup .mup-cc .cc-in{cursor:default}
+  .mup-b{flex:1;min-width:0;max-height:276px;overflow:auto;font-size:12px;padding-right:2px}
+  .mup-b .cc-stock{position:static;height:auto;border-radius:10px;transform:none}
+  .mup-b .cc-bb{overflow:visible}
+  .mup-wk{padding:2px 2px 8px;margin-bottom:6px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .mup-wk h5{margin:0 30px 6px 0;font-size:12px}
+  .mup-wk .cc-sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:4px}
+  .mup-wk .cc-sg div{background:rgba(255,255,255,.05);border-radius:6px;padding:4px 2px;text-align:center}.mup-wk .cc-sg b{display:block;font-size:14px}.mup-wk .cc-sg i{font-style:normal;font-size:9.5px;color:var(--muted)}
+  .mup-wk .cc-nx{margin-top:6px;font-size:11.5px}.mup-inj b{color:#f87171}
+  .mup-dv{margin-top:6px}.mup-dv p{margin:4px 0 0;font-size:11px;color:var(--muted);line-height:1.35}
+  #muPop.sheet .mup{flex-direction:column;align-items:center;width:min(100%,440px);max-height:90vh;overflow:auto;border-radius:18px 18px 0 0;padding:12px 10px 16px;animation:mupUp .24s cubic-bezier(.3,1.2,.5,1)}
+  #muPop.sheet .mup::before{border-radius:18px 18px 0 0}
+  #muPop.sheet .mup-cc{--w:180px;--h:262px}
+  #muPop.sheet .mup-b{max-height:none;overflow:visible;width:100%}
+  @keyframes mupUp{from{transform:translateY(40%);opacity:.4}to{transform:none;opacity:1}}
   /* ===== bigger trading cards + enlarged back overlay ===== */
   .cc-grid{grid-template-columns:repeat(auto-fill,260px);gap:20px}
   .cc{--w:260px;--h:380px}
@@ -1426,6 +1666,69 @@
   .ccb .yt-pill{font-size:12px;padding:3px 9px}.ccb .yt-pill b{font-size:11px}.ccb .tr-pace{font-size:14px}
   .ccb-x{position:absolute;top:12px;right:12px;z-index:5;width:36px;height:36px;border-radius:50%;border:2px solid #fff;background:rgba(0,0,0,.55);color:#fff;font-size:17px;font-weight:900;cursor:pointer;line-height:1}
   .ccb-x:focus-visible{outline:3px solid #ffc83d}
+  /* ===================== Oct 12: classic Topps cards (face-centered headshot window, cream border, diagonal team nameplate) ===================== */
+  .pc{flex:0 0 156px;height:222px}
+  .pc .pc-front{background:#f7f0dc;background-image:radial-gradient(140% 100% at 50% 0%,#fffaf0,#efe4c6);border:0;padding:0;box-shadow:0 8px 18px rgba(0,0,0,.5),inset 0 0 0 1px rgba(0,0,0,.18)}
+  .pc .pc-front::before{content:"";position:absolute;left:7px;right:7px;top:7px;bottom:40px;border-radius:9px;z-index:0;
+    background:radial-gradient(90% 70% at 50% 30%,color-mix(in srgb,var(--tc,#3a4766) 60%,#fff 40%),var(--tc,#3a4766) 70%,color-mix(in srgb,var(--tc,#3a4766) 60%,#000));
+    box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--tc2,var(--tc,#3a4766)) 75%,#000),inset 0 0 0 4px rgba(255,255,255,.55)}
+  .pc .pc-hs{left:9px;right:9px;top:9px;bottom:42px;transform:none;width:calc(100% - 18px);height:calc(100% - 51px);max-height:none;object-fit:cover;object-position:50% 12%;border-radius:7px;z-index:1;filter:none}
+  .pc .pc-plate{left:0;right:0;bottom:0;height:58px;padding:16px 38px 5px 34px;border:0;background:none;justify-content:flex-end;z-index:2}
+  .pc .pc-plate::before,.cc .cc-plate::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(100deg,var(--tc,#3a4766) 0 72%,var(--tc2,#1b2336) 72.4%);clip-path:polygon(0 30%,100% 0,100% 100%,0 100%)}
+  .pc .pc-fn{font-size:8.5px;letter-spacing:1px;opacity:.9}
+  .pc .pc-ln{font-size:14px;letter-spacing:.4px;text-shadow:0 1px 0 rgba(0,0,0,.45)}
+  .pc .pc-tm{font-size:9.5px}
+  .pc .pc-tm img{position:absolute;right:6px;bottom:8px;width:30px;height:30px;padding:3px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.45);z-index:3}
+  .pc .pc-top{top:auto;bottom:10px;left:5px;z-index:4}
+  .pc .pc-pos{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;padding:0;font-size:9.5px;background:#fffaf0;color:#1b1b1b;border:2px solid var(--tc2,var(--tc,#3a4766));box-shadow:0 2px 5px rgba(0,0,0,.45)}
+  .pc .pc-num{position:absolute;bottom:30px;left:0;font-size:11px;color:#1b1b1b;text-shadow:none;display:none}
+  .pc .pc-shine{opacity:.6}
+  .pc .pc-mk,.pc .pc-rost{z-index:4}
+  .pc .pc-mk{top:12px;bottom:auto}
+  .pc .pc-rost{top:auto;bottom:61px}
+  .pc .pc-back{background:#cdbb92;background-image:radial-gradient(rgba(90,60,20,.10) 1px,transparent 1.2px),linear-gradient(180deg,#d8c7a0,#c2ae84);background-size:4px 4px,100% 100%;border:5px solid #f7f0dc;color:#2a2116}
+  .pc .pc-bh{position:relative;background:var(--tc,#3a4766);border-bottom:2px solid #2a2116}
+  .tp-no{font-style:normal;font-weight:900;font-size:9px;letter-spacing:.5px}
+  .pc .tp-no{position:absolute;right:5px;top:3px;background:#fffaf0;color:#2a2116;border-radius:50%;padding:2px 4px;font-size:8px}
+  .pc .pc-tbl td{border-bottom:1px dotted #7d6a45}.pc .pc-sn{color:#5a4524}
+
+  .cc .cc-front{background:#f7f0dc!important;background-image:radial-gradient(140% 100% at 50% 0%,#fffaf0,#ece0c0)!important;padding:9px 9px 9px}
+  .cc.r-rare .cc-front{box-shadow:0 14px 30px rgba(0,0,0,.55),inset 0 0 0 2px #6fb2ff}
+  .cc.r-epic .cc-front{box-shadow:0 14px 30px rgba(0,0,0,.55),inset 0 0 0 2px #c58cff,0 0 14px rgba(181,106,255,.22)}
+  .cc.r-leg .cc-front{box-shadow:0 14px 30px rgba(0,0,0,.55),inset 0 0 0 3px #d9ad3c,0 0 18px rgba(255,200,61,.28)}
+  .cc .cc-art{border-radius:10px;box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--tc2,var(--tc,#3a4766)) 70%,#000)}
+  .cc .cc-art::after{content:"";position:absolute;left:0;right:0;top:0;bottom:66px;border-radius:10px 10px 0 0;box-shadow:inset 0 0 0 3px rgba(255,255,255,.55);pointer-events:none;z-index:2}
+  .cc .cc-hsbig{left:0;right:0;top:0;bottom:62px;transform:none;width:100%;height:calc(100% - 62px);object-fit:cover;object-position:50% 10%;filter:none}
+  .cc .cc-logo-bg,.cc .cc-circ{display:none}
+  .cc .cc-fade{background:linear-gradient(180deg,rgba(0,0,0,.35),transparent 20%)}
+  .cc .cc-ppg{left:auto;right:10px;bottom:76px;align-items:flex-end}
+  .cc .cc-ppg b{font-size:30px}
+  .cc .cc-plate{padding:22px 48px 8px 46px;background:none;border:0}
+  .cc .cc-fn{color:#fff;opacity:.85}
+  .cc .cc-ln{max-width:100%;font-size:18px;text-shadow:0 1px 0 rgba(0,0,0,.5)}
+  .cc .cc-tm{color:#fff;opacity:.92}
+  .cc .cc-tm img{position:absolute;right:8px;bottom:10px;width:36px;height:36px;padding:4px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.45)}
+  .cc .cc-tm .ps{position:absolute;left:8px;bottom:12px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;padding:0;background:#fffaf0;color:#1b1b1b;font-weight:900;border:2px solid var(--tc2,var(--tc,#555));box-shadow:0 2px 6px rgba(0,0,0,.45)}
+  .cc .cc-holo{opacity:.18}.cc.r-epic .cc-holo{opacity:.1}
+  .cc .cc-back{background:#f7f0dc!important}
+  .cc .cc-stock{background:#cdbb92;background-image:radial-gradient(rgba(90,60,20,.10) 1px,transparent 1.2px),linear-gradient(180deg,#d8c7a0,#c2ae84);background-size:4px 4px,100% 100%;color:#241c12}
+  .cc .cc-bh{border-bottom:2px solid #241c12}
+  .cc .tp-no{flex:0 0 auto;background:#fffaf0;color:#241c12;border-radius:50%;padding:4px 5px;line-height:1}
+
+  /* ===== matchup inside one scrollable card (Oct 12) ===== */
+  .mu{display:flex;flex-direction:column;max-height:420px;box-shadow:0 8px 22px rgba(0,0,0,.35)}
+  .mu.closed{max-height:none}
+  .mu-h{flex:0 0 auto;border-bottom:1px solid var(--line)}
+  .mu-b{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--line) transparent;padding-top:0}
+  .mu-b>.mu-sb{position:sticky;top:0;z-index:6;border-radius:0 0 10px 10px;background:color-mix(in srgb,var(--bg,#0b0f18) 92%,#fff 8%);box-shadow:0 6px 12px rgba(0,0,0,.35)}
+  .mu-b>.mu-bar{position:sticky;top:var(--musb,58px);z-index:5;margin:0 0 6px;padding:6px 2px;background:color-mix(in srgb,var(--bg,#0b0f18) 96%,#fff 4%)}
+  @media (max-width:760px){.mu{max-height:360px}.mu-b>.mu-sb .mu-tm img,.mu-b>.mu-sb .mu-tm .ph,.mu-b>.mu-sb .mu-tm .nm i,.mu-b>.mu-sb .mu-tm .sc i{display:none}.mu-b>.mu-sb{padding:5px 8px}.mu-b>.mu-bar{padding:4px 2px}}
+
+  /* ===== sticky secondary tab nav (Oct 12) ===== */
+  .tabs{position:sticky;top:calc(var(--stack-h,0px) - 1px);z-index:25;background:var(--bg);margin-top:16px;padding-top:6px;box-shadow:0 1px 0 var(--line)}
+  .tb-bar.tb-sticky{top:calc(var(--stack-h,0px) + var(--tabs-h,0px) + 4px)}
+  .news{top:calc(var(--stack-h,0px) + var(--tabs-h,0px) + 10px)}
+  [id],.section-title{scroll-margin-top:calc(var(--stack-h,180px) + var(--tabs-h,0px) + 12px)}
 </style>
 </head>
 <body>
@@ -3746,6 +4049,347 @@ function rosterSection(sp){
   }
   return h;
 }
+/* ===================== ⚔️ Matchup: this week's head-to-head (ESPN football leagues) =====================
+   One league request: view=mMatchupScore&view=mBoxscore&view=mTeam&scoringPeriodId=<current>. Verified Oct 11 2026 on
+   league 1486623708: schedule[].home/away carry totalPoints(Live), totalProjectedPoints(Live), winProbability (0–1) and
+   rosterForCurrentScoringPeriod.entries[] (lineupSlotId + playerPoolEntry.player.stats: statSourceId 0 actual / 1 projected,
+   statSplitTypeId 1 for the week). L3 averages come from one view=kona_playercard request for both rosters. */
+var MU_KEY = 'mannMatchup.v1', MU_UI_KEY = 'mannMatchupUI.v1';
+var MU = { d: (v => v && typeof v === 'object' ? v : {})(lsGet(MU_KEY, null)), ui: { open: true, view: 'cards', bench: false, ...(lsGet(MU_UI_KEY, null) || {}) }, played: new Set(), io: null };
+const muSaveUI = () => lsSet(MU_UI_KEY, MU.ui);
+async function muLoad(sp, L){
+  const st = await efJSON(efLeagueUrl(sp, L.season, L.leagueId, 'view=mStatus'));
+  const per = (st.status && st.status.latestScoringPeriod) || st.scoringPeriodId, mp = (st.status && st.status.currentMatchupPeriod) || per;
+  const [d, pro] = await Promise.all([efJSON(efLeagueUrl(sp, L.season, L.leagueId, `view=mMatchupScore&view=mBoxscore&view=mTeam&scoringPeriodId=${per}`)), efProTeams(sp, L.season)]);
+  const tid = +L.teamId, g = (d.schedule || []).find(x => x.matchupPeriodId === mp && ((x.home && x.home.teamId === tid) || (x.away && x.away.teamId === tid)));
+  if (!g) { MU.d[sp] = { t: Date.now(), lg: L.leagueId + ':' + L.teamId, per, mp, none: true }; return; }
+  const tm = id => { const t = (d.teams || []).find(x => x.id === id) || {}, o = (t.record || {}).overall || {};
+    return { id, name: (t.name || [t.location, t.nickname].filter(Boolean).join(' ') || 'Team ' + id).trim(), abbrev: t.abbrev || '', logo: t.logo || '', rec: o.wins != null ? `${o.wins}-${o.losses}${o.ties ? '-' + o.ties : ''}` : '' }; };
+  const side = s => { if (!s) return null; const r = s.rosterForCurrentScoringPeriod || s.rosterForMatchupPeriod || {};
+    return { ...tm(s.teamId), live: typeof s.totalPointsLive === 'number' ? s.totalPointsLive : s.totalPoints ?? 0, proj: s.totalProjectedPointsLive ?? s.totalProjectedPoints ?? null,
+             proj0: s.totalProjectedPoints ?? null, wp: typeof s.winProbability === 'number' ? s.winProbability : null, ps: efRoster(sp, { roster: r }, pro).players }; };
+  const me = g.home && g.home.teamId === tid ? side(g.home) : side(g.away), op = g.home && g.home.teamId === tid ? side(g.away) : side(g.home);
+  // L3: last 3 completed weeks of fantasy points, both rosters, one request
+  const all = [...me.ps, ...(op ? op.ps : [])], ids = [...new Set(all.map(p => Number(p.dst ? p.eid : p.eid)).filter(x => x && !isNaN(x)))], l3 = {};
+  try { const s = +L.season, filt = { players: { filterIds: { value: ids }, filterStatsForTopScoringPeriodIds: { value: 20, additionalValue: ['00' + s] } } };
+    const r = await fetchWithTimeout(efLeagueUrl(sp, L.season, L.leagueId, 'view=kona_playercard'), 20000, { credentials: 'omit', headers: { 'X-Fantasy-Filter': JSON.stringify(filt) } });
+    if (r.ok) for (const e of ((await r.json()).players || [])) { const pl = e.player || {}, w = {};
+      for (const x of pl.stats || []) if (x.statSourceId === 0 && x.statSplitTypeId === 1 && x.seasonId === s && x.scoringPeriodId < per && typeof x.appliedTotal === 'number') w[x.scoringPeriodId] = x.appliedTotal;
+      const v = Object.keys(w).map(Number).sort((a, b) => a - b).slice(-3).map(k => w[k]); if (v.length) l3[String(pl.id)] = r1(v.reduce((a, b) => a + b, 0) / v.length); }
+  } catch (e) { console.warn('matchup L3', e); }
+  MU.d[sp] = { t: Date.now(), lg: L.leagueId + ':' + L.teamId, per, mp, me, op, l3 };
+}
+function muNow(p){   // game status for a matchup player (uses the dashboard's NFL scoreboard)
+  const n = playerNow(p), act = p.pts && p.pts.act;
+  if (!n) return act != null ? { t: 'Played', s: 'post' } : { t: p.pts && p.pts.proj === 0 ? 'BYE / out' : '', s: '' };
+  if (n.state === 'in') return { t: n.detail || 'LIVE', s: 'in' };
+  if (n.state === 'post') return { t: 'Final', s: 'post' };
+  return { t: `${dayLabelET(new Date(n.date))} ${timeET(new Date(n.date)).replace(' ET', '')}`, s: 'pre' };
+}
+/* ===== 🛡 Defense vs position (RB / WR / TE): real ESPN data only, cached 6h =====
+   - ESPN fantasy league view=mPositionalRatings: positionAgainstOpponent.positionalRatings[posId].ratingsByOpponent[proTeamId]
+     = { average: fantasy pts allowed per game to that position (league scoring), rank: 1 = fewest allowed }. We flip rank so 1 = softest.
+   - ESPN fantasy proTeamSchedules_wl: who each pro team plays this scoring period (home/away).
+   - ESPN site team statistics (results.opponent): rush / receiving yds per game and TDs allowed by the opposing defense.
+   Fantasy proTeamId == ESPN site team id. Any missing piece hides the badge (never estimated). */
+var DVP_KEY = 'mannDvP.v1', DVP_POS = { RB: 2, WR: 3, TE: 4 };
+var DVP = { d: (v => v && typeof v === 'object' ? v : {})(lsGet(DVP_KEY, null)), busy: false, err: 0 };
+async function dvpLoad(sp, L, per){
+  const [r, sch] = await Promise.all([efJSON(efLeagueUrl(sp, L.season, L.leagueId, 'view=mPositionalRatings')), efJSON(`${EF_API}${EF[sp].game}/seasons/${L.season}?view=proTeamSchedules_wl`)]);
+  const PR = ((r.positionAgainstOpponent || {}).positionalRatings) || {}, pos = {};
+  for (const [k, id] of Object.entries(DVP_POS)) { const by = (PR[id] || {}).ratingsByOpponent || {}, ents = Object.entries(by).filter(([, v]) => v && typeof v.average === 'number');
+    if (ents.length < 20) continue;
+    const sorted = ents.slice().sort((a, b) => b[1].average - a[1].average);   // most allowed first = softest
+    pos[k] = { lg: r1(PR[id].average || 0), n: sorted.length, t: Object.fromEntries(sorted.map(([tid, v]) => [tid, { avg: r1(v.average), rk: 1 + sorted.filter(([, w]) => w.average > v.average).length }])) }; }
+  const opp = {}, abbr = {};
+  for (const t of ((sch.settings || {}).proTeams || [])) { abbr[String(t.abbrev || '').toUpperCase()] = t.id;
+    const g = ((t.proGamesByScoringPeriod || {})[per] || [])[0]; if (g) opp[t.id] = { o: g.homeProTeamId === t.id ? g.awayProTeamId : g.homeProTeamId, h: g.homeProTeamId === t.id }; }
+  const ab = Object.fromEntries(Object.entries(abbr).map(([a, id]) => [id, a]));
+  const D = { t: Date.now(), lg: L.leagueId, per, pos, opp, abbr, ab, def: (DVP.d[sp] && DVP.d[sp].per === per && DVP.d[sp].def) || {} };
+  // defensive allowed stats only for the opponents our matchup actually faces
+  const M = MU.d[sp], need = new Set();
+  for (const s of [M && M.me, M && M.op]) for (const p of (s ? s.ps : [])) if (DVP_POS[p.pos]) { const id = abbr[p.team], o = id && opp[id]; if (o) need.add(o.o); }
+  await Promise.all([...need].filter(id => !D.def[id] || Date.now() - D.def[id].t > 6 * 36e5).map(async id => { try {
+    const d = await getJSON(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${id}/statistics`);
+    const o = {}; for (const c of ((d.results || {}).opponent || [])) o[c.name] = Object.fromEntries((c.stats || []).map(x => [x.name, x.value]));
+    const n = v => typeof v === 'number' && isFinite(v) ? v : null, gp = n((o.passing || {}).teamGamesPlayed) || n((o.rushing || {}).teamGamesPlayed);
+    D.def[id] = { t: Date.now(), gp, ruY: n((o.rushing || {}).rushingYardsPerGame), ruTD: n((o.rushing || {}).rushingTouchdowns), reY: n((o.receiving || {}).receivingYardsPerGame), paTD: n((o.passing || {}).passingTouchdowns) };
+  } catch (e) { console.warn('dvp def', id, e && e.message); } }));
+  DVP.d[sp] = D; try { lsSet(DVP_KEY, DVP.d); } catch (_) {}
+}
+function ensureDvp(sp){
+  const L = espnLinks[sp], M = MU.d[sp]; if (sp !== 'nfl' || !L || !M || !M.per || M.none || DVP.busy || Date.now() - DVP.err < 2 * 60e3) return;
+  const D = DVP.d[sp], fresh = D && D.lg === L.leagueId && D.per === M.per && Date.now() - D.t < 6 * 36e5;
+  const missing = D && [M.me, M.op].some(s => s && s.ps.some(p => DVP_POS[p.pos] && D.abbr[p.team] && D.opp[D.abbr[p.team]] && !D.def[D.opp[D.abbr[p.team]].o]));
+  if (fresh && !missing) return;
+  DVP.busy = true;
+  dvpLoad(sp, L, M.per).catch(e => { DVP.err = Date.now(); console.warn('dvp', e && e.message); })
+    .finally(() => { DVP.busy = false; if (state.tab === FANTASY_TAB && MN.fsTab === sp) muRender(sp); });
+}
+// {opp abbr, home, avg, rk (1 = softest), n, lg, g: 'g'|'y'|'r', def stats} or null
+function dvpFor(p){
+  const D = DVP.d.nfl, M = MU.d.nfl; if (!p || p.dst || !DVP_POS[p.pos] || !D || !M || D.per !== M.per) return null;
+  const tid = D.abbr[p.team], o = tid && D.opp[tid], P = D.pos[p.pos]; if (!o || !P) return null;
+  const r = P.t[o.o]; if (!r) return null;
+  const oa = D.ab[o.o] || '', third = P.n / 3;
+  return { oa, oid: o.o, h: o.h, avg: r.avg, rk: r.rk, n: P.n, lg: P.lg, pos: p.pos, g: r.rk <= Math.round(third) ? 'g' : r.rk > Math.round(P.n - third) ? 'r' : 'y', def: D.def[o.o] || null };
+}
+const DVP_WORD = { g: 'Soft matchup', y: 'Neutral matchup', r: 'Tough matchup' };
+function dvpTitle(x){
+  const d = x.def, st = [];
+  if (d && x.pos === 'RB') { if (d.ruY != null) st.push(`${Math.round(d.ruY)} rush yds/g allowed`); if (d.ruTD != null) st.push(`${d.ruTD} rush TD allowed`); }
+  if (d && x.pos !== 'RB') { if (d.reY != null) st.push(`${Math.round(d.reY)} rec yds/g allowed`); if (d.paTD != null) st.push(`${d.paTD} pass TD allowed`); }
+  return `${DVP_WORD[x.g]}: ${x.h ? 'vs' : '@'} ${x.oa} allows ${x.avg} fantasy pts/g to ${x.pos}s (league avg ${x.lg}) · #${x.rk} of ${x.n} softest vs ${x.pos}${st.length ? ' · ' + st.join(' · ') : ''}${d && d.gp ? ` (${d.gp} games)` : ''}. Source: ESPN.`;
+}
+function dvpKey(x){ const d = x.def; if (!d) return '';
+  return x.pos === 'RB' ? (d.ruY != null ? `${Math.round(d.ruY)} ruY` : '') : (d.reY != null ? `${Math.round(d.reY)} reY` : ''); }
+function dvpShield(x){
+  const logo = `https://a.espncdn.com/i/teamlogos/nfl/500/${esc(x.oa.toLowerCase())}.png`, cv = teamColorVars('nfl', x.oa, '', '');
+  return `<span class="dv-sh" style="${esc(cv)}"><svg viewBox="0 0 20 22" aria-hidden="true"><path d="M10 1 L19 4 V10 C19 16 15 19.5 10 21 C5 19.5 1 16 1 10 V4 Z"/></svg><img src="${logo}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"></span>`;
+}
+function dvpBadge(x){
+  if (!x) return '';
+  const k = dvpKey(x);
+  return `<div class="dv ${x.g}" title="${esc(dvpTitle(x))}">${dvpShield(x)}<span class="dv-t"><b>${x.h ? 'vs' : '@'} ${esc(x.oa)} <em>#${x.rk}</em></b><i>${x.avg} pts/g${k ? ' · ' + esc(k) : ''}</i></span></div>`;
+}
+function dvpCell(x){
+  if (!x) return '<td class="dvc">–</td>';
+  const k = dvpKey(x);
+  return `<td class="dvc"><span class="dv ${x.g} sm" title="${esc(dvpTitle(x))}">${dvpShield(x)}<b>${x.h ? '' : '@'}${esc(x.oa)} #${x.rk}</b><i>${x.avg}${k ? ' · ' + esc(k) : ''}</i></span></td>`;
+}
+function muPairs(sp, D){
+  const S = SLOTS[sp], st = s => (s ? s.ps : []).filter(p => !S.bench.includes(p.sid) && !S.ir.includes(p.sid));
+  const pj = p => (p && p.pts && p.pts.proj) || 0, A = st(D.me), B = st(D.op), out = [];
+  const sids = [...new Set([...A, ...B].map(p => p.sid))].sort((a, b) => (S.order.indexOf(a) + 1 || 99) - (S.order.indexOf(b) + 1 || 99));
+  for (const sid of sids) { const a = A.filter(p => p.sid === sid).sort((x, y) => pj(y) - pj(x)), b = B.filter(p => p.sid === sid).sort((x, y) => pj(y) - pj(x)), n = Math.max(a.length, b.length);
+    for (let i = 0; i < n; i++) out.push({ slot: (S.names[sid] || '') + (n > 1 ? i + 1 : ''), a: a[i] || null, b: b[i] || null }); }
+  return out.map(r => { const sa = r.a ? muNow(r.a) : null, sb = r.b ? muNow(r.b) : null, done = (!r.a || sa.s === 'post') && (!r.b || sb.s === 'post');
+    const v = p => p && p.pts ? (done ? p.pts.act ?? 0 : p.pts.proj ?? 0) : null, va = v(r.a), vb = v(r.b);
+    const d = va == null ? -(vb || 0) : vb == null ? va : va - vb;
+    return { ...r, sa, sb, done, dl: r1(d), win: d > 0 ? 'a' : d < 0 ? 'b' : '' }; });
+}
+const muTier = (p, rank) => p ? ccTier(rank[p.eid] || rank[p.id] || null)[0] : 'common';
+function muCard(p, rank, side, res){
+  if (!p) return `<div class="mc empty ${side}"><div class="mc-in"></div></div>`;
+  const art = "", a = p.pts || {}, sh = p.short || p.name, last = p.dst ? p.name.replace(/\s*D\/ST$/, '') + ' D/ST' : String(p.name).split(' ').slice(1).join(' ') || p.name;
+  const colors = p.team && p.team !== 'FA' ? teamColorVars('nfl', p.team, '', '') : '';
+  return `<a class="mc r-${muTier(p, rank)} ${side}${res ? ' ' + res : ''}" href="${esc(p.dst ? p.link : `https://www.espn.com/nfl/player/_/id/${p.eid}`)}" target="_blank" rel="noopener" title="${esc(p.name)} · ${esc(p.pos)} · ${esc(p.team)}" style="${esc(colors)}"><div class="mc-in">
+    ${art ? `<img class="mc-ph" src="${esc(art)}" alt="" loading="lazy" draggable="false" referrerpolicy="no-referrer" onerror="this.remove()">`
+          : `${p.teamLogo && !p.dst ? `<img class="mc-lg" src="${esc(p.teamLogo)}" alt="" loading="lazy">` : ''}<img class="mc-hs" src="${esc(p.headshot)}" alt="" loading="lazy" draggable="false" onerror="this.style.visibility='hidden'">`}
+    <div class="mc-fd"></div><span class="mc-pos">${esc(p.pos)}</span>${(x => x ? `<span class="mc-dv ${x.g}" title="${esc(DVP_WORD[x.g])} (#${x.rk} vs ${esc(x.pos)})"></span>` : '')(dvpFor(p))}<span class="mc-pt">${a.act != null ? esc(a.act) : a.proj != null ? esc(a.proj) : '–'}</span>
+    <div class="mc-pl"><b>${esc(last)}</b><i>${esc(p.team)} · ${esc(sh)}</i></div>
+    <svg class="mc-ck" viewBox="0 0 100 140" preserveAspectRatio="none" aria-hidden="true"><path d="M58 0 L50 22 L62 34 L46 56 L55 70 L40 92 L48 108 L36 140"/><path d="M50 22 L30 30 L22 46"/><path d="M46 56 L70 64 L84 60"/><path d="M40 92 L22 98 L10 112"/></svg></div></a>`;
+}
+function muInf(p, s, me){
+  if (!p) return '<div class="mu-inf"></div>';
+  const a = p.pts || {};
+  return `<div class="mu-inf"><div class="ac">${a.act != null ? esc(a.act) : '–'}</div><div class="pj">proj ${a.proj ?? '–'}</div><div class="gs ${s.s}">${esc(s.t)}</div>${dvpBadge(dvpFor(p))}</div>`;
+}
+const MU_INJ = { QUESTIONABLE: 'Q', DOUBTFUL: 'D', OUT: 'O', INJURY_RESERVE: 'IR', SUSPENSION: 'SUS', DAY_TO_DAY: 'DTD' };
+function muInj(p){
+  if (!p) return null;
+  if (p.inj) return { code: MU_INJ[p.inj] || p.inj.replace(/_/g, ' ').slice(0, 4), status: p.inj.replace(/_/g, ' ').toLowerCase().replace(/^./, c => c.toUpperCase()), part: '' };
+  try { const i = playerInjury(p); if (i && i.status && !/^active$/i.test(i.status)) return { code: i.code || i.status.slice(0, 1), status: i.status, part: i.part || '' }; } catch (_) {}
+  return null;
+}
+function dvpMini(x){
+  if (!x) return ''; const k = dvpKey(x);
+  return `<span class="dv sm ${x.g}" title="${esc(dvpTitle(x))}">${dvpShield(x)}<b>${x.h ? 'vs ' : '@'}${esc(x.oa)} #${x.rk}</b><i class="dvk">${x.avg}/g${k ? ' · ' + esc(k) : ''}</i></span>`;
+}
+const MS_CK = '<svg class="mc-ck ms-ck" viewBox="0 0 200 60" preserveAspectRatio="none" aria-hidden="true"><path d="M120 0 L108 14 L124 24 L100 38 L112 46 L96 60"/><path d="M108 14 L80 18 L64 30"/><path d="M100 38 L140 44 L168 40"/></svg>';
+function msSide(p, s, side, res, rank, l3, key){
+  if (!p) return `<div class="ms-sd ${side} empty"><span class="ms-e">Empty slot</span></div>`;
+  const a = p.pts || {}, x = dvpFor(p), inj = muInj(p), art = p.headshot, tier = muTier(p, rank), L3 = l3[p.eid];
+  const colors = p.team && p.team !== 'FA' ? teamColorVars('nfl', p.team, '', '') : '', live = s && s.s === 'in';
+  const pr = a.act != null && a.proj > 0 ? Math.min(100, Math.round(a.act / a.proj * 100)) : null;
+  return `<div class="ms-sd ${side}${res ? ' ' + res : ''}${x ? ' dv-' + x.g : ''}${live ? ' live' : ''}" style="${esc(colors)}" data-mup="${key}" tabindex="0" role="button" aria-haspopup="dialog" aria-label="${esc(p.name)}, ${esc(p.pos)} ${esc(p.team)}: card details">
+    <span class="ms-th r-${tier}"><img src="${esc(art)}" alt="" loading="lazy" draggable="false" referrerpolicy="no-referrer" onerror="if(this.src!=='${esc(p.headshot)}'){this.src='${esc(p.headshot)}'}else{this.style.visibility='hidden'}"><span class="ms-pos">${esc(p.pos)}</span></span>
+    <div class="ms-i"><div class="ms-n"><b>${esc(p.short || p.name)}</b><span class="ms-tm">${esc(p.team)}</span>${inj ? `<span class="ms-inj" title="${esc(inj.status)}">${esc(inj.code)}</span>` : ''}</div>
+      <div class="ms-m">${s && s.t ? `<span class="ms-gs ${s.s}">${esc(s.t)}</span>` : ''}${L3 != null ? `<span class="ms-x" title="Average of the last 3 weeks">L3 ${esc(L3)}</span>` : ''}${a.lw != null ? `<span class="ms-x lw" title="Last week">LW ${esc(a.lw)}</span>` : ''}${x ? dvpMini(x) : ''}</div></div>
+    <div class="ms-p"><b>${a.act != null ? esc(a.act) : '–'}</b><i>proj ${a.proj ?? '–'}</i>${pr != null ? `<span class="ms-pb${a.act >= a.proj ? ' hit' : ''}" title="${a.act} of ${a.proj} projected (${pr}%)"><i style="width:${pr}%"></i></span>` : ''}</div>${MS_CK}</div>`;
+}
+/* ---- matchup player popover (hover on desktop after 250ms, tap on touch → centered sheet). One element, delegated listeners, no per-render listeners. ---- */
+var MUP = { key: null, mode: '', pinned: false, tOpen: 0, tClose: 0, from: null };
+const mupFine = () => matchMedia('(hover:hover) and (pointer:fine)').matches;
+function mupEl(){
+  let o = document.getElementById('muPop'); if (o) return o;
+  o = document.createElement('div'); o.id = 'muPop'; o.hidden = true; o.setAttribute('role', 'dialog');
+  o.addEventListener('click', e => {
+    if (e.target === o || (e.target.closest && e.target.closest('.mup-x'))) { e.preventDefault(); mupClose(true); }
+    e.stopPropagation();   // keep the trading-card flip handler (document) away from the popover's card
+  });
+  document.body.appendChild(o); return o;
+}
+function mupHTML(key){
+  const E = MU.pm && MU.pm[key]; if (!E) return '';
+  const p = E.p, C = CMP.d.nfl, rank = C ? cmpRank(C) : {}, pp = { ...p, roster: { slot: E.slot, sid: p.sid } };
+  let front = '', stock = '', tier = 'r-common', style = '';
+  try { const t = document.createElement('template'); t.innerHTML = ccCard(pp, 'mu', C, rank, 0); const c = t.content.querySelector('.cc');
+    tier = [...c.classList].find(x => /^r-/.test(x)) || tier; style = c.getAttribute('style') || '';
+    const f = c.querySelector('.cc-front'), b = c.querySelector('.cc-stock'); if (b) b.querySelectorAll('.cc-x').forEach(x => x.remove());
+    front = f ? f.outerHTML.replace('TAP TO FLIP ⟲', '') : ''; stock = b ? b.outerHTML : ''; } catch (e) { console.warn('mup card', e); }
+  const a = p.pts || {}, x = dvpFor(p), inj = muInj(p), L3 = ((MU.d.nfl || {}).l3 || {})[p.eid], s = E.s || {};
+  const cell = (v, k) => v != null ? `<div><b>${esc(v)}</b><i>${k}</i></div>` : '';
+  const wk = `<div class="mup-wk"><h5>⚔️ This week · ${esc(E.slot)}${E.me ? ' · your starter' : ' · opponent'}</h5>
+    <div class="cc-sg">${cell(a.act, 'Live pts')}${cell(a.proj, 'Proj')}${cell(L3, 'L3 avg')}${cell(a.lw, 'Last wk')}${cell(a.tot, 'Season pts')}</div>
+    ${s.t ? `<div class="cc-nx"><b>${s.s === 'in' ? 'LIVE' : s.s === 'post' ? 'Game' : 'Kickoff'}</b> ${esc(s.t)}</div>` : ''}
+    ${inj ? `<div class="cc-nx mup-inj"><b>Injury</b> ${esc(inj.status)}${inj.part ? ' (' + esc(inj.part) + ')' : ''}</div>` : ''}
+    ${x ? `<div class="mup-dv">${dvpBadge(x)}<p>${esc(dvpTitle(x).replace(/ Source: ESPN\.$/, ''))}</p></div>` : ''}</div>`;
+  const cardStyle = style.replace(/--sd:[^;]*;?/, '');
+  return `<div class="mup ${tier}"><button class="mup-x" type="button" aria-label="Close ${esc(p.name)} card">✕</button>
+    <div class="cc mup-cc ${tier}" style="${esc(cardStyle)}"><div class="cc-in">${front}</div></div>
+    <div class="mup-b">${wk}${stock}</div></div>`;
+}
+function mupPlace(){
+  const o = document.getElementById('muPop'); if (!o || o.hidden || MUP.mode !== 'pop') return;
+  const s = document.querySelector(`#fzMatch [data-mup="${CSS.escape(MUP.key)}"]`); if (!s) return mupClose();
+  const r = s.getBoundingClientRect(), w = o.offsetWidth, h = o.offsetHeight, vw = innerWidth, vh = innerHeight, g = 6;
+  if (r.bottom < 0 || r.top > vh) return mupClose();
+  let top = r.bottom + g + h <= vh - 8 ? r.bottom + g : r.top - g - h >= 8 ? r.top - g - h : null, left;
+  if (top == null) { top = Math.max(8, Math.min(vh - h - 8, r.top + r.height / 2 - h / 2));   // no room above/below: beside the strip side
+    left = s.classList.contains('me') ? (r.right + g + w <= vw - 8 ? r.right + g : r.left - g - w) : (r.left - g - w >= 8 ? r.left - g - w : r.right + g); }
+  else left = s.classList.contains('me') ? r.left : r.right - w;
+  o.style.left = Math.round(Math.max(8, Math.min(vw - w - 8, left))) + 'px'; o.style.top = Math.round(top) + 'px';
+}
+function mupOpen(key, mode, pin){
+  const o = mupEl(), html = mupHTML(key); if (!html) return;
+  clearTimeout(MUP.tClose); clearTimeout(MUP.tOpen);
+  if (!(MUP.key === key && !o.hidden && MUP.mode === mode)) { o.innerHTML = html; }
+  MUP.key = key; MUP.mode = mode; MUP.pinned = !!pin; MUP.from = MUP.from || document.activeElement;
+  o.className = mode; o.setAttribute('aria-modal', mode === 'sheet' ? 'true' : 'false'); o.setAttribute('aria-label', (MU.pm[key].p.name || 'Player') + ' card');
+  o.style.left = o.style.top = ''; o.hidden = false;
+  if (mode === 'sheet') { document.documentElement.classList.add('mup-open'); const x = o.querySelector('.mup-x'); if (x) x.focus({ preventScroll: true }); }
+  else mupPlace();
+  const p = MU.pm[key].p;
+  if (!p.dst && !PL.ov[p.id] && !(PL.err[p.id] && Date.now() - PL.err[p.id].t < 60e3)) loadPlayerOverview(p).then(() => { if (MUP.key === key && !o.hidden) { o.innerHTML = mupHTML(key); mupPlace(); } }).catch(e => { PL.err[p.id] = { msg: errMsg(e), t: Date.now() }; });
+}
+function mupClose(refocus){
+  clearTimeout(MUP.tOpen); clearTimeout(MUP.tClose);
+  const o = document.getElementById('muPop'); if (!o || o.hidden) { MUP.key = null; return; }
+  o.hidden = true; o.innerHTML = ''; document.documentElement.classList.remove('mup-open');
+  const f = MUP.from; MUP.key = null; MUP.pinned = false; MUP.from = null;
+  if (refocus && f && f.isConnected && f.focus) f.focus({ preventScroll: true });
+}
+(() => {
+  document.addEventListener('pointerover', e => {
+    if (e.pointerType !== 'mouse' || !mupFine()) return;
+    const t = e.target.closest && e.target.closest('#fzMatch [data-mup], #muPop'); if (!t) return;
+    clearTimeout(MUP.tClose);
+    if (t.id === 'muPop') return;
+    const k = t.dataset.mup; if (MUP.key === k && MUP.mode === 'pop') return;
+    if (MUP.pinned) return;
+    clearTimeout(MUP.tOpen); MUP.tOpen = setTimeout(() => { MUP.from = null; mupOpen(k, 'pop', false); }, 250);
+  }, { passive: true });
+  document.addEventListener('pointerout', e => {
+    if (e.pointerType !== 'mouse') return;
+    const f = e.target.closest && e.target.closest('#fzMatch [data-mup], #muPop'); if (!f) return;
+    const to = e.relatedTarget; if (to && to.closest && (to.closest('#muPop') || to.closest('[data-mup]') === f || (f.id === 'muPop' && to.closest('[data-mup]') && to.closest('[data-mup]').dataset.mup === MUP.key))) return;
+    if (f.id !== 'muPop') clearTimeout(MUP.tOpen);
+    if (MUP.mode === 'pop' && !MUP.pinned && MUP.key) { clearTimeout(MUP.tClose); MUP.tClose = setTimeout(() => mupClose(), 220); }
+  }, { passive: true });
+  document.addEventListener('click', e => {
+    const s = e.target.closest && e.target.closest('#fzMatch [data-mup]');
+    if (s) { e.preventDefault(); const k = s.dataset.mup;
+      if (MUP.key === k && (MUP.pinned || MUP.mode === 'sheet')) return mupClose(true);
+      MUP.from = s; mupOpen(k, mupFine() ? 'pop' : 'sheet', true); return; }
+    if (MUP.key && !(e.target.closest && e.target.closest('#muPop'))) mupClose();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && MUP.key) { e.preventDefault(); e.stopPropagation(); mupClose(true); return; }
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('#fzMatch [data-mup]')) { e.preventDefault(); MUP.from = e.target; mupOpen(e.target.dataset.mup, mupFine() ? 'pop' : 'sheet', true); }
+  }, true);
+  let raf = 0;
+  addEventListener('scroll', () => { if (!MUP.key || MUP.mode !== 'pop') return; if (!MUP.pinned) return mupClose(); cancelAnimationFrame(raf); raf = requestAnimationFrame(mupPlace); }, { passive: true, capture: true });
+  addEventListener('resize', () => { if (MUP.key && MUP.mode === 'pop') mupClose(); }, { passive: true });
+})();
+function muScore(D, part){
+  const { me, op } = D, nm = t => t ? t : { name: 'Bye', rec: '', live: 0, proj: 0 };
+  const A = nm(me), B = nm(op), anyLive = (A.live || 0) + (B.live || 0) > 0;
+  let wp = A.wp;
+  if (wp == null && A.proj != null && B.proj != null) { const z = (A.proj - B.proj) / 22, t = 1 / (1 + 0.2316419 * Math.abs(z)), q = 0.3989423 * Math.exp(-z * z / 2) * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274)))); wp = z > 0 ? 1 - q : q; }
+  const pct = wp == null ? 50 : Math.round(wp * 100), mg = anyLive ? r1(A.live - B.live) : r1((A.proj || 0) - (B.proj || 0));
+  const logo = t => t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="efLogoFail(this)" data-ab="${esc(t.abbrev || t.name)}">` : `<span class="ph">${esc((t.abbrev || t.name || '?').slice(0, 3))}</span>`;
+  const tmH = (t, cls, lead) => `<div class="mu-tm ${cls}${lead ? ' lead' : ''}">${logo(t)}<div class="nm"><b>${esc(t.name)}</b><i>${esc(t.rec ? t.rec : '')}${cls === 'me' ? ' · You' : ''}</i></div>
+    <div class="sc"><b>${esc(r1(t.live || 0))}</b><i>proj ${t.proj != null ? esc(r1(t.proj)) : '–'}</i></div></div>`;
+  if (part === 'wp') return `<div class="mu-wp" title="${A.wp != null ? 'ESPN win probability' : 'Win chance estimated from projections'}"><div class="mu-wpl"><span><b>${pct}%</b> win${A.wp == null ? ' (est.)' : ''}</span><span>${esc(B.name)} <b>${100 - pct}%</b></span></div><div class="mu-wpb"><span style="width:${pct}%"></span></div></div>`;
+  return `<div class="mu-sb">${tmH(A, 'me', mg > 0)}<div class="mu-mid">${anyLive ? 'LIVE' : 'PROJ'} MARGIN<b>${mg > 0 ? '+' : ''}${mg}</b>Wk ${esc(D.per)}</div>${tmH(B, 'op', mg < 0)}</div>`;
+}
+function muSection(sp){
+  if (sp !== 'nfl') return '';
+  const L = espnLinks[sp]; if (!L || L.source === 'paste' || !L.leagueId || !L.teamId) return '';
+  const D = MU.d[sp], ok = D && D.lg === L.leagueId + ':' + L.teamId, open = MU.ui.open;
+  const head = `<button class="mu-h" data-mu="open" aria-expanded="${open}"><b>⚔️ Matchup</b><small>${ok && D.op ? `Week ${esc(D.per)} · vs ${esc(D.op.name)}` : 'This week\'s head-to-head'}</small><span class="car" aria-hidden="true">▾</span></button>`;
+  if (!ok) return `<section class="mu${open ? '' : ' closed'}" id="fzMatchup">${head}<div class="mu-b"><div class="mu-ld">${FZX_ERR['mu:' + sp] ? 'Couldn\'t load this week\'s matchup. Retrying shortly.' : 'Loading this week\'s matchup…'}</div></div></section>`;
+  if (D.none) return `<section class="mu${open ? '' : ' closed'}" id="fzMatchup">${head}<div class="mu-b"><div class="mu-ld">No matchup this week (bye or offseason).</div></div></section>`;
+  const C = CMP.d.nfl, rank = C ? cmpRank(C) : {}, rows = muPairs(sp, D), v = MU.ui.view, l3 = D.l3 || {};
+  const sig = sp + ':' + D.per;
+  let body;
+  if (v === 'table') {
+    const td = (x, k) => x != null ? esc(x) : '–', nm = p => p ? `<b>${esc(p.short || p.name)}</b><i>${esc(p.team)}</i>` : '<i>empty</i>';
+    const st = (p, s) => p && s.s === 'in' ? `<span class="gl">LIVE</span>` : '';
+    body = `<div class="mu-tbw"><table class="mu-tb"><thead><tr><th class="n">You</th><th>Proj</th><th>Actual</th><th title="Average of the last 3 weeks">L3</th><th class="dvc" title="Opposing NFL defense vs this position (ESPN). #1 = softest, green = soft, red = tough">Opp D</th><th>Slot</th><th title="Your edge: projected, or actual once both games are final">Δ</th><th class="n">${esc(D.op ? D.op.name : 'Opponent')}</th><th>Proj</th><th>Actual</th><th>L3</th><th class="dvc" title="Opposing NFL defense vs this position (ESPN)">Opp D</th></tr></thead><tbody>${rows.map(r =>
+      `<tr class="${r.win === 'a' ? 'w-me' : r.win === 'b' ? 'w-op' : ''}"><td class="n me-n">${nm(r.a)}${st(r.a, r.sa)}</td><td>${td(r.a && r.a.pts && r.a.pts.proj)}</td><td>${td(r.a && r.a.pts && r.a.pts.act)}</td><td>${td(r.a && l3[r.a.eid])}</td>${dvpCell(dvpFor(r.a))}
+       <td class="sl">${esc(r.slot)}</td><td class="${r.dl > 0 ? 'up' : r.dl < 0 ? 'dn' : ''}">${r.dl > 0 ? '+' : ''}${r.dl}${r.done ? '' : '*'}</td>
+       <td class="n op-n">${nm(r.b)}${st(r.b, r.sb)}</td><td>${td(r.b && r.b.pts && r.b.pts.proj)}</td><td>${td(r.b && r.b.pts && r.b.pts.act)}</td><td>${td(r.b && l3[r.b.eid])}</td>${dvpCell(dvpFor(r.b))}</tr>`).join('')}</tbody></table></div>
+      <div class="tb-foot">Δ = your edge in points · * projected (actual once both games are final) · L3 = average of the last 3 weeks · Opp D = this week's NFL defense vs RB/WR/TE (ESPN): #1 = softest, pts/g allowed to the position, ruY/reY = rush/rec yds per game allowed</div>`;
+  } else {
+    MU.pm = {};
+    body = `<div class="mu-rows ms-list${MU.played.has(sig) ? ' done' : ''}" data-musig="${esc(sig)}">${rows.map((r, i) => {
+      const ra = r.win === 'a' ? 'win' : r.win === 'b' ? 'lose' : '', rb = r.win === 'b' ? 'win' : r.win === 'a' ? 'lose' : '';
+      if (r.a) MU.pm['a' + i] = { p: r.a, s: r.sa, slot: r.slot, me: 1 }; if (r.b) MU.pm['b' + i] = { p: r.b, s: r.sb, slot: r.slot, me: 0 };
+      const pa = r.a && r.a.pts && r.a.pts.proj, pb = r.b && r.b.pts && r.b.pts.proj, sh = pa > 0 && pb > 0 ? Math.round(pa / (pa + pb) * 100) : null;
+      return `<div class="ms" style="--d:${(i * 0.22).toFixed(2)}s">${msSide(r.a, r.sa, 'me', ra, rank, l3, 'a' + i)}
+        <div class="ms-c"><span class="sl">${esc(r.slot)}</span><span class="dl ${r.dl > 0 ? 'up' : r.dl < 0 ? 'dn' : ''}" title="${r.done ? 'Final' : 'Projected'} edge">${r.dl > 0 ? '◀ +' + r.dl : r.dl < 0 ? '+' + (-r.dl) + ' ▶' : 'even'}</span>${sh != null ? `<span class="ms-sh" title="Share of this slot's projected points: you ${sh}% · them ${100 - sh}%"><i style="width:${sh}%"></i></span>` : ''}<span class="mu-boom" aria-hidden="true"></span></div>
+        ${msSide(r.b, r.sb, 'op', rb, rank, l3, 'b' + i)}</div>`; }).join('')}</div>`;
+  }
+  const S = SLOTS[sp], bn = s => (s ? s.ps : []).filter(p => S.bench.includes(p.sid) || S.ir.includes(p.sid)).sort((a, b) => ((b.pts || {}).proj || 0) - ((a.pts || {}).proj || 0));
+  const bl = (s, t) => `<div><h6>${esc(t)}</h6>${bn(s).map(p => `<div class="mu-bnr"><img src="${esc(p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><span>${esc(p.short || p.name)} <i>${esc(p.pos)} · ${esc(p.team)}${S.ir.includes(p.sid) ? ' · IR' : ''}</i></span><b>${(p.pts || {}).act ?? '–'}</b><i>/ ${(p.pts || {}).proj ?? '–'}</i></div>`).join('') || '<div class="mu-ld">Empty</div>'}</div>`;
+  const bench = `<div class="mu-bn"><button class="mu-bnh" data-mu="bench" aria-expanded="${MU.ui.bench}">${MU.ui.bench ? '▾' : '▸'} Bench (both teams)</button>${MU.ui.bench ? `<div class="mu-bng">${bl(D.me, 'Your bench')}${bl(D.op, (D.op ? D.op.name : 'Opponent') + ' bench')}</div>` : ''}</div>`;
+  return `<section class="mu${open ? '' : ' closed'}" id="fzMatchup">${head}<div class="mu-b">${muScore(D)}
+    <div class="mu-bar"><div class="tb-vt seg${v === 'table' ? ' v-table' : ''}" role="group" aria-label="Matchup view"><button data-mu="v:cards" aria-pressed="${v === 'cards'}" class="${v === 'cards' ? 'on' : ''}"><span class="ic" aria-hidden="true">🃏</span>Cards</button><button data-mu="v:table" aria-pressed="${v === 'table'}" class="${v === 'table' ? 'on' : ''}"><span class="ic" aria-hidden="true">▦</span>Table</button></div>${muScore(D, 'wp')}${v === 'cards' ? '<button class="mu-rp" data-mu="replay" title="Replay the battle">⟲ Replay</button>' : ''}</div>
+    ${body}${bench}</div></section>`;
+}
+function muSbVar(){ const m = document.getElementById('fzMatchup'), sb = m && m.querySelector('.mu-b>.mu-sb'); if (sb) m.style.setProperty('--musb', sb.offsetHeight + 'px'); }
+window.addEventListener('resize', () => requestAnimationFrame(muSbVar), { passive: true });
+function muRender(sp){
+  const el = document.getElementById('fzMatch'); if (!el) return;
+  const h = muSection(sp); if (el._h === h) return;   // unchanged: keep DOM (and the finished animation) as is
+  el._h = h; el.innerHTML = h; muObserve();
+  muSbVar();
+  if (MUP.key) { if (!MU.pm || !MU.pm[MUP.key] || MU.ui.view !== 'cards') mupClose(); else mupPlace(); }
+}
+function muPlay(rows){
+  rows.classList.remove('play', 'done'); void rows.offsetWidth; rows.classList.add('play'); MU.played.add(rows.dataset.musig);
+  const el = document.getElementById('fzMatch'); if (el) el._h = muSection(MU_SP());   // later re-renders keep the end state
+}
+const MU_SP = () => MN.fsTab;
+function muObserve(){
+  const rows = document.querySelector('#fzMatch .mu-rows'); if (!rows || rows.classList.contains('play') || rows.classList.contains('done')) return;
+  if (!('IntersectionObserver' in window)) return muPlay(rows);
+  if (MU.io) MU.io.disconnect();
+  MU.io = new IntersectionObserver(es => { for (const e of es) if (e.isIntersecting) { MU.io.disconnect(); muPlay(e.target); } }, { threshold: 0, rootMargin: '0px 0px -25% 0px' });
+  MU.io.observe(rows);
+}
+function ensureMu(sp){
+  if (sp !== 'nfl') return;
+  const L = espnLinks[sp]; if (!L || L.source === 'paste' || !L.leagueId || !L.teamId) return;
+  const D = MU.d[sp], k = 'mu:' + sp, now = Date.now();
+  const live = D && D.me && [...D.me.ps, ...(D.op ? D.op.ps : [])].some(p => { const n = playerGame(p); return n && n.state === 'in'; });
+  const stale = !D || D.lg !== L.leagueId + ':' + L.teamId || now - D.t > (live ? 60e3 : 5 * 60e3);
+  if (!stale || FZX_BUSY.has(k) || (FZX_ERR[k] && now - FZX_ERR[k] < 2 * 60e3)) return;
+  FZX_BUSY.add(k);
+  muLoad(sp, L).then(() => { delete FZX_ERR[k]; try { lsSet(MU_KEY, MU.d); } catch (_) {} }).catch(e => { FZX_ERR[k] = Date.now(); console.warn('matchup', e); })
+    .finally(() => { FZX_BUSY.delete(k); if (state.tab === FANTASY_TAB && MN.fsTab === sp) muRender(sp); ensureDvp(sp); });
+  ensureDvp(sp);
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest && e.target.closest('[data-mu]'); if (!b) return; e.preventDefault();
+  const a = b.dataset.mu, sp = MU_SP();
+  if (a === 'replay') { const r = document.querySelector('#fzMatch .mu-rows'); if (r) muPlay(r); return; }
+  if (a === 'open') MU.ui.open = !MU.ui.open; else if (a === 'bench') MU.ui.bench = !MU.ui.bench; else if (a.startsWith('v:')) MU.ui.view = a.slice(2);
+  muSaveUI(); muRender(sp); const f = document.querySelector(`[data-mu="${CSS.escape(a)}"]`); if (f) f.focus({ preventScroll: true });
+  if (a === 'open' && MU.ui.open) muObserve();
+});
 
 /* flipped trading card opens its back as a centered, enlarged overlay (✕ / Esc / tap outside closes and flips the card back) */
 function ccBigOpen(c){
@@ -3770,7 +4414,8 @@ document.addEventListener('keydown', e => { const o = document.getElementById('c
 function renderFantasy(){
   const el = document.getElementById('games'), side = document.getElementById('news');
   side.classList.add('static');
-  if (el.dataset.view !== FANTASY_TAB) { el.dataset.view = FANTASY_TAB; el.innerHTML = `<div id="fzHead"></div><div id="mnPlayers"></div><div id="fzWatchLink"></div><div id="fzPick"></div><div id="fzComps"></div><div id="mnFF"></div>`; }
+  if (el.dataset.view !== FANTASY_TAB) { el.dataset.view = FANTASY_TAB; el.innerHTML = `<div id="fzHead"></div><div id="fzMatch"></div><div id="mnPlayers"></div><div id="fzWatchLink"></div><div id="fzPick"></div><div id="fzComps"></div><div id="mnFF"></div>`; }
+  if (!document.getElementById('fzMatch')) { const fh = document.getElementById('fzHead'); if (fh) fh.insertAdjacentHTML('afterend', '<div id="fzMatch"></div>'); }
   if (!document.getElementById('fzPick')) { const wl = document.getElementById('fzWatchLink'); if (wl) wl.insertAdjacentHTML('afterend', '<div id="fzPick"></div>'); }
   if (!document.getElementById('fzComps')) { const ff = document.getElementById('mnFF'); if (ff) ff.insertAdjacentHTML('beforebegin', '<div id="fzComps"></div>'); }
   if (!fantasySel.includes(MN.fsTab)) MN.fsTab = fantasySel[0];
@@ -3809,6 +4454,7 @@ function renderFantasy(){
   side.innerHTML = fantasySidebar(sp);
   try { renderCardRow(); } catch (_) {}
   ensureFzExtras(sp);
+  try { muRender(sp); ensureMu(sp); } catch (e) { console.warn('matchup', e); }
 }
 
 /* ===================== Comps & Movers (ESPN football leagues) =====================
@@ -4026,7 +4672,7 @@ function wtCompare(p, I){
   return `<div class="wt-cmp"><div class="fzc-sh">📊 This season vs last season <small>per-game pace</small></div><table class="wt-tbl"><thead><tr><th></th><th>${y0}</th><th class="cur">${S}</th><th>Change</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 function wtCard(p, I){
-  const sp = psp(p), F = FSPORTS[sp], ov = I.ov, bio = (PX[p.id] || {}).bio || {}, inj = playerInjury(p), art = cardArt(p);
+  const sp = psp(p), F = FSPORTS[sp], ov = I.ov, bio = (PX[p.id] || {}).bio || {}, inj = playerInjury(p), art = "";
   const colors = F.kind === 'team' && p.team && p.team !== 'FA' ? teamColorVars(F.lg, p.team, '', '') : '';
   const parts = String(p.name || '').split(' '), first = parts.length > 1 ? parts[0] : '', last = parts.length > 1 ? parts.slice(1).join(' ') : p.name;
   const av = I.cx ? cmpTag(I.cx) : '';
@@ -4255,7 +4901,7 @@ function ccComps(p, I, rank){
     + ((L => L && L.length ? `<h5>🎯 Top ${esc(me.pos)} pickups</h5>` + L.map(r => `<div class="cc-cm" title="Pickup score ${r.score} · L3 ${r.l3 ?? '–'} · proj ${r.x.proj ?? '–'}">${cmpTag(r.x)}<span class="n">${cmpName(r.x)}</span><span class="v">${r.score}</span><span class="d ${r.up > 0 ? 'up' : r.up < 0 ? 'dn' : ''}" title="vs your weakest ${esc(me.pos)}">${r.up > 0 ? '+' : ''}${r.up}</span>${cmpEye(r.x)}</div>`).join('') : '')(pkList(C, me.pos, 3)));
 }
 function ccCard(p, scope, C, rank, i){
-  const sp = psp(p), F = FSPORTS[sp], I = wtInfo(p), R = tbFromPlayer(p, C, rank || {}), ov = PL.ov[p.id] || {}, bio = (PX[p.id] || {}).bio || {}, inj = playerInjury(p), art = cardArt(p);
+  const sp = psp(p), F = FSPORTS[sp], I = wtInfo(p), R = tbFromPlayer(p, C, rank || {}), ov = PL.ov[p.id] || {}, bio = (PX[p.id] || {}).bio || {}, inj = playerInjury(p), art = "";
   const colors = F.kind === 'team' && p.team && p.team !== 'FA' ? teamColorVars(F.lg, p.team, '', '') : '';
   const [tc, tl] = ccTier(R.rk), key = scope + ':' + p.id, fl = CC.flip.has(key);
   const parts = String(p.name || '').split(' '), first = parts.length > 1 ? parts[0] : '', last = parts.length > 1 ? parts.slice(1).join(' ') : p.name;
@@ -4279,7 +4925,7 @@ function ccCard(p, scope, C, rank, i){
   let nx = '';
   if (R.next) nx = R.next.live ? `<span class="badge-live">LIVE</span> ${esc(R.next.txt || '')} ${esc(R.next.det || '')}` : `<a href="${esc(R.next.link || '#')}" target="_blank" rel="noopener">${esc(R.next.txt)}</a> · ${esc(dayLabelET(new Date(R.next.d)))} ${esc(timeET(new Date(R.next.d)))}`;
   const back = `<div class="cc-face cc-back"><div class="cc-stock">
-      <div class="cc-bh"><img class="hs" src="${esc(p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><span class="nm"><b>${esc(p.name)}</b><i>${esc([p.pos, p.team, (ov.sv && ov.sv.name ? String(ov.sv.name).replace(/regular season/i, 'season') : '')].filter(Boolean).join(' · '))}</i></span><span class="cc-bl">${ytPill(p.name, team)}<a class="espn" href="${esc(playerUrl(p))}" target="_blank" rel="noopener" title="Open ${esc(p.name)} on ESPN" aria-label="Open ${esc(p.name)} on ESPN">↗</a></span></div>
+      <div class="cc-bh"><img class="hs" src="${esc(p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><span class="nm"><b>${esc(p.name)}</b><i>${esc([p.pos, p.team, (ov.sv && ov.sv.name ? String(ov.sv.name).replace(/regular season/i, 'season') : '')].filter(Boolean).join(' · '))}</i></span><em class="tp-no">No. ${toppsNo(p)}</em><span class="cc-bl">${ytPill(p.name, team)}<a class="espn" href="${esc(playerUrl(p))}" target="_blank" rel="noopener" title="Open ${esc(p.name)} on ESPN" aria-label="Open ${esc(p.name)} on ESPN">↗</a></span></div>
       <div class="cc-bb">
         ${sts.length ? `<div class="cc-sg" title="${esc((ov.sv && ov.sv.name) || 'Season')}">${sts.map(([k, v]) => `<div><b>${esc(v)}</b><i>${esc(k)}</i></div>`).join('')}</div>` : `<h5>Season</h5><div class="cc-empty">${ov._t || PL.ov[p.id] ? 'No season stats yet' : 'Loading stats…'}</div>`}
         ${ccVs(p, I)}
@@ -5132,6 +5778,8 @@ for (const W of WHS) {
   syncSpacer(); setVar(); check();
 })();
 
+/* sticky tab nav: expose its height so other sticky bars sit below it */
+{ const tb = document.getElementById('tabs'), set = () => document.documentElement.style.setProperty('--tabs-h', (tb ? tb.offsetHeight : 0) + 'px'); if (tb && window.ResizeObserver) new ResizeObserver(set).observe(tb); set(); }
 /* ---------------- ticker position: Top | Bottom (saved; default Bottom = fixed TV-style crawl at the bottom of the viewport) ---------------- */
 const TKPOS_KEY = 'mannTickerPos.v1';
 let tkPos = lsGet(TKPOS_KEY, 'bottom') === 'top' ? 'top' : 'bottom';
@@ -5300,6 +5948,7 @@ async function artTeam(p){
     ART[k] = { a: arts, t: Date.now() }; }
   return artFor(arts, peid(p), p.name);
 }
+function toppsNo(p){ let h = 0; for (const ch of String(p.id || p.name || '')) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h % 660 + 1; }
 function cardArt(p){
   const e = ART['p:' + p.id]; if (artOk(e) && e.u) return e.u;
   if (!artOk(e) && !ARTQ.has(p.id)) {
@@ -5327,7 +5976,7 @@ function pcCard(p, mk){
   const sp = psp(p), F = FSPORTS[sp], ov = PL.ov[p.id] || {}, bio = (PX[p.id] || {}).bio || {}, now = playerNow(p, true), inj = playerInjury(p);
   const colors = F.kind === 'team' && p.team && p.team !== 'FA' ? teamColorVars(F.lg, p.team, '', '') : '';
   const parts = String(p.name || '').split(' '), first = parts.length > 1 ? parts[0] : '', last = parts.length > 1 ? parts.slice(1).join(' ') : p.name;
-  const num = bio.num || '', fl = PCF.has(p.id), art = cardArt(p);
+  const num = bio.num || '', fl = PCF.has(p.id), art = "";
   const tdat = mk && fantasySel.includes(sp) ? trendData(p) : null, hasT = !!(tdat && (tdat.weeks.length > 1 || tdat.pace));
   let sts = statPairs(p).slice(0, hasT ? 5 : 7);
   let key = '';
@@ -5348,7 +5997,7 @@ function pcCard(p, mk){
       ${art ? `<span class="pc-circ"><img src="${esc(p.headshot)}" alt="" loading="lazy" draggable="false" onerror="this.parentNode.style.display='none'"></span>` : ''}
       <div class="pc-plate">${first ? `<span class="pc-fn">${esc(first)}</span>` : ''}<span class="pc-ln">${esc(last)}</span>
         <span class="pc-tm">${p.teamLogo ? `<img src="${esc(p.teamLogo)}" alt="" draggable="false">` : ''}<span>${esc(p.team || F.label)}</span>${tags}</span></div></div>
-    <div class="pc-face pc-back">${mk && state.tab === FANTASY_TAB && cmpCardOk(sp) ? `<button class="pc-cmpb" data-cmcard="${esc(p.id)}" data-cmgo="1" title="Show comparable players on ${esc(p.name)}'s fantasy card">⇄ Comps</button>` : ''}<div class="pc-bh"><span>${esc(p.short || p.name)}</span><span>${esc([p.pos, p.team].filter(Boolean).join(' · '))}</span></div>
+    <div class="pc-face pc-back">${mk && state.tab === FANTASY_TAB && cmpCardOk(sp) ? `<button class="pc-cmpb" data-cmcard="${esc(p.id)}" data-cmgo="1" title="Show comparable players on ${esc(p.name)}'s fantasy card">⇄ Comps</button>` : ''}<div class="pc-bh"><span>${esc(p.short || p.name)}</span><span>${esc([p.pos, p.team].filter(Boolean).join(' · '))}</span><em class="tp-no">No. ${toppsNo(p)}</em></div>
       ${sts.length ? `<div class="pc-sn">${esc((ov.sv && ov.sv.name) || 'Season')}</div><table class="pc-tbl">${sts.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join('')}</table>` : `<div class="pc-sn">${ov._t ? 'No season stats yet' : 'Loading stats…'}</div>`}
       ${hasT ? `<div class="pc-tr" title="${tdat.pace ? esc(`Per-game pace ${tdat.pace.cur} ${tdat.pace.unit} vs ${tdat.pace.prev} in ${tdat.pace.py}`) : 'Fantasy points by week'}">${sparkSVG(tdat.weeks, 52, 16)}${tdat.pace ? `<b class="tr-pace ${tdat.pace.dir}">${paceArrow(tdat.pace.dir)} ${tdat.pace.cur}</b><span>vs ${tdat.pace.prev}</span>` : ''}</div>` : ''}
       ${key ? `<div class="pc-key">${key}</div>` : ''}
