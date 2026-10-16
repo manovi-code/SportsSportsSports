@@ -2151,6 +2151,8 @@
   @keyframes sxBlink{50%{outline-color:transparent}}
   html.sx-hid .sx-b::after,html.sx-hid .sx-fab,html.sx-hid .sx-fab::before,html.sx-hid .sx-fab .ic,html.sx-hid .sx-hero{animation-play-state:paused!important}
   @media (prefers-reduced-motion:reduce){.sx-b::after,.sx-b span,.sx-fab,.sx-fab::before,.sx-fab .ic,.sx-menu button.sx-hero,.sx-menu button.sx-hero .ic,.sx-coach,.sx-ring-hl{animation:none!important}}
+  .gm-lines{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:11.5px;color:#b9c4dc;padding:4px 12px 0}.gm-lines i{font-style:normal;color:#55607a}.gm-lines small{margin-left:auto;color:#6f7d9b;font-size:10px}
+  .sx-note{font-size:12px;color:#c7d2ea;background:#0f1526;border-radius:8px;padding:7px 9px;margin-top:8px;line-height:1.4}.sx-note b{color:#fff}
 </style>
 </head>
 <body>
@@ -2688,7 +2690,9 @@ function parseEvent(ev, lg){
   return { id: ev.id, lg, date, box: boxscoreUrl(ev, lg), state: type.state || 'pre', completed: !!type.completed,
            detail: type.shortDetail || type.detail || '', desc: type.description || '',
            period: st.period, clock: st.displayClock, sit: c.situation ? { poss: String(c.situation.possession || ''), dd: c.situation.shortDownDistanceText || '', pt: c.situation.possessionText || '', yl: c.situation.yardLine, dist: c.situation.distance, rz: !!c.situation.isRedZone } : null, teams, tv: c.broadcast || nets.slice(0,2).join(', '), nets: evNets(ev, [c]),
-           venue: (c.venue && c.venue.fullName) || '', note: ((c.notes||[])[0]||{}).headline || '', link };
+           venue: (c.venue && c.venue.fullName) || '', note: ((c.notes||[])[0]||{}).headline || '', link,
+           odds: (o => o && (o.details || o.overUnder != null) ? { det: o.details || '', ou: o.overUnder ?? null, prov: (o.provider || {}).name || '' } : null)((c.odds || [])[0]),
+           wx: ev.weather && ev.weather.temperature != null ? { t: ev.weather.temperature, txt: ev.weather.displayValue || '' } : null, indoor: !!(c.venue && c.venue.indoor) };
 }
 
 /* ---------------- parsing: golf / racing / tennis / MMA ---------------- */
@@ -3013,10 +3017,16 @@ function card(g, showLeague){
     </div>
     ${g.teams.map(t => teamRow(g, t)).join('')}
     <div class="gt-area${rd ? ' has-rd' : ''}">${gtHTML(g, { compact: !!rd })}${rd}</div>
+    ${gmLines(g)}
     <div class="card-foot"><span>${esc(g.note || g.venue)}</span><span>${g.box ? `<a href="${esc(g.box)}" target="_blank" rel="noopener">Box score ↗</a>` : ''}${g.link ? ` · <a href="${esc(g.link)}" target="_blank" rel="noopener">Gamecast ↗</a>` : ''}</span></div>
   </div>`;
 }
 
+// pre-game betting line + weather (ESPN scoreboard odds / weather; hidden when ESPN has none)
+function gmLines(g){ if (g.state === 'post') return ''; const o = g.odds, w = g.wx, bits = [];
+  if (o && o.det) bits.push(`<span title="Spread (${esc(o.prov || 'ESPN odds')})">📈 ${esc(o.det)}</span>`); if (o && o.ou != null) bits.push(`<span title="Over/under (${esc(o.prov || 'ESPN odds')})">O/U ${esc(o.ou)}</span>`);
+  if (g.indoor) bits.push('<span>🏟 Indoors</span>'); else if (w) bits.push(`<span title="Forecast at kickoff (ESPN)">${/rain|shower|storm/i.test(w.txt) ? '🌧' : /snow/i.test(w.txt) ? '❄️' : /sun|clear/i.test(w.txt) ? '☀️' : '⛅'} ${esc(w.t)}° ${esc(w.txt)}</span>`);
+  return bits.length ? `<div class="gm-lines">${bits.join('<i>·</i>')}${o && o.prov ? `<small>${esc(o.prov)}</small>` : ''}</div>` : ''; }
 /* ---------------- game tracker (middle of game / favorite cards) ---------------- */
 function gtSpec(lg){
   const [sp, p] = gxSport(lg);
@@ -7625,7 +7635,10 @@ async function sxSchedule(t){
       const orec = ((op.record || op.records || [])[0] || {}).displayValue || '';
       return { date: new Date(ev.date), opp: (op.team || {}).abbreviation || '', at: me.homeAway === 'home' ? 'vs' : '@', ms, os, r: me.winner ? 'W' : op.winner ? 'L' : ms > os ? 'W' : ms < os ? 'L' : 'T', orec };
     }).filter(Boolean).sort((a, b) => b.date - a.date);
-    v = { rec: tm.recordSummary || '', standing: tm.standingSummary || '', g };
+    const nx = (d.events || []).map(ev => { const c = (ev.competitions || [])[0] || {}, st = ((c.status || {}).type) || {}; if (st.completed || st.state === 'post') return null; const me = (c.competitors || []).find(x => String(x.id) === String(tm.id)), op = (c.competitors || []).find(x => x !== me); if (!me || !op) return null;
+      return { id: String(ev.id), date: new Date(ev.date), opp: (op.team || {}).abbreviation || '', at: me.homeAway === 'home' ? 'vs' : '@', tbd: c.timeValid === false }; }).filter(Boolean).sort((a, b) => a.date - b.date)[0] || null;
+    if (nx && nx.date - Date.now() < 9 * 864e5) { try { const sb = await getJSON(`${API}${CAT[t.lg].path}/scoreboard?dates=${ymdET(nx.date)}`, 10000); const ev = (sb.events || []).find(x => String(x.id) === nx.id); if (ev) nx.g = parseEvent(ev, t.lg); } catch (_) {} }
+    v = { rec: tm.recordSummary || '', standing: tm.standingSummary || '', g, next: nx };
   } catch (_) { v = null; }
   SX.sch[k] = { t: Date.now(), v }; return v;
 }
@@ -7698,7 +7711,7 @@ async function sxData(e){
   if (e.k === 'p') { const [gl, team] = await Promise.all([sxGamelog(e), e.team && FSPORTS[e.sp] && FSPORTS[e.sp].kind === 'team' ? sxSchedule(sxTeam(FSPORTS[e.sp].lg, e.team) || {}).catch(() => null) : null]);
     let sc = sxPlayerScore(e), basis = 'fantasy';
     if (!sc && team && e.team) { const t = sxTeam(FSPORTS[e.sp].lg, e.team); sc = sxTeamScore(t, team); basis = 'team'; }
-    d = { gl, sc, basis, rar: e.sp === 'nfl' ? rarById(e.id) : null };
+    d = { gl, sc, basis, team, rar: e.sp === 'nfl' ? rarById(e.id) : null };
   } else { const S = await sxSchedule(e); d = { S, sc: sxTeamScore(e, S) }; }
   SX.cache[k] = { t: Date.now(), d }; return d;
 }
@@ -7716,10 +7729,17 @@ function sxBars(bars, ref, team){
   return `<div class="sx-bars">${bars.map(b => `<div class="sx-bar" title="${esc((b.t || b.v) + ' · ' + b.l)}"><s>${esc(team ? (b.v > 0 ? '+' : '') + b.v : r1(b.v))}</s><span class="${b.v < 0 ? 'neg' : ref && b.v >= ref ? 'hot' : ''}" style="height:${Math.max(4, 82 * Math.abs(b.v) / mx)}px"></span>${esc(b.l)}</div>`).join('')}</div>`
     + (ref ? `<div class="sx-hint">Gold = beat ESPN's season projection pace (${ref.toFixed(1)}/g)</div>` : team ? `<div class="sx-hint">Margin of each game (last ${bars.length}, oldest → newest)</div>` : '');
 }
+function sxNext(lg, abbr, nx){   // next game line + ESPN odds/weather when the scoreboard has them
+  const g = (state.games[lg] || []).find(x => x.state !== 'post' && x.teams.some(t => t.abbr.toUpperCase() === String(abbr || '').toUpperCase())) || (nx && nx.g) || null;
+  if (!g && !nx) return ''; const me = g && g.teams.find(t => t.abbr.toUpperCase() === String(abbr).toUpperCase()), op = g && g.teams.find(t => t !== me);
+  const txt = g ? `${me.homeAway === 'home' ? 'vs' : '@'} ${op.abbr} · ${g.state === 'in' ? 'LIVE ' + (g.detail || '') : statusText(g, true)}` : `${nx.at} ${nx.opp} · ${nx.tbd ? dayLabelET(nx.date) + ' · TBD' : whenText(nx.date)}`;
+  const o = g && g.odds, w = g && g.wx, extra = [o && o.det ? 'Line ' + o.det : '', o && o.ou != null ? 'O/U ' + o.ou : '', g && g.indoor ? 'Indoors' : w ? w.t + '° ' + w.txt : ''].filter(Boolean).join(' · ');
+  return `<div class="sx-note"><b>Next:</b> ${esc(txt)}${extra ? `<br><span style="color:#9fb0d3">${esc(extra)}${o && o.prov ? ' (' + esc(o.prov) + ')' : ''}</span>` : ''}</div>`; }
 function sxStatsHTML(e, d){
   if (e.k === 't') { const S = d.S; if (!S) return '<div class="sx-ld">No schedule data from ESPN.</div>';
     const g = S.g, pf = g.length ? (g.reduce((a, x) => a + x.ms, 0) / g.length).toFixed(1) : null, pa = g.length ? (g.reduce((a, x) => a + x.os, 0) / g.length).toFixed(1) : null;
     return `<div class="sx-kv">${S.rec ? `<div><b>${esc(S.rec)}</b><i>Record</i></div>` : ''}${d.sc ? `<div><b>${esc(d.sc.streak)}</b><i>Streak</i></div>` : ''}${pf ? `<div><b>${pf}</b><i>Pts for /g</i></div><div><b>${pa}</b><i>Pts agst /g</i></div>` : ''}${S.standing ? `<div><b style="font-size:12px">${esc(S.standing)}</b><i>Standing</i></div>` : ''}</div>
+      ${sxNext(e.lg, e.abbr, S.next)}
       ${g.length ? `<table class="sx-tbl" style="margin-top:8px"><tr><th>Last 3</th><th>Result</th><th>Score</th></tr>${g.slice(0, 3).map(x => `<tr><td>${esc(etFmt(x.date, { month: 'short', day: 'numeric' }))} ${esc(x.at + ' ' + x.opp)}</td><td class="sx-res-${x.r.toLowerCase()}">${x.r}</td><td>${x.ms}-${x.os}</td></tr>`).join('')}</table>` : ''}`; }
   let h = ''; const gl = d.gl, x = d.sc && d.basis === 'fantasy' ? d.sc.x : (CMP.d && CMP.d[e.sp] && CMP.d[e.sp].p[e.id]);
   const kv = []; if (x && x.ppg != null) kv.push(['Fantasy PPG', x.ppg]); if (x && x.tot != null) kv.push(['Season pts', x.tot]);
@@ -7729,6 +7749,11 @@ function sxStatsHTML(e, d){
   if (kv.length) h += `<h4>Season</h4><div class="sx-kv">${kv.map(([k, v]) => `<div><b>${esc(v)}</b><i>${esc(k)}</i></div>`).join('')}</div>`;
   if (gl && gl.evs.length) { const idx = gl.labels.map((l, i) => i).filter(i => gl.labels[i] && !/^(LNG|AVG|FF|KB|LST)$/.test(gl.labels[i])).slice(0, 6);
     h += `<h4 style="margin-top:10px">Last 3 games</h4><table class="sx-tbl"><tr><th>Game</th>${idx.map(i => `<th title="${esc(gl.names[i] || '')}">${esc(gl.labels[i])}</th>`).join('')}</tr>${gl.evs.slice(0, 3).map(g => `<tr><td>${esc(g.at + ' ' + g.opp)} <span class="sx-res-${String(g.res).toLowerCase()}">${esc(g.res)}</span></td>${idx.map(i => `<td>${esc(g.stats[i] ?? '–')}</td>`).join('')}</tr>`).join('')}</table>`; }
+  if (gl && gl.evs.length) { const L3 = gl.evs.slice(0, 3), avg = lab => { const i = gl.labels.indexOf(lab); if (i < 0) return null; const v = L3.map(g => parseFloat(g.stats[i])).filter(x => !isNaN(x)); return v.length ? (v.reduce((a, b) => a + b, 0) / v.length).toFixed(1) : null; };
+    const u = e.sp === 'nfl' ? [['Targets/g', avg('TGTS')], ['Carries/g', avg('CAR')], ['Pass att/g', avg('ATT')]].filter(z => z[1] != null && +z[1] > 0) : [];
+    if (u.length) h += `<h4 style="margin-top:10px">Usage · last ${L3.length}</h4><div class="sx-kv">${u.map(([k, v]) => `<div><b>${v}</b><i>${k}</i></div>`).join('')}</div>`; }
+  const inj = e.p ? playerInjury(e.p) : null; if (inj) h += `<div class="sx-note"><b>🚑 ${esc(inj.status || inj.code || '')}</b>${inj.comment ? ' · ' + esc(trunc(inj.comment, 220)) : ''}</div>`;
+  if (e.team && FSPORTS[e.sp] && FSPORTS[e.sp].kind === 'team') h += sxNext(FSPORTS[e.sp].lg, e.team, d.team && d.team.next);
   return h || '<div class="sx-ld">ESPN has no stats for this player yet.</div>';
 }
 function sxPanel(e, d){
@@ -7756,6 +7781,7 @@ function sxShell(){
   return ov.querySelector('.sx-body');
 }
 async function sxOpen(e){
+  document.querySelectorAll('.sx-coach').forEach(c => c.remove()); document.querySelectorAll('.sx-ring-hl').forEach(x => x.classList.remove('sx-ring-hl')); try { lsSet('mannSpinCoach.v1', true); } catch (_) {}
   const body = sxShell(); body.innerHTML = `<div class="sx-ld">🌀 Spinning up ${esc(e.name)}…</div>`;
   const d = await sxData(e).catch(() => ({})); if (!SX.ov || !body.isConnected) return;
   body.innerHTML = sxPanel(e, d);
