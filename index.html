@@ -1191,7 +1191,7 @@
   .ticker.dsplit .tk-newsrow img{width:28px !important;height:28px !important}
   .ticker.dsplit .tk-newsrow .tk-league{font-size:12px;padding:4px 8px;margin:0 4px 0 14px}
   .ticker.dsplit.no-news .tk-newsrow{display:none}
-  /* ===== 🃏 premium trading cards (Fantasy + Fantasy Watch "Cards" view) ===== */
+  /* ===== 🃏 premium trading cards (Fantasy + Fantasy Lab "Cards" view) ===== */
   .tb-bar.tb-sticky{position:sticky;top:calc(var(--stack-h,0px) + 4px);z-index:12;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:8px 10px;margin:8px -10px 10px;border-radius:14px;border:1px solid var(--line);box-shadow:0 8px 22px rgba(0,0,0,.35)}
   .tb-vt.seg{position:relative;display:inline-grid;grid-template-columns:1fr 1fr;border:1px solid #33405e;border-radius:999px;background:#0a0e17;padding:3px;overflow:visible;box-shadow:inset 0 2px 6px rgba(0,0,0,.6)}
   .tb-vt.seg::before{content:"";position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);border-radius:999px;background:linear-gradient(135deg,#ff8a3d,var(--accent) 55%,#ffb347);box-shadow:0 4px 14px rgba(255,106,19,.45),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .28s cubic-bezier(.5,1.6,.4,1)}
@@ -2067,6 +2067,28 @@
     #ticker.split #tickerTrack .tk-league[data-tk="s"]{font-size:0!important;width:3px;min-width:3px;padding:0!important;margin:0 8px 0 10px;height:64px;align-self:center;background:var(--gold);box-shadow:none;border-radius:2px;overflow:hidden;color:transparent}
     .ticker.split .tk-nlabel[data-n="6"],.ticker.split .tk-nlabel[data-n="7"],.ticker.split .tk-nlabel[data-n="L"]{font-size:7.5px;letter-spacing:.2px}
   }
+  /* Oct 17: division / conference filter */
+  .gflt{display:flex;flex-direction:column;gap:4px;margin:12px 0 2px}
+  .gflt-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .gflt .chip{padding:5px 11px;font-size:12.5px;white-space:nowrap}
+  .gflt-sel{background:var(--panel2);border:1px solid var(--line);color:var(--muted);border-radius:16px;padding:5px 10px;font:700 12.5px system-ui;max-width:180px}
+  .gflt-sel.on{background:var(--accent);color:#111;border-color:var(--accent)}
+  .gflt-n{font-size:12px;color:var(--muted)}
+  @media (max-width:600px){.gflt-row{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;padding-bottom:2px;mask-image:linear-gradient(90deg,#000 calc(100% - 18px),transparent)}.gflt-row::-webkit-scrollbar{display:none}.gflt .chip,.gflt-sel{flex:none}}
+  .mu-more{display:none}
+  /* Oct 17: touch scrolling flows through the matchup + Trade Lab cards (no nested vertical scroll on phones / touch screens) */
+  @media (max-width:760px),(hover:none) and (pointer:coarse){
+    .mu,.mu.tr{max-height:none!important}
+    .mu-b,.tr .mu-b{overflow:visible!important;max-height:none!important;overscroll-behavior:auto!important}
+    .mu-b>.mu-sb,.mu-b>.mu-bar{position:static}
+    .tr-list{max-height:none!important;overflow:visible!important;overscroll-behavior:auto!important}
+    .mup-b{overscroll-behavior:auto}
+    /* long cards are clipped (not scrollable, so touch never gets trapped) with a Show more button */
+    #fzMatch:not(.mu-all) .mu:not(.closed)>.mu-b,#fzTrade0:not(.mu-all) .mu:not(.closed)>.mu-b{max-height:640px!important;overflow:hidden!important;-webkit-mask-image:linear-gradient(#000 calc(100% - 70px),transparent);mask-image:linear-gradient(#000 calc(100% - 70px),transparent)}
+    .mu-more{display:block;width:calc(100% - 20px);margin:6px 10px 10px;padding:9px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font:800 13px system-ui;cursor:pointer}
+    .mu.closed>.mu-more{display:none}
+    .mu-more .ml,.mu-all .mu-more .mo{display:none}.mu-all .mu-more .ml{display:inline}
+  }
   /* Oct 12c: live ring (replaces the outward bullseye) */
   .card.gm:has(>.gx-rings),.tk-game:has(>.gx-rings){position:relative;isolation:isolate}
   .gx-rings.gx-in{position:absolute;inset:0;z-index:-1;overflow:hidden;border-radius:inherit;pointer-events:none;background:none}
@@ -2535,7 +2557,7 @@ const fantasyTabOn = () => typeof fantasySel !== 'undefined' && fantasySel.lengt
 const isMN = () => state.tab === 'mynews' || state.tab === FANTASY_TAB || state.tab === WATCH_TAB;
 const isFzTab = () => state.tab === FANTASY_TAB || state.tab === WATCH_TAB;
 const isMyNews = () => state.tab === 'mynews';   // only My News keeps the full-size favorite cards
-const tabLabel = id => id === FANTASY_TAB ? '🎮 Fantasy' : id === WATCH_TAB ? '👁 Fantasy Watch' : CAT[id].label;
+const tabLabel = id => id === FANTASY_TAB ? '🎮 Fantasy' : id === WATCH_TAB ? '🧪 Fantasy Lab' : CAT[id].label;
 applySelection(loadSelection());
 
 /* ---------------- state ---------------- */
@@ -2559,7 +2581,7 @@ const FSPORTS = {
   golf: { label: 'Golf', emoji: '⛳', name: 'Fantasy Golf · PGA Tour', lg: 'pga', path: 'golf/pga', sport: 'golf', league: 'pga', web: 'golf/player', hs: 'golf', roto: 'GOLF', kind: 'golf' },
   ufc:  { label: 'UFC',  emoji: '🥊', name: 'UFC / MMA',        lg: 'ufc', path: 'mma/ufc',      sport: 'mma',      league: '',    web: 'mma/fighter', hs: 'mma', kind: 'mma' },
 };
-const FS_ORDER = Object.keys(FSPORTS);   // fantasy-capable sports (picker, Fantasy + Fantasy Watch tabs)
+const FS_ORDER = Object.keys(FSPORTS);   // fantasy-capable sports (picker, Fantasy + Fantasy Lab tabs)
 /* Every other league in the all-sports CATALOG gets a player entry too (search, ★ favorites, trading cards; no fantasy features).
    FS_PATH maps an ESPN "sport/league" path to its sport key; soccer players from leagues outside the catalog fall back to 'soccer' (soccer/all). */
 const FS_PATH = {}; for (const k of FS_ORDER) FS_PATH[FSPORTS[k].path] = k;
@@ -2733,7 +2755,7 @@ function parseEvent(ev, lg){
     if (tm.id && tm.abbreviation) MN.teamIds[lg + ':' + tm.abbreviation.toUpperCase()] = tm.id;
     return { homeAway: t.homeAway, abbr: tm.abbreviation || '', name: tm.displayName || tm.name || '',
              short: tm.shortDisplayName || tm.name || '', logo: tm.logo || '', score: t.score ?? '', id: String(tm.id || ''), color: tm.color || '', alt: tm.alternateColor || '',
-             record: rec ? rec.summary : '', rank, winner: !!t.winner };
+             record: rec ? rec.summary : '', rank, winner: !!t.winner, conf: String(tm.conferenceId || '') };
   }).sort((a,b) => (a.homeAway === 'away' ? -1 : 1)); // away first
   const nets = [];
   (c.broadcasts || []).forEach(b => (b.names || []).forEach(n => { if (!nets.includes(n)) nets.push(n); }));
@@ -2898,6 +2920,7 @@ async function loadLeague(lg){
   const map = new Map();
   ok.forEach(r => (r.value.events || []).forEach(ev => map.set(ev.id, ev)));
   const evs = [...map.values()];
+  { const yr = ok.map(r => (((r.value.leagues || [])[0] || {}).season || {}).year).find(Boolean); if (yr) (state.season || (state.season = {}))[lg] = yr; }
   if (L.kind === 'team') { state.games[lg] = evs.map(ev => parseEvent(ev, lg)).sort((a,b) => a.date - b.date); gxTrack(lg, state.games[lg]); }
   else { state.ind[lg] = evs.map(ev => PARSERS[L.kind](ev, lg)).sort((a,b) => a.date - b.date); state.games[lg] = []; }
 }
@@ -3174,7 +3197,7 @@ function tickerTeamItems(lg, now){
     (g.state === 'pre' && g.date - now < 24*36e5 && g.date - now > -6*36e5));
   if (L.many && CONFIG.tickerCfbRankedOnly) games = games.filter(g => g.state === 'in' || g.teams.some(t => t.rank || isFav(lg, t.abbr)));
   const fav = g => g.teams.some(t => isFav(lg, t.abbr));
-  games.sort((a,b) => ((b.state==='in') + 2*fav(b)) - ((a.state==='in') + 2*fav(a)) || (a.state === 'post') - (b.state === 'post') || a.date - b.date);
+  games.sort((a,b) => ((b.state==='in') + 2*fav(b)) - ((a.state==='in') + 2*fav(a)) || (a.state === 'in' && b.state === 'in' ? liveCmp(a, b) : 0) || (a.state === 'post') - (b.state === 'post') || a.date - b.date);
   return games.slice(0, CONFIG.tickerMaxPerLeague).map(g => {
     const [a, h] = g.teams; if (!a || !h) return null;
     return { live: g.state === 'in', fav: fav(g),
@@ -3524,7 +3547,7 @@ function ftCard(x){
 function renderTabs(){
   document.getElementById('tabs').innerHTML = `<button class="tab mynews${state.tab === 'mynews' ? ' active' : ''}" data-tab="mynews">⭐ My News</button>` + tabOrder().map(lg => {
     if (lg === WATCH_TAB) { const n = watchList(MN.fsTab || fantasySel[0] || 'nfl').length;
-      return `<button class="tab fantasy watch${state.tab === lg ? ' active' : ''}" data-tab="${lg}" draggable="true" aria-keyshortcuts="Alt+ArrowLeft Alt+ArrowRight" title="Fantasy Watch list: waiver and trade targets. Drag to reorder (or Alt+← / Alt+→)">👁 Fantasy Watch${n ? `<span class="count">${n}</span>` : ''}</button>`; }
+      return `<button class="tab fantasy watch${state.tab === lg ? ' active' : ''}" data-tab="${lg}" draggable="true" aria-keyshortcuts="Alt+ArrowLeft Alt+ArrowRight" title="Fantasy Lab: Trade Lab + your watch list of waiver and trade targets. Drag to reorder (or Alt+← / Alt+→)">🧪 Fantasy Lab${n ? `<span class="count">${n}</span>` : ''}</button>`; }
     if (lg === FANTASY_TAB) { const live = activePlayers().filter(p => { if (!p.roster) return false; const n = playerNow(p); return n && n.state === 'in'; }).length;
       return `<button class="tab fantasy${state.tab === lg ? ' active' : ''}" data-tab="${lg}" draggable="true" aria-keyshortcuts="Alt+ArrowLeft Alt+ArrowRight" title="Fantasy: your players, news, trends and injuries. Drag to reorder (or Alt+← / Alt+→)">🎮 Fantasy${live ? `<span class="count">${live} live</span>` : ''}</button>`; }
     const L = LEAGUES[lg], live = liveCount(lg);
@@ -3555,8 +3578,80 @@ function favPlayersSection(lg){
   return `<div class="section-title fp-title${FMIN.players ? ' fmin-off' : ''}">★ Favorite players <small>${fp.length} · status, next ${sp === 'golf' ? 'tournament' : sp === 'ufc' ? 'fight' : 'game'}, live stats and news</small><span style="margin-left:auto"></span>${fminBtn('players')}</div>
     ${FMIN.players ? '' : `<div class="mn-players cmp n${Math.min(fp.length, 3)}">${fp.slice().sort((a, b) => live(a) - live(b)).map(p => playerCard(p, 'tab')).join('')}</div>`}`;
 }
-function renderTeamLeague(lg, games){
-  const L = CAT[lg];
+/* Oct 17: live-game ordering — ★ favorites first, then the highest-ranked team involved (AP/CFP rank from ESPN for college,
+   record win% for pro leagues; ties = more games played, then the closer score, then start time). */
+function gmRecPct(t){ const m = String(t.record || '').match(/^(\d+)-(\d+)(?:-(\d+))?/); if (!m) return { p: -1, gp: 0 };
+  const w = +m[1], l = +m[2], o = +(m[3] || 0), gp = w + l + o; return { p: gp ? (w + o * .5) / gp : -1, gp }; }
+function gmStrength(g){ const ts = g.teams.map(t => ({ r: t.rank || 99, ...gmRecPct(t) }));
+  return { r: ts.map(x => x.r).sort((a, b) => a - b), p: ts.map(x => x.p).sort((a, b) => b - a), gp: Math.max(0, ...ts.map(x => x.gp)) }; }
+function gmMargin(g){ const a = parseFloat((g.teams[0] || {}).score), b = parseFloat((g.teams[1] || {}).score); return isNaN(a) || isNaN(b) ? 999 : Math.abs(a - b); }
+function liveCmp(a, b){
+  const fa = a.teams.some(t => isFav(a.lg, t.abbr)), fb = b.teams.some(t => isFav(b.lg, t.abbr)); if (fa !== fb) return fb - fa;
+  const A = gmStrength(a), B = gmStrength(b);
+  for (let i = 0; i < 2; i++) if ((A.r[i] || 99) !== (B.r[i] || 99)) return (A.r[i] || 99) - (B.r[i] || 99);
+  for (let i = 0; i < 2; i++) if (Math.abs((A.p[i] ?? -1) - (B.p[i] ?? -1)) > 1e-9) return (B.p[i] ?? -1) - (A.p[i] ?? -1);
+  return B.gp - A.gp || gmMargin(a) - gmMargin(b) || a.date - b.date;
+}
+document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-mumore]'); if (!b) return; e.preventDefault();
+  const c = document.getElementById(b.dataset.mumore); if (!c) return; const on = c.classList.toggle('mu-all');
+  if (!on) { const sec = c.querySelector('.mu'); if (sec && sec.getBoundingClientRect().top < 0) sec.scrollIntoView({ block: 'start' }); } });
+/* Oct 17: NFL division / college conference filter for game cards (ESPN groups; remembered per device). A game shows if either team matches. */
+const GRP_KEY = 'mannGroups.v1', GFLT_KEY = 'mannGameFilter.v1', GRP_ROOT = { nfl: 'nfl', cfb: 80, mcbb: 50, wcbb: 50 }, GRPQ = {};
+const GRP = (() => { const v = lsGet(GRP_KEY, {}); return v && typeof v === 'object' ? v : {}; })();
+const GFLT = (() => { const v = lsGet(GFLT_KEY, {}); return v && typeof v === 'object' ? v : {}; })();
+const GRP_POWER = ['SEC', 'Big Ten', 'ACC', 'Big 12', 'Big East'];
+function grpData(lg){ const g = GRP[lg]; return g && g.list && g.list.length && Date.now() - g.t < 30 * 864e5 && (lg === 'nfl' || !state.season || !state.season[lg] || g.yr === state.season[lg]) ? g : null; }
+async function grpLoad(lg){
+  if (!(lg in GRP_ROOT) || GRPQ[lg] || grpData(lg)) return;
+  const yr = (state.season || {})[lg]; if (lg !== 'nfl' && !yr) return;
+  GRPQ[lg] = 1;
+  try {
+    if (lg === 'nfl') {
+      const d = await getJSON(API + CAT.nfl.path + '/groups', 15000), div = {}, list = [];
+      (d.groups || []).forEach(cf => (cf.children || []).forEach(c => { if (!c.name) return; list.push({ id: c.name, n: c.name }); (c.teams || []).forEach(t => { if (t.abbreviation) div[t.abbreviation.toUpperCase()] = c.name; }); }));
+      if (!list.length) throw new Error('no divisions');
+      GRP.nfl = { t: Date.now(), list, div };
+    } else {
+      const [sp, lgp] = CAT[lg].path.split('/'), base = `https://sports.core.api.espn.com/v2/sports/${sp}/leagues/${lgp}/seasons/${yr}/types/2/groups/`;
+      const kids = await getJSON(base + GRP_ROOT[lg] + '/children?limit=100', 15000);
+      const refs = (kids.items || []).map(i => String(i.$ref || '').replace(/^http:/, 'https:')).filter(Boolean);
+      const rs = await Promise.allSettled(refs.map(u => getJSON(u, 15000)));
+      const list = rs.filter(r => r.status === 'fulfilled' && r.value && r.value.id).map(r => ({ id: String(r.value.id), n: r.value.shortName || r.value.midsizeName || r.value.name, full: r.value.name || '' }));
+      if (!list.length) throw new Error('no conferences');
+      list.sort((a, b) => a.n.localeCompare(b.n)); GRP[lg] = { t: Date.now(), yr, list };
+    }
+    lsSet(GRP_KEY, GRP); GRPQ[lg] = 0; if (state.tab === lg) renderGames();
+  } catch (e) { console.warn('groups', lg, e && e.message); setTimeout(() => { GRPQ[lg] = 0; }, 10 * 60e3); }
+}
+function gfltVal(lg){ const v = GFLT[lg] || 'all', G = grpData(lg); if (v === 'all') return 'all'; if (v === 'top25') return lg === 'nfl' ? 'all' : v; return G && G.list.some(x => x.id === v) ? v : 'all'; }
+function gfltMatch(lg, g){
+  const v = gfltVal(lg); if (v === 'all') return true;
+  if (v === 'top25') return g.teams.some(t => t.rank);
+  if (lg === 'nfl') { const G = grpData(lg); return g.teams.some(t => G.div[String(t.abbr).toUpperCase()] === v); }
+  return g.teams.some(t => t.conf === v);
+}
+function gfltBar(lg, games){
+  if (!(lg in GRP_ROOT)) return '';
+  grpLoad(lg); const G = grpData(lg); if (!G) return '';
+  const v = gfltVal(lg), cnt = f => games.filter(g => f(g)).length;
+  const chip = (id, txt, title) => `<button type="button" class="chip${v === id ? ' on' : ''}" data-gflt="${esc(id)}" aria-pressed="${v === id}"${title ? ` title="${esc(title)}"` : ''}>${esc(txt)}</button>`;
+  let chips = chip('all', 'All'), sel = '';
+  if (lg === 'nfl') chips += G.list.map(x => chip(x.id, x.n)).join('');
+  else {
+    const anyRank = games.some(g => g.teams.some(t => t.rank)); if (anyRank || v === 'top25') chips += chip('top25', 'Top 25', 'Games with an AP / CFP Top 25 team');
+    const power = GRP_POWER.map(n => G.list.find(x => x.n === n)).filter(Boolean), other = G.list.filter(x => !power.includes(x));
+    chips += power.map(x => chip(x.id, x.n, x.full)).join('');
+    if (other.length) { const on = other.some(x => x.id === v);
+      sel = `<select class="gflt-sel${on ? ' on' : ''}" data-gfltsel="1" aria-label="More conferences"><option value="">${on ? '' : 'More conferences…'}</option>${other.map(x => `<option value="${esc(x.id)}"${x.id === v ? ' selected' : ''}>${esc(x.n)}</option>`).join('')}</select>`; }
+  }
+  const n = v === 'all' ? '' : `<span class="gflt-n">${cnt(g => gfltMatch(lg, g))} of ${games.length} games</span>`;
+  return `<div class="gflt" role="group" aria-label="${lg === 'nfl' ? 'Filter games by division' : 'Filter games by conference'}"><div class="gflt-row">${chips}${sel}</div>${n}</div>`;
+}
+document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-gflt]'); if (!b) return; e.preventDefault();
+  GFLT[state.tab] = b.dataset.gflt; lsSet(GFLT_KEY, GFLT); renderGames(); const f = document.querySelector(`[data-gflt="${CSS.escape(b.dataset.gflt)}"]`); if (f) f.focus({ preventScroll: true }); });
+document.addEventListener('change', e => { const s = e.target.closest && e.target.closest('[data-gfltsel]'); if (!s || !s.value) return; GFLT[state.tab] = s.value; lsSet(GFLT_KEY, GFLT); renderGames(); });
+function renderTeamLeague(lg, allGames){
+  const L = CAT[lg], fbar = gfltBar(lg, allGames), games = allGames.filter(g => gfltMatch(lg, g)), fon = gfltVal(lg) !== 'all';
   const todayKey = etDayKey(new Date());
   const live = games.filter(g => g.state === 'in');
   const today = games.filter(g => g.state !== 'in' && etDayKey(g.date) === todayKey);
@@ -3565,11 +3660,13 @@ function renderTeamLeague(lg, games){
   rest.forEach(g => { const k = dayLabelET(g.date); if (!byDay.has(k)) byDay.set(k, []); byDay.get(k).push(g); });
   const favFirst = arr => arr.slice().sort((a,b) => (b.teams.some(t=>isFav(b.lg,t.abbr))) - (a.teams.some(t=>isFav(a.lg,t.abbr))) || (a.state==='post') - (b.state==='post') || a.date - b.date);
   let html = '';
-  if (live.length) html += `<div class="section-title"><span class="badge-live">LIVE</span> Live now <small>${live.length} game${live.length>1?'s':''}</small></div><div class="grid">${favFirst(live).map(g=>card(g)).join('')}</div>`;
+  html += fbar;
+  if (fon && !games.length) return html + `<div class="empty" style="margin-top:12px">No games for this ${lg === 'nfl' ? 'division' : 'filter'} right now. <button class="linkbtn" data-gflt="all">Show all games</button></div>`;
+  if (live.length) html += `<div class="section-title"><span class="badge-live">LIVE</span> Live now <small>${live.length} game${live.length>1?'s':''}</small></div><div class="grid">${live.slice().sort(liveCmp).map(g=>card(g)).join('')}</div>`;
   html += `<div class="section-title">Today <small>${esc(etFmt(new Date(), {weekday:'long', month:'short', day:'numeric'}))}</small></div>`;
   html += today.length ? `<div class="grid">${favFirst(today).map(g=>card(g)).join('')}</div>` : `<div class="empty">No ${esc(L.label)} games${live.length ? ' left' : ''} today.</div>`;
   for (const [day, arr] of byDay) html += `<div class="section-title">${esc(day)} <small>${arr.length} game${arr.length>1?'s':''}</small></div><div class="grid">${favFirst(arr).map(g=>card(g)).join('')}</div>`;
-  if (!games.length) html += `<div class="empty" style="margin-top:12px">No games on the schedule right now.</div>`;
+  if (!allGames.length) html += `<div class="empty" style="margin-top:12px">No games on the schedule right now.</div>`;
   return html;
 }
 const evHead = (e, extra) => `<div class="section-title">${e.state === 'in' ? '<span class="badge-live">LIVE</span> ' : ''}${e.link ? `<a href="${esc(e.link)}" target="_blank" rel="noopener" style="text-decoration:none" title="Open on ESPN">${esc(e.name)} ↗</a>` : esc(e.name)} <small>${esc(extra || '')}</small></div>${rdChips(e)}`;
@@ -4381,10 +4478,10 @@ function fzCard(p){
   let star = p.fav ? `<button class="star on" data-rmplayer="${esc(p.id)}" title="Remove ${esc(p.name)} from ★ favorites (stays on your fantasy roster)" aria-label="Remove ${esc(p.name)} from favorites" aria-pressed="true">★</button>`
     : `<button class="star" data-addfav="${esc(p.id)}" title="Also add ${esc(p.name)} to ★ favorites" aria-label="Add ${esc(p.name)} to favorites" aria-pressed="false">☆</button>`;
   if (p.watch) {                                             // watch-list card: WATCH badge, % rostered, remove button (no star: watching isn't favoriting)
-    slot = `<span class="slot fz-slot fz-watch" title="On your ${esc(F.label)} Fantasy Watch list">👁 WATCH</span>`;
+    slot = `<span class="slot fz-slot fz-watch" title="On your ${esc(F.label)} Fantasy Lab watch list">👁 WATCH</span>`;
     const own = ov && ov.fantasy && ov.fantasy.owned ? r1(+ov.fantasy.owned) : null;
     ptsH = own != null ? `<div class="fzc-pts" title="Share of ESPN leagues where this player is rostered"><b>${own}%</b><span>rostered</span><i>ESPN</i></div>` : '';
-    star = `<button class="wl-rm" data-unwatch="${esc(p.id)}" data-sp="${sp}" title="Remove ${esc(p.name)} from your Fantasy Watch list" aria-label="Remove ${esc(p.name)} from Fantasy Watch list">✕</button>`;
+    star = `<button class="wl-rm" data-unwatch="${esc(p.id)}" data-sp="${sp}" title="Remove ${esc(p.name)} from your Fantasy Lab watch list" aria-label="Remove ${esc(p.name)} from Fantasy Lab watch list">✕</button>`;
   }
   let h = `<div class="fzc-h"><img class="fzc-hs" src="${esc(p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
     <div class="fzc-t"><div class="fzc-n">${slot}<b><a href="${esc(playerUrl(p))}" target="_blank" rel="noopener" title="${esc(p.name)}: open ESPN player page">${esc(p.name)}</a></b></div>
@@ -4874,7 +4971,7 @@ function muSection(sp){
   const bench = `<div class="mu-bn"><button class="mu-bnh" data-mu="bench" aria-expanded="${MU.ui.bench}">${MU.ui.bench ? '▾' : '▸'} Bench (both teams)</button>${MU.ui.bench ? `<div class="mu-bng">${bl(D.me, 'Your bench')}${bl(D.op, (D.op ? D.op.name : 'Opponent') + ' bench')}</div>` : ''}</div>`;
   return `<section class="mu${open ? '' : ' closed'}" id="fzMatchup">${head}<div class="mu-b">${muScore(D)}
     <div class="mu-bar"><div class="tb-vt seg${v === 'table' ? ' v-table' : ''}" role="group" aria-label="Matchup view"><button data-mu="v:cards" aria-pressed="${v === 'cards'}" class="${v === 'cards' ? 'on' : ''}"><span class="ic" aria-hidden="true">🃏</span>Cards</button><button data-mu="v:table" aria-pressed="${v === 'table'}" class="${v === 'table' ? 'on' : ''}"><span class="ic" aria-hidden="true">▦</span>Table</button></div>${muScore(D, 'wp')}${v === 'cards' ? '<button class="mu-rp" data-mu="replay" title="Replay the battle">⟲ Replay</button>' : ''}</div>
-    ${body}${bench}</div></section>`;
+    ${body}${bench}</div><button type="button" class="mu-more" data-mumore="fzMatch"><span class="mo">Show full matchup ▾</span><span class="ml">Show less ▴</span></button></section>`;
 }
 function muSbVar(){ const m = document.getElementById('fzMatchup'), sb = m && m.querySelector('.mu-b>.mu-sb'); if (sb) m.style.setProperty('--musb', sb.offsetHeight + 'px'); }
 window.addEventListener('resize', () => requestAnimationFrame(muSbVar), { passive: true });
@@ -5136,7 +5233,7 @@ function trSection(sp){
   const L = espnLinks[sp]; if (!L || L.source === 'paste' || !L.leagueId || !L.teamId) return '';
   const D = TR.d, ok = D && D.lg === L.leagueId + ':' + L.teamId, open = TR.ui.open;
   const head = `<button class="mu-h" data-tr="open" aria-expanded="${open}"><b>🔄 Trade Lab</b><small>Trades that help both teams · analysis only</small><span class="car" aria-hidden="true">▾</span></button>`;
-  const wrap = b => `<section class="mu tr${open ? '' : ' closed'}" id="fzTrade">${head}<div class="mu-b">${b}</div></section>`;
+  const wrap = b => `<section class="mu tr${open ? '' : ' closed'}" id="fzTrade">${head}<div class="mu-b">${b}</div>${open ? '<button type="button" class="mu-more" data-mumore="fzTrade0"><span class="mo">Show all of Trade Lab ▾</span><span class="ml">Show less ▴</span></button>' : ''}</section>`;
   if (!open) return wrap('');
   if (!ok) return wrap(`<div class="mu-ld">${TR.err && Date.now() - TR.err < 12e4 ? 'Couldn\'t load league rosters. Retrying shortly.' : 'Loading every team\'s roster…'}</div>`);
   const me = D.teams.find(t => t.id === D.me); if (!me) return wrap('<div class="mu-ld">Your team wasn\'t found in this league.</div>');
@@ -5194,7 +5291,7 @@ function ensureTr(sp){
   if (sp !== 'nfl' || !TR.ui.open) return;
   const L = espnLinks[sp]; if (!L || L.source === 'paste' || !L.leagueId || !L.teamId) return;
   const D = TR.d; if ((D && D.lg === L.leagueId + ':' + L.teamId && Date.now() - D.t < 15 * 60e3) || TR.busy || (TR.err && Date.now() - TR.err < 12e4)) return;
-  TR.busy = true; trLoad(sp, L).then(() => { TR.err = 0; }).catch(e => { TR.err = Date.now(); console.warn('trade', e && e.message); }).finally(() => { TR.busy = false; if (state.tab === FANTASY_TAB && MN.fsTab === sp) trRender(sp); });
+  TR.busy = true; trLoad(sp, L).then(() => { TR.err = 0; }).catch(e => { TR.err = Date.now(); console.warn('trade', e && e.message); }).finally(() => { TR.busy = false; if (state.tab === WATCH_TAB && MN.fsTab === sp) trRender(sp); });
 }
 document.addEventListener('click', e => {
   const b = e.target.closest && e.target.closest('[data-tr]'); if (!b) return; e.preventDefault();
@@ -5207,7 +5304,7 @@ document.addEventListener('click', e => {
   else if (a.startsWith('mode:')) U.big = a === 'mode:2';
   else if (a.startsWith('sug:') || a.startsWith('sugb:')) { const L = a.startsWith('sugb:') ? TR.sugB : TR.sug, x = L && L.v[+a.split(':')[1]]; if (x) { U.team = x.op; U.give = x.give.slice(); U.get = x.get.slice(); } }
   trSaveUI(); trRender(sp); ensureTr(sp);
-  if (a.startsWith('sug')) { const r = document.querySelector('#fzTrade .tr-res'), sc = document.querySelector('#fzTrade .mu-b'); if (r && sc) sc.scrollTop = r.offsetTop - sc.offsetTop - 8; }
+  if (a.startsWith('sug')) { const r = document.querySelector('#fzTrade .tr-res'), sc = document.querySelector('#fzTrade .mu-b'); if (r && sc) { if (sc.scrollHeight > sc.clientHeight + 4 && getComputedStyle(sc).overflowY !== 'visible') sc.scrollTop = r.offsetTop - sc.offsetTop - 8; else r.scrollIntoView({ block: 'start', behavior: 'smooth' }); } }
   const f = document.querySelector(`[data-tr="${CSS.escape(a)}"]`); if (f && !a.startsWith('sug')) f.focus({ preventScroll: true });
 });
 document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('te-main')) { e.preventDefault(); e.target.click(); } });
@@ -5239,9 +5336,8 @@ document.addEventListener('keydown', e => { const o = document.getElementById('c
 function renderFantasy(){
   const el = document.getElementById('games'), side = document.getElementById('news');
   side.classList.add('static');
-  if (el.dataset.view !== FANTASY_TAB) { el.dataset.view = FANTASY_TAB; el.innerHTML = `<div id="fzHead"></div><div id="fzMatch"></div><div id="fzTrade0"></div><div id="mnPlayers"></div><div id="fzWatchLink"></div><div id="fzPick"></div><div id="fzComps"></div><div id="mnFF"></div>`; }
+  if (el.dataset.view !== FANTASY_TAB) { el.dataset.view = FANTASY_TAB; el.innerHTML = `<div id="fzHead"></div><div id="fzMatch"></div><div id="mnPlayers"></div><div id="fzWatchLink"></div><div id="fzPick"></div><div id="fzComps"></div><div id="mnFF"></div>`; }
   if (!document.getElementById('fzMatch')) { const fh = document.getElementById('fzHead'); if (fh) fh.insertAdjacentHTML('afterend', '<div id="fzMatch"></div>'); }
-  if (!document.getElementById('fzTrade0')) { const fm = document.getElementById('fzMatch'); if (fm) fm.insertAdjacentHTML('afterend', '<div id="fzTrade0"></div>'); }
   if (!document.getElementById('fzPick')) { const wl = document.getElementById('fzWatchLink'); if (wl) wl.insertAdjacentHTML('afterend', '<div id="fzPick"></div>'); }
   if (!document.getElementById('fzComps')) { const ff = document.getElementById('mnFF'); if (ff) ff.insertAdjacentHTML('beforebegin', '<div id="fzComps"></div>'); }
   if (!fantasySel.includes(MN.fsTab)) MN.fsTab = fantasySel[0];
@@ -5274,14 +5370,13 @@ function renderFantasy(){
   const focusSel = hadFocus ? ['fstab', 'fspick', 'fffilter'].map(k => hadFocus.dataset[k] ? `[data-${k}="${hadFocus.dataset[k]}"]` : '').find(Boolean) : null;
   document.getElementById('fzHead').innerHTML = head; tbKeepScroll(() => { document.getElementById('mnPlayers').innerHTML = rosterHtml; }); document.getElementById('mnFF').innerHTML = html;
   if (focusSel) { const f = el.querySelector(focusSel); if (f) f.focus(); }
-  { const wl = document.getElementById('fzWatchLink'), n = watchList(sp).length; if (wl) wl.innerHTML = `<button class="linkbtn wl-link" data-tab="${WATCH_TAB}">👁 ${n ? `${n} player${n === 1 ? '' : 's'} on your ${esc(F.label)} Fantasy Watch list` : `Start a ${esc(F.label)} Fantasy Watch list`} →</button>`; }
+  { const wl = document.getElementById('fzWatchLink'), n = watchList(sp).length; if (wl) wl.innerHTML = `<button class="linkbtn wl-link" data-tab="${WATCH_TAB}">🧪 Fantasy Lab: ${sp === 'nfl' && trSection(sp) ? 'Trade Lab · ' : ''}${n ? `${n} player${n === 1 ? '' : 's'} on your ${esc(F.label)} watch list` : `start a ${esc(F.label)} watch list`} →</button>`; }
   try { const cb = document.getElementById('fzComps'); if (cb) cb.innerHTML = compsSection(sp); } catch (e) { console.warn('comps', e); }
   try { const pk = document.getElementById('fzPick'); if (pk) tbKeepScroll(() => { pk.innerHTML = pickSection(sp); }); } catch (e) { console.warn('pickups', e); }
   side.innerHTML = fantasySidebar(sp);
   try { renderCardRow(); } catch (_) {}
   ensureFzExtras(sp);
   try { muRender(sp); ensureMu(sp); } catch (e) { console.warn('matchup', e); }
-  try { trRender(sp); ensureTr(sp); } catch (e) { console.warn('trade', e); }
 }
 
 /* ===================== Comps & Movers (ESPN football leagues) =====================
@@ -5358,7 +5453,7 @@ function cmpTag(x){ return x.st === 'fa' ? '<span class="cm-tag fa" title="Free 
   : x.st === 'mine' ? '<span class="cm-tag mine" title="On your team">MINE</span>' : '<span class="cm-tag tm" title="Rostered by another team in your league">TAKEN</span>'; }
 function cmpName(x){ const u = cmpUrl(x); return u ? `<a href="${esc(u)}" target="_blank" rel="noopener" title="${esc(x.n)}: open ESPN page">${esc(x.n)}</a>` : esc(x.n); }
 function cmpEye(x){ if (cmpDst(x) || x.st === 'mine') return ''; const on = isWatched(x.id, 'nfl');
-  return `<button class="tr-star tr-eye cm-eye${on ? ' on' : ''}" data-cmwatch="${esc(x.id)}" aria-pressed="${on}" aria-label="${on ? 'Stop watching' : 'Watch'} ${esc(x.n)}" title="${on ? 'On your Fantasy Watch list: tap to remove' : 'Add to your Fantasy Watch list'}">👁</button>`; }
+  return `<button class="tr-star tr-eye cm-eye${on ? ' on' : ''}" data-cmwatch="${esc(x.id)}" aria-pressed="${on}" aria-label="${on ? 'Stop watching' : 'Watch'} ${esc(x.n)}" title="${on ? 'On your Fantasy Lab watch list: tap to remove' : 'Add to your Fantasy Lab watch list'}">👁</button>`; }
 const cmpLwL = C => C.per ? `Wk ${C.per - 1}` : 'Last wk';
 function cmpCell(x, lwL){ return `<span class="cm-v" title="Points per game (${x.gp || 0} games)"><b>${x.ppg ?? '–'}</b> ppg</span><span class="cm-v" title="${lwL} fantasy points">${x.lw ?? '–'} <i>${esc(lwL.toLowerCase())}</i></span><span class="cm-v" title="Rostered in ESPN leagues${x.chg ? ` (${x.chg > 0 ? '+' : ''}${x.chg} this week)` : ''}">${x.own ?? '–'}% <i>rost</i></span>`; }
 function cmpMe(C, p){ return p.dst ? Object.values(C.p).find(x => cmpDst(x) && x.tm === p.team) : C.p[peid(p)]; }
@@ -5447,11 +5542,11 @@ function wlInput(inp){
 }
 function toggleWatch(r){
   const sp = r.sp || MN.fsTab || 'nfl', F = FSPORTS[sp], L = watchList(sp), id = String(r.id), i = L.findIndex(p => p.id === id);
-  if (i >= 0) { L.splice(i, 1); saveWatch(); toast(`Removed ${r.name} from your ${F.label} Fantasy Watch list`); }
+  if (i >= 0) { L.splice(i, 1); saveWatch(); toast(`Removed ${r.name} from your ${F.label} Fantasy Lab watch list`); }
   else {
     const p = { ...pBase({ id, eid: r.eid || r.id, sp, name: r.name, short: r.short || r.name, pos: r.pos, team: r.team, teamName: r.teamName, teamLogo: r.teamLogo, headshot: r.headshot, link: r.link }), watch: true };
-    L.unshift(p); saveWatch(); toast(`👁 Watching ${r.name} (${F.label} Fantasy Watch list)`);
-    if (FS_ORDER.includes(sp) && !fantasySel.includes(sp)) { try { setFantasySports([...fantasySel, sp], true); toast(`👁 Watching ${r.name} · ${F.label} fantasy turned on so his Fantasy Watch list shows`); } catch (_) {} }
+    L.unshift(p); saveWatch(); toast(`👁 Watching ${r.name} (${F.label} Fantasy Lab watch list)`);
+    if (FS_ORDER.includes(sp) && !fantasySel.includes(sp)) { try { setFantasySports([...fantasySel, sp], true); toast(`👁 Watching ${r.name} · ${F.label} fantasy turned on so his Fantasy Lab watch list shows`); } catch (_) {} }
     const lg = F.lg;
     Promise.all([PL.ov[id] ? null : loadPlayerOverview(p).then(() => { delete PL.err[id]; }).catch(e => { PL.err[id] = { msg: errMsg(e), t: Date.now() }; }),
                  pxStale(p) ? loadPlayerExtra(p).catch(() => {}) : null,
@@ -5532,7 +5627,7 @@ function wtPlayer(p, rank){
   }
   return `<article class="wt-p" data-plcard="${esc(p.id)}" data-sp="${sp}">${wtCard(p, I)}
     <div class="wt-det"><div class="wt-h"><h3><a href="${esc(playerUrl(p))}" target="_blank" rel="noopener" title="Open ${esc(p.name)} on ESPN">${esc(p.name)}</a> <small>${esc([p.pos, p.team].filter(Boolean).join(' · '))}</small></h3>
-      ${I.ppg != null ? `<span class="wt-ppg"><b>${I.ppg}</b><i>FP/G</i></span>` : ''}<button class="wl-rm" data-unwatch="${esc(p.id)}" data-sp="${sp}" title="Remove ${esc(p.name)} from your Fantasy Watch list" aria-label="Remove ${esc(p.name)} from Fantasy Watch list">✕</button></div>
+      ${I.ppg != null ? `<span class="wt-ppg"><b>${I.ppg}</b><i>FP/G</i></span>` : ''}<button class="wl-rm" data-unwatch="${esc(p.id)}" data-sp="${sp}" title="Remove ${esc(p.name)} from your Fantasy Lab watch list" aria-label="Remove ${esc(p.name)} from Fantasy Lab watch list">✕</button></div>
       ${nxt ? `<div class="fzc-line wt-next">${nxt}</div>` : ''}
       ${inj && inj.comment ? `<div class="fzc-note">🚑 ${esc(trunc(inj.comment, 170))}</div>` : ''}
       ${trendFeat(p)}${wtCompare(p, I)}${comps}
@@ -5552,9 +5647,10 @@ function renderWatchTab(){
   if (el.dataset.view !== WATCH_TAB || el.dataset.sp !== sp) {         // static shell keeps the search box stable while data refreshes
     el.dataset.view = WATCH_TAB; el.dataset.sp = sp; WL.q = ''; WL.items = []; WL.err = ''; WL.sp = sp;
     const so = lsGet(WT_SORT_KEY, 'ppg');
-    el.innerHTML = `<div class="section-title" id="watchArea">👁 ${esc(F.label)} Fantasy Watch list <span class="cnt" id="wlCount"></span> <small>Waiver &amp; trade targets · not ★ favorites, not your roster</small></div>
+    el.innerHTML = `<div class="section-title" id="labArea">🧪 Fantasy Lab <small>${sp === 'nfl' ? 'Trade Lab + your watch list' : 'Your watch list'}</small></div><div id="fzTrade0"></div>
+      <div class="section-title" id="watchArea">👁 ${esc(F.label)} watch list <span class="cnt" id="wlCount"></span> <small>Waiver &amp; trade targets · not ★ favorites, not your roster</small></div>
       ${fantasySel.length > 1 ? `<div class="chips fs-tabs" role="tablist" aria-label="Fantasy sport">${fantasySel.map(k => `<button class="chip${k === sp ? ' on' : ''}" role="tab" aria-selected="${k === sp}" data-fstab="${k}">${FSPORTS[k].emoji} ${esc(FSPORTS[k].label)} <span class="cnt">${watchList(k).length}</span></button>`).join('')}</div>` : ''}
-      <div class="wt-bar"><div class="wl-add"><span aria-hidden="true">🔍</span><input type="search" id="wlInput" data-sp="${sp}" placeholder="Add player: search ${esc(F.label)} ${sp === 'golf' ? 'golfers' : sp === 'ufc' ? 'fighters' : 'players'}…" autocomplete="off" spellcheck="false" aria-label="Search ${esc(F.label)} players to add to your Fantasy Watch list" aria-controls="wlRes"><div class="wl-res" id="wlRes" hidden></div></div>
+      <div class="wt-bar"><div class="wl-add"><span aria-hidden="true">🔍</span><input type="search" id="wlInput" data-sp="${sp}" placeholder="Add player: search ${esc(F.label)} ${sp === 'golf' ? 'golfers' : sp === 'ufc' ? 'fighters' : 'players'}…" autocomplete="off" spellcheck="false" aria-label="Search ${esc(F.label)} players to add to your Fantasy Lab watch list" aria-controls="wlRes"><div class="wl-res" id="wlRes" hidden></div></div>
       <label class="wt-sort">Sort <select id="wtSort"><option value="ppg"${so === 'ppg' ? ' selected' : ''}>Points per game</option><option value="trend"${so === 'trend' ? ' selected' : ''}>Trending</option><option value="own"${so === 'own' ? ' selected' : ''}>% rostered</option></select></label></div>
       <div id="wtBody"></div>`;
   }
@@ -5566,15 +5662,16 @@ function renderWatchTab(){
   const body = document.getElementById('wtBody');
   if (list.length && tbView('wt') === 'table') { tbKeepScroll(() => { body.innerHTML = tbBar('wt', sp) + tbTable('wt', sp, list); }); }
   else body.innerHTML = list.length ? tbBar('wt', sp) + ccGrid(list, 'wt', sp === 'nfl' ? CMP.d.nfl : null, rank)
-    : `<div class="wt-empty"><div class="wt-empty-ico" aria-hidden="true">👀</div><h3>Your ${esc(F.label)} Fantasy Watch list is empty</h3><p>Search above to add players you're eyeing for waivers or trades, or tap <b>👁</b> on any player in Fantasy, search results or the injury report. Watching a player never stars him or touches your roster.</p></div>${wtSuggest(sp)}`;
+    : `<div class="wt-empty"><div class="wt-empty-ico" aria-hidden="true">👀</div><h3>Your ${esc(F.label)} Fantasy Lab watch list is empty</h3><p>Search above to add players you're eyeing for waivers or trades, or tap <b>👁</b> on any player in Fantasy, search results or the injury report. Watching a player never stars him or touches your roster.</p></div>${wtSuggest(sp)}`;
   wlRenderResults();
   side.innerHTML = fantasySidebar(sp);
   try { renderCardRow(); } catch (_) {}
   ensureFzExtras(sp);
+  try { trRender(sp); ensureTr(sp); } catch (e) { console.warn('trade', e); }
 }
 document.addEventListener('change', e => { if (e.target.id === 'wtSort') { lsSet(WT_SORT_KEY, e.target.value); renderMyNews(); const s = document.getElementById('wtSort'); if (s) s.focus(); } });
 
-/* ===================== 📊 Spreadsheet ("Excel-like") table view for Fantasy roster + Fantasy Watch =====================
+/* ===================== 📊 Spreadsheet ("Excel-like") table view for Fantasy roster + Fantasy Lab =====================
    Reuses roster pts (p.roster.pts + FZX.wk), Comps pool (CMP.d.nfl: ppg/lw/tot/own/chg/ss/wk/st), trendData() and PL.ov.
    State: view per scope ('fz' | 'wt') persisted (default table), position filter + sort persisted, open comps rows per session. */
 var TB_KEY = 'mannTableView.v1';
@@ -5699,7 +5796,7 @@ function tbSub(R, scope, C, rank, span){
     <div class="tb-wrap tb-wrap-sub" data-tbid="sub-${scope}-${esc(R.id)}"><table class="tb tb-sub">${tbHead(all, S, 'sub', '<th scope="col">Watch</th>')}<tbody>${rows.map((X, i) => `<tr class="${X.me ? 'tb-me' : i % 2 ? 'z' : ''}">${tbNameCell(X, scope, true)}${tbCells(all, X, H)}<td>${X.me ? '' : cmpEye(X.x)}</td></tr>`).join('')}</tbody></table></div>
     ${(L => L && L.length ? `<div class="tb-subh pk-subh">🎯 Top ${L.length} ${esc(me.pos)} pickups in your league <small>free agents &amp; waivers by pickup score</small></div>${pkTable(L, true)}` : '')(pkMini(C, me.pos))}</div></td></tr>`;
 }
-/* ===================== 🃏 Premium trading cards (Cards view of Fantasy + Fantasy Watch) =====================
+/* ===================== 🃏 Premium trading cards (Cards view of Fantasy + Fantasy Lab) =====================
    Rarity from positional rank (season fantasy pts, ESPN league pool): 1-5 Legendary · 6-12 Epic · 13-24 Rare · else Common.
    Flip state per scope:id survives re-renders (CC.flip). Tilt + glare are pointer-driven (mouse/pen; touch drag tilts too). */
 var CC = { flip: new Set() };
@@ -5854,7 +5951,7 @@ function ccCard(p, scope, C, rank, i){
       ${art ? `<img class="cc-photo" src="${esc(art)}" alt="" loading="lazy" draggable="false" referrerpolicy="no-referrer" data-ind="${F.kind === 'team' ? '' : '1'}" onload="artFrame(this)" onerror="this.onerror=null;this.closest('.cc-art').classList.remove('has-art');this.className='cc-hsbig';this.src='${esc(p.headshot)}'">`
             : `${p.teamLogo ? `<img class="cc-logo-bg" src="${esc(p.teamLogo)}" alt="" draggable="false">` : ''}<img class="cc-hsbig" src="${esc(p.headshot)}" alt="" loading="lazy" draggable="false" onerror="this.style.visibility='hidden'">`}
       <div class="cc-fade"></div>
-      <div class="cc-top"><div class="cc-tl"><span class="cc-slot ${slotCls}" title="${p.watch ? 'On your Fantasy Watch list' : 'Fantasy lineup slot'}">${esc(slotTxt)}</span></div>
+      <div class="cc-top"><div class="cc-tl"><span class="cc-slot ${slotCls}" title="${p.watch ? 'On your Fantasy Lab watch list' : 'Fantasy lineup slot'}">${esc(slotTxt)}</span></div>
         <div class="cc-tr"><span class="cc-rar" title="${esc(rarTip(tl, RR))}">${RAR_T.find(t => t[0] === tc)[3]} ${esc(tl)}</span>${rid ? rarBadge(rid) : ''}${inj ? `<span class="cc-inj st ${esc(inj.cls || inj.code)}" title="${esc(inj.status)}">${esc(inj.code || inj.status)}</span>` : ''}${ytPill(p.name, team, 'cc-yt')}</div></div>
       <span class="cc-flip-hint">TAP TO FLIP ⟲</span>
       ${ppg != null ? `<div class="cc-ppg"><b>${ppg}</b><i>FP/G${R.rk ? ' · ' + esc(R.pos) + R.rk : ''}</i></div>` : big ? `<div class="cc-ppg"><b>${esc(big[1])}</b><i>${esc(big[0].toUpperCase())}${R.rk ? ' · ' + esc(R.pos) + R.rk : ''}</i></div>` : ''}
@@ -6042,7 +6139,7 @@ function injuryBlock(sp){
   const myTeams = new Set(starList().filter(x => x.lg === F.lg).map(x => x.abbr));
   const row = i => { const inner = `<span class="st ${i.cls}">${esc(i.code)}</span>${i.logo ? `<img src="${esc(i.logo)}" alt="">` : ''}<span class="n">${esc(i.name)}</span><span class="c">${esc(i.pos)} · ${esc(i.team)}${i.part ? ' · ' + esc(i.part) : ''}</span>`;
     if (i.athId && fantasySel.includes(sp)) { const wt = isWatched(i.athId, sp);
-      return `<div class="tr-row tr-pl"><a class="tr-link" href="${esc(i.link || '#')}" target="_blank" rel="noopener" title="${esc(i.comment)}">${inner}</a><button class="tr-star tr-eye${wt ? ' on' : ''}" data-injwatch="${esc(sp + ':' + i.athId)}" aria-pressed="${wt}" aria-label="${wt ? 'Stop watching' : 'Watch'} ${esc(i.name)}" title="${wt ? 'On your Fantasy Watch list: tap to remove' : 'Add to your Fantasy Watch list'}">👁</button></div>`; }
+      return `<div class="tr-row tr-pl"><a class="tr-link" href="${esc(i.link || '#')}" target="_blank" rel="noopener" title="${esc(i.comment)}">${inner}</a><button class="tr-star tr-eye${wt ? ' on' : ''}" data-injwatch="${esc(sp + ':' + i.athId)}" aria-pressed="${wt}" aria-label="${wt ? 'Stop watching' : 'Watch'} ${esc(i.name)}" title="${wt ? 'On your Fantasy Lab watch list: tap to remove' : 'Add to your Fantasy Lab watch list'}">👁</button></div>`; }
     return i.link ? `<a class="tr-row" href="${esc(i.link)}" target="_blank" rel="noopener" title="${esc(i.comment)}">${inner}</a>` : `<div class="tr-row" title="${esc(i.comment)}">${inner}</div>`; };
   const mineP = activePlayers().filter(p => psp(p) === sp);
   const lst = (k, rows, none) => rows.length ? topList(`inj:${sp}:${k}`, rows) : `<div class="tr-row">${none}</div>`;
@@ -6062,7 +6159,7 @@ function fantasySidebar(sp){
         const fav = p.espn && isPlayerFav(p.espn);
         const inj = p.inj ? ` <span class="st ${p.inj === 'Out' || p.inj === 'IR' ? 'O' : p.inj === 'Doubtful' ? 'D' : 'Q'}">${esc(p.inj === 'Questionable' ? 'Q' : p.inj === 'Doubtful' ? 'D' : p.inj)}</span>` : '';
         return `<div class="tr-row tr-pl${fav ? ' mine' : ''}"><a class="tr-link" href="${esc(trUrl(p))}" target="_blank" rel="noopener" title="${esc(p.n)}: ${p.espn ? 'open ESPN player page' : 'search ESPN'}"><span class="pos">${esc(p.pos)}</span><span class="n">${esc(p.n)}${inj}</span><span class="c">${esc(p.team || '')}</span><span class="c ${dir}">${dir === 'up' ? '▲' : '▼'} ${Number(p.count || 0).toLocaleString()}</span></a>` +
-          `<button class="tr-star tr-eye${wt ? ' on' : ''}" data-trwatch="${esc(p.sid)}" aria-pressed="${wt}" aria-label="${wt ? 'Stop watching' : 'Watch'} ${esc(p.n)}" title="${wt ? 'On your Fantasy Watch list: tap to remove' : 'Add to your Fantasy Watch list'}">👁</button>` +
+          `<button class="tr-star tr-eye${wt ? ' on' : ''}" data-trwatch="${esc(p.sid)}" aria-pressed="${wt}" aria-label="${wt ? 'Stop watching' : 'Watch'} ${esc(p.n)}" title="${wt ? 'On your Fantasy Lab watch list: tap to remove' : 'Add to your Fantasy Lab watch list'}">👁</button>` +
           `<button class="tr-star${fav ? ' on' : ''}" data-trstar="${esc(p.sid)}" aria-pressed="${fav}" aria-label="${fav ? 'Remove' : 'Add'} ${esc(p.n)} ${fav ? 'from' : 'to'} favorites" title="${fav ? 'Remove from' : 'Add to'} favorites">${fav ? '★' : '☆'}</button></div>`; };
       const isFav = p => !!(p.espn && isPlayerFav(p.espn));
       s += `<h4>Most added</h4>${S.trending.adds.length ? topList('tr:add', favFirst(S.trending.adds, isFav).map(p => row(p, 'up'))) : '<div class="tr-row">None</div>'}`;
@@ -6504,7 +6601,7 @@ function efUnlink(sp){
   delete espnLinks[sp]; saveEspnLinks();   // no link = no auto re-sync
   for (const p of players) if (psp(p) === sp) delete p.roster;
   players = players.filter(p => p.fav || p.roster); savePlayers(); renderEspnModal(); renderEspnSettings(); favsChanged();
-  toast(`Removed ${name}: your ${FSPORTS[sp].label} fantasy roster is cleared. ★ Favorite players and your Fantasy Watch list are unchanged.`);
+  toast(`Removed ${name}: your ${FSPORTS[sp].label} fantasy roster is cleared. ★ Favorite players and your Fantasy Lab watch list are unchanged.`);
   const f = inSettings ? document.querySelector('#efSettings button, [data-efopen]') : document.querySelector(`#mnPlayers [data-efopen="${sp}"]`); if (f) f.focus();
 }
 
@@ -6980,7 +7077,7 @@ function pcCard(p, mk){
   const tags = mk ? '' : (p.roster ? `<span title="On your fantasy roster${p.roster.slot ? ' (' + esc(p.roster.slot) + ')' : ''}">🎮${p.roster.slot ? ' ' + esc(p.roster.slot) : ''}</span>` : '') + (p.fav ? '<span title="★ favorite">★</span>' : '');
   return `<div class="pc r-${rc}" data-plcard="${esc(p.id)}" data-sp="${esc(psp(p))}" role="listitem"><div class="pc-flip${fl ? ' flipped' : ''}" data-pcflip="${esc(p.id)}" tabindex="0" role="button" aria-pressed="${fl}" aria-label="${esc(p.name)} card. Press to flip for stats" style="${esc(colors)}">
     <div class="pc-face pc-front${art ? ' has-art' : ''}">${art ? `<img class="pc-art" src="${esc(art)}" alt="" loading="lazy" draggable="false" referrerpolicy="no-referrer" onerror="this.closest('.pc-front').classList.remove('has-art');this.remove()"><div class="pc-artfade"></div>` : ''}<div class="pc-shine"></div>
-      ${mk === 'a' ? (bad => `<span class="pc-mk a${bad ? ' ' + esc(inj.cls) : ''}" title="${bad ? esc(inj.status) + ' (starting lineup' : 'Active starter (lineup'}${p.roster.slot ? ' slot ' + esc(p.roster.slot) : ''})">${bad ? esc(inj.cls === 'IR' ? inj.code : inj.status) : 'Active'}${p.roster.slot ? ' · ' + esc(p.roster.slot) : ''}</span>`)(inj && ['O', 'D', 'IR'].includes(inj.cls)) : mk ? `<span class="pc-mk ${mk}" title="${mk === 'w' ? 'On your Fantasy Watch list' : 'On your fantasy roster' + (p.roster && p.roster.slot ? ' (' + esc(p.roster.slot) + ')' : '')}">${mk === 'w' ? '👁 Watch' : rosLbl(p)}</span>` : ''}
+      ${mk === 'a' ? (bad => `<span class="pc-mk a${bad ? ' ' + esc(inj.cls) : ''}" title="${bad ? esc(inj.status) + ' (starting lineup' : 'Active starter (lineup'}${p.roster.slot ? ' slot ' + esc(p.roster.slot) : ''})">${bad ? esc(inj.cls === 'IR' ? inj.code : inj.status) : 'Active'}${p.roster.slot ? ' · ' + esc(p.roster.slot) : ''}</span>`)(inj && ['O', 'D', 'IR'].includes(inj.cls)) : mk ? `<span class="pc-mk ${mk}" title="${mk === 'w' ? 'On your Fantasy Lab watch list' : 'On your fantasy roster' + (p.roster && p.roster.slot ? ' (' + esc(p.roster.slot) + ')' : '')}">${mk === 'w' ? '👁 Watch' : rosLbl(p)}</span>` : ''}
       ${p.roster && (mk === 'a' || (mk === 'r' && !'bi'.includes(slotGroup(p)))) ? '<span class="pc-rost" title="On your ESPN fantasy roster">ROSTERED</span>' : ''}
       <span class="pc-rar" title="${esc(rarTip(rl, RR))}">${RAR_T.find(t => t[0] === rc)[3]} ${esc(rl.replace('Ultra Rare', 'Ultra'))}</span>${rid ? rarBadge(rid, 1) : ''}${rc === 'leg' || rc === 'ultra' ? '<div class="pc-holo"></div>' : ''}
       <div class="pc-top"><span class="pc-pos">${esc(p.pos || bio.pos || F.label)}</span>${num ? `<span class="pc-num">#${esc(num)}</span>` : ''}</div>
@@ -7004,7 +7101,7 @@ function renderCardRow(){
   const row = document.getElementById('pcRow'), btn = document.getElementById('pcToggle'), pcHidden = !!pcHM[pcTab()];
   const nW = pls.filter(x => x.mk === 'w').length;
   document.getElementById('pcTitleTxt').textContent = fz ? `🃏 Fantasy cards · ${FSPORTS[MN.fsTab].label}` : '🃏 My Players';
-  wrap.setAttribute('aria-label', fz ? 'Fantasy roster and Fantasy Watch list cards' : 'Favorite player cards');
+  wrap.setAttribute('aria-label', fz ? 'Fantasy roster and Fantasy Lab watch list cards' : 'Favorite player cards');
   document.getElementById('pcCount').textContent = fz ? `(${pls.length - nW} rostered${nW ? ' · ' + nW + ' watch' : ''})` : '(' + pls.length + ')';
   btn.setAttribute('aria-expanded', String(!pcHidden)); btn.lastChild.nodeValue = pcHidden ? 'Expand' : 'Minimize'; btn.title = pcHidden ? 'Expand the player cards' : 'Minimize the player cards';
   wrap.classList.toggle('pc-min', pcHidden);
@@ -7190,7 +7287,7 @@ function usRender(w){
                                   : `<img class="hs" src="${esc(r.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`;
     const sub = r.kind === 'team' ? `<span class="lgb${LEAGUES[r.lg] ? '' : ' off'}" title="${LEAGUES[r.lg] ? '' : 'Not in your sports yet: starring adds it'}">${esc(CAT[r.lg].short)}</span>${esc(r.abbr)}${r.loc && !r.name.startsWith(r.loc) ? ' · ' + esc(r.loc) : ''}`
                                   : `<span class="lgb sp-${psp(r)}">${esc(FSPORTS[psp(r)].emoji + ' ' + FSPORTS[psp(r)].label)}</span>${r.teamLogo ? `<img class="us-tl" src="${esc(r.teamLogo)}" alt="" loading="lazy" onerror="this.remove()">` : ''}${esc(r.pos)}${r.teamName ? ' · ' + esc(r.teamName) : ''}`;
-    return `<div class="us-row${i === st.active ? ' active' : ''}" role="option" id="usr-${i}" aria-selected="${i === st.active}" data-usrow="${i}">${img}<div class="n"><b>${esc(r.name)}</b><i>${sub}</i></div>${r.kind === 'player' && FS_ORDER.includes(psp(r)) ? (wt => `<button class="us-eye${wt ? ' on' : ''}" tabindex="-1" data-uswatch="${i}" aria-pressed="${wt}" aria-label="${wt ? 'Stop watching' : 'Watch'} ${esc(r.name)}" title="${wt ? 'On your ' + esc(FSPORTS[psp(r)].label) + ' Fantasy Watch list: click to remove' : 'Add to your ' + esc(FSPORTS[psp(r)].label) + ' Fantasy Watch list (not a ★ favorite)'}">👁</button>`)(isWatched(r.id, psp(r))) : ''}<button class="us-star${on ? ' on' : ''}" tabindex="-1" aria-label="${on ? 'Remove' : 'Add'} ${esc(r.name)}">${on ? '★' : '☆'}</button></div>`;
+    return `<div class="us-row${i === st.active ? ' active' : ''}" role="option" id="usr-${i}" aria-selected="${i === st.active}" data-usrow="${i}">${img}<div class="n"><b>${esc(r.name)}</b><i>${sub}</i></div>${r.kind === 'player' && FS_ORDER.includes(psp(r)) ? (wt => `<button class="us-eye${wt ? ' on' : ''}" tabindex="-1" data-uswatch="${i}" aria-pressed="${wt}" aria-label="${wt ? 'Stop watching' : 'Watch'} ${esc(r.name)}" title="${wt ? 'On your ' + esc(FSPORTS[psp(r)].label) + ' Fantasy Lab watch list: click to remove' : 'Add to your ' + esc(FSPORTS[psp(r)].label) + ' Fantasy Lab watch list (not a ★ favorite)'}">👁</button>`)(isWatched(r.id, psp(r))) : ''}<button class="us-star${on ? ' on' : ''}" tabindex="-1" aria-label="${on ? 'Remove' : 'Add'} ${esc(r.name)}">${on ? '★' : '☆'}</button></div>`;
   };
   let html = '';
   if (st.teams.length) html += `<div class="us-group">Teams</div>` + st.teams.map((r, i) => row(r, i)).join('');
@@ -7752,7 +7849,7 @@ function sxMenu(e, x, y){
   sxCloseMenu(); const m = document.createElement('div'); m.className = 'sx-menu'; m.setAttribute('role', 'menu');
   const isP = e.k === 'p', watched = isP && FSPORTS[e.sp] && isWatched(e.pid, e.sp), fk = !isP && e.abbr ? e.lg + ':' + e.abbr.toUpperCase() : '', fav = fk && stars.has(fk);
   const items = [['spin', 'Spin-it 🌀', 'sx-hero'], ['espn', '↗ Open on ESPN'], ['yt', '▶ Highlights'],
-    isP && FSPORTS[e.sp] ? ['watch', watched ? '👁 Remove from Fantasy Watch' : '👁 Add to Fantasy Watch'] : null, fk ? ['fav', fav ? '★ Unfavorite team' : '☆ Favorite team'] : null,
+    isP && FSPORTS[e.sp] ? ['watch', watched ? '👁 Remove from Fantasy Lab' : '👁 Add to Fantasy Lab'] : null, fk ? ['fav', fav ? '★ Unfavorite team' : '☆ Favorite team'] : null,
     e.card && HV.on ? ['hv', '▶ Preview highlights'] : null, ['copy', '📋 Copy stats'], e.card ? ['hide', '✕ Hide card'] : null].filter(Boolean);
   m.innerHTML = `<div class="sx-mh">${(isP ? e.hs : e.logo) ? `<img src="${esc(isP ? e.hs : e.logo)}" alt="" onerror="this.style.visibility='hidden'">` : ''}<span><b>${esc(e.name)}</b><i>${esc(isP ? [e.pos, e.team, (FSPORTS[e.sp] || {}).label].filter(Boolean).join(' · ') : (CAT[e.lg] || {}).label || '')}</i></span></div>`
     + items.map(([a, l, c]) => `<button role="menuitem" data-sxa="${a}"${c ? ` class="${c}"` : ''}>${a === 'spin' ? '<span class="ic" aria-hidden="true">🌀</span>SPIN-IT' : esc(l)}${a === 'spin' ? '<span class="sx-k">Enter</span>' : ''}</button>`).join('');
@@ -7924,7 +8021,7 @@ document.addEventListener('click', ev => { const x = ev.target.closest('.hx-x');
 ['pointerdown', 'mousedown', 'touchstart'].forEach(n => document.addEventListener(n, ev => { if (ev.target.closest && ev.target.closest('.hx-x')) ev.stopPropagation(); }, { capture: true, passive: true }));
 hxCss(); hxSync();
 
-/* ===================== CELLY 🎉: pack-rip reveal whenever a NEW player card is added (favorite, Fantasy Watch, ESPN import, search) ===================== */
+/* ===================== CELLY 🎉: pack-rip reveal whenever a NEW player card is added (favorite, Fantasy Lab, ESPN import, search) ===================== */
 const CY = { key: 'mannCellySeen.v1', snd: lsGet('mannCellySound.v1', false) === true, q: new Map(), t: 0, el: null, timer: 0 };
 CY.seen = lsGet(CY.key, null);
 function cyIds(){ const m = new Map(); sxAllPlayers().forEach(p => { if (p && p.id != null) m.set(String(p.id), p); }); return m; }
