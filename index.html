@@ -451,6 +451,7 @@
   .card .row .name{min-width:0;overflow:hidden}.card .row .name b,.card .row .name i{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .card-top{min-width:0}.card-top>span:first-child,.card-foot>span:first-child{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .card-foot>span:last-child{flex:0 0 auto;white-space:nowrap}
+  .gt-area.gt-rdonly{height:auto;margin-top:6px}
   .gt-area{height:96px;margin-top:8px;display:flex;flex-direction:column;justify-content:center;gap:6px;overflow:hidden}
   .gt-area .rd-row,.ft-mid .rd-row{margin:0;flex-wrap:nowrap;overflow:hidden}
   .ft-grid:not(.cmp){grid-auto-rows:1fr;align-items:stretch}
@@ -2021,6 +2022,31 @@
   .cc .cc-tr{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
   .cc .cc-circ .cc-clg.bad{display:none!important}
   .cc .cc-circ .cc-clg[src*="-dark"]{background:#0e1626}
+  /* Oct 17: game alert = quick red border flash on the score box (replaces the contracting ring) */
+  .card.gm:has(>.gx-flash),.tk-game:has(>.gx-flash){position:relative;isolation:isolate}
+  .gx-flash{position:absolute;inset:0;z-index:4;pointer-events:none;border-radius:inherit;border:3px solid #ff1f2d;box-shadow:0 0 14px rgba(255,31,45,.65),inset 0 0 10px rgba(255,31,45,.35);opacity:0;animation:gxFlash .6s ease-out both;animation-iteration-count:var(--gxn,3)}
+  .tk-game .gx-flash{border-width:.08em;border-radius:4px}
+  @keyframes gxFlash{0%{opacity:0}15%{opacity:1}45%{opacity:1}100%{opacity:0}}
+  @keyframes gxFlashRM{0%,99%{opacity:.9}100%{opacity:0}}
+  @media (prefers-reduced-motion:reduce){.gx-flash{animation:gxFlashRM calc(var(--gxn,3) * .6s) linear both!important}}
+  .ga-set{display:flex;flex-direction:column;gap:2px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .ga-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px;background:var(--panel2)}
+  .ga-t{font-size:14px;color:var(--text);font-weight:600}.ga-t em{display:block;font-style:normal;font-size:12px;color:var(--muted);font-weight:400}
+  .ga-sw{flex:none;display:inline-flex;align-items:center;gap:7px;background:none;border:0;color:var(--muted);font:700 12px system-ui;cursor:pointer;padding:2px}
+  .ga-sw i{position:relative;width:38px;height:22px;border-radius:11px;background:#3a4560;transition:background .15s}
+  .ga-sw i::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .15s}
+  .ga-sw.on i{background:#ff3b47}.ga-sw.on i::after{transform:translateX(16px)}.ga-sw.on{color:var(--text)}
+  .ga-pills{flex:none;display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .ga-pills button{min-width:38px;padding:5px 0;background:transparent;border:0;border-left:1px solid var(--line);color:var(--text);font:800 13px system-ui;cursor:pointer}
+  .ga-pills button:first-child{border-left:0}.ga-pills button.on{background:#ff3b47;color:#fff}
+  .ga-set.ga-off .ga-pills{opacity:.4}.ga-pills button:disabled{cursor:not-allowed}
+  @media (prefers-reduced-motion:reduce){.ga-sw i,.ga-sw i::after{transition:none}}
+  /* Oct 17: mobile ticker league tag stacked one letter per line */
+  @media (max-width:600px){
+    #ticker .tk-league[data-tk="s"]{writing-mode:vertical-rl;text-orientation:upright;align-self:center;justify-content:center;font-size:12px;line-height:1.05;letter-spacing:0;padding:6px 4px;margin:0 6px 0 14px;min-width:0;width:auto;max-height:calc(100% - 6px);overflow:hidden;border-radius:5px;white-space:nowrap;box-shadow:inset 0 0 0 1px rgba(255,211,77,.35)}
+    #ticker .tk-league[data-tk="s"][data-n="5"],#ticker .tk-league[data-tk="s"][data-n="6"]{font-size:10.5px;line-height:1}
+    #ticker .tk-league[data-tk="s"][data-n="L"]{font-size:8px;line-height:.95;padding:4px 3px}
+  }
   /* Oct 12c: live ring (replaces the outward bullseye) */
   .card.gm:has(>.gx-rings),.tk-game:has(>.gx-rings){position:relative;isolation:isolate}
   .gx-rings.gx-in{position:absolute;inset:0;z-index:-1;overflow:hidden;border-radius:inherit;pointer-events:none;background:none}
@@ -2231,6 +2257,12 @@
     <div class="set-name set-ef"><label>ESPN Fantasy</label><div id="efSettings"></div><button class="btn" data-efopen="" type="button">⬇ Import ESPN team</button>
       <small>Import your fantasy team's roster into My Players from a public ESPN league (football, baseball or hockey), then re-sync it any time.</small></div>
     <div class="set-name set-tkpos"><label id="tkPosLbl">Ticker position</label><div class="tb-vt seg tkpos-seg" role="group" aria-labelledby="tkPosLbl"><button type="button" data-tkpos="top"><span class="ic" aria-hidden="true">⬆</span>Top</button><button type="button" data-tkpos="bottom"><span class="ic" aria-hidden="true">⬇</span>Bottom</button></div><small>Bottom pins the scores &amp; news crawl to the bottom of the screen like a TV ticker.</small></div>
+    <div class="set-name set-ga"><label id="gaLbl">Game alerts</label><div class="ga-set" id="gaSet" role="group" aria-labelledby="gaLbl">
+      <div class="ga-row"><span class="ga-t">Flash the score box when a live game changes<em>Going live, every score, and when it gets close</em></span><button type="button" class="ga-sw" role="switch" data-ga-tg="on"><i></i><span class="ga-st">On</span></button></div>
+      <div class="ga-row"><span class="ga-t">Flashes for a live game</span><span class="ga-pills"><button type="button" data-ga-n="live:1">1</button><button type="button" data-ga-n="live:3">3</button><button type="button" data-ga-n="live:5">5</button></span></div>
+      <div class="ga-row"><span class="ga-t">Flashes for a close game</span><span class="ga-pills"><button type="button" data-ga-n="close:3">3</button><button type="button" data-ga-n="close:5">5</button><button type="button" data-ga-n="close:8">8</button></span></div>
+      <div class="ga-row"><span class="ga-t">Show the 🔥 CLOSE tag on close games</span><button type="button" class="ga-sw" role="switch" data-ga-tg="badge"><i></i><span class="ga-st">On</span></button></div>
+    </div><small><b>What counts as close:</b> football — 4th quarter or OT, within 8 · basketball — 4th quarter (2nd half in college), within 5 · hockey — 3rd period or OT, within 1 · baseball — 8th inning on, within 2 · soccer — 75th minute on, within 1. Flashes are a quick red border blink (a steady outline if your device has Reduce Motion on). Saves instantly.</small></div>
     <div class="set-name set-ob"><label>Setup</label><button class="btn" id="obRerun" type="button">↺ Run setup again</button><small>Walk through picking sports, teams and fantasy again. Starts from your current choices; nothing changes until you tap “Build my dashboard”.</small></div>
     <div class="set-name set-order"><label id="toLbl">Tab order</label><ol class="to-list" id="tabOrderList" aria-labelledby="toLbl"></ol>
       <div class="sr-only" id="toStatus" role="status" aria-live="polite"></div>
@@ -3016,7 +3048,7 @@ function card(g, showLeague){
       <span class="tv">${g.state === 'post' ? esc(g.tv || '') : (watchChips(g.nets, g.lg, { compact: true, max: 1 }).html || esc(g.tv || ''))}</span>
     </div>
     ${g.teams.map(t => teamRow(g, t)).join('')}
-    <div class="gt-area${rd ? ' has-rd' : ''}">${gtHTML(g, { compact: !!rd })}${rd}</div>
+    ${live ? `<div class="gt-area${rd ? ' has-rd' : ''}">${gtHTML(g, { compact: !!rd })}${rd}</div>` : rd ? `<div class="gt-area gt-rdonly has-rd">${rd}</div>` : ''}
     ${gmLines(g)}
     <div class="card-foot"><span>${esc(g.note || g.venue)}</span><span>${g.box ? `<a href="${esc(g.box)}" target="_blank" rel="noopener">Box score ↗</a>` : ''}${g.link ? ` · <a href="${esc(g.link)}" target="_blank" rel="noopener">Gamecast ↗</a>` : ''}</span></div>
   </div>`;
@@ -3096,12 +3128,12 @@ function gtHTML(g, o){
   const S = gtSpec(g.lg), [a, h] = gtSide(g), ca = gtCol(g, a), ch = gtCol(g, h), cmp = o.compact ? ' cmp' : '';
   if (g.state === 'pre') {
     const surf = S.sp === 'football' ? gtField(g, a, h) : gtSurface(g, S, a, h);
-    return `<div class="gt pre${cmp}" title="${esc(S.verb)} ${esc(dayLabelET(g.date))}${g.timeValid === false ? '' : ' ' + esc(timeET(g.date))}">${o.compact ? '' : surf}<div class="gt-lb"><b>${esc(S.verb)} ${esc(gtCountdown(g))}</b><span>${esc(a.abbr || '')} @ ${esc(h.abbr || '')}</span></div></div>`;
+    return `<div class="gt pre${cmp}" title="${esc(S.verb)} ${esc(dayLabelET(g.date))}${g.timeValid === false ? '' : ' ' + esc(timeET(g.date))}">${o.compact || o.noSurf ? '' : surf}<div class="gt-lb"><b>${esc(S.verb)} ${esc(gtCountdown(g))}</b><span>${esc(a.abbr || '')} @ ${esc(h.abbr || '')}</span></div></div>`;
   }
   const as = parseFloat(a.score), hs = parseFloat(h.score);
   if (g.state === 'post') {
     const w = a.winner || as > hs ? a : h.winner || hs > as ? h : null, ot = /OT|\/\d+|F\/\d/i.test(String(g.detail || '').replace(/^Final\s*$/i, ''));
-    return `<div class="gt fin${cmp}">${gtBar(g, S, 1, [ca, ch], '')}<div class="gt-lb"><b>Final${ot ? ' · ' + esc(String(g.detail).replace(/^Final\s*\/?\s*/i, '')) : ''}</b><span><em class="${w === a ? 'w' : ''}" style="--wc:${ca}">${esc(a.abbr)} ${esc(a.score)}</em> – <em class="${w === h ? 'w' : ''}" style="--wc:${ch}">${esc(h.score)} ${esc(h.abbr)}</em></span></div></div>`;
+    return `<div class="gt fin${cmp}">${o.noSurf ? '' : gtBar(g, S, 1, [ca, ch], '')}<div class="gt-lb"><b>Final${ot ? ' · ' + esc(String(g.detail).replace(/^Final\s*\/?\s*/i, '')) : ''}</b><span><em class="${w === a ? 'w' : ''}" style="--wc:${ca}">${esc(a.abbr)} ${esc(a.score)}</em> – <em class="${w === h ? 'w' : ''}" style="--wc:${ch}">${esc(h.score)} ${esc(h.abbr)}</em></span></div></div>`;
   }
   const P = gtProg(g, S), lead = as > hs ? ca : hs > as ? ch : '#ffffff', sit = S.sp === 'football' ? g.sit : null;
   const possT = sit && sit.poss ? (sit.poss === String(h.id) ? h : sit.poss === String(a.id) ? a : null) : null;
@@ -3174,7 +3206,7 @@ function renderTicker(){
     const items = CAT[lg].kind === 'team' ? tickerTeamItems(lg, now) : tickerIndItems(lg, now);
     if (!items.length) return;
     const score = (items.some(i => i.live && i.fav) ? 8 : 0) + (items.some(i => i.fav) ? 4 : 0) + (items.some(i => i.live) ? 2 : 0);
-    segs.push({ score, idx, label: CAT[lg].short, html: `<span class="tk-league" data-tk="s" data-tl="${esc(CAT[lg].short)}">${esc(CAT[lg].short)}</span>` + items.map(i => i.html).join('') });
+    segs.push({ score, idx, label: CAT[lg].short, html: `<span class="tk-league" data-tk="s" data-n="${(n => n > 6 ? 'L' : n)(String(CAT[lg].short).replace(/\s/g, '').length)}" data-tl="${esc(CAT[lg].short)}">${esc(CAT[lg].short)}</span>` + items.map(i => i.html).join('') });
   });
   segs.sort((a, b) => b.score - a.score || a.idx - b.idx);
   let html = '';
@@ -3456,7 +3488,7 @@ function ftCard(x){
   const mid = () => {   // fixed-height middle: game tracker (live / just-finished / next) + Reddit thread buttons when they exist
     const tg = g.live || (g.last && Date.now() - g.last.date < 20 * 36e5 ? g.last : null) || g.next || g.last;
     const rd = g.live ? rdChips(g.live) : rdChips(g.last);
-    return `<div class="ft-mid${rd ? ' has-rd' : ''}">${tg ? gtHTML(tg, { compact: !!rd }) : `<div class="gt gt-none"><span class="gt-lb">${g.bye ? 'Bye week' : 'No games scheduled'}</span></div>`}${rd}</div>`;
+    return `<div class="ft-mid${rd ? ' has-rd' : ''}">${tg ? gtHTML(tg, { compact: !!rd, noSurf: tg.state !== 'in' }) : `<div class="gt gt-none"><span class="gt-lb">${g.bye ? 'Bye week' : 'No games scheduled'}</span></div>`}${rd}</div>`;
   };
   if (!g.loaded && !g.last && !g.next && !g.live) slots += `<div class="ft-slot empty"><span class="ft-main">${g.err ? "Couldn't load the schedule. Will retry." : 'Loading schedule…'}</span></div><div class="ft-mid"><div class="gt gt-none"></div></div><div class="ft-slot empty"></div>`;
   else if (g.live) slots += ftSlot('live', g.live, x) + mid() + nextSlot();
@@ -6788,18 +6820,33 @@ function gxClose(g){
   if (sp === 'soccer') { const min = parseInt(String(g.clock || g.detail || '').replace(/[^\d+]/g, '')) || 0; return (per >= 2 && min >= 75 || per > 2) && m <= 1; }
   return false;
 }
-const gxBadge = g => '';   // CLOSE badge now sits center-top inside the bullseye rings (gxRings)
-// close game late: bullseye rings radiating from the center of the card / ticker item (behind the content, pointer-events none) + centered CLOSE badge
-// Oct 12c: live ring — thick red card-shaped ring contracting from the outer edge inward. 3 runs when a game goes live / scores; 5 when it's real close. Per-game, never restarted by re-renders.
-const GXR = {}, GXR_DUR = 1.5;
+const gxBadge = g => '';   // CLOSE badge sits center-top of the score box (gxRings)
+// Oct 17: game alerts. Live / close games flash the score box's border (no ripple, no inward motion).
+// One settings group (Sports & settings → Game alerts). Defaults match the old ring: 3 flashes live, 5 when close.
+const GA_KEY = 'mannGameAlerts.v1', GA_DEF = { on: true, live: 3, close: 5, badge: true }, GA_LIVE = [1, 3, 5], GA_CLOSE = [3, 5, 8];
+const GA = (() => { const v = lsGet(GA_KEY, null), o = Object.assign({}, GA_DEF, v && typeof v === 'object' ? v : {});
+  o.on = o.on !== false; o.badge = o.badge !== false; if (!GA_LIVE.includes(+o.live)) o.live = GA_DEF.live; if (!GA_CLOSE.includes(+o.close)) o.close = GA_DEF.close; o.live = +o.live; o.close = +o.close; return o; })();
+const GXR = {}, GXR_DUR = 0.6;   // seconds per flash
 function gxRingState(g){
   if (!g || g.state !== 'in') { if (g) delete GXR[g.lg + ':' + g.id]; return null; }
   const k = g.lg + ':' + g.id, cl = gxClose(g), sig = (cl ? 'c' : 'l') + '|' + g.teams.map(t => t.score).join('-'), now = Date.now();
-  let r = GXR[k]; if (!r || r.sig !== sig) r = GXR[k] = { sig, t0: now, n: cl ? 5 : 3 };
+  let r = GXR[k]; if (!r || r.sig !== sig) r = GXR[k] = { sig, t0: now, n: cl ? GA.close : GA.live };   // fires on going live, each score change, and becoming close
+  if (!GA.on) return null;
   const el = (now - r.t0) / 1e3; return el < r.n * GXR_DUR ? { n: r.n, el } : null;
 }
 const gxRings = g => { const r = gxRingState(g), cl = gxClose(g);
-  return (r ? `<span class="gx-rings gx-in" aria-hidden="true"><i style="animation-iteration-count:${r.n};animation-delay:-${r.el.toFixed(2)}s"></i></span>` : '') + (cl ? '<span class="gx-close gx-ctop" title="Close game late">🔥 CLOSE</span>' : ''); };
+  return (r ? `<span class="gx-flash" aria-hidden="true" style="--gxn:${r.n};animation-delay:-${r.el.toFixed(2)}s"></span>` : '') + (cl && GA.badge ? '<span class="gx-close gx-ctop" title="Close game late">🔥 CLOSE</span>' : ''); };
+function gaSync(){
+  const box = document.getElementById('gaSet'); if (!box) return;
+  box.querySelectorAll('[data-ga-tg]').forEach(b => { const on = !!GA[b.dataset.gaTg]; b.classList.toggle('on', on); b.setAttribute('aria-checked', on); b.querySelector('.ga-st').textContent = on ? 'On' : 'Off'; });
+  box.querySelectorAll('[data-ga-n]').forEach(b => { const [k, v] = b.dataset.gaN.split(':'), on = GA[k] === +v; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); b.disabled = !GA.on; });
+  box.classList.toggle('ga-off', !GA.on);
+}
+document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('#gaSet [data-ga-tg], #gaSet [data-ga-n]'); if (!b) return; e.preventDefault();
+  if (b.dataset.gaTg) GA[b.dataset.gaTg] = !GA[b.dataset.gaTg]; else { const [k, v] = b.dataset.gaN.split(':'); GA[k] = +v; }
+  lsSet(GA_KEY, { on: GA.on, live: GA.live, close: GA.close, badge: GA.badge }); gaSync();
+  try { renderGames(); } catch (_) {} try { renderTicker(); } catch (_) {} try { renderFavorites(); } catch (_) {}
+  try { toast(b.dataset.gaTg === 'on' ? (GA.on ? 'Game alert flashes on' : 'Game alert flashes off') : 'Game alerts saved'); } catch (_) {} });
 // score markup with pop / burst / recent dot when that team just scored
 function gxScore(g, t, txt){
   const h = GX.hit[g.lg + ':' + g.id + ':' + t.abbr]; if (!h) return esc(txt);
@@ -7181,6 +7228,7 @@ function openSports(){
   document.getElementById('sportsList').innerHTML = groups.map(g => `<div class="sp-group"><h4>${esc(g)}</h4>${
     CATALOG.filter(c => c.group === g).map(c => `<label class="sp-item"><input type="checkbox" value="${c.id}"${sel.has(c.id) ? ' checked' : ''}>${esc(c.label)}${KIND_NOTE[c.kind] ? `<small>${KIND_NOTE[c.kind]}</small>` : ''}</label>`).join('')}</div>`).join('');
   updateSportsCount(); syncFantasyInputs(); renderEspnSettings(); renderTabOrderList();
+  try { gaSync(); } catch (_) {}
   document.getElementById('sportsModal').hidden = false;
 }
 function updateSportsCount(){
