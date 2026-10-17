@@ -2113,6 +2113,18 @@
   .gr-col{align-self:flex-start;background:none;border:0;color:var(--accent);font:700 12px system-ui;cursor:pointer;padding:2px 0}
   .gr-more{display:block;margin:8px 0 2px;background:none;border:1px dashed var(--line);border-radius:10px;width:100%;padding:7px;color:var(--text);font:700 13px system-ui;cursor:pointer}
   @media (max-width:600px){.gr-grid{grid-template-columns:1fr;gap:6px}.gr{min-height:58px;padding:5px 10px}.gj-bar{overflow-x:auto;scrollbar-width:none}.gj{padding:5px 10px}}
+  /* Oct 17c: ticker close / just scored / fresh finals + upset tag */
+  #ticker .tk-game.tk-close{box-shadow:inset 0 0 0 2px #ff6a2a,inset 0 0 16px rgba(255,90,30,.35);border-radius:6px}
+  .gx-hot{color:#ffd34d!important;animation:gxHot 1.2s ease-in-out both;animation-iteration-count:var(--hotn,1)}
+  @keyframes gxHot{0%,100%{text-shadow:0 0 0 transparent}50%{text-shadow:0 0 10px #ffd34d,0 0 18px rgba(255,211,77,.6)}}
+  #ticker .tk-team.win{color:#fff;font-weight:900}
+  #ticker .tk-game.tk-fresh .tk-team.lose{opacity:.6}
+  .tk-finbadge{display:inline-block;background:#2b3550;color:#fff;font-size:.62em;font-weight:900;letter-spacing:.8px;padding:.15em .45em;border-radius:4px;margin-right:.4em;vertical-align:middle;border:1px solid #4a5a82}
+  .up-tag{display:inline-flex;align-items:center;gap:2px;background:linear-gradient(90deg,#ffd34d,#ff9a1f);color:#1b1200;font-weight:900;font-size:10px;letter-spacing:.5px;padding:1px 6px;border-radius:999px;margin-right:5px;vertical-align:middle;white-space:nowrap;box-shadow:0 0 8px rgba(255,190,40,.45);cursor:help}
+  .gr-st .up-tag{margin:0}
+  .tk-up{font-size:.5em;margin:0 .4em 0 0}
+  .ticker.split .tk-finbadge,.ticker.split .tk-up{font-size:9px;padding:1px 5px;margin:0}
+  @media (prefers-reduced-motion:reduce){.gx-hot{animation:none}}
   /* Oct 12c: live ring (replaces the outward bullseye) */
   .card.gm:has(>.gx-rings),.tk-game:has(>.gx-rings){position:relative;isolation:isolate}
   .gx-rings.gx-in{position:absolute;inset:0;z-index:-1;overflow:hidden;border-radius:inherit;pointer-events:none;background:none}
@@ -2945,7 +2957,7 @@ async function loadLeague(lg){
   ok.forEach(r => (r.value.events || []).forEach(ev => map.set(ev.id, ev)));
   const evs = [...map.values()];
   { const yr = ok.map(r => (((r.value.leagues || [])[0] || {}).season || {}).year).find(Boolean); if (yr) (state.season || (state.season = {}))[lg] = yr; }
-  if (L.kind === 'team') { state.games[lg] = evs.map(ev => parseEvent(ev, lg)).sort((a,b) => a.date - b.date); gxTrack(lg, state.games[lg]); }
+  if (L.kind === 'team') { state.games[lg] = evs.map(ev => parseEvent(ev, lg)).sort((a,b) => a.date - b.date); gxTrack(lg, state.games[lg]); upOdds(lg, state.games[lg]); }
   else { state.ind[lg] = evs.map(ev => PARSERS[L.kind](ev, lg)).sort((a,b) => a.date - b.date); state.games[lg] = []; }
 }
 function hasLive(lg){ return (state.games[lg] || []).some(g => g.state === 'in') || (state.ind[lg] || []).some(e => e.state === 'in'); }
@@ -3111,7 +3123,7 @@ function card(g, showLeague){
   const rd = rdChips(g);
   return `<div class="card gm clickable${live ? ' live' : ''}${fav ? ' fav' : ''}${gxClose(g) ? ' gx-cl' : ''}"${cardLinkAttrs(g.box || g.link, label)}>${gxRings(g)}
     <div class="card-top">
-      <span>${live ? '<span class="badge-live">LIVE</span> ' : ''}${gxBadge(g)}${showLeague ? esc(CAT[g.lg].short) + ' · ' : ''}${esc(statusText(g, true))}${g.state !== 'pre' ? tmTag(g.date) : ''}</span>
+      <span>${live ? '<span class="badge-live">LIVE</span> ' : ''}${g.state === 'post' ? upTag(g) : ''}${gxBadge(g)}${showLeague ? esc(CAT[g.lg].short) + ' · ' : ''}${esc(statusText(g, true))}${g.state !== 'pre' ? tmTag(g.date) : ''}</span>
       <span class="tv">${g.state === 'post' ? esc(g.tv || '') : (watchChips(g.nets, g.lg, { compact: true, max: 1 }).html || esc(g.tv || ''))}</span>
     </div>
     ${g.teams.map(t => teamRow(g, t)).join('')}
@@ -3211,8 +3223,10 @@ function gtHTML(g, o){
 /* ---------------- ticker ---------------- */
 function tkTeam(g, t){
   const lose = g.state === 'post' && !t.winner && g.teams.some(x => x.winner);
-  return `<span class="tk-team${lose ? ' lose' : ''}${isFav(g.lg, t.abbr) ? ' tk-fav' : ''}">${t.logo ? `<img src="${esc(t.logo)}" alt="">` : ''}${t.rank ? `<small style="font-size:.55em;color:#8c98b0">${t.rank}</small>` : ''}${esc(t.abbr || t.short)}${g.state !== 'pre' ? `<span class="s">${gxScore(g, t, t.score)}</span>` : ''}</span>`;
+  const won = g.state === 'post' && t.winner;
+  return `<span class="tk-team${lose ? ' lose' : ''}${won ? ' win' : ''}${isFav(g.lg, t.abbr) ? ' tk-fav' : ''}">${t.logo ? `<img src="${esc(t.logo)}" alt="">` : ''}${t.rank ? `<small style="font-size:.55em;color:#8c98b0">${t.rank}</small>` : ''}${esc(t.abbr || t.short)}${g.state !== 'pre' ? `<span class="s">${gxScore(g, t, t.score)}</span>` : ''}</span>`;
 }
+const tkGrp = g => g.state === 'in' ? 0 : g.state === 'post' ? (gmEndedAgo(g) < 2 * 36e5 ? 1 : 3) : 2;   // live, just-finished (2 h), upcoming, older finals
 function tickerTeamItems(lg, now){
   const L = CAT[lg];
   let games = (state.games[lg] || []).filter(g =>
@@ -3221,11 +3235,12 @@ function tickerTeamItems(lg, now){
     (g.state === 'pre' && g.date - now < 24*36e5 && g.date - now > -6*36e5));
   if (L.many && CONFIG.tickerCfbRankedOnly) games = games.filter(g => g.state === 'in' || g.teams.some(t => t.rank || isFav(lg, t.abbr)));
   const fav = g => g.teams.some(t => isFav(lg, t.abbr));
-  games.sort((a,b) => ((b.state==='in') + 2*fav(b)) - ((a.state==='in') + 2*fav(a)) || (a.state === 'in' && b.state === 'in' ? liveCmp(a, b) : 0) || (a.state === 'post') - (b.state === 'post') || a.date - b.date);
-  return games.slice(0, CONFIG.tickerMaxPerLeague).map(g => {
+  games.sort((a,b) => ((b.state==='in') + 2*fav(b)) - ((a.state==='in') + 2*fav(a)) || (a.state === 'in' && b.state === 'in' ? liveCmp(a, b) : 0) || tkGrp(a) - tkGrp(b) || (a.state === 'post' && b.state === 'post' ? liveCmp(a, b) : 0) || a.date - b.date);
+  { const fr = new Set(games.filter(g => tkGrp(g) === 1).slice(0, 6)), rest = games.filter(g => !fr.has(g)).slice(0, CONFIG.tickerMaxPerLeague); const keep = new Set([...fr, ...rest]); games = games.filter(g => keep.has(g)); }   // just-finished games get their own small allowance
+  return games.map(g => {
     const [a, h] = g.teams; if (!a || !h) return null;
     return { live: g.state === 'in', fav: fav(g),
-      html: `<a class="tk-game tg${g.state === 'in' ? ' is-live' : ''}${gxClose(g) ? ' gx-cl' : ''}" href="${esc(g.box || g.link || '#')}" target="_blank" rel="noopener">${gxRings(g)}${tkTeam(g, a)}<span class="tk-sep" style="color:#4b5875">${g.state === 'pre' ? '@' : '–'}</span>${tkTeam(g, h)}<span class="tk-status${g.state === 'in' ? ' live' : ''}">${g.state === 'in' ? '<span class="tk-livebadge">LIVE</span>' : ''}${gxBadge(g)}<span class="tk-st">${statusText(g).split(' · ').map(x => `<span>${esc(x)}</span>`).join('<i class="tk-dot"> · </i>')}</span></span></a>${g.state === 'in' ? tkWatch(g) : ''}` };
+      html: `<a class="tk-game tg${g.state === 'in' ? ' is-live' : ''}${gxClose(g) ? ' gx-cl' + (GA.badge ? ' tk-close' : '') : ''}${g.state === 'post' && gmEndedAgo(g) < 2 * 36e5 ? ' tk-fresh' : ''}" href="${esc(g.box || g.link || '#')}" target="_blank" rel="noopener">${gxRings(g)}${tkTeam(g, a)}<span class="tk-sep" style="color:#4b5875">${g.state === 'pre' ? '@' : '–'}</span>${tkTeam(g, h)}<span class="tk-status${g.state === 'in' ? ' live' : ''}">${g.state === 'in' ? '<span class="tk-livebadge">LIVE</span>' : ''}${g.state === 'post' && gmEndedAgo(g) < 2 * 36e5 ? '<span class="tk-finbadge">FINAL</span>' : ''}${g.state === 'post' ? upTag(g, 'tk-up') : ''}${gxBadge(g)}${g.state === 'post' && gmEndedAgo(g) < 2 * 36e5 && /^final$/i.test(statusText(g)) ? '' : `<span class="tk-st">${statusText(g).split(' · ').map(x => `<span>${esc(x)}</span>`).join('<i class="tk-dot"> · </i>')}</span>`}</span></a>${g.state === 'in' ? tkWatch(g) : ''}` };
   }).filter(Boolean);
 }
 function tkWatch(g){ const w = (g.nets || []).map(n => watchFor(n, g.lg)).find(Boolean); return w ? `<a class="tk-watch" href="${esc(w.url)}" target="_blank" rel="noopener" title="Watch ${esc(w.viaNet ? w.net + ' on YouTube TV' : 'on ' + w.label)}">▶ ${esc(w.viaNet ? w.net : w.label)}</a>` : ''; }
@@ -3674,13 +3689,49 @@ function gfltBar(lg, games){
 document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-gflt]'); if (!b) return; e.preventDefault();
   GFLT[state.tab] = b.dataset.gflt; lsSet(GFLT_KEY, GFLT); renderGames(); const f = document.querySelector(`[data-gflt="${CSS.escape(b.dataset.gflt)}"]`); if (f) f.focus({ preventScroll: true }); });
 document.addEventListener('change', e => { const s = e.target.closest && e.target.closest('[data-gfltsel]'); if (!s || !s.value) return; GFLT[state.tab] = s.value; lsSet(GFLT_KEY, GFLT); renderGames(); });
+/* Oct 17c: upsets on finals + recently-finished ticker highlight.
+   Pregame lines: ESPN drops odds from the scoreboard once a game is final, so the last line seen before/during the game is kept (4 days). */
+const ODC_KEY = 'mannPregameOdds.v1', ODC = (() => { const v = lsGet(ODC_KEY, {}); return v && typeof v === 'object' ? v : {}; })(), GXEND = {};
+function upOdds(lg, games){
+  let ch = false; const now = Date.now();
+  for (const g of games) { const k = lg + ':' + g.id;
+    if (g.state !== 'post' && g.odds && g.odds.det) { if (!ODC[k] || ODC[k].det !== g.odds.det) { ODC[k] = { det: g.odds.det, prov: g.odds.prov || '', t: now }; ch = true; } }
+    if (g.state === 'post' && !g.odds && ODC[k]) g.odds0 = ODC[k];
+    if (g.state === 'post' && GXEND[k] === undefined) GXEND[k] = (GX.seenLive && GX.seenLive[k]) ? now : 0;
+    if (g.state === 'in') (GX.seenLive || (GX.seenLive = {}))[k] = 1; }
+  for (const k in ODC) if (now - ODC[k].t > 4 * 864e5) { delete ODC[k]; ch = true; }
+  if (ch) lsSet(ODC_KEY, ODC);
+}
+const GDUR = { football: 3.5, basketball: 2.3, hockey: 2.6, baseball: 3, soccer: 2 };
+function gmEndedAgo(g){   // ms since the game ended: seen going final this session, else start + typical length for the sport
+  const k = g.lg + ':' + g.id; if (GXEND[k]) return Date.now() - GXEND[k];
+  return Date.now() - (+g.date + (GDUR[gxSport(g.lg)[0]] || 3) * 36e5);
+}
+function gmUpset(g){
+  if (!g || g.state !== 'post' || g.teams.length !== 2) return null;
+  const w = g.teams.find(t => t.winner), l = g.teams.find(t => t !== w); if (!w || !l) return null;
+  const college = !!(CAT[g.lg] && CAT[g.lg].many);
+  if (college) {
+    if (l.rank && !w.rank) return `Unranked ${w.abbr} beat #${l.rank} ${l.abbr}`;
+    if (l.rank && w.rank && w.rank - l.rank >= 5) return `#${w.rank} ${w.abbr} beat #${l.rank} ${l.abbr}`;
+  } else {
+    const pre = (t, won) => { const m = String(t.record || '').match(/^(\d+)-(\d+)(?:-(\d+))?/); if (!m) return null; let W = +m[1], L = +m[2], O = +(m[3] || 0); if (won) W--; else if (L > 0) L--; else if (O > 0) O--; const gp = W + L + O; return gp >= 3 ? { p: (W + O * .5) / gp, W, L, O } : null; };
+    const pw = pre(w, true), pl = pre(l, false);
+    if (pw && pl && pl.p - pw.p >= .2) return `${w.abbr} (${pw.W}-${pw.L}${pw.O ? '-' + pw.O : ''}) beat ${l.abbr} (${pl.W}-${pl.L}${pl.O ? '-' + pl.O : ''}) before this game`;
+  }
+  const o = g.odds0 || (g.odds && g.odds.det ? g.odds : null), m = o && /^([A-Z0-9&.]+)\s+(-\d+(?:\.\d+)?)$/i.exec(String(o.det).trim());
+  if (m && m[1].toUpperCase() === String(l.abbr).toUpperCase()) { const n = Math.abs(parseFloat(m[2]));
+    if (n >= 100 ? n >= 150 : n >= 3.5) return n >= 100 ? `${w.abbr} won as the underdog (${l.abbr} was ${m[2]} on the moneyline${o.prov ? ', ' + o.prov : ''})` : `${w.abbr} won as a +${n} underdog${o.prov ? ' (' + o.prov + ')' : ''}`; }
+  return null;
+}
+const upTag = (g, cls) => { const u = gmUpset(g); return u ? `<span class="up-tag${cls ? ' ' + cls : ''}" title="Upset: ${esc(u)}">⚡ UPSET</span>` : ''; };
 /* Oct 17b: compact Live + Final score rows at the top of each sport tab, sticky jump chips, tap a row to expand the full card */
 const GRX = new Set(), GRALL = new Set(), GR_TOP = 6;
 function grRow(g){
   const k = g.lg + ':' + g.id, live = g.state === 'in', post = g.state === 'post';
   const win = post ? g.teams.find(t => t.winner) || null : null;
   const tm = t => { const lose = win && t !== win; return `<span class="gr-t${t === win ? ' w' : ''}${lose ? ' l' : ''}${isFav(g.lg, t.abbr) ? ' fav' : ''}">${t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy">` : '<i class="gr-nl"></i>'}${t.rank ? `<small>${esc(t.rank)}</small>` : ''}<b>${esc(t.abbr || t.short)}</b><em>${live ? gxScore(g, t, t.score) : esc(t.score)}</em></span>`; };
-  const st = live ? `<span class="gr-live">LIVE</span><span>${esc(g.detail || '')}</span>` : `<span>${esc(/^final/i.test(g.detail || '') ? g.detail : 'Final' + (g.detail ? ' · ' + g.detail : ''))}</span>`;
+  const st = live ? `<span class="gr-live">LIVE</span><span>${esc(g.detail || '')}</span>` : `${upTag(g)}<span>${esc(/^final/i.test(g.detail || '') ? g.detail : 'Final' + (g.detail ? ' · ' + g.detail : ''))}</span>`;
   if (GRX.has(k)) return `<div class="gr-x"><button type="button" class="gr-col" data-grx="${esc(k)}" aria-expanded="true">▴ Collapse</button>${card(g)}</div>`;
   return `<div class="gr${live ? ' live' : ''}${gxClose(g) ? ' gx-cl' : ''}" role="button" tabindex="0" data-grx="${esc(k)}" aria-expanded="false" title="Tap for the full game card">${live ? gxRings(g) : ''}<span class="gr-tms">${g.teams.map(tm).join('')}</span><span class="gr-st">${st}</span></div>`;
 }
@@ -7034,8 +7085,8 @@ function gxScore(g, t, txt){
   const age = (Date.now() - h.t) / 1e3; if (age > 120) return esc(txt);
   const [sp] = gxSport(g.lg), col = (teamColorVars(g.lg, t.abbr, '', '').match(/--tc:([^;]+)/) || [])[1] || '#ffd34d';
   const word = sp === 'football' ? (h.d >= 6 && h.d <= 8 ? 'TD!' : h.d === 3 ? 'FG!' : 'SCORE!') : (sp === 'hockey' || sp === 'soccer') ? 'GOAL!' : sp === 'basketball' ? '+' + h.d : sp === 'baseball' ? (h.d > 1 ? h.d + ' RUNS!' : 'RUN!') : 'SCORE!';
-  const fresh = age < 8, d = `animation-delay:-${age.toFixed(1)}s`;
-  return `<span class="gx-sc gx-dot${fresh ? ' gx-pop' : ''}" style="--sc:${esc(col)};${fresh ? esc(d) : ''}" title="${esc(t.abbr)} scored ${Math.round(age / 60) ? Math.round(age / 60) + ' min' : 'just now'} ago">${esc(txt)}${fresh ? `<span class="gx-burst" style="${esc(d)}">${esc(word)}</span>` : ''}</span>`;
+  const fresh = age < 8, d = `animation-delay:-${age.toFixed(1)}s`, hot = GA.on && age < 60 && !fresh;
+  return `<span class="gx-sc gx-dot${fresh ? ' gx-pop' : ''}${hot ? ' gx-hot' : ''}" style="--sc:${esc(col)};${fresh ? esc(d) : ''}${hot ? `--hotn:${Math.max(1, Math.ceil((60 - age) / 1.2))};` : ''}" title="${esc(t.abbr)} scored ${Math.round(age / 60) ? Math.round(age / 60) + ' min' : 'just now'} ago">${esc(txt)}${fresh ? `<span class="gx-burst" style="${esc(d)}">${esc(word)}</span>` : ''}</span>`;
 }
 
 /* ---------------- trading-card art: ESPN photo whose own caption names the player > team-color gradient (cached 24 h) ---------------- */
