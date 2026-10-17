@@ -2051,6 +2051,22 @@
     #ticker .tk-league[data-tk="s"][data-n="5"],#ticker .tk-league[data-tk="s"][data-n="6"]{font-size:10.5px;line-height:1}
     #ticker .tk-league[data-tk="s"][data-n="L"]{font-size:8px;line-height:.95;padding:4px 3px}
   }
+  /* Oct 17b: phone portrait ticker labels = narrow vertical columns (scores: stacked letters; news row: rotated) */
+  @media (max-width:600px) and (orientation:portrait){
+    .ticker.split .ticker-label{display:flex;flex:0 0 22px;width:22px;height:96px;padding:0;justify-content:center;align-items:center;clip-path:none;font-style:normal;font-size:12px;letter-spacing:0;border-radius:0 6px 6px 0;overflow:hidden}
+    .ticker.split.no-news .ticker-label{height:118px}
+    .ticker.split>#tickerViewport{flex:1 1 calc(100% - 22px)}
+    .ticker.split .ticker-label .tl-box{display:block;writing-mode:vertical-rl;text-orientation:upright;line-height:1.02;padding:0}
+    .ticker.split .ticker-label .tl-size,.ticker.split .tk-nlabel .tl-size,.ticker.split .ticker-label .tl-t.out,.ticker.split .tk-nlabel .tl-t.out{display:none}
+    .ticker.split .ticker-label .tl-t,.ticker.split .tk-nlabel .tl-t{display:block;white-space:nowrap;animation:none}
+    .ticker.split .ticker-label[data-n="6"],.ticker.split .ticker-label[data-n="7"]{font-size:10.5px}
+    .ticker.split .ticker-label[data-n="L"]{font-size:8.5px}
+    .ticker.split .tk-nlabel{flex:0 0 16px;width:16px;padding:0;justify-content:center;clip-path:none;font-style:normal;font-size:9px;letter-spacing:.5px;border-radius:0 5px 5px 0;overflow:hidden}
+    .ticker.split .tk-nlabel .tl-box{display:block;writing-mode:vertical-rl;transform:rotate(180deg);line-height:1;padding:0}
+    /* the label column now names the league, so the in-track league tag shrinks to a thin gold divider (kept in flow: it marks where the label switches) */
+    #ticker.split #tickerTrack .tk-league[data-tk="s"]{font-size:0!important;width:3px;min-width:3px;padding:0!important;margin:0 8px 0 10px;height:64px;align-self:center;background:var(--gold);box-shadow:none;border-radius:2px;overflow:hidden;color:transparent}
+    .ticker.split .tk-nlabel[data-n="6"],.ticker.split .tk-nlabel[data-n="7"],.ticker.split .tk-nlabel[data-n="L"]{font-size:7.5px;letter-spacing:.2px}
+  }
   /* Oct 12c: live ring (replaces the outward bullseye) */
   .card.gm:has(>.gx-rings),.tk-game:has(>.gx-rings){position:relative;isolation:isolate}
   .gx-rings.gx-in{position:absolute;inset:0;z-index:-1;overflow:hidden;border-radius:inherit;pointer-events:none;background:none}
@@ -3267,10 +3283,11 @@ function tkLabelAt(tr){
   const m = tr.marks; let x = tr.x + TK_LEAD; if (tr.half && x >= tr.half) x -= tr.half;
   let seg = m.length ? m[m.length - 1] : null;                 // before the first marker = tail of the previous loop
   for (let j = 0; j < m.length && m[j].x <= x; j++) seg = m[j];
-  const L = tr.lbl, txt = seg ? (L.short ? seg.s : seg.t) : L.def, k = seg ? seg.k : (L.short ? 'n' : 's'), key = k + '|' + txt;
+  const mob = PORTRAIT_MQ.matches;   // phone portrait: narrow vertical label column, short text, instant swap (never blank / overlapping)
+  const L = tr.lbl, txt = seg ? (L.short || mob ? seg.s : seg.t) : L.def, k = seg ? seg.k : (L.short ? 'n' : 's'), key = k + '|' + txt;
   if (L.cur === key) return;
-  const el = L.el || (L.el = document.getElementById(L.id)), box = el.firstElementChild, anim = !!L.cur && !TK.reduced;
-  L.cur = key; el.dataset.tk = k;
+  const el = L.el || (L.el = document.getElementById(L.id)), box = el.firstElementChild, anim = !!L.cur && !TK.reduced && !mob;
+  L.cur = key; el.dataset.tk = k; if (mob) { const n = txt.replace(/\s/g, '').length; el.dataset.n = n > 7 ? 'L' : n; }
   box.querySelectorAll('.tl-t:not(.out)').forEach(o => { if (anim) { o.classList.add('out'); setTimeout(() => o.remove(), 300); } else o.remove(); });
   const n = document.createElement('span'); n.className = 'tl-t' + (anim ? ' in' : ''); n.textContent = txt; box.appendChild(n);
 }
@@ -3294,7 +3311,7 @@ function tickerFrame(t){
     if (Math.abs(tr.v - target) < 0.3) tr.v = target;
     if (!tr.drag) tr.x = wrapX(tr.x + tr.v * dt, tr.half);
     tr.el.style.transform = `translate3d(${-tr.x.toFixed(2)}px,0,0)`;
-    if (tr.lbl.short ? TK.split : !TK.split || TK.dsplit) tkLabelAt(tr);   // main label is hidden on the portrait split; the news label only exists there
+    if (tr.lbl.short ? TK.split : !TK.split || TK.dsplit || PORTRAIT_MQ.matches) tkLabelAt(tr);   // main label is hidden on the portrait split; the news label only exists there
   }
   TK.raf = requestAnimationFrame(tickerFrame);
 }
@@ -3322,7 +3339,7 @@ function startTicker(){ if (!TK.raf) { TK.last = 0; TK.raf = requestAnimationFra
   const mq = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)');
   if (mq) { TK.reduced = mq.matches; mq.addEventListener && mq.addEventListener('change', e => TK.reduced = e.matches); }
   window.addEventListener('resize', () => { for (const tr of Object.values(TK.tracks)) tr.half = 0; });
-  PORTRAIT_MQ.addEventListener && PORTRAIT_MQ.addEventListener('change', () => { for (const tr of Object.values(TK.tracks)) { tr.el.dataset.sig = ''; tr.x = 0; } renderTicker(); });
+  PORTRAIT_MQ.addEventListener && PORTRAIT_MQ.addEventListener('change', () => { for (const tr of Object.values(TK.tracks)) { tr.el.dataset.sig = ''; tr.x = 0; tr.lbl.cur = ''; } renderTicker(); });
   setTickerSpeed(TK.speed);
 })();
 
