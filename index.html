@@ -448,14 +448,18 @@
   .grid>.card{display:flex;flex-direction:column;min-width:0}
   .grid>.card .card-foot{margin-top:auto}
   .card.gm{min-height:272px}
+  .card.gm:not(.live){min-height:0}
+  .grid:has(>.card.gm){grid-auto-rows:auto;align-items:start}
+  .grid>.card.gm:not(.live) .card-foot{margin-top:8px}
+  .ft-mid.ft-mid-slim{height:auto;flex:0 0 auto;padding:6px}
   .card .row .name{min-width:0;overflow:hidden}.card .row .name b,.card .row .name i{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .card-top{min-width:0}.card-top>span:first-child,.card-foot>span:first-child{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .card-foot>span:last-child{flex:0 0 auto;white-space:nowrap}
   .gt-area.gt-rdonly{height:auto;margin-top:6px}
   .gt-area{height:96px;margin-top:8px;display:flex;flex-direction:column;justify-content:center;gap:6px;overflow:hidden}
   .gt-area .rd-row,.ft-mid .rd-row{margin:0;flex-wrap:nowrap;overflow:hidden}
-  .ft-grid:not(.cmp){grid-auto-rows:1fr;align-items:stretch}
-  .ft-grid:not(.cmp) .ft-card{height:100%}
+  .ft-grid:not(.cmp){grid-auto-rows:auto;align-items:start}
+  .ft-grid:not(.cmp) .ft-card{height:auto}
   .ft-id i{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .ft-slots{flex:1}
   .ft-main{flex-wrap:nowrap;overflow:hidden}.ft-main>*{flex:0 0 auto}
@@ -3488,6 +3492,7 @@ function ftCard(x){
   const mid = () => {   // fixed-height middle: game tracker (live / just-finished / next) + Reddit thread buttons when they exist
     const tg = g.live || (g.last && Date.now() - g.last.date < 20 * 36e5 ? g.last : null) || g.next || g.last;
     const rd = g.live ? rdChips(g.live) : rdChips(g.last);
+    if (!tg || tg.state !== 'in') return rd ? `<div class="ft-mid ft-mid-slim has-rd">${rd}</div>` : '';   // non-live: no tracker box (LAST / NEXT rows already say it)
     return `<div class="ft-mid${rd ? ' has-rd' : ''}">${tg ? gtHTML(tg, { compact: !!rd, noSurf: tg.state !== 'in' }) : `<div class="gt gt-none"><span class="gt-lb">${g.bye ? 'Bye week' : 'No games scheduled'}</span></div>`}${rd}</div>`;
   };
   if (!g.loaded && !g.last && !g.next && !g.live) slots += `<div class="ft-slot empty"><span class="ft-main">${g.err ? "Couldn't load the schedule. Will retry." : 'Loading schedule…'}</span></div><div class="ft-mid"><div class="gt gt-none"></div></div><div class="ft-slot empty"></div>`;
