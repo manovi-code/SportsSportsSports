@@ -2089,6 +2089,30 @@
     .mu.closed>.mu-more{display:none}
     .mu-more .ml,.mu-all .mu-more .mo{display:none}.mu-all .mu-more .ml{display:inline}
   }
+  /* Oct 17b: compact Live / Final score rows + jump chips */
+  .gj-bar{position:sticky;top:calc(var(--stack-h,0px) + var(--tabs-h,0px) + 2px);z-index:20;display:flex;gap:6px;padding:6px 0;margin:4px 0 0;background:linear-gradient(var(--bg) 80%,transparent)}
+  .gj{display:inline-flex;align-items:center;gap:5px;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:16px;padding:5px 12px;font:700 12.5px system-ui;cursor:pointer;white-space:nowrap}
+  .gj b{color:var(--gold)}.gj.live{border-color:rgba(255,59,59,.6)}.gj.live b{color:#ff5a5a}
+  .gr-h{margin-top:12px}
+  #gr-live,#gr-final,#gr-up{scroll-margin-top:calc(var(--stack-h,180px) + var(--tabs-h,0px) + 52px)}.gr-day{font-size:12px;color:var(--muted);font-weight:700;margin-left:4px}
+  .gr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,215px),1fr));gap:8px}
+  .gr{position:relative;isolation:isolate;display:flex;align-items:center;gap:10px;min-height:60px;padding:6px 10px;background:var(--panel);border:1px solid var(--line);border-radius:10px;cursor:pointer;overflow:hidden}
+  .gr:hover{border-color:var(--accent)}.gr:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+  .gr.live{border-color:rgba(255,59,59,.55);background:linear-gradient(90deg,rgba(255,59,59,.10),var(--panel) 60%)}
+  .gr.gx-cl{border-color:#ff6a2a}
+  .gr-tms{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+  .gr-t{display:flex;align-items:center;gap:6px;font-size:14px;line-height:1.15;color:var(--text)}
+  .gr-t img,.gr-nl{width:20px;height:20px;object-fit:contain;flex:none}
+  .gr-t small{font-size:10px;color:var(--muted);font-weight:700;min-width:10px}
+  .gr-t b{font-weight:700;letter-spacing:.2px}.gr-t em{margin-left:auto;font-style:normal;font-weight:800;font-variant-numeric:tabular-nums;font-size:15px}
+  .gr-t.w b,.gr-t.w em{font-weight:900;color:#fff}.gr-t.l{opacity:.5}.gr-t.fav b::after{content:" ★";color:var(--gold);font-size:11px}
+  .gr-st{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:2px;font-size:11px;color:var(--muted);text-align:right;max-width:84px;line-height:1.2}
+  .gr-live{background:var(--live);color:#fff;font-weight:900;font-size:9.5px;letter-spacing:.6px;padding:1px 5px;border-radius:3px}
+  .gr .gx-ctop{top:-1px;font-size:9px}
+  .gr-x{grid-column:1/-1;display:flex;flex-direction:column;gap:4px}
+  .gr-col{align-self:flex-start;background:none;border:0;color:var(--accent);font:700 12px system-ui;cursor:pointer;padding:2px 0}
+  .gr-more{display:block;margin:8px 0 2px;background:none;border:1px dashed var(--line);border-radius:10px;width:100%;padding:7px;color:var(--text);font:700 13px system-ui;cursor:pointer}
+  @media (max-width:600px){.gr-grid{grid-template-columns:1fr;gap:6px}.gr{min-height:58px;padding:5px 10px}.gj-bar{overflow-x:auto;scrollbar-width:none}.gj{padding:5px 10px}}
   /* Oct 12c: live ring (replaces the outward bullseye) */
   .card.gm:has(>.gx-rings),.tk-game:has(>.gx-rings){position:relative;isolation:isolate}
   .gx-rings.gx-in{position:absolute;inset:0;z-index:-1;overflow:hidden;border-radius:inherit;pointer-events:none;background:none}
@@ -3565,8 +3589,8 @@ function renderGames(){
   const fp = favPlayersSection(lg);
   if (state.errors[lg] && !data) { el.innerHTML = fp + `<div class="section-title">${esc(L.label)}</div><div class="err">Couldn't load ${esc(L.label)} (${esc(state.errors[lg])}). Will retry on the next refresh.</div>`; return; }
   if (!data) { el.innerHTML = fp + '<div class="empty" style="margin-top:18px">Loading…</div>'; return; }
-  let html = fp + (state.errors[lg] ? `<div class="err" style="margin-top:14px">Couldn't refresh just now (${esc(state.errors[lg])}). Showing the last data loaded.</div>` : '');
-  if (L.kind === 'team') html += renderTeamLeague(lg, data);
+  let html = (L.kind === 'team' ? '' : fp) + (state.errors[lg] ? `<div class="err" style="margin-top:14px">Couldn't refresh just now (${esc(state.errors[lg])}). Showing the last data loaded.</div>` : '');
+  if (L.kind === 'team') html += renderTeamLeague(lg, data, fp);
   else if (!data.length) html += `<div class="section-title">${esc(L.label)}</div><div class="empty">No current or upcoming events listed by ESPN.</div>`;
   else html += data.map(e => ({ golf: renderGolf, racing: renderRacing, tennis: renderTennis, mma: renderMMA })[L.kind](e)).join('');
   el.innerHTML = html;
@@ -3650,22 +3674,60 @@ function gfltBar(lg, games){
 document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-gflt]'); if (!b) return; e.preventDefault();
   GFLT[state.tab] = b.dataset.gflt; lsSet(GFLT_KEY, GFLT); renderGames(); const f = document.querySelector(`[data-gflt="${CSS.escape(b.dataset.gflt)}"]`); if (f) f.focus({ preventScroll: true }); });
 document.addEventListener('change', e => { const s = e.target.closest && e.target.closest('[data-gfltsel]'); if (!s || !s.value) return; GFLT[state.tab] = s.value; lsSet(GFLT_KEY, GFLT); renderGames(); });
-function renderTeamLeague(lg, allGames){
+/* Oct 17b: compact Live + Final score rows at the top of each sport tab, sticky jump chips, tap a row to expand the full card */
+const GRX = new Set(), GRALL = new Set(), GR_TOP = 6;
+function grRow(g){
+  const k = g.lg + ':' + g.id, live = g.state === 'in', post = g.state === 'post';
+  const win = post ? g.teams.find(t => t.winner) || null : null;
+  const tm = t => { const lose = win && t !== win; return `<span class="gr-t${t === win ? ' w' : ''}${lose ? ' l' : ''}${isFav(g.lg, t.abbr) ? ' fav' : ''}">${t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy">` : '<i class="gr-nl"></i>'}${t.rank ? `<small>${esc(t.rank)}</small>` : ''}<b>${esc(t.abbr || t.short)}</b><em>${live ? gxScore(g, t, t.score) : esc(t.score)}</em></span>`; };
+  const st = live ? `<span class="gr-live">LIVE</span><span>${esc(g.detail || '')}</span>` : `<span>${esc(/^final/i.test(g.detail || '') ? g.detail : 'Final' + (g.detail ? ' · ' + g.detail : ''))}</span>`;
+  if (GRX.has(k)) return `<div class="gr-x"><button type="button" class="gr-col" data-grx="${esc(k)}" aria-expanded="true">▴ Collapse</button>${card(g)}</div>`;
+  return `<div class="gr${live ? ' live' : ''}${gxClose(g) ? ' gx-cl' : ''}" role="button" tabindex="0" data-grx="${esc(k)}" aria-expanded="false" title="Tap for the full game card">${live ? gxRings(g) : ''}<span class="gr-tms">${g.teams.map(tm).join('')}</span><span class="gr-st">${st}</span></div>`;
+}
+function grSection(lg, id, title, arr){
+  if (!arr.length) return '';
+  const key = lg + ':' + id, all = GRALL.has(key), shown = all ? arr : arr.slice(0, GR_TOP);
+  const more = arr.length > GR_TOP ? `<button type="button" class="gr-more" data-grall="${esc(key)}">${all ? 'Show fewer ▴' : `Show all ${arr.length} ▾`}</button>` : '';
+  return `<div class="section-title gr-h" id="gr-${id}">${title} <small>${arr.length} game${arr.length > 1 ? 's' : ''}</small></div><div class="gr-grid">${shown.map(grRow).join('')}</div>${more}`;
+}
+document.addEventListener('click', e => {
+  const a = e.target.closest && e.target.closest('[data-grall]'); if (a) { e.preventDefault(); const k = a.dataset.grall; GRALL.has(k) ? GRALL.delete(k) : GRALL.add(k); renderGames(); return; }
+  const j = e.target.closest && e.target.closest('[data-grjump]'); if (j) { e.preventDefault(); const t = document.getElementById(j.dataset.grjump); if (t) t.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; }
+  const x = e.target.closest && e.target.closest('[data-grx]'); if (!x || e.target.closest('a')) return;
+  if (x.classList.contains('gr') || x.classList.contains('gr-col')) { e.preventDefault(); e.stopPropagation(); const k = x.dataset.grx; GRX.has(k) ? GRX.delete(k) : GRX.add(k); renderGames(); const f = document.querySelector(`[data-grx="${CSS.escape(k)}"]`); if (f) f.focus({ preventScroll: true }); }
+}, true);
+document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('gr')) { e.preventDefault(); e.target.click(); } });
+function renderTeamLeague(lg, allGames, fp){
   const L = CAT[lg], fbar = gfltBar(lg, allGames), games = allGames.filter(g => gfltMatch(lg, g)), fon = gfltVal(lg) !== 'all';
-  const todayKey = etDayKey(new Date());
-  const live = games.filter(g => g.state === 'in');
-  const today = games.filter(g => g.state !== 'in' && etDayKey(g.date) === todayKey);
-  const rest = games.filter(g => g.state !== 'in' && etDayKey(g.date) !== todayKey);
-  const byDay = new Map();
-  rest.forEach(g => { const k = dayLabelET(g.date); if (!byDay.has(k)) byDay.set(k, []); byDay.get(k).push(g); });
-  const favFirst = arr => arr.slice().sort((a,b) => (b.teams.some(t=>isFav(b.lg,t.abbr))) - (a.teams.some(t=>isFav(a.lg,t.abbr))) || (a.state==='post') - (b.state==='post') || a.date - b.date);
-  let html = '';
-  html += fbar;
-  if (fon && !games.length) return html + `<div class="empty" style="margin-top:12px">No games for this ${lg === 'nfl' ? 'division' : 'filter'} right now. <button class="linkbtn" data-gflt="all">Show all games</button></div>`;
-  if (live.length) html += `<div class="section-title"><span class="badge-live">LIVE</span> Live now <small>${live.length} game${live.length>1?'s':''}</small></div><div class="grid">${live.slice().sort(liveCmp).map(g=>card(g)).join('')}</div>`;
-  html += `<div class="section-title">Today <small>${esc(etFmt(new Date(), {weekday:'long', month:'short', day:'numeric'}))}</small></div>`;
-  html += today.length ? `<div class="grid">${favFirst(today).map(g=>card(g)).join('')}</div>` : `<div class="empty">No ${esc(L.label)} games${live.length ? ' left' : ''} today.</div>`;
+  const todayKey = etDayKey(new Date()), now = Date.now();
+  const live = games.filter(g => g.state === 'in').sort(liveCmp);
+  // Final = today's finished games; if none yet, the most recent slate (last 3 days)
+  const posts = games.filter(g => g.state === 'post');
+  let finKey = posts.some(g => etDayKey(g.date) === todayKey) ? todayKey : null;
+  if (!finKey) { const r = posts.filter(g => now - g.date < 3 * 864e5).sort((a, b) => b.date - a.date)[0]; if (r) finKey = etDayKey(r.date); }
+  const fin = finKey ? posts.filter(g => etDayKey(g.date) === finKey).sort(liveCmp) : [], finSet = new Set(fin);
+  const today = games.filter(g => g.state === 'pre' && etDayKey(g.date) === todayKey);
+  const future = games.filter(g => g.state === 'pre' && etDayKey(g.date) !== todayKey);
+  const older = games.filter(g => g.state === 'post' && !finSet.has(g));
+  const odd = games.filter(g => g.state !== 'pre' && g.state !== 'post' && g.state !== 'in');   // postponed / unknown states keep showing
+  const byDay = new Map(), past = new Map();
+  [...future, ...odd].sort((a, b) => a.date - b.date).forEach(g => { const k = dayLabelET(g.date); if (!byDay.has(k)) byDay.set(k, []); byDay.get(k).push(g); });
+  older.sort((a, b) => b.date - a.date).forEach(g => { const k = dayLabelET(g.date); if (!past.has(k)) past.set(k, []); past.get(k).push(g); });
+  const favFirst = arr => arr.slice().sort((a,b) => (b.teams.some(t=>isFav(b.lg,t.abbr))) - (a.teams.some(t=>isFav(a.lg,t.abbr))) || a.date - b.date);
+  const upN = today.length + future.length + odd.length;
+  let html = fbar;
+  if (fon && !games.length) return html + (fp || '') + `<div class="empty" style="margin-top:12px">No games for this ${lg === 'nfl' ? 'division' : 'filter'} right now. <button class="linkbtn" data-gflt="all">Show all games</button></div>`;
+  const chips = [live.length && `<button type="button" class="gj live" data-grjump="gr-live">🔴 Live <b>${live.length}</b></button>`,
+    fin.length && `<button type="button" class="gj" data-grjump="gr-final">✅ Final <b>${fin.length}</b></button>`,
+    upN && `<button type="button" class="gj" data-grjump="gr-up">📅 Upcoming <b>${upN}</b></button>`].filter(Boolean);
+  if (chips.length > 1) html += `<div class="gj-bar" role="navigation" aria-label="Jump to section">${chips.join('')}</div>`;
+  html += grSection(lg, 'live', '<span class="badge-live">LIVE</span> Live now', live);
+  html += grSection(lg, 'final', `✅ Final${finKey && finKey !== todayKey && fin[0] ? ` <span class="gr-day">${esc(dayLabelET(fin[0].date))}</span>` : ''}`, fin);
+  html += fp || '';
+  html += `<div class="section-title" id="gr-up">Today <small>${esc(etFmt(new Date(), {weekday:'long', month:'short', day:'numeric'}))}</small></div>`;
+  html += today.length ? `<div class="grid">${favFirst(today).map(g=>card(g)).join('')}</div>` : `<div class="empty">${live.length || (finKey === todayKey && fin.length) ? `No more ${esc(L.label)} games to start today.` : `No ${esc(L.label)} games today.`}</div>`;
   for (const [day, arr] of byDay) html += `<div class="section-title">${esc(day)} <small>${arr.length} game${arr.length>1?'s':''}</small></div><div class="grid">${favFirst(arr).map(g=>card(g)).join('')}</div>`;
+  for (const [day, arr] of past) html += `<div class="section-title">Earlier results · ${esc(day)} <small>${arr.length} game${arr.length>1?'s':''}</small></div><div class="gr-grid">${arr.slice().sort(liveCmp).map(grRow).join('')}</div>`;
   if (!allGames.length) html += `<div class="empty" style="margin-top:12px">No games on the schedule right now.</div>`;
   return html;
 }
