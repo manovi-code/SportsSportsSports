@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261019-0805-fantasy-fix">
+<meta name="build-id" content="20261019-1430-design-polish">
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261019-0805-fantasy-fix';
+var BUILD_ID = '20261019-1430-design-polish';
 (function(){
   var shown = {};
   function chip(id, html, onTap){
@@ -2778,6 +2778,32 @@ html:not(.tk-bottom) .sys-chip{bottom:12px}
 .sys-chip .sys-go b{color:#ff8a3d}.sys-chip .sys-go:hover{background:#1d2538}
 .sys-chip .sys-x{width:26px;height:26px;border-radius:50%;border:0;background:#222b40;color:#aab4c8;cursor:pointer;font-size:12px}
 #sysChip-err{border-color:#ff6b6b}
+/* ===== Oct 19 polish ===== */
+/* clips: show the whole frame (no crop) on a blurred, dimmed copy of the poster */
+.hv-wrap{background:#05070c}
+.hv-wrap video,.hv-wrap iframe,.card>.hv-wrap video{object-fit:contain!important;position:relative;z-index:1;background:transparent!important}
+.hv-wrap iframe{transform:none!important;width:100%;height:auto!important;aspect-ratio:16/9;position:absolute;left:0;top:50%;translate:0 -50%}
+.hv-bd{position:absolute;inset:-14px;z-index:0;background:radial-gradient(circle at 50% 40%,#1c2433,#05070c) center/cover no-repeat;filter:blur(14px) brightness(.5) saturate(1.2);pointer-events:none}
+.hv-tag{z-index:2}
+.hv-snd{all:unset;box-sizing:border-box;position:absolute;right:6px;top:6px;z-index:6;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:14px;line-height:1;cursor:pointer;pointer-events:auto;background:rgba(10,12,18,.8);box-shadow:0 0 0 1px rgba(255,255,255,.4),0 2px 6px rgba(0,0,0,.5)}
+.hv-snd:hover,.hv-snd:focus-visible{background:#c40000}.hv-snd:focus-visible{outline:2px solid #ffc83d;outline-offset:1px}
+.hv-snd:not(.on){animation:hvSndPulse 1.6s ease-in-out 2}
+@keyframes hvSndPulse{50%{box-shadow:0 0 0 3px rgba(255,200,61,.65),0 2px 6px rgba(0,0,0,.5)}}
+@media (prefers-reduced-motion:reduce){.hv-snd{animation:none!important}}
+.pc .pc-front .hv-snd{top:auto;bottom:6px;right:6px}
+.pc .hv-tag{max-width:calc(100% - 48px)}
+/* Spin-it 🌀: its own corner badge, poking out of the card's top-left corner (mirrors ↗ on the wheel cards); hide ✕ sits below it */
+.sx-b.on-card,.pl-card>.sx-b.on-card,.fzc>.sx-b.on-card,.wt-p>.sx-b.on-card{left:-6px;top:-6px;width:26px;height:26px;font-size:14px;z-index:31}
+.pc>.sx-b.on-card{left:4px;top:4px;width:24px;height:24px;font-size:13px;z-index:31}   /* inside: the wheel scroller clips anything above the card */
+.pc>.hx-x{left:5px;top:33px;right:auto;bottom:auto}
+.pc.hv-on .pc-rost,.pc.hv-on .pc-rar,.pc.hv-on .rar-chg{opacity:0;transition:opacity .2s}   /* clip playing: the pills step aside so the clip label isn't covered */
+.pl-card>.hx-x,.fzc>.hx-x,.wt-p>.hx-x{top:6px;right:6px;left:auto}
+/* wheel fronts never show the roster card's big stat block (belt and braces for the live patch) */
+.pc .pc-front .cc-ppg{display:none!important}
+.lv-line.k-pc{max-width:calc(100% - 16px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hl,.ff-item .hl,.tn-list .hl{text-wrap:pretty}
+.pc-tbl td:last-child,.cc-ppg b,.lv-p b,.tr-row .c,.tb td{font-variant-numeric:tabular-nums}
+.sx-b.on-card:focus-visible,.hx-x:focus-visible{outline:2px solid #ffc83d;outline-offset:2px}
 .sys-chip .sys-hint{display:block;font:500 9.5px ui-monospace,Menlo,monospace;color:#7d879c;margin-top:1px;text-align:left;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 </style>
 </head>
@@ -2821,7 +2847,7 @@ html:not(.tk-bottom) .sys-chip{bottom:12px}
 <div class="modal" id="favsModal" hidden>
   <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="favsTitle" style="width:min(640px,100%)">
     <div class="modal-head"><div><h2 id="favsTitle">Manage favorites</h2><p>Teams pin their games and news; players get live stats and injury alerts.</p></div><button class="btn" data-close-favs>✕</button></div>
-    <div class="favs-body"><div class="usearch" data-usearch><span class="ico">🔍</span><input type="search" placeholder="Add a team or player…" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-label="Search teams and players"><kbd>/</kbd><div class="us-results" role="listbox" hidden></div></div><div class="fav-list" id="favList"></div><label class="fav-row"><input type="checkbox" id="wheelDrift"> Slowly auto-scroll the header team wheel when idle (pauses on hover; off if your system reduces motion)</label><label class="fav-row"><input type="checkbox" id="sxBadgesCb" checked> Spin-it badges: show a 🌀 button on player cards, table rows, matchups and teams</label><label class="fav-row"><input type="checkbox" id="hoverHL"> Hover video on cards (on by default): hovering a player or team card on desktop plays its newest ESPN clip, muted, inside the card. Tables never autoplay; on phones tap the ▶ under the headshot</label><label class="fav-row" style="gap:6px;flex-wrap:wrap">YouTube API key (optional, saved only on this device): <input type="password" id="ytKey" autocomplete="off" placeholder="AIza…" style="flex:1;min-width:160px;padding:4px 8px;border-radius:6px;border:1px solid #33405f;background:#151c30;color:#fff"></label></div>
+    <div class="favs-body"><div class="usearch" data-usearch><span class="ico">🔍</span><input type="search" placeholder="Add a team or player…" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-label="Search teams and players"><kbd>/</kbd><div class="us-results" role="listbox" hidden></div></div><div class="fav-list" id="favList"></div><label class="fav-row"><input type="checkbox" id="wheelDrift"> Slowly auto-scroll the header team wheel when idle (pauses on hover; off if your system reduces motion)</label><label class="fav-row"><input type="checkbox" id="sxBadgesCb" checked> Spin-it badges: show a 🌀 button on player cards, table rows, matchups and teams</label><label class="fav-row"><input type="checkbox" id="hoverHL"> Hover video on cards (on by default): hovering a player or team card on desktop plays its newest ESPN clip inside the card (muted unless Preview sound is on). Tables never autoplay; on phones tap the ▶ under the headshot</label><label class="fav-row"><input type="checkbox" id="hoverSnd"> Preview sound (off by default): clips play with sound. If your browser blocks sound until you tap, the clip starts muted with a 🔇 button to turn it on</label><label class="fav-row" style="gap:6px;flex-wrap:wrap">YouTube API key (optional, saved only on this device): <input type="password" id="ytKey" autocomplete="off" placeholder="AIza…" style="flex:1;min-width:160px;padding:4px 8px;border-radius:6px;border:1px solid #33405f;background:#151c30;color:#fff"></label></div>
   </div>
 </div>
 <div class="toast" id="toast" hidden></div>
@@ -7621,17 +7647,28 @@ async function hvStart(card, o){
   if (!v || !v.u && v.k === 'espn' || HV.pend !== card || (!o.btn && !card.matches(':hover') && !card._hvTouch)) return v || null;
   hvStop(); try { hlStop(); } catch (_) {}   // one clip at a time, site-wide
   const host = hvHost(card), w = document.createElement('div'); w.className = 'hv-wrap'; w.title = v.title || '';
-  w.innerHTML = v.k === 'espn' ? `<video muted autoplay playsinline preload="auto" ${v.poster ? `poster="${esc(v.poster)}"` : ''} src="${esc(v.u)}"></video><span class="hv-tag">▶ ESPN${v.title ? ` · ${esc(trunc(v.title, 48))}` : ''}</span>`
-    : `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?autoplay=1&mute=1&controls=0&playsinline=1&modestbranding=1" allow="autoplay; encrypted-media" title="${esc(v.title)}"></iframe><span class="hv-tag">▶ YouTube</span>`;
+  // Oct 19 polish: whole frame visible (contain) over a blurred copy of the poster, plus a per-clip sound toggle
+  const bd = v.poster ? `<i class="hv-bd" style="background-image:url('${esc(String(v.poster).replace(/'/g, '%27'))}')"></i>` : '<i class="hv-bd"></i>';
+  w.innerHTML = v.k === 'espn' ? `${bd}<video muted autoplay playsinline preload="auto" ${v.poster ? `poster="${esc(v.poster)}"` : ''} src="${esc(v.u)}"></video><span class="hv-tag">▶ ESPN${v.title ? ` · ${esc(trunc(v.title, 48))}` : ''}</span>${hvSndBtn(true)}`
+    : `${bd}<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?autoplay=1&mute=${HV.snd ? 0 : 1}&controls=0&playsinline=1&modestbranding=1&enablejsapi=1" allow="autoplay; encrypted-media" title="${esc(v.title)}"></iframe><span class="hv-tag">▶ YouTube</span>${hvSndBtn(!HV.snd)}`;
   if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
   host.appendChild(w); HV.cur = card; card.classList.add('hv-on'); if (p) HV.src[p.name] = v.k;
   if (o.btn) o.btn.classList.add('on');
   const vd = w.querySelector('video');
-  if (vd) { vd.muted = true; vd.play().catch(() => {});
+  if (vd) { hvPlaySound(vd, w);
     vd.addEventListener('ended', () => { if (HV.cur === card) hvStop(true); }, { once: true });   // clip done -> crossfade back to the card
     vd.addEventListener('error', () => { HV.c[gk ? 'g:' + gk : mk ? 'm:' + mk : tk ? 't:' + tk + (card.dataset.tmev ? ':' + card.dataset.tmev : '') : (p.dst ? 'd:' + p.team : String(p.id))] = { t: Date.now(), v: null }; hvSave(); if (HV.cur === card) hvStop(); }, { once: true }); }
   return v;
 }
+function hvSndBtn(muted){ return `<button type="button" class="hv-snd${muted ? '' : ' on'}" aria-pressed="${!muted}" aria-label="${muted ? 'Turn clip sound on' : 'Mute clip'}" title="${muted ? 'Tap for sound' : 'Mute'}">${muted ? '🔇' : '🔊'}</button>`; }
+function hvSndSet(w, muted){ const b = w && w.querySelector('.hv-snd'); if (!b) return; b.classList.toggle('on', !muted); b.setAttribute('aria-pressed', String(!muted)); b.textContent = muted ? '🔇' : '🔊'; b.title = muted ? 'Tap for sound' : 'Mute'; b.setAttribute('aria-label', muted ? 'Turn clip sound on' : 'Mute clip'); }
+function hvPlaySound(vd, w, want){   // want sound (setting or tap) -> try unmuted; the browser may refuse without a tap, then play muted and show 🔇
+  const snd = want ?? HV.snd; vd.muted = !snd; hvSndSet(w, vd.muted);
+  const pr = vd.play(); if (pr && pr.catch) pr.catch(() => { if (!vd.muted) { vd.muted = true; hvSndSet(w, true); vd.play().catch(() => {}); } });
+}
+function hvToggleSnd(b){ const w = b.closest('.hv-wrap, #hlMini'); if (!w) return; const vd = w.querySelector('video'), fr = w.querySelector('iframe');
+  if (vd) { const un = vd.muted; hvPlaySound(vd, w, un); return; }
+  if (fr) { const un = !b.classList.contains('on'); try { fr.contentWindow.postMessage(JSON.stringify({ event: 'command', func: un ? 'unMute' : 'mute', args: [] }), '*'); } catch (_) {} hvSndSet(w, !un); } }
 function hvPreview(card){ card._hvTouch = true; HV.pend = card; hvStart(card); }
 function sxBadges(){
   if (!SXB.on) return;
@@ -7701,11 +7738,11 @@ async function hlPlay(b){
   const yt = ytUrl(p.name, p.teamName || p.team), w = document.createElement('div');
   w.id = 'hlMini'; w.className = 'hl-mini'; w.setAttribute('role', 'region'); w.setAttribute('aria-label', (p.name || 'Player') + ' highlight');
   const body = v && v.k === 'espn' && v.u ? `<video controls autoplay playsinline muted preload="auto"${v.poster ? ` poster="${esc(v.poster)}"` : ''} src="${esc(v.u)}"></video>`
-    : v && v.k === 'yt' && v.id ? `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?autoplay=1&mute=1&playsinline=1&modestbranding=1" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen title="${esc(v.title || p.name)}"></iframe>`
+    : v && v.k === 'yt' && v.id ? `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?autoplay=1&mute=${HV.snd ? 0 : 1}&playsinline=1&modestbranding=1" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen title="${esc(v.title || p.name)}"></iframe>`
     : `<div class="hl-none">ESPN has no clip tagged to ${esc(p.name)} right now.<br><a href="${esc(yt)}" target="_blank" rel="noopener">▶ Search YouTube ↗</a></div>`;
   w.innerHTML = `<div class="hl-hd"><b>▶ ${esc(p.name)}</b><span>${v && v.title ? esc(v.title) : v ? '' : 'Highlights'}</span><em>${v ? (v.k === 'espn' ? 'ESPN' : 'YouTube') : ''}</em><button type="button" class="hl-x" aria-label="Close highlight">✕</button></div><div class="hl-bd">${body}</div>`;
   document.body.appendChild(w); HL.el = w;
-  const vd = w.querySelector('video'); if (vd) { vd.muted = true; vd.play().catch(() => {}); vd.addEventListener('error', () => { try { HV.c[String(p.id)] = { t: Date.now(), v: null }; hvSave(); } catch (_) {} const bd = w.querySelector('.hl-bd'); if (bd) bd.innerHTML = `<div class="hl-none">That ESPN clip won't play here.<br><a href="${esc(yt)}" target="_blank" rel="noopener">▶ Search YouTube ↗</a></div>`; }, { once: true }); }
+  const vd = w.querySelector('video'); if (vd) { hvPlaySound(vd, w); vd.addEventListener('error', () => { try { HV.c[String(p.id)] = { t: Date.now(), v: null }; hvSave(); } catch (_) {} const bd = w.querySelector('.hl-bd'); if (bd) bd.innerHTML = `<div class="hl-none">That ESPN clip won't play here.<br><a href="${esc(yt)}" target="_blank" rel="noopener">▶ Search YouTube ↗</a></div>`; }, { once: true }); }
   const x = w.querySelector('.hl-x'); if (x) x.focus({ preventScroll: true });
 }
 async function hvBtn(b, card){
@@ -7886,12 +7923,16 @@ function lvInfo(p){
   return null;
 }
 function lvIs(p){ const L = lvInfo(p); return !!(L && L.s === 'in'); }
+/* Oct 19 polish: one registry entry per player AND card style. It used to be keyed by player id only, so when the roster cards
+   (style 'cc', whose base is the big "20.2 FP/G" block) rendered after the header wheel (style 'pc'), the 30 s live patch
+   rewrote the wheel cards with the roster card's big stat block -> giant stats on the wheel card fronts. */
+function lvKey(id, kind, base){ let h = 5381; const s = String(base || ''); for (let i = 0; i < s.length; i++) h = (h * 33 ^ s.charCodeAt(i)) >>> 0; return id + '|' + kind + '|' + h.toString(36); }
 function lvBox(p, base, kind){
-  const id = peid(p); LVP[id] = { p, base: base || '', kind: kind || 'cc' };
-  return lvBoxHTML(p, base || '', kind || 'cc');
+  const id = peid(p), k = kind || 'cc', key = lvKey(id, k, base); LVP[key] = { p, base: base || '', kind: k }; LVP[id] = { p };   // LVP[id]: is-live ring only
+  return lvBoxHTML(p, base || '', k, key);
 }
-function lvBoxHTML(p, base, kind){
-  const id = esc(peid(p)), L = lvInfo(p);
+function lvBoxHTML(p, base, kind, key){
+  const id = esc(key || lvKey(peid(p), kind, base)), L = lvInfo(p);
   if (L && L.s === 'in') return `<div class="lv-box k-${kind}${L.rz ? ' rz' : ''}" data-lv="${id}" role="status" aria-label="Live: ${esc([L.pts != null ? L.pts + ' fantasy points' : '', L.sc, L.clk, L.poss ? L.ab + ' ball' : ''].filter(Boolean).join(', '))}">
     ${L.pts != null ? `<span class="lv-p"><b>${esc(L.pts)}</b><i>PTS</i></span>` : ''}<span class="lv-g">${L.sc ? `<span class="lv-sc">${esc(L.sc)}</span><span class="lv-scc">${esc(L.scc)}</span>` : ''}${L.clk ? `<span class="lv-ck">${esc(L.clk)}</span>` : ''}</span>
     ${L.poss ? `<span class="lv-ps" title="${esc(L.ab)} ball${L.rz ? ' · red zone' : ''}">🏈<span class="lv-pt"> ${esc(L.ab)} ball</span>${L.rz ? ' <b>RED ZONE</b><b class="lv-rzs">RZ</b>' : ''}</span>` : ''}</div>`;
@@ -7906,7 +7947,7 @@ function pnRow(sp){
     return `<button type="button" class="pn-it${L.rz ? ' rz' : ''}" role="listitem" data-pnjump="${esc(peid(p))}" title="Jump to ${esc(p.name)}'s card"><img src="${esc(p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><span class="pn-n"><b>${esc(p.short || p.name)}</b><i>${esc([L.sc, L.clk].filter(Boolean).join(' · '))}</i></span>${L.pts != null ? `<span class="pn-p">${esc(L.pts)}<small>pts</small></span>` : ''}${L.poss ? `<span class="pn-ps" title="${esc(L.ab)} has the ball">🏈${L.rz ? ' RZ' : ''}</span>` : ''}</button>`; }).join('')}</div>`;
 }
 function lvPatch(){   // re-draw live strips from data already in memory (no network); runs after matchup refresh + every 30 s
-  document.querySelectorAll('[data-lv]').forEach(el => { const E = LVP[el.dataset.lv]; if (!E) return; const html = lvBoxHTML(E.p, E.base, E.kind);
+  document.querySelectorAll('[data-lv]').forEach(el => { const E = LVP[el.dataset.lv]; if (!E || !E.kind) return; const html = lvBoxHTML(E.p, E.base, E.kind, el.dataset.lv);
     if (el.outerHTML !== html) { const t = document.createElement('template'); t.innerHTML = html; const n = t.content.firstElementChild; if (n) el.replaceWith(n); } });
   document.querySelectorAll('[data-lvc]').forEach(c => { const E = LVP[c.dataset.lvc]; if (!E) return; const on = lvIs(E.p); if (c.classList.contains('is-live') !== on) c.classList.toggle('is-live', on); });
   document.querySelectorAll('[data-lvrow]').forEach(r => { const h = pnRow(r.dataset.lvrow); if (r.innerHTML !== h) r.innerHTML = h; });
@@ -10167,6 +10208,10 @@ window.addEventListener('scroll', e => { if (e.target && e.target.closest && e.t
 document.addEventListener('visibilitychange', () => { if (document.hidden) hvStop(); });
 document.addEventListener('pointerdown', e => { if (HV.cur && e.pointerType === 'touch' && !HV.cur.contains(e.target)) { HV.cur._hvTouch = false; hvStop(); } }, { passive: true });
 
+HV.snd = lsGet('mannHoverSnd.v1', false) === true;
+(() => { const s = document.getElementById('hoverSnd'); if (s) { s.checked = HV.snd; s.addEventListener('change', () => { HV.snd = s.checked; lsSet('mannHoverSnd.v1', HV.snd); }); } })();
+document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('.hv-snd'); if (!b) return; e.preventDefault(); e.stopPropagation(); hvToggleSnd(b); }, true);
+['pointerdown', 'mousedown', 'touchstart'].forEach(n => document.addEventListener(n, e => { if (e.target && e.target.closest && e.target.closest('.hv-snd')) e.stopPropagation(); }, { capture: true, passive: true }));
 (() => { const cb = document.getElementById('hoverHL'), k = document.getElementById('ytKey'); if (cb) { cb.checked = HV.on; cb.addEventListener('change', () => { HV.on = cb.checked; lsSet('mannHoverHL.v2', HV.on); if (!HV.on) hvStop(); }); }
   if (k) { k.value = HV.key; k.addEventListener('change', () => { HV.key = k.value.trim(); try { HV.key ? localStorage.setItem('mannYtKey.v1', HV.key) : localStorage.removeItem('mannYtKey.v1'); } catch (_) {} Object.keys(HV.c).forEach(x => { if (!HV.c[x].v) delete HV.c[x]; }); hvSave(); }); } })();
 
@@ -10380,7 +10425,7 @@ window.addEventListener('click', e => {   // capture on window: runs before the 
   const pop = t.closest('.pc-pop');
   if (pop) { if (t.closest('.hl-btn,.sx-b,a')) { if (t.closest('a')) return; const tb = t.closest('.hl-btn,.sx-b'); if (tb && CMX.src) { e.preventDefault(); e.stopPropagation(); const src = CMX.src.querySelector(tb.classList.contains('sx-b') ? '.sx-b' : '.hl-btn'); cmxPopClose(); if (src) src.click(); } return; }
     e.preventDefault(); e.stopPropagation(); const id = pop.dataset.id; cmxPopClose(); cmxOpen(id); return; }
-  const c = t.closest('#pcRow .pc'); if (!c || t.closest('.hl-btn,.sx-b,a,.hx-x')) return;
+  const c = t.closest('#pcRow .pc'); if (!c || t.closest('.hl-btn,.sx-b,a,.hx-x,.hv-snd')) return;
   if (cmxFine()) { e.preventDefault(); e.stopPropagation(); cmxPopClose(); cmxOpen(c.dataset.plcard); return; }
   e.preventDefault(); e.stopPropagation();
   if (c.classList.contains('pc-ctr')) cmxOpen(c.dataset.plcard); else c.scrollIntoView({ inline: 'center', block: 'nearest', behavior: cmxRM() ? 'auto' : 'smooth' });
