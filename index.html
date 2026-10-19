@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261019-1430-design-polish">
+<meta name="build-id" content="20261019-1500-wheel-flip">
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261019-1430-design-polish';
+var BUILD_ID = '20261019-1500-wheel-flip';
 (function(){
   var shown = {};
   function chip(id, html, onTap){
@@ -2596,40 +2596,35 @@ button.lv-chip{border:0;cursor:pointer;font:inherit;font-size:inherit}.lv-chip:h
 
 /* ===== Oct 18e: trading-card look, pop-out, maximized card, Screw 'em ===== */
 #pcRow .pc{flex-basis:154px;height:216px}   /* 2.5 × 3.5 */
-@media (hover:hover){ #pcRow .pc:hover .pc-flip:not(.flipped){transform:none} }   /* hover now pops the card out instead of flipping */
-#pcRow .pc.pc-popsrc{visibility:hidden}
+/* Oct 19 wheel flip: the stats back fits the 154×216 card (room for 🌀, no ✕ on the back, no hidden scroll) */
+#pcRow .pc:has(.pc-flip.flipped) .hx-x{display:none!important}
+#pcRow .pc .pc-back{overflow:hidden}
+#pcRow .pc .pc-back .pc-bh{padding-left:32px;padding-right:58px;min-height:30px;justify-content:center}
+#pcRow .pc .pc-back .pc-bh span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#pcRow .pc .pc-back .tp-no{display:none}
+#pcRow .pc .pc-back .pc-tbl tr:nth-child(n+6){display:none}
+#pcRow .pc .pc-back .pc-tbl td{padding-top:0;padding-bottom:0;line-height:14px}
+#pcRow .pc .pc-back .pc-tr{padding-top:1px}
+#pcRow .pc .pc-back .rar-hist.rh-pc .rar-svg{height:13px}
+#pcRow .pc .pc-back .pc-bio{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (hover:hover){ #pcRow .pc:hover .pc-flip:not(.flipped){transform:none} }   /* Oct 19: hover plays the highlight; click flips */
 .pc .pc-holo{mix-blend-mode:color-dodge}.pc.r-rare .pc-holo{opacity:.14}.pc.r-epic .pc-holo{opacity:.2}
 .cc.r-rare .cc-holo{opacity:.12}
-.pc-pop{position:fixed;left:0;top:0;z-index:1200;transform-origin:0 0;transition:transform .22s cubic-bezier(.2,.8,.25,1),filter .22s;will-change:transform;perspective:900px;cursor:zoom-in;filter:drop-shadow(0 18px 30px rgba(0,0,0,.6))}
-.pc-pop>.pc{width:100%;height:100%;flex:none;margin:0}
-.pc-pop .pc-flip{transition:transform .12s linear;transform:none}
-.pc-pop .pc-flip.flipped{transform:none}
-.pc-pop .pc-front::after{content:"";position:absolute;inset:0;z-index:6;pointer-events:none;border-radius:inherit;background:radial-gradient(circle at var(--mx,50%) var(--my,30%),rgba(255,255,255,.28),transparent 45%);mix-blend-mode:soft-light}
-@media (prefers-reduced-motion:reduce){.pc-pop,.pc-pop .pc-flip{transition:none}}
 @media (hover:none),(pointer:coarse){
   #pcRow{scroll-snap-type:x mandatory;padding:20px calc(50% - 77px) 26px;scroll-padding-inline:calc(50% - 77px)}
-  #pcRow .pc{scroll-snap-align:center;transition:transform .25s ease,filter .25s;transform-origin:50% 55%}
-  #pcRow .pc.pc-ctr{transform:scale(1.2);z-index:3;filter:drop-shadow(0 10px 18px rgba(0,0,0,.55))}
-  #pcRow .pc:not(.pc-ctr){filter:brightness(.82) saturate(.9)}
-  @media (prefers-reduced-motion:reduce){#pcRow .pc{transition:none}}
+  #pcRow .pc{scroll-snap-align:center}
 }
 html.cmx-open{overflow:hidden}
 .cmx{position:fixed;inset:0;z-index:1300;background:rgba(4,6,12,.78);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:18px;overflow:auto}
 .cmx[hidden]{display:none}
 .cmx-box{position:relative;display:flex;gap:26px;align-items:flex-start;max-width:1160px;width:100%;max-height:100%;margin:auto}
 .cmx-x{position:absolute;right:-4px;top:-4px;z-index:5;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#141a28;color:#fff;font-size:16px;cursor:pointer}
-.cmx-card{flex:none;display:flex;flex-direction:column;align-items:center;gap:8px}
-.cmx-card>.cc.cc{--w:260px;--h:364px;width:260px;height:364px;max-width:none;zoom:var(--z,1.3)}
-.cmx-hint{font-size:11px;color:var(--muted)}
-.cmx-side{flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;max-height:calc(100vh - 60px);overflow:auto}
-.cmx-side h3{margin:0 0 10px;font-size:18px;display:flex;align-items:baseline;gap:8px}.cmx-side h3 small{font-size:12px;color:var(--muted);font-weight:700}
-.cmx-tc{margin-bottom:10px}
 .cmx-pp{display:flex;align-items:center;gap:8px;padding:4px 0}.cmx-pp img{width:38px;height:38px;border-radius:50%;object-fit:cover;background:#0d121d;flex:none}
 .cmx-pp span{display:flex;flex-direction:column;min-width:0}.cmx-pp b{font-size:13.5px}.cmx-pp i{font-style:normal;font-size:11.5px;color:var(--muted)}
 .cmx-gain{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 2px}.cmx-gain span{font-size:12px;font-weight:800;border-radius:8px;padding:3px 8px;background:rgba(255,255,255,.05)}
 .cmx-gain .up{color:#7ee2a0}.cmx-gain .dn{color:#ff9b9b}
 .cmx-foot{font-size:11.5px;color:var(--muted);margin:10px 0 0}
-@media (max-width:759px){.cmx{align-items:flex-start;padding:12px}.cmx-box{flex-direction:column;align-items:stretch;gap:14px}.cmx-card{align-self:center}.cmx-side{max-height:none}.cmx-x{right:0;top:0}}
+@media (max-width:759px){.cmx{align-items:flex-start;padding:12px}.cmx-box{flex-direction:column;align-items:stretch;gap:14px}.cmx-x{right:0;top:0}}
 .se-go{position:relative;display:flex;align-items:center;gap:12px;width:100%;margin:0 0 12px;padding:12px 16px;border:0;border-radius:14px;color:#fff;cursor:pointer;text-align:left;background:#170c30;isolation:isolate}
 .se-go::before{content:"";position:absolute;inset:-2px;border-radius:inherit;z-index:-2;background:conic-gradient(from var(--sxa,0deg),#7b2ff7,#f107a3,#ff8a00,#ffd34d,#2fd4ff,#7b2ff7);animation:sxRot 3s linear infinite}
 .se-go::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;background:linear-gradient(135deg,#1d0f3d,#2a0f45)}
@@ -2742,7 +2737,7 @@ html.cmx-open{overflow:hidden}
 
 /* ===== Oct 19: matchup face-off ===== */
 #fzMatch .mu-rows .ms{cursor:pointer}
-#foView .hx-x,#cmxMax .hx-x{display:none!important}
+#foView .hx-x{display:none!important}
 .fo-box{flex-direction:column;align-items:center;gap:10px;max-width:1100px}
 .fo-h{margin:0;font-size:22px;font-weight:900;letter-spacing:2px;text-align:center}.fo-h small{font-size:12px;color:var(--muted);letter-spacing:0;font-weight:700}
 .fo-sl{display:inline-block;padding:2px 10px;border-radius:999px;background:var(--accent);color:#111;font-size:15px;letter-spacing:1px;margin-right:4px}
@@ -2832,7 +2827,7 @@ html:not(.tk-bottom) .sys-chip{bottom:12px}
 
 <main>
   <section class="pc-wrap" id="pcWrap" hidden aria-label="Player cards">
-    <div class="pc-head"><span class="pc-title"><span id="pcTitleTxt">🃏 My Players</span> <small id="pcCount"></small> <button class="rar-i rar-ih" data-rarinfo="1" title="How rarity works" aria-label="How rarity works">💎 Rarity ⓘ</button></span><span class="pc-hint">Hover or tap a card to flip it · ↗ opens ESPN</span><button class="fmin-btn" id="pcToggle" aria-expanded="true" aria-controls="pcRw" title="Minimize or expand the player cards"><span class="chev" aria-hidden="true">▾</span>Minimize</button></div>
+    <div class="pc-head"><span class="pc-title"><span id="pcTitleTxt">🃏 My Players</span> <small id="pcCount"></small> <button class="rar-i rar-ih" data-rarinfo="1" title="How rarity works" aria-label="How rarity works">💎 Rarity ⓘ</button></span><span class="pc-hint">Hover or stop on a card for its highlight · click/tap to flip for stats · ↗ opens ESPN</span><button class="fmin-btn" id="pcToggle" aria-expanded="true" aria-controls="pcRw" title="Minimize or expand the player cards"><span class="chev" aria-hidden="true">▾</span>Minimize</button></div>
     <div class="pc-rw" id="pcRw"><button class="pc-arr l" data-dir="-1" aria-label="Scroll cards left" tabindex="-1">‹</button><div class="pc-row" id="pcRow" role="list"></div><button class="pc-arr r" data-dir="1" aria-label="Scroll cards right" tabindex="-1">›</button></div>
   </section>
   <div id="favSection"></div>
@@ -5505,7 +5500,7 @@ function ensureTr(sp){
 }
 function ccBigOpen(c){
   const st = c.querySelector('.cc-stock'); if (!st) return;
-  if (c.closest('#foView,#cmxMax') && parseFloat(c.style.getPropertyValue('--z') || '1') >= .9) return;   // big enough already: flip in place (face-off / maximized card)
+  if (c.closest('#foView') && parseFloat(c.style.getPropertyValue('--z') || '1') >= .9) return;   // big enough already: flip in place (face-off / maximized card)
   let o = document.getElementById('ccBig');
   if (!o) { o = document.createElement('div'); o.id = 'ccBig'; o.hidden = true; o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true'); document.body.appendChild(o); }
   const tier = [...c.classList].find(x => /^r-/.test(x)) || 'r-common', nm = (c.querySelector('.cc-bh b') || {}).textContent || 'Player';
@@ -6986,6 +6981,7 @@ function pcArrows(){
 }
 function pcFlip(el){
   const id = el.dataset.pcflip, on = !PCF.has(id);
+  try { const c = el.closest('.pc'); if (on && c && (HV.cur === c || HV.pend === c)) { HV.pend = null; hvStop(); } } catch (_) {}
   on ? PCF.add(id) : PCF.delete(id); el.classList.toggle('flipped', on); el.setAttribute('aria-pressed', String(on));
   const row = document.getElementById('pcRow'); row.dataset.sig = '';   // re-render keeps the flip state
 }
@@ -7701,7 +7697,7 @@ function ovlScan(){
     const f = OVL.from[id]; delete OVL.from[id];
     setTimeout(() => { const a = document.activeElement; if (f && f.isConnected && f.focus && (!a || a === document.body || !a.isConnected || a.closest('[hidden]'))) { try { f.focus({ preventScroll: true }); } catch (_) {} } }, 0); }
   for (const id of now) if (!OVL.st.includes(id)) { OVL.st.push(id); OVL.from[id] = OVL.from[id] || null; try { history.pushState({ ...(history.state && typeof history.state === 'object' ? history.state : {}), ovl: id }, ''); } catch (_) {} }
-  const lk = OVL.st.length > 0; if (html.classList.contains('ovl-lock') !== lk) html.classList.toggle('ovl-lock', lk);   // only touch the class when it changes (the html class observer re-runs this)
+  const lk = OVL.st.some(id => !(id === 'mup' && typeof MUP !== 'undefined' && MUP.mode === 'pop'));   /* Oct 19: the click-opened desktop popover doesn't lock the page */ if (html.classList.contains('ovl-lock') !== lk) html.classList.toggle('ovl-lock', lk);   // only touch the class when it changes (the html class observer re-runs this)
   if (!now.includes('mup') && html.classList.contains('mup-open')) html.classList.remove('mup-open');
   if (!now.includes('ccbig') && html.classList.contains('ccb-open')) html.classList.remove('ccb-open');
   const mp = document.getElementById('muPop'); if (mp && !mp.hidden && !mp.firstElementChild) { mp.hidden = true; mp.className = ''; }   // never leave an empty layer on top
@@ -7994,46 +7990,13 @@ function pgScan(){
   if (!PG_RO && 'ResizeObserver' in window) PG_RO = new ResizeObserver(es => es.forEach(e => pgFit(e.target)));
   document.querySelectorAll('.pg-grid').forEach(el => { pgFit(el); if (PG_RO && !PG_SEEN.has(el)) { PG_SEEN.add(el); PG_RO.observe(el); } });
 }
-function cmxPlayer(id){ id = String(id); try { const x = cardRowPlayers().find(x => String(x.p.id) === id); if (x) return x.p; } catch (_) {} return (players || []).find(p => String(p.id) === id) || null; }
-function cmxPopClose(){ clearTimeout(CMX.t); const p = CMX.pop; if (CMX.src) CMX.src.classList.remove('pc-popsrc'); CMX.pop = null; CMX.src = null; if (!p) return;
-  try { if (HV.cur && p.contains(HV.cur)) hvStop(); } catch (_) {}
-  if (cmxRM()) return p.remove(); p.classList.remove('on'); p.style.transform = p.dataset.t0; setTimeout(() => p.remove(), 200); }
-function cmxPopOpen(c){
-  if (!c.isConnected || CMX.src === c) return; cmxPopClose(); const r = c.getBoundingClientRect(); if (!r.width || r.bottom < 0 || r.top > innerHeight) return;
-  const top0 = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--stack-h')) || 0) + 8;
-  const k = Math.max(1.2, Math.min(1.85, (innerHeight - top0 - 16) / r.height, (innerWidth - 24) / r.width)), w = r.width * k, h = r.height * k;
-  const L = Math.max(12, Math.min(innerWidth - w - 12, r.left + r.width / 2 - w / 2)), T = Math.max(top0, Math.min(innerHeight - h - 10, r.top + r.height / 2 - h / 2));
-  const pop = document.createElement('div'); pop.className = 'pc-pop'; pop.setAttribute('aria-hidden', 'true');
-  pop.style.width = r.width + 'px'; pop.style.height = r.height + 'px'; pop.dataset.t0 = `translate(${r.left}px,${r.top}px) scale(1)`; pop.style.transform = pop.dataset.t0;
-  pop.innerHTML = c.outerHTML; const q = pop.firstElementChild; q.classList.remove('pc-popsrc'); q.querySelectorAll('.pc-flip.flipped').forEach(f => f.classList.remove('flipped'));
-  pop.dataset.id = c.dataset.plcard; document.body.appendChild(pop); CMX.pop = pop; CMX.src = c; c.classList.add('pc-popsrc');
-  const to = `translate(${L}px,${T}px) scale(${k.toFixed(3)})`;
-  if (cmxRM()) pop.style.transform = to; else requestAnimationFrame(() => requestAnimationFrame(() => { if (CMX.pop === pop) pop.style.transform = to; }));
-  pop.classList.add('on'); pop._box = { L, T, w, h };
-}
 function cmxCenter(){ const row = document.getElementById('pcRow'); if (!row || !row.offsetWidth) return; const R = row.getBoundingClientRect(), cx = R.left + R.width / 2; let best = null, bd = 1e9;
   row.querySelectorAll('.pc').forEach(c => { const r = c.getBoundingClientRect(), d = Math.abs(r.left + r.width / 2 - cx); if (d < bd) { bd = d; best = c; } });
-  row.querySelectorAll('.pc.pc-ctr').forEach(c => { if (c !== best) c.classList.remove('pc-ctr'); }); if (best && !cmxFine()) best.classList.add('pc-ctr'); }
-function cmxOpen(id){
-  const p = cmxPlayer(id); if (!p) return; cmxPopClose(); try { hvStop(); } catch (_) {}
-  let o = document.getElementById('cmxMax'); if (!o) { o = document.createElement('div'); o.id = 'cmxMax'; o.className = 'cmx'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true'); document.body.appendChild(o); }
-  const sp = psp(p), C = sp === 'nfl' && CMP.d ? CMP.d.nfl : null; let card = '';
-  try { card = ccCard(p, 'max', C, C ? cmpRank(C) : {}, 0); } catch (e) { console.warn('max card', e); return; }
-  o.setAttribute('aria-label', p.name + ' card'); o._from = document.activeElement; o.dataset.pid = p.id;
-  o.innerHTML = `<div class="cmx-box"><button type="button" class="cmx-x" data-cmx-x aria-label="Close ${esc(p.name)} card" title="Close (Esc)">✕</button>
-    <div class="cmx-card">${card}<div class="cmx-hint">Tap the card to flip for stats</div></div>
-    <section class="cmx-side" aria-label="Trade ideas"><h3>🔁 Trade ideas <small>${esc(p.name)}</small></h3><div class="cmx-ti" data-cmxti>${sp === 'nfl' ? '<div class="mu-ld">Checking every team\'s roster…</div>' : '<div class="mu-ld">Trade ideas use your ESPN NFL league.</div>'}</div>
-    <p class="cmx-foot">Suggestions only. Nothing is sent to ESPN.</p></section></div>`;
-  o.hidden = false; document.documentElement.classList.add('cmx-open'); cmxFit(o);
-  try { pgText(o); } catch (_) {}
-  const x = o.querySelector('.cmx-x'); if (x) x.focus({ preventScroll: true });
-  if (sp === 'nfl') cmxTrReady().then(D => { if (o.hidden || o.dataset.pid !== String(p.id)) return; const el = o.querySelector('[data-cmxti]'); if (el) el.innerHTML = cmxTradesHTML(D, p); });
-}
-function cmxFit(o){ const c = o.querySelector('.cmx-card > .cc'); if (!c) return; const mob = innerWidth < 760;
-  const z = mob ? Math.min((innerWidth - 40) / 260, (innerHeight * .62) / 364) : Math.min(1.45, (innerHeight - 90) / 364); c.style.setProperty('--z', Math.max(.8, z).toFixed(3)); }
-function cmxClose(){ const o = document.getElementById('cmxMax'); if (!o || o.hidden) return; o.hidden = true; o.innerHTML = ''; document.documentElement.classList.remove('cmx-open');
-  try { CC.flip.forEach(k => { if (/^max:/.test(k)) CC.flip.delete(k); }); } catch (_) {}
-  if (o._from && o._from.isConnected) try { o._from.focus({ preventScroll: true }); } catch (_) {} }
+  row.querySelectorAll('.pc.pc-ctr').forEach(c => { if (c !== best) c.classList.remove('pc-ctr'); }); if (best && !cmxFine()) best.classList.add('pc-ctr'); return best; }
+// Oct 19: touch screens - when the wheel stops on a card, that card plays its highlight in place (follows the hover-clip + sound settings)
+function cmxAutoClip(){ if (cmxFine() || typeof HV === 'undefined' || !HV.on || hvRM() || document.hidden) return; const best = cmxCenter(); if (!best) return;
+  const r = best.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight || HV.cur === best || HV.pend === best) return;
+  if (best.querySelector('.pc-flip.flipped')) return; try { hvStop(); hvPreview(best); } catch (_) {} }
 function cmxTrReady(){   // the Trade Lab league model (loads once, cached 15 min)
   const L = espnLinks.nfl; if (!L || L.source === 'paste' || !L.leagueId || !L.teamId) return Promise.resolve(null);
   const ok = () => TR.d && TR.d.lg === L.leagueId + ':' + L.teamId;
@@ -8043,44 +8006,6 @@ function cmxTrReady(){   // the Trade Lab league model (loads once, cached 15 mi
 }
 function cmxPP(q, D){ const t = D && D.teams.find(z => z.ps.some(x => x.id === q.id));
   return `<div class="cmx-pp"><img src="${esc(q.hs || '')}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><span><b>${esc(q.name)}</b><i>${esc([q.pos, q.team, q.v != null ? q.v + ' pts/g' : '', q.inj ? q.inj : ''].filter(Boolean).join(' · '))}</i></span></div>`; }
-function cmxIdeas(D, pid){
-  const avg = trPosAvg(D), me = D.teams.find(t => t.id === D.me); if (!me) return { none: 'Your team wasn\'t found in this league.' };
-  const owner = D.teams.find(t => t.ps.some(x => x.id === pid)), X = owner && owner.ps.find(x => x.id === pid);
-  if (!X) return { none: 'He isn\'t on a roster in your league (free agent), so there\'s no trade to make. Pick him up on waivers instead.' };
-  if (X.ir || X.base == null || X.dst || X.pos === 'K') return { none: X.ir ? 'He\'s on IR, so no trade model for him right now.' : 'Kickers and D/ST aren\'t traded in this model.' };
-  const ok = q => !q.ir && q.base != null && !q.dst && q.pos !== 'K';
-  const fair = r => { const a = r.vGive || 0, b = r.vGet || 0, mx = Math.max(a, b, 8); return Math.abs(a - b) / mx <= 0.45; };
-  const out = [], mineSide = owner.id === D.me, ops = mineSide ? D.teams.filter(t => t.id !== D.me) : [owner];
-  for (const op of ops) {
-    const theirs = op.ps.filter(ok), mine = me.ps.filter(ok);
-    const one = (give, get) => { const r = trEval(D, op.id, give, get); return r && r.dMe >= 0.5 && r.dOp >= 0.5 && fair(r) ? r : null; };
-    const singles = [];
-    if (mineSide) { for (const b of theirs) { const r = one([X], [b]); if (r) singles.push({ op, give: [X], get: [b], r }); } }
-    else { for (const a of mine) { const r = one([a], [X]); if (r) singles.push({ op, give: [a], get: [X], r }); } }
-    out.push(...singles);
-    // 2-player deals only when clearly good for both (each ≥ +3/wk) and better than every 1-for-1 inside it
-    const top = (ps, n) => ps.slice().sort((x, y) => (y.vorp || 0) - (x.vorp || 0)).slice(0, n), combos = [];
-    if (mineSide) { for (const m of top(mine.filter(q => q.id !== X.id), 5)) for (const b of top(theirs, 6)) combos.push([[X, m], [b]]); const tt = top(theirs, 6); for (let i = 0; i < tt.length; i++) for (let j = i + 1; j < tt.length; j++) combos.push([[X], [tt[i], tt[j]]]); }
-    else { for (const m of top(theirs.filter(q => q.id !== X.id), 5)) for (const a of top(mine, 6)) combos.push([[a], [X, m]]); const mm = top(mine, 6); for (let i = 0; i < mm.length; i++) for (let j = i + 1; j < mm.length; j++) combos.push([[mm[i], mm[j]], [X]]); }
-    for (const [g, t] of combos) { const r = trEval(D, op.id, g, t); if (!r || r.dMe < 3 || r.dOp < 3 || !fair(r)) continue;
-      let beat = true; for (const a of g) for (const b of t) { const q = trEval(D, op.id, [a], [b]); if (q && Math.min(q.dMe, q.dOp) >= Math.min(r.dMe, r.dOp) - 0.3) { beat = false; break; } } if (beat) out.push({ op, give: g, get: t, r, big: true }); }
-  }
-  out.forEach(x => { x.sc = Math.min(x.r.dMe, x.r.dOp) * 10 + x.r.dMe; try { x.fit = trFit(D, x.op.id, x.give, x.get, avg); } catch (_) { x.fit = []; } try { x.easy = trEasy(D, x.r, x.give, x.get, avg); } catch (_) { x.easy = ''; } });
-  out.sort((a, b) => b.sc - a.sc);
-  const seen = new Set(), res = []; for (const x of out) { const k = x.op.id; if (res.filter(y => y.op.id === k).length >= 2) continue; res.push(x); if (res.length >= 5) break; }
-  return { list: res, X, mineSide };
-}
-function cmxTradesHTML(D, p){
-  if (!D) return `<div class="mu-ld">${TR.err ? 'Couldn\'t load league rosters. Try again in a minute.' : 'Trade ideas need your ESPN NFL league (Settings → Fantasy).'}</div>`;
-  let I; try { I = cmxIdeas(D, String(peid(p))); } catch (e) { console.warn('trade ideas', e); return '<div class="mu-ld">Couldn\'t build trade ideas.</div>'; }
-  if (I.none) return `<div class="mu-ld te-none">${esc(I.none)}</div>`;
-  if (!I.list.length) return `<div class="mu-ld te-none">No trade involving ${esc(p.name)} helps both teams right now (each side needs +0.5 pts/wk and the values have to be close).</div>`;
-  const bar = (a, b) => `<div class="cmx-gain"><span class="${a > 0 ? 'up' : 'dn'}">You <b>${cmxSg(a)}</b>/wk</span><span class="${b > 0 ? 'up' : 'dn'}">Them <b>${cmxSg(b)}</b>/wk</span></div>`;
-  return I.list.map((x, i) => `<div class="te-card cmx-tc"><div class="te-with">#${i + 1} · with <b>${esc(x.op.name)}</b>${x.big ? ' <em class="tg ww">2-player</em>' : ''}</div>
-    <div class="te-sw"><div class="te-side"><h6>You give</h6>${x.give.map(q => cmxPP(q, D)).join('')}</div><div class="te-x" aria-hidden="true">⇄</div><div class="te-side"><h6>You get</h6>${x.get.map(q => cmxPP(q, D)).join('')}</div></div>
-    ${x.fit && x.fit.length ? `<div class="te-fit">${x.fit.map(([c, l]) => `<span class="${c}">${esc(l)}</span>`).join('')}</div>` : ''}${x.easy ? `<p class="te-why">${esc(x.easy)}</p>` : ''}${bar(x.r.dMe, x.r.dOp)}</div>`).join('')
-    + `<div class="te-cnt">Weekly gain = change in each team's best-lineup points per week, rest of season (ESPN projections, form, byes, injuries).</div>`;
-}
 function seDire(D, t, avg){
   const N = trNeedsX(D, t, avg), why = [], W4 = D.weeks.slice(0, 4); let sc = 0;
   for (const pos of ND_POS) { const x = N[pos]; if (!x) continue;
@@ -8321,7 +8246,7 @@ function foStats(A, B){
 }
 function foOpen(i){
   const Ea = MU.pm && MU.pm['a' + i], Eb = MU.pm && MU.pm['b' + i]; if (!Ea && !Eb) return;
-  try { mupClose(true); } catch (_) {} try { cmxPopClose(); } catch (_) {} try { hvStop(); } catch (_) {}
+  try { mupClose(true); } catch (_) {} try { hvStop(); } catch (_) {}
   FO.pm = {}; const A = foSide(Ea), B = foSide(Eb), slot = (Ea || Eb).slot, D = MU.d.nfl || {};
   let o = document.getElementById('foView'); if (!o) { o = document.createElement('div'); o.id = 'foView'; o.className = 'cmx fo'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true'); document.body.appendChild(o); }
   o._from = document.activeElement; FO.i = i; o.setAttribute('aria-label', `${slot} face-off`);
@@ -9089,27 +9014,11 @@ const mupFine = () => matchMedia('(hover:hover) and (pointer:fine)').matches;
 
 
 (() => {
-  document.addEventListener('pointerover', e => {
-    if (e.pointerType !== 'mouse' || !mupFine()) return;
-    const t = e.target.closest && e.target.closest('#fzMatch [data-mup], #muPop'); if (!t) return;
-    clearTimeout(MUP.tClose);
-    if (t.id === 'muPop') return;
-    const k = t.dataset.mup; if (MUP.key === k && MUP.mode === 'pop') return;
-    if (MUP.pinned) return;
-    clearTimeout(MUP.tOpen); MUP.tOpen = setTimeout(() => { MUP.from = null; mupOpen(k, 'pop', false); }, 250);
-  }, { passive: true });
-  document.addEventListener('pointerout', e => {
-    if (e.pointerType !== 'mouse') return;
-    const f = e.target.closest && e.target.closest('#fzMatch [data-mup], #muPop'); if (!f) return;
-    const to = e.relatedTarget; if (to && to.closest && (to.closest('#muPop') || to.closest('[data-mup]') === f || (f.id === 'muPop' && to.closest('[data-mup]') && to.closest('[data-mup]').dataset.mup === MUP.key))) return;
-    if (f.id !== 'muPop') clearTimeout(MUP.tOpen);
-    if (MUP.mode === 'pop' && !MUP.pinned && MUP.key) { clearTimeout(MUP.tClose); MUP.tClose = setTimeout(() => { const o = document.getElementById('muPop'); if (o && o.matches(':hover')) return; mupClose(); }, 320); }   // grace delay to travel onto the popover
-  }, { passive: true });
+  // Oct 19: hover no longer opens the matchup card/stats; it opens on click or tap only (✕, Esc, click outside or Back closes it)
   document.addEventListener('click', e => {
     const s = e.target.closest && e.target.closest('#fzMatch [data-mup]');
     if (s) { e.preventDefault(); const k = s.dataset.mup;
       if (MUP.key === k && (MUP.pinned || MUP.mode === 'sheet')) return mupClose(true);   // click again = unpin + close
-      if (MUP.key === k && MUP.mode === 'pop') { MUP.from = s; return mupPin(true); }   // hover popover already open: click pins it
       MUP.from = s; mupOpen(k, mupFine() ? 'pop' : 'sheet', true); return; }
     if (MUP.key && !(e.target.closest && e.target.closest('#muPop'))) mupClose();
   });
@@ -9740,7 +9649,7 @@ const pcTab = () => state.tab === FANTASY_TAB ? 'fantasy' : 'mynews';
     const a = e.target.closest('.pc-arr'); if (a) { row.scrollBy({ left: Number(a.dataset.dir) * Math.max(160, row.clientWidth * .8), behavior: 'smooth' }); return; }
     if (e.target.closest('[data-cmcard]')) return;   // handled by the document click handler
     const f = e.target.closest('[data-pcflip]');
-    if (f && (noHover.matches || e.detail === 0)) pcFlip(f);   // touch: tap flips (tap again flips back); desktop flips on hover
+    if (f && !e.target.closest('a,button,.hv-snd')) pcFlip(f);   // Oct 19: click/tap flips to the stats back, again flips back
   });
   wrap.addEventListener('keydown', e => { if (e.target.closest && e.target.closest('[data-cmcard]')) return; const f = e.target.closest && e.target.closest('[data-pcflip]'); if (f && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); pcFlip(f); } });
   row.addEventListener('scroll', pcArrows, { passive: true });
@@ -10249,7 +10158,7 @@ setTimeout(() => sxCoach(), 7000);
 var OVL = { st: [], skip: 0, q: false, from: {} };
 
 var OVL_DEF = [
-  { id: 'mup', vis: () => { const o = document.getElementById('muPop'); return !!(o && !o.hidden && o.classList.contains('sheet') && o.firstElementChild); }, close: () => mupClose(true) },
+  { id: 'mup', vis: () => { const o = document.getElementById('muPop'); return !!(o && !o.hidden && o.firstElementChild); }, close: () => mupClose(true) },
   { id: 'ccbig', vis: () => { const o = document.getElementById('ccBig'); return !!(o && !o.hidden && o.firstElementChild); }, close: () => ccBigClose() },
   { id: 'sx', vis: () => !!document.querySelector('body > .sx-ov'), close: () => sxClose() },
   { id: 'favs', vis: () => ovlShown('favsModal'), close: () => closeFavs() },
@@ -10302,7 +10211,7 @@ document.addEventListener('click', e => { const t = e.target; if (!t || !t.close
   if (t.closest('#hlMini .hl-x')) { e.preventDefault(); e.stopPropagation(); const b = hlStop(); if (b && b.isConnected) b.focus({ preventScroll: true }); return; }
   if (t.closest('#hlMini')) { e.stopPropagation(); return; }   // clicks in the player never flip a card / close a popover
   const b = t.closest('.hl-btn'); if (b) { e.preventDefault(); e.stopPropagation(); const card = !b.classList.contains('hl-bk') && b.closest(HV_SEL); if (card) hvBtn(b, card); else hlPlay(b); return; }
-  if (HV.cur && HV.cur._hvTouch && HV.cur.contains(t) && t.closest('.hv-wrap, .cc-art, .pc-front, .ft-slots') && !t.closest('a,button')) { e.preventDefault(); e.stopPropagation(); hvStop(true); } }, true);   // tap the playing clip = stop (no flip)
+  if (HV.cur && HV.cur._hvTouch && HV.cur.contains(t) && !t.closest('#pcRow') && t.closest('.hv-wrap, .cc-art, .pc-front, .ft-slots') && !t.closest('a,button')) { e.preventDefault(); e.stopPropagation(); hvStop(true); } }, true);   // tap the playing clip = stop (no flip)
 
 ['pointerdown', 'mousedown', 'touchstart'].forEach(n => document.addEventListener(n, e => { if (e.target && e.target.closest && e.target.closest('.hl-btn,#hlMini')) e.stopPropagation(); }, { capture: true, passive: true }));
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && HL.el && (document.activeElement && document.activeElement.closest && document.activeElement.closest('#hlMini'))) { e.preventDefault(); e.stopPropagation(); const b = hlStop(); if (b && b.isConnected) b.focus({ preventScroll: true }); } }, true);
@@ -10400,52 +10309,18 @@ var PG_RO = null, PG_SEEN = new WeakSet();
 
 
 
-/* ===================== Oct 18e: card pop-out + maximized card with 🔁 Trade ideas + 😈 Screw 'em =====================
-   Desktop: hovering a card in the Fantasy cards row pops a ~1.8× copy above the row (fixed overlay, no layout shift);
-   it stays while hovered, tilts with the mouse, click = maximized card. Mobile: the card snapped to the centre grows; tap = maximized.
+/* ===================== Oct 18e / Oct 19: Fantasy card wheel =====================
+   Hover (desktop) or stopping the wheel on a card (touch) plays its highlight in the card; click/tap flips it to the stats back.
    Trade ideas + Screw 'em use the Trade Lab model (real ESPN rosters, projections, byes, injuries). Suggestions only: nothing is sent to ESPN. */
-var CMX = { pop: null, src: null, t: 0, raf: 0 };
+var CMX = { cr: 0, st: 0 };
 const cmxFine = () => matchMedia('(hover:hover) and (pointer:fine)').matches;
-const cmxRM = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-
-
-document.addEventListener('mouseover', e => { if (!cmxFine()) return; const c = e.target.closest && e.target.closest('#pcRow .pc'); if (!c || c === CMX.src) return;
-  clearTimeout(CMX.t); CMX.t = setTimeout(() => cmxPopOpen(c), 230); });
-document.addEventListener('mouseout', e => { const c = e.target.closest && e.target.closest('#pcRow .pc'); if (c && c !== CMX.src && !(e.relatedTarget && c.contains(e.relatedTarget))) clearTimeout(CMX.t); });
-document.addEventListener('mousemove', e => { const p = CMX.pop; if (!p) return; const b = p._box, inPop = b && e.clientX >= b.L && e.clientX <= b.L + b.w && e.clientY >= b.T && e.clientY <= b.T + b.h;
-  const s = CMX.src && CMX.src.getBoundingClientRect(), inSrc = s && e.clientX >= s.left && e.clientX <= s.right && e.clientY >= s.top && e.clientY <= s.bottom;
-  if (!inPop && !inSrc) return cmxPopClose();
-  if (inPop && !cmxRM()) { const f = p.querySelector('.pc-flip'), px = (e.clientX - b.L) / b.w, py = (e.clientY - b.T) / b.h; cancelAnimationFrame(CMX.raf);   // 3D tilt following the mouse
-    CMX.raf = requestAnimationFrame(() => { if (!f) return; f.style.transform = `rotateY(${((px - .5) * 18).toFixed(1)}deg) rotateX(${((.5 - py) * 14).toFixed(1)}deg)`; p.style.setProperty('--mx', (px * 100).toFixed(0) + '%'); p.style.setProperty('--my', (py * 100).toFixed(0) + '%'); }); } }, { passive: true });
-window.addEventListener('scroll', e => { const t = e.target; if (CMX.pop && (t === document || t === document.documentElement || t === document.body || (t && t.contains && CMX.src && t.contains(CMX.src)))) cmxPopClose(); }, { capture: true, passive: true });   // only page / own-row scrolls (tickers drift constantly)
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && CMX.pop) cmxPopClose(); });
-window.addEventListener('click', e => {   // capture on window: runs before the card's own flip handlers
-  const t = e.target; if (!t.closest) return;
-  const pop = t.closest('.pc-pop');
-  if (pop) { if (t.closest('.hl-btn,.sx-b,a')) { if (t.closest('a')) return; const tb = t.closest('.hl-btn,.sx-b'); if (tb && CMX.src) { e.preventDefault(); e.stopPropagation(); const src = CMX.src.querySelector(tb.classList.contains('sx-b') ? '.sx-b' : '.hl-btn'); cmxPopClose(); if (src) src.click(); } return; }
-    e.preventDefault(); e.stopPropagation(); const id = pop.dataset.id; cmxPopClose(); cmxOpen(id); return; }
-  const c = t.closest('#pcRow .pc'); if (!c || t.closest('.hl-btn,.sx-b,a,.hx-x,.hv-snd')) return;
-  if (cmxFine()) { e.preventDefault(); e.stopPropagation(); cmxPopClose(); cmxOpen(c.dataset.plcard); return; }
-  e.preventDefault(); e.stopPropagation();
-  if (c.classList.contains('pc-ctr')) cmxOpen(c.dataset.plcard); else c.scrollIntoView({ inline: 'center', block: 'nearest', behavior: cmxRM() ? 'auto' : 'smooth' });
-}, true);
-// mobile: the card snapped to the centre of the row grows
+// touch: the card the wheel stops on plays its clip
 
 
 </script>
 <script>
-document.addEventListener('scroll', e => { if (e.target && e.target.id === 'pcRow') { cancelAnimationFrame(CMX.cr); CMX.cr = requestAnimationFrame(cmxCenter); } }, { capture: true, passive: true });
+document.addEventListener('scroll', e => { if (e.target && e.target.id === 'pcRow') { cancelAnimationFrame(CMX.cr); CMX.cr = requestAnimationFrame(cmxCenter); clearTimeout(CMX.st); CMX.st = setTimeout(cmxAutoClip, 450); } }, { capture: true, passive: true });
 (() => { const row = document.getElementById('pcRow'); if (row && window.MutationObserver) new MutationObserver(() => requestAnimationFrame(cmxCenter)).observe(row, { childList: true }); })();
-// ---------- maximized card ----------
-
-
-
-document.addEventListener('click', e => { const o = document.getElementById('cmxMax'); if (!o || o.hidden) return;
-  if (e.target === o || (e.target.closest && e.target.closest('[data-cmx-x]'))) { e.preventDefault(); e.stopPropagation(); cmxClose(); } }, true);
-document.addEventListener('keydown', e => { const o = document.getElementById('cmxMax'); if (e.key === 'Escape' && o && !o.hidden) { e.preventDefault(); e.stopPropagation(); cmxClose(); } }, true);
-addEventListener('resize', () => { const o = document.getElementById('cmxMax'); if (o && !o.hidden) cmxFit(o); });
-
 const cmxSg = v => (v > 0 ? '+' : '') + r1(v);
 
 
@@ -10574,7 +10449,6 @@ setInterval(() => { const o = document.getElementById('foView'); if (!o || o.hid
   el.innerHTML = foStats(mk(Ea), mk(Eb)); }, 20000);
 // back button closes the overlay views too (shared OVL history stack)
 try { OVL_DEF.push({ id: 'fo', vis: () => { const o = document.getElementById('foView'); return !!(o && !o.hidden); }, close: () => foClose() },
-  { id: 'cmx', vis: () => { const o = document.getElementById('cmxMax'); return !!(o && !o.hidden); }, close: () => cmxClose() },
   { id: 'slv', vis: () => { const o = document.getElementById('slView'); return !!(o && !o.hidden); }, close: () => slClose() }); } catch (_) {}
 
 /* ===== Oct 19: new-build check. Fetches this page with cache:'no-store' and compares BUILD_ID; a different id shows a chip, never auto-reloads. ===== */
