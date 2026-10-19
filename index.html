@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261019-0055-hardening">
+<meta name="build-id" content="20261019-0805-fantasy-fix">
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261019-0055-hardening';
+var BUILD_ID = '20261019-0805-fantasy-fix';
 (function(){
   var shown = {};
   function chip(id, html, onTap){
@@ -22,9 +22,16 @@ var BUILD_ID = '20261019-0055-hardening';
     document.body ? put() : document.addEventListener('DOMContentLoaded', put);
   }
   window.sysChip = chip;
+  /* Oct 19 (fantasy fix): the chip carries a tiny hint (the function that threw, e.g. "pgSlotKey") so a screenshot is enough to find the bug. */
+  function hint(where, err){
+    var st = String((err && err.stack) || ''), m = st.match(/\n?\s*at (?:new )?([A-Za-z_$][\w$.]*) \(/) || st.match(/^([A-Za-z_$][\w$.]*)@/m);
+    var h = (m && m[1]) || (where && where !== 'script' ? where : '') || (err && err.name) || '';
+    return String(h).replace(/[^\w$.:-]/g, '').slice(0, 28);
+  }
   window.sysFail = function(where, err){
     try { console.error('[dashboard] ' + where + ' failed:', err && err.message ? err.message : err, err && err.stack ? '\n' + err.stack : ''); } catch (_) {}
-    chip('err', 'Something failed to load · <b>Reload</b>', function(){ location.reload(); });
+    var h = hint(where, err);
+    chip('err', 'Something failed to load · <b>Reload</b>' + (h ? '<small class="sys-hint">' + h + '</small>' : ''), function(){ location.reload(); });
   };
   window.addEventListener('error', function(e){
     if (!e || !e.error) return;                                   // resource / cross-origin noise ("Script error.") is not ours
@@ -2771,6 +2778,7 @@ html:not(.tk-bottom) .sys-chip{bottom:12px}
 .sys-chip .sys-go b{color:#ff8a3d}.sys-chip .sys-go:hover{background:#1d2538}
 .sys-chip .sys-x{width:26px;height:26px;border-radius:50%;border:0;background:#222b40;color:#aab4c8;cursor:pointer;font-size:12px}
 #sysChip-err{border-color:#ff6b6b}
+.sys-chip .sys-hint{display:block;font:500 9.5px ui-monospace,Menlo,monospace;color:#7d879c;margin-top:1px;text-align:left;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -2932,7 +2940,7 @@ html:not(.tk-bottom) .sys-chip{bottom:12px}
    Brightness is measured from a separate CORS fetch (ESPN's CDN doesn't always send CORS headers, so the <img> itself stays plain). */
 (function(){
   const RE = /(\/teamlogos\/[a-z0-9-]+\/500)\//i, KEY = 'mannLogoDark.v1';
-  let DK = {}; try { DK = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
+  let DK = {}; try { DK = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {} if (!DK || typeof DK !== 'object' || Array.isArray(DK)) DK = {};
   const busy = new Set(); let saveT = 0; const MQ = []; let mIn = 0; let cdnNoCors = false;   // CDN dropped CORS once: stop probing this session (avoids a console error per logo)
   for (const k of Object.keys(DK)) if (k.indexOf('/combiner/') < 0) delete DK[k];   // drop entries keyed by old full-size URLs
   const save = () => { clearTimeout(saveT); saveT = setTimeout(() => { try { const ks = Object.keys(DK); if (ks.length > 600) ks.slice(0, ks.length - 600).forEach(k => delete DK[k]); localStorage.setItem(KEY, JSON.stringify(DK)); } catch (e) {} }, 1500); };
@@ -2967,7 +2975,13 @@ html:not(.tk-bottom) .sys-chip{bottom:12px}
 </script>
 <script>
 /* Oct 19 hardening: all top-level functions first, then each feature block runs as its own <script>, so one failing block can't stop the rest. */
-function lsGet(k, d){ try { const v = JSON.parse(localStorage.getItem(k)); return v ?? d; } catch(e){ return d; } }
+function lsGet(k, d){ try { const v = JSON.parse(localStorage.getItem(k));
+    if (v == null) return d;
+    // Oct 19: a saved value of the wrong shape (left by an older build, or damaged) falls back to the default instead of crashing a render
+    if (Array.isArray(d) && !Array.isArray(v)) return d;
+    if (d && typeof d === 'object' && !Array.isArray(d) && (typeof v !== 'object' || Array.isArray(v))) return d;
+    return v; } catch(e){ return d; } }
+function lsObjs(a){ return (Array.isArray(a) ? a : []).filter(x => x && typeof x === 'object' && !Array.isArray(x)); }   // array of plain objects only
 function lsSet(k, v){
   let s; try { s = JSON.stringify(v); } catch (e) { return; }
   if (!s || s.length > 1.5e6) return;                         // never let one cache entry eat the ~5 MB quota
@@ -2994,14 +3008,14 @@ function applySelection(sel){
 function loadPlayerLists(){
   let fav = lsGet(FAVP_KEY, null), ros = lsGet(ROSTER_KEY, null);
   if (!Array.isArray(fav) && !Array.isArray(ros)) {          // one-time migration from the single v1 list
-    const old = lsGet(PLAYERS_KEY, []) || [];
+    const old = lsObjs(lsGet(PLAYERS_KEY, []));
     fav = old.filter(p => !p.fteam).map(pBase);               // everything he starred stays a favorite
     ros = old.filter(p => p.fteam).map(p => ({ ...pBase(p), slot: p.slot || '', fteam: p.fteam }));   // ESPN imports become the roster
     lsSet(FAVP_KEY, fav); lsSet(ROSTER_KEY, ros);
   }
-  const by = new Map();
-  for (const p of fav || []) by.set(String(p.id), { ...pBase(p), fav: true });
-  for (const r of ros || []) { const ex = by.get(String(r.id)), ro = { slot: r.slot || '', sid: r.sid, fteam: r.fteam, pts: r.pts };
+  const by = new Map(), ok = a => lsObjs(a).filter(p => p.id != null && typeof p.name === 'string');   // skip damaged entries
+  for (const p of ok(fav)) by.set(String(p.id), { ...pBase(p), fav: true });
+  for (const r of ok(ros)) { const ex = by.get(String(r.id)), ro = { slot: r.slot || '', sid: r.sid, fteam: r.fteam, pts: r.pts };
     if (ex) ex.roster = ro; else by.set(String(r.id), { ...pBase(r), fav: false, roster: ro }); }
   return [...by.values()];
 }
@@ -3020,7 +3034,7 @@ function slotGroup(p){                                       // 's' starter · '
 }
 function loadStars(){
   const s = lsGet(LS_KEY, null);
-  if (Array.isArray(s)) return new Set(s);
+  if (Array.isArray(s)) return new Set(s.filter(k => typeof k === 'string' && k.includes(':')));
   return new Set(CONFIG.favorites.map(f => f.league + ':' + f.abbr.toUpperCase()));
 }
 function saveStars(){ lsSet(LS_KEY, [...stars]); saveTeamIds(); }
@@ -7169,6 +7183,10 @@ function saveSports(ids){
   closeSports(); renderAll(); refresh();
 }
 function renderAll(){ renderTicker(); renderFavorites(); renderTabs(); renderGames(); renderNews(); renderHeaderLogos(); }
+function renderAllSafe(where){   // same as renderAll, but each section is isolated: a bad section shows the error chip (with its name) and the rest still render
+  for (const f of [renderTicker, renderFavorites, renderTabs, renderGames, renderNews, renderHeaderLogos]) {
+    try { f(); } catch (e) { if (typeof sysFail === 'function') sysFail(f.name, e); else console.error(e); } }
+}
 async function refresh(force){
   if (refreshing) return; refreshing = true; lastFull = Date.now();
   autoSyncRosters();                      // no-op unless slots are missing, a day passed, or the scoring period changed
@@ -7182,7 +7200,7 @@ async function refresh(force){
   await Promise.all(jobs);
   await loadPlayerBoxes().catch(e => console.error(e));
   saveTeamIds();
-  try { renderAll(); } catch (e) { console.error(e); }
+  renderAllSafe('refresh');
   resolveFavMeta().catch(() => {});
   loadFavSchedules().catch(() => {});
   const errs = Object.keys(state.errors).filter(lg => LEAGUES[lg]).length;
@@ -8428,7 +8446,7 @@ let stars = loadStars();
 const TEAMIDS_KEY = 'mannTeamIds.v1';
 const MN = { tnOpen: new Set(), listOpen: new Set(), teamInfo: {}, teamNews: {}, teamErr: {}, teamIds: lsGet(TEAMIDS_KEY, {}), fs: {}, fsTab: lsGet('mannFantasyTab.v1', 'nfl') || 'nfl' };
 // per-fantasy-sport state: news, RotoWire notes, Sleeper trending (NFL), injuries
-const fsS = sp => MN.fs[sp] ||= { ff: null, ffErr: false, ffT: 0, filter: 'all', roto: lsGet('mannRoto.v1.' + sp, []).map(r => ({ ...r, date: r.date ? new Date(r.date) : null })), trending: null, inj: null, injAll: null, injT: 0, src: {} };
+const fsS = sp => MN.fs[sp] ||= { ff: null, ffErr: false, ffT: 0, filter: 'all', roto: lsObjs(lsGet('mannRoto.v1.' + sp, [])).filter(r => typeof r.title === 'string').map(r => ({ ...r, date: r.date ? new Date(r.date) : null })), trending: null, inj: null, injAll: null, injT: 0, src: {} };
 const TICKER_NEWS_KEY = 'mannTickerNews';
 let tickerNews = (localStorage.getItem(TICKER_NEWS_KEY) ?? String(CONFIG.tickerHeadlines)) === 'true';
 const PLAYERS_KEY = 'mannFantasyPlayers.v1', PSTATUS_KEY = 'mannPlayerStatus.v1', PEVENTS_KEY = 'mannPlayerEvents.v1';
@@ -8467,7 +8485,7 @@ const P_BASE = ['id', 'eid', 'sp', 'name', 'short', 'pos', 'team', 'teamName', '
 const pBase = p => Object.fromEntries(P_BASE.filter(k => p[k] !== undefined && p[k] !== '').map(k => [k, p[k]]));
 
 let players = loadPlayerLists();
-let fantasySel = (lsGet(FANTASY_KEY, null) || (OB_NEW ? [] : ['nfl'])).filter(k => FSPORTS[k]);   // empty = no fantasy (Fantasy tab hidden)
+let fantasySel = (v => Array.isArray(v) ? v : (OB_NEW ? [] : ['nfl']))(lsGet(FANTASY_KEY, null)).filter(k => FSPORTS[k]);   // empty = no fantasy (Fantasy tab hidden)
 const psp = p => (p && p.sp) || 'nfl', peid = p => String((p && p.eid) || p.id);
 // ESPN fantasy D/ST player ids are negative: -(16000 + NFL proTeamId). Stored as eid on import; derived for older saves.
 
@@ -8503,7 +8521,7 @@ const SLOTS = {
 
 const slotRank = p => { const S = SLOTS[psp(p)], r = p.roster || {}; const i = S ? S.order.indexOf(r.sid) : -1; return i < 0 ? 99 : i; };
 const isStarter = p => !!p.roster && fantasySel.includes(psp(p)) && slotGroup(p) === 's';
-const PL = { open: new Set(), ov: {}, err: {}, box: {}, search: { q: '', items: null, err: null, loading: false }, events: lsGet(PEVENTS_KEY, []) };
+const PL = { open: new Set(), ov: {}, err: {}, box: {}, search: { q: '', items: null, err: null, loading: false }, events: lsObjs(lsGet(PEVENTS_KEY, [])) };
 
 
 
@@ -9972,15 +9990,22 @@ document.getElementById('tickerNewsBtn').addEventListener('click', () => {
   tickerNews = !tickerNews; try { localStorage.setItem(TICKER_NEWS_KEY, String(tickerNews)); } catch(_){}
   updateTickerNewsBtn(); renderTicker();
 });
-updateTickerNewsBtn();
-if (!LEAGUES[state.tab] && state.tab !== 'mynews' && !(isFzTab() && fantasyTabOn())) state.tab = 'mynews';
-renderAll();
-refresh();
-// check every minute; a refresh only runs when a live/starting-soon sport is due (60 s) or the general 5-minute refresh is due
-setInterval(() => { const now = Date.now(), lgs = [...Object.keys(LEAGUES), ...fantasyLeagues()];
-  if (document.hidden) return;
-  if (now - lastFull >= CONFIG.generalRefreshMinutes * 60e3 - 10e3 || lgs.some(lg => (hasLive(lg) || startsSoon(lg, now)) && leagueDue(lg, now))) refresh(); }, CONFIG.refreshSeconds * 1000);
-document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now() - lastFull > 45e3) refresh(); });
+/* Oct 19 fix: the first render + data load used to run right here, before the later script blocks had defined their globals
+   (PG_ORDER for the Fantasy cards view, and others). Starting on the Fantasy tab in Cards view threw "PG_ORDER is not defined",
+   which stopped this block before refresh() ran: no scores, empty Fantasy tab, error chip. Boot now runs from the last script
+   block (bootDashboard), and each render section is isolated so one failure can't stop the data load. */
+function bootDashboard(){
+  if (bootDashboard.done) return; bootDashboard.done = true;
+  try { updateTickerNewsBtn(); } catch (e) { sysFail('updateTickerNewsBtn', e); }
+  if (!LEAGUES[state.tab] && state.tab !== 'mynews' && !(isFzTab() && fantasyTabOn())) state.tab = 'mynews';
+  renderAllSafe('boot');
+  refresh();
+  // check every minute; a refresh only runs when a live/starting-soon sport is due (60 s) or the general 5-minute refresh is due
+  setInterval(() => { const now = Date.now(), lgs = [...Object.keys(LEAGUES), ...fantasyLeagues()];
+    if (document.hidden) return;
+    if (now - lastFull >= CONFIG.generalRefreshMinutes * 60e3 - 10e3 || lgs.some(lg => (hasLive(lg) || startsSoon(lg, now)) && leagueDue(lg, now))) refresh(); }, CONFIG.refreshSeconds * 1000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now() - lastFull > 45e3) refresh(); });
+}
 /* ---------------- onboarding wizard (first visit, or Settings → Run setup again) ---------------- */
 const OB_POP = ['nfl', 'cfb', 'nba', 'mlb', 'nhl', 'mcbb', 'mls', 'epl', 'f1', 'pga', 'ufc'];
 const OB_EMO = { Football: '🏈', Basketball: '🏀', 'Baseball & Softball': '⚾', Hockey: '🏒', Soccer: '⚽', Golf: '⛳', Racing: '🏎️', Tennis: '🎾', Combat: '🥊', Lacrosse: '🥍', More: '🏐' };
@@ -10515,6 +10540,10 @@ try { OVL_DEF.push({ id: 'fo', vis: () => { const o = document.getElementById('f
   setTimeout(check, 5000); document.addEventListener('visibilitychange', () => { if (!document.hidden) check(); });
 })();
 
+</script>
+<script>
+/* Oct 19: boot last, after every script block above has defined its globals (see bootDashboard). */
+try { bootDashboard(); } catch (e) { sysFail('boot', e); }
 </script>
 </body>
 </html>
