@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261019-1545-bench-label">
+<meta name="build-id" content="20261019-1615-spin-screwem">
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261019-1545-bench-label';
+var BUILD_ID = '20261019-1615-spin-screwem';
 (function(){
   var shown = {};
   function chip(id, html, onTap){
@@ -2009,8 +2009,6 @@ var LVP = {}, LVROW = {}, LVF = new Set();   // live-card state declared up fron
   .sx-stage{perspective:900px;display:flex;flex-direction:column;align-items:center;gap:8px;position:relative}
   .sx-coin{position:relative;width:240px;height:240px;transform-style:preserve-3d;animation:sxSpin 5.5s linear infinite;cursor:pointer}
   @keyframes sxSpin{from{transform:rotateY(0)}to{transform:rotateY(360deg)}}
-  .sx-stage:hover .sx-coin,.sx-stage.hold .sx-coin{animation-play-state:paused}
-  .sx-stage.front .sx-coin{animation:none;transform:rotateY(0);transition:transform .5s}.sx-stage.back .sx-coin{animation:none;transform:rotateY(180deg);transition:transform .5s}
   .sx-face{position:absolute;inset:0;border-radius:50%;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;
     background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--c1,#3a4766) 75%,#fff),var(--c1,#3a4766) 45%,var(--c2,#121a2c));box-shadow:0 0 0 6px #d8b45a,0 0 0 9px #7a5a14,0 18px 40px rgba(0,0,0,.6),inset 0 0 30px rgba(0,0,0,.5)}
   .sx-face::after{content:"";position:absolute;inset:0;border-radius:50%;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.55) 45%,rgba(255,255,255,.1) 52%,transparent 60%);background-size:250% 100%;animation:sxSheen 2.8s linear infinite;mix-blend-mode:screen;pointer-events:none}
@@ -2637,6 +2635,28 @@ html.cmx-open{overflow:hidden}
 .se-meter{flex:1;min-width:120px;height:8px;border-radius:99px;background:#2a3552;overflow:hidden}.se-meter i{display:block;height:100%;background:linear-gradient(90deg,#ffd34d,#ff5a2e,#f107a3)}
 .se h4{margin:14px 0 6px;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#cdb8ff}
 .se-why{margin:0;padding-left:18px;font-size:13.5px;line-height:1.5}
+/* Oct 19: Spin-it readability + Screw 'em v2 */
+.sx-pnl.sx-stats{opacity:1;transform:none;color:#eef2fb}
+.sx-stats h4{color:#c9d4ea;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;margin:0 0 8px}
+.sx-kv b,.sx-parts b{color:#fff}.sx-kv i{color:#b4c0d8;font-size:10.5px;letter-spacing:.4px}
+.sx-tbl{color:#eef2fb}.sx-tbl th{color:#b4c0d8}.sx-tbl td{color:#eef2fb}
+.sx-stats .sx-note,.sx-stats .sx-nx,.sx-stats [class*="sx-next"]{color:#dfe6f4;opacity:1}
+.sx-parts div{display:flex;flex-direction:column;gap:1px}
+.sx-parts .sx-pk{font-size:11px;font-weight:800;color:#dfe6f4;letter-spacing:.3px;line-height:1.25}
+.sx-parts .sx-pw{font-size:10.5px;color:#b4c0d8;letter-spacing:.3px}
+.sx-parts .sx-pr{font-size:10.5px;color:#b4c0d8}
+.sx-body>.se-go,.se .se-hd{width:calc(100% - 46px)}
+.sx-srch{margin:0 0 12px}.sx-srch input{width:100%;box-sizing:border-box;margin:0}
+.sx-res{box-sizing:border-box}
+.se-srch{margin-top:4px}
+.se-pk{margin:-6px 0 12px}.se-pk small{color:#b4c0d8}
+.se-pick{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:8px 12px;border-radius:10px;background:#1b1436;border:1px solid #5b3fa0;margin-bottom:10px;font-size:13.5px}
+.se-pick[hidden],.se-pk[hidden]{display:none!important}.se-pick small{color:#b4c0d8}.se-pick button{border:1px solid #5b3fa0;background:#2a1d52;color:#fff;border-radius:999px;padding:3px 10px;cursor:pointer;font-size:12px}
+.se-deal{background:#121a2c;border:1px solid #2a3552;border-radius:14px;padding:12px;margin:0 0 12px}
+.se-deal .se-why{margin:8px 0 4px}
+.se-rk{font:900 18px system-ui;color:#ffd34d;min-width:30px}
+.se-note{margin:6px 0 0;font-size:12.5px;color:#ffd9a0}
+@media (max-width:700px){.se-deal .te-sw{flex-direction:column}.se-deal .te-x{transform:rotate(90deg)}}
 @media (prefers-reduced-motion:reduce){.se-go::before,.se-go .ic{animation:none}}
 
 /* ===== Oct 18f: team spin tiers ===== */
@@ -5713,21 +5733,28 @@ function wlInput(inp){
   WL.loading = true; wlRenderResults();
   WL.timer = setTimeout(async () => {
     let items = [], err = '';
-    try { items = (await searchPlayers(WL.q)).filter(r => r.active !== false && FS_ORDER.includes(r.sp)).sort((a, b) => (b.sp === WL.sp) - (a.sp === WL.sp)).slice(0, 10); } catch (e) { err = 'Player search is unavailable right now.'; }
+    const dst = wlDstMatches(WL.q);
+    try { items = (await searchPlayers(WL.q)).filter(r => r.active !== false && FS_ORDER.includes(r.sp)).sort((a, b) => (b.sp === WL.sp) - (a.sp === WL.sp)).slice(0, 10); } catch (e) { if (!dst.length) err = 'Player search is unavailable right now.'; }
+    items = (WL.sp === 'nfl' || /d\/?st|defen/i.test(WL.q) ? dst : []).concat(items.filter(r => !dst.some(d => d.id === r.id))).slice(0, 12);
     if (seq !== WL.seq) return;
     WL.items = items; WL.err = err; WL.loading = false; wlRenderResults();
   }, 250);
 }
+// Oct 19: NFL defenses (D/ST) can be watched too. Real ESPN teams; the face is the team logo; id/eid match ESPN fantasy D/ST ids so real D/ST fantasy data attaches.
+function wlDstMatches(q){ q = String(q || '').trim().toLowerCase(); if (q.length < 2) return [];
+  const all = /^(d\/?st|dst|defen[cs]es?|def)$/.test(q), qq = q.replace(/\bd\/?st\b|\bdst\b|\bdefen[cs]es?\b|\bdef\b/g, '').trim();
+  return (TL.nfl || []).filter(t => t.abbr && t.id && (all || (qq.length >= 2 && [t.name, t.short, t.loc, t.nick, t.abbr].filter(Boolean).some(x => String(x).toLowerCase().includes(qq)))))
+    .slice(0, all ? 32 : 4).map(t => ({ id: 'dst-' + t.abbr, eid: String(-(16000 + Number(t.id))), sp: 'nfl', name: (t.nick || t.short || t.name) + ' D/ST', short: t.abbr + ' D/ST', pos: 'D/ST', team: t.abbr, teamName: t.name, teamLogo: t.logo, headshot: t.logo, link: `https://www.espn.com/nfl/team/_/name/${String(t.abbr).toLowerCase()}`, dst: true })); }
 function toggleWatch(r){
   const sp = r.sp || MN.fsTab || 'nfl', F = FSPORTS[sp], L = watchList(sp), id = String(r.id), i = L.findIndex(p => p.id === id);
   if (i >= 0) { L.splice(i, 1); saveWatch(); toast(`Removed ${r.name} from your ${F.label} Fantasy Lab watch list`); }
   else {
-    const p = { ...pBase({ id, eid: r.eid || r.id, sp, name: r.name, short: r.short || r.name, pos: r.pos, team: r.team, teamName: r.teamName, teamLogo: r.teamLogo, headshot: r.headshot, link: r.link }), watch: true };
+    const p = { ...pBase({ id, eid: r.eid || r.id, sp, name: r.name, short: r.short || r.name, pos: r.pos, team: r.team, teamName: r.teamName, teamLogo: r.teamLogo, headshot: r.headshot, link: r.link, dst: r.dst || undefined }), watch: true };
     L.unshift(p); saveWatch(); toast(`👁 Watching ${r.name} (${F.label} Fantasy Lab watch list)`);
     if (FS_ORDER.includes(sp) && !fantasySel.includes(sp)) { try { setFantasySports([...fantasySel, sp], true); toast(`👁 Watching ${r.name} · ${F.label} fantasy turned on so his Fantasy Lab watch list shows`); } catch (_) {} }
     const lg = F.lg;
-    Promise.all([PL.ov[id] ? null : loadPlayerOverview(p).then(() => { delete PL.err[id]; }).catch(e => { PL.err[id] = { msg: errMsg(e), t: Date.now() }; }),
-                 pxStale(p) ? loadPlayerExtra(p).catch(() => {}) : null,
+    Promise.all([PL.ov[id] || p.dst ? null : loadPlayerOverview(p).then(() => { delete PL.err[id]; }).catch(e => { PL.err[id] = { msg: errMsg(e), t: Date.now() }; }),
+                 !p.dst && pxStale(p) ? loadPlayerExtra(p).catch(() => {}) : null,
                  state.fetchT[lg] ? null : loadLeague(lg).then(() => { state.fetchT[lg] = Date.now(); }).catch(() => {})])
       .then(() => { if (isFzTab()) renderMyNews(); else try { renderCardRow(); } catch (_) {} });
   }
@@ -5825,7 +5852,7 @@ function renderWatchTab(){
     el.innerHTML = `<div class="section-title" id="labArea">🧪 Fantasy Lab <small>${sp === 'nfl' ? 'Trade Lab, team needs + your watch list' : 'Your watch list'}</small><button type="button" class="lab-exp" data-labfull aria-pressed="false" title="Expand Fantasy Lab"><span class="ic" aria-hidden="true">⤢</span><span class="lb">Expand</span></button></div><div id="fzTrade0"></div><div id="fzNeeds0"></div>
       <div class="section-title" id="watchArea">👁 ${esc(F.label)} watch list <span class="cnt" id="wlCount"></span> <small>Waiver &amp; trade targets · not ★ favorites, not your roster</small></div>
       ${fantasySel.length > 1 ? `<div class="chips fs-tabs" role="tablist" aria-label="Fantasy sport">${fantasySel.map(k => `<button class="chip${k === sp ? ' on' : ''}" role="tab" aria-selected="${k === sp}" data-fstab="${k}">${FSPORTS[k].emoji} ${esc(FSPORTS[k].label)} <span class="cnt">${watchList(k).length}</span></button>`).join('')}</div>` : ''}
-      <div class="wt-bar"><div class="wl-add"><span aria-hidden="true">🔍</span><input type="search" id="wlInput" data-sp="${sp}" placeholder="Add player: search ${esc(F.label)} ${sp === 'golf' ? 'golfers' : sp === 'ufc' ? 'fighters' : 'players'}…" autocomplete="off" spellcheck="false" aria-label="Search ${esc(F.label)} players to add to your Fantasy Lab watch list" aria-controls="wlRes"><div class="wl-res" id="wlRes" hidden></div></div>
+      <div class="wt-bar"><div class="wl-add"><span aria-hidden="true">🔍</span><input type="search" id="wlInput" data-sp="${sp}" placeholder="${sp === 'nfl' ? 'Add player or defense: search NFL players, a team or “D/ST”…' : `Add player: search ${esc(F.label)} ${sp === 'golf' ? 'golfers' : sp === 'ufc' ? 'fighters' : 'players'}…`}" autocomplete="off" spellcheck="false" aria-label="Search ${esc(F.label)} players to add to your Fantasy Lab watch list" aria-controls="wlRes"><div class="wl-res" id="wlRes" hidden></div></div>
       <label class="wt-sort">Sort <select id="wtSort"><option value="ppg"${so === 'ppg' ? ' selected' : ''}>Points per game</option><option value="trend"${so === 'trend' ? ' selected' : ''}>Trending</option><option value="own"${so === 'own' ? ' selected' : ''}>% rostered</option></select></label></div>
       <div id="wtBody"></div>`;
   }
@@ -7515,9 +7542,9 @@ function sxPanel(e, d){
   return `<div class="sx-hd">${e.k === 'p' && e.logo ? `<img src="${esc(e.logo)}" alt="" width="34" height="34" onerror="this.remove()">` : ''}<div><h2>${esc(e.name)}</h2><small>${esc(e.k === 'p' ? [e.pos, e.team, (FSPORTS[e.sp] || {}).label].filter(Boolean).join(' · ') : [(CAT[e.lg] || {}).label, d.S && d.S.rec].filter(Boolean).join(' · '))}</small></div></div>
   <div class="sx-grid"><div class="sx-stage" style="${esc(col)}" tabindex="0" aria-label="Spinning medallion. Hover or tap for stats; click to flip."><div class="sx-coin"><div class="sx-face sx-front">${face}</div><div class="sx-face sx-back">${back}</div></div><span class="sx-hint">Hover / tap to pause & see stats · click to flip</span></div>
   <div class="sx-side">${sc ? `<div class="sx-pnl"><div class="sx-gauge">${sxGauge(sc.s)}<div><div class="sx-gr" style="color:${sc.s >= 75 ? '#51cf66' : sc.s >= 50 ? '#ffd43b' : sc.s >= 30 ? '#ff922b' : '#ff4d4f'}">${sxGrade(sc.s)}</div><div class="sx-lbl">${esc(sxLabel(sc.s))}</div><div class="sx-sub">What Have You Done For Me Lately <button class="sx-i" data-sxi aria-label="How the score works">i</button></div></div></div>
-      <div class="sx-form">${form}</div><div class="sx-parts">${sc.parts.filter(p => p.v != null || p.raw).map(p => `<div><b>${p.v != null ? Math.round(p.v) : esc(p.raw)}</b><i>${esc(p.k)}${p.w ? ' · ' + p.w + '%' : ''}</i>${p.v != null && p.raw ? `<i style="display:block;text-transform:none">${esc(p.raw)}</i>` : ''}</div>`).join('')}</div>${sxBars(sc.bars, sc.ref, e.k === 't' || d.basis === 'team')}</div>`
+      <div class="sx-form">${form}</div><div class="sx-parts">${sc.parts.filter(p => p.v != null || p.raw).map(p => `<div><b>${p.v != null ? Math.round(p.v) : esc(p.raw)}</b><span class="sx-pk">${esc(p.k)}</span>${p.w ? `<span class="sx-pw">${p.w}% of score</span>` : ''}${p.v != null && p.raw ? `<span class="sx-pr">${esc(p.raw)}</span>` : ''}</div>`).join('')}</div>${sxBars(sc.bars, sc.ref, e.k === 't' || d.basis === 'team')}</div>`
     : `<div class="sx-pnl"><div class="sx-ld">No recent games from ESPN, so no WHYDFML score yet.</div></div>`}
-    <div class="sx-pnl dim sx-stats">${sxStatsHTML(e, d)}</div></div></div>`;
+    <div class="sx-pnl sx-stats">${sxStatsHTML(e, d)}</div></div></div>`;
 }
 function sxClose(){ if (!SX.ov) return; SX.ov.remove(); SX.ov = null; SX.offs.forEach(f => f()); SX.offs = []; if (SX.ret && SX.ret.focus) SX.ret.focus({ preventScroll: true }); }
 function sxShell(){
@@ -7525,7 +7552,7 @@ function sxShell(){
   ov.innerHTML = '<div class="sx-box"><button class="sx-x" aria-label="Close Spin-it">✕</button><div class="sx-body"></div></div>'; document.body.appendChild(ov); SX.ov = ov;
   ov.addEventListener('click', ev => { if (ev.target === ov || ev.target.closest('.sx-x')) return sxClose();
     if (ev.target.closest('[data-sxi]')) { ov.querySelector('.sx-form').classList.toggle('on'); return; }
-    const st = ev.target.closest('.sx-stage'); if (st) { const b = st.classList.contains('back'); st.classList.remove('front', 'back'); st.classList.add(b ? 'front' : 'back'); st.closest('.sx-grid').classList.add('hold'); return; }
+    const st = ev.target.closest('.sx-stage'); if (st) { const b = st.classList.contains('back'); st.classList.remove('front', 'back'); st.classList.add(b ? 'front' : 'back'); st.closest('.sx-grid').classList.add('hold'); sxSettle(st, b ? 'front' : 'back'); return; }
     const r = ev.target.closest('[data-sxr]'); if (r) { const it = SX.res[+r.dataset.sxr]; sxOpen(it); } });
   const st = ov.querySelector('.sx-x'); st.focus();
   return ov.querySelector('.sx-body');
@@ -7535,8 +7562,20 @@ async function sxOpen(e){
   const body = sxShell(); body.innerHTML = `<div class="sx-ld">🌀 Spinning up ${esc(e.name)}…</div>`;
   const d = await sxData(e).catch(() => ({})); if (!SX.ov || !body.isConnected) return;
   body.innerHTML = e.k === 't' ? stPanel(e, d) : sxPanel(e, d);
-  const stg = body.querySelector('.sx-stage'); const tp = ev => { if (ev.pointerType === 'touch') stg.closest('.sx-grid').classList.add('hold'); }; if (stg) stg.addEventListener('pointerdown', tp);
+  const stg = body.querySelector('.sx-stage'); if (!stg) return;
+  stg.addEventListener('pointerdown', ev => { if (ev.pointerType === 'touch') { stg.closest('.sx-grid').classList.add('hold'); if (!stg.classList.contains('front') && !stg.classList.contains('back')) sxSettle(stg); } });
+  stg.addEventListener('mouseenter', () => { if (!stg.classList.contains('front') && !stg.classList.contains('back')) sxSettle(stg); });
+  stg.addEventListener('mouseleave', () => { if (!stg.classList.contains('front') && !stg.classList.contains('back') && !stg.closest('.sx-grid').classList.contains('hold')) sxResume(stg); });
 }
+// Oct 19: the medallion never stops edge-on. Pausing used to freeze the spin wherever it was (a thin sliver at ~90°);
+// now it eases from its current angle to the nearest face (or the asked-for face) and resumes spinning from there.
+function sxAngle(coin){ const t = getComputedStyle(coin).transform; if (!t || t === 'none') return 0; const m = new DOMMatrix(t); return ((Math.atan2(-m.m13, m.m11) * 180 / Math.PI) % 360 + 360) % 360; }
+function sxSettle(stg, face){ const coin = stg.querySelector('.sx-coin'); if (!coin) return; const a = sxAngle(coin);
+  let tg = face === 'front' ? Math.round(a / 360) * 360 : face === 'back' ? Math.round((a - 180) / 360) * 360 + 180 : Math.round(a / 180) * 180;
+  coin.style.animation = 'none'; coin.style.transition = 'none'; coin.style.transform = `rotateY(${a}deg)`; void coin.offsetWidth;
+  coin.style.transition = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'none' : 'transform .45s cubic-bezier(.2,.8,.3,1)'; coin.style.transform = `rotateY(${tg}deg)`; stg.dataset.ang = tg; }
+function sxResume(stg){ const coin = stg.querySelector('.sx-coin'); if (!coin) return; const tg = (+stg.dataset.ang || 0) % 360;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return; coin.style.transition = 'none'; coin.style.transform = ''; coin.style.animation = `sxSpin 5.5s linear ${(-tg / 360 * 5.5).toFixed(2)}s infinite`; }
 function sxSearchOpen(){
   const body = sxShell(); body.innerHTML = `<button type="button" class="se-go" data-sescrew><span class="ic" aria-hidden="true">🌀</span><span><b>😈 SCREW 'EM</b><i>Find the most desperate team and the lopsided deal they'd take</i></span></button><div class="sx-srch"><input type="search" placeholder="Spin anything: player or team…" aria-label="Spin-it search"></div><div class="sx-res"></div>`;
   const inp = body.querySelector('input'), res = body.querySelector('.sx-res'); inp.focus();
@@ -8045,39 +8084,75 @@ function seDire(D, t, avg){
   const r = t.rec; if (r && r.w + r.l > 0) { const d = r.l - r.w; if (d > 0) { sc += d * 0.6; why.push(`They're ${r.w}-${r.l}${r.t ? '-' + r.t : ''}, so every week is a must-win`); } }
   return { t, sc: r1(sc), why, N };
 }
-function seFind(D){
-  const avg = trPosAvg(D), me = D.teams.find(t => t.id === D.me); if (!me) return null;
-  const ok = q => !q.ir && q.base != null && !q.dst && q.pos !== 'K';
+// Oct 19: Screw 'em v2 - at least 3 ranked deals aimed at the most desperate teams (real ESPN rosters + projections, Trade Lab values).
+// Strict first; if fewer than 3, relax step by step (less desperate teams, other positions, 2-for-1, a starter, a closer value call) and say so on each deal.
+function seAll(D, pick){
+  const avg = trPosAvg(D), me = D.teams.find(t => t.id === D.me); if (!me) return { none: 'Your team wasn\'t found in this league.' };
+  const live = q => !q.ir && q.base != null, skill = q => live(q) && !q.dst && q.pos !== 'K';
   const M = trNeedsX(D, me, avg), a0 = trLineup(me.ps, D.slots);
-  const spare = me.ps.filter(ok).filter(q => (a0.starts[q.id] || 0) <= D.weeks.length / 2 || (M[q.pos] && M[q.pos].s === 'sur'));   // bench / surplus
+  const spareOf = q => (a0.starts[q.id] || 0) <= D.weeks.length / 2 || (M[q.pos] && M[q.pos].s === 'sur');
   const dire = D.teams.filter(t => t.id !== D.me).map(t => seDire(D, t, avg)).sort((a, b) => b.sc - a.sc);
-  for (const d of dire.slice(0, 4)) { if (d.sc < 2) break; let best = null;
-    const needPos = new Set(ND_POS.filter(k => d.N[k] && (d.N[k].s === 'need' || d.N[k].byeNeed)));
-    for (const a of spare) { if (!needPos.has(a.pos)) continue;
-      for (const b of d.t.ps.filter(ok)) { const r = trEval(D, d.t.id, [a], [b]); if (!r) continue;
-        const nxt = r.b1.wk && r.b0.wk ? r1(r.b1.wk[0] - r.b0.wk[0]) : null;
-        if (r.dMe < 1 || (nxt != null ? nxt < 0.5 : r.dOp < 0)) continue;   // more value to you; they gain right now (that's why they'd bite)
-        if ((r.vGet || 0) < (r.vGive || 0)) continue;
-        const sc = r.dMe * 2 + (nxt || 0); if (!best || sc > best.sc) best = { a, b, r, nxt, sc }; } }
-    if (best) return { d, ...best, avg };
-  }
-  return { none: true, dire: dire[0] };
+  const mine = pick && me.ps.some(q => q.id === pick.id), owner = pick && !mine ? D.teams.find(t => t.ps.some(q => q.id === pick.id)) : null;
+  if (pick && !mine && !owner) return { none: `${pick.name} isn't on a roster in your league, so there's nobody to trade with. Grab him on waivers instead.` };
+  if (pick && pick.ir) return { none: `${pick.name} is on IR, so there's no trade model for him right now.` };
+  if (pick && pick.base == null) return { none: `ESPN has no projection for ${pick.name}, so the deal math can't be done.` };
+  const teams = owner ? dire.filter(d => d.t.id === owner.id) : dire;
+  const out = new Map(), nx = r => r.b1.wk && r.b0.wk ? r1(r.b1.wk[0] - r.b0.wk[0]) : null;
+  const pass = (r, n, loose) => { if (!r) return false; const vOk = r.vGet == null || r.vGive == null ? true : loose ? r.vGet >= r.vGive * .85 : r.vGet >= r.vGive;
+    return loose ? r.dMe > 0 && (n != null ? n > 0 : r.dOp > -0.5) && vOk : r.dMe >= 1 && (n != null ? n >= 0.5 : r.dOp >= 0) && vOk; };
+  const add = (d, give, get, r, n, tier, note) => { const k = d.t.id + ':' + give.map(x => x.id).sort().join('+'), sc = -tier * 1000 + d.sc * 1.5 + r.dMe * 2 + (n || 0) + (r.rosGet != null && r.rosGive != null ? (r.rosGet - r.rosGive) / 40 : 0);
+    const o = out.get(k); if (!o || sc > o.sc) out.set(k, { d, give, get, r, nxt: n, tier, note, sc }); };
+  const cnt = () => new Set([...out.values()].map(x => x.d.t.id)).size, mineSkill = me.ps.filter(skill), kd = pick && (pick.dst || pick.pos === 'K');   // keep relaxing until 3 different teams have a deal
+  const gives0 = mine ? [pick] : (kd ? me.ps.filter(live) : mineSkill).filter(spareOf), getsOf = d => owner ? [pick] : d.t.ps.filter(pick && (pick.dst || pick.pos === 'K') ? live : skill);
+  const needSet = d => new Set(ND_POS.filter(k => d.N[k] && (d.N[k].s === 'need' || d.N[k].byeNeed)));
+  const run = (tier, ds, gives, cond, note) => { for (const d of ds) { const ns = needSet(d); for (const a of gives) { if (cond && !cond(d, a, ns)) continue; for (const b of getsOf(d)) { if (b.id === a.id) continue;
+    const r = trEval(D, d.t.id, [a], [b]), n = r && nx(r); if (pass(r, n, tier >= 4)) add(d, [a], [b], r, n, tier, typeof note === 'function' ? note(d, a, b) : note); } } } };
+  run(0, teams.filter(d => d.sc >= 2), gives0, (d, a, ns) => pick || ns.has(a.pos), '');
+  if (cnt() < 3) run(1, teams, gives0, null, (d, a) => d.sc < 2 ? `${d.t.name} is less desperate${d.why[0] ? ' (' + d.why[0].toLowerCase() + ')' : ''}, but the numbers still work.` : `They don't have a hole at ${a.pos}, but both lineups still improve.`);
+  if (cnt() < 3) { const gv = mine ? mineSkill.filter(spareOf).filter(q => q.id !== pick.id).map(q => [pick, q]) : (() => { const s = gives0.slice(0, 8), p = []; for (let i = 0; i < s.length; i++) for (let j = i + 1; j < s.length; j++) p.push([s[i], s[j]]); return p; })();
+    for (const d of teams.slice(0, 6)) for (const g of gv) for (const b of getsOf(d)) { if (g.some(x => x.id === b.id)) continue; const r = trEval(D, d.t.id, g, [b]), n = r && nx(r); if (pass(r, n, false)) add(d, g, [b], r, n, 2, '2-for-1: two of your spare pieces for one better player.'); } }
+  if (cnt() < 3 && !mine) run(3, teams, mineSkill.filter(q => !spareOf(q)), null, (d, a) => `Different give: ${trNm(a)} is one of your starters, so only do this if you trust your depth at ${a.pos}.`);
+  if (cnt() < 3) run(4, teams, mine ? [pick] : mineSkill, null, 'Close call: a small edge for you, not a fleece.');
+  const all = [...out.values()].sort((a, b) => b.sc - a.sc), res = [], per = {};
+  for (const x of all) { if ((per[x.d.t.id] || 0) >= 2) continue; per[x.d.t.id] = (per[x.d.t.id] || 0) + 1; res.push(x); if (res.length >= 5) break; }
+  if (res.length < 3) for (const x of all) { if (res.length >= 3) break; if (!res.includes(x)) res.push(x); }
+  return res.length ? { list: res, dire } : { none: pick ? `No deal involving ${pick.name} helps you and the other team right now, even with relaxed rules.` : 'No deal helps both sides right now, even with relaxed rules.', dire };
 }
+function seDeal(x, i, D){
+  const t = x.d.t, rec = t.rec ? `${t.rec.w}-${t.rec.l}${t.rec.t ? '-' + t.rec.t : ''}` : '', dm = Math.min(100, Math.round(x.d.sc * 9)), R = x.r;
+  const fills = x.give.filter(a => x.d.N[a.pos] && (x.d.N[a.pos].s === 'need' || x.d.N[a.pos].byeNeed)).map(a => a.pos);
+  const pitch = fills.length ? `${x.give.map(trNm).join(' + ')} fills their ${[...new Set(fills)].join('/')} hole right now, and you get ${x.get.map(trNm).join(' + ')}.` : `You get ${x.get.map(trNm).join(' + ')} for ${x.give.map(trNm).join(' + ')}.`;
+  return `<div class="se-deal${x.tier ? ' relaxed' : ''}"><div class="se-tm"><span class="se-rk">#${i + 1}</span>${t.logo ? `<img src="${esc(t.logo)}" alt="" onerror="this.remove()">` : ''}<span><b>${esc(t.name)}</b><i>${esc([rec, 'Desperation ' + dm + '/100'].filter(Boolean).join(' · '))}</i></span><span class="se-meter" title="Desperation score from needs, injuries, byes and record"><i style="width:${dm}%"></i></span></div>
+    ${x.d.why.length ? `<ul class="se-why">${x.d.why.slice(0, 3).map(w => `<li>${esc(w)}</li>`).join('')}</ul>` : ''}
+    <div class="te-sw se-sw"><div class="te-side"><h6>You give</h6>${x.give.map(q => cmxPP(q, D)).join('')}</div><div class="te-x" aria-hidden="true">⇄</div><div class="te-side"><h6>You get</h6>${x.get.map(q => cmxPP(q, D)).join('')}</div></div>
+    <div class="cmx-gain"><span class="${R.dMe > 0 ? 'up' : 'dn'}">You <b>${cmxSg(R.dMe)}</b>/wk ROS</span>${x.nxt != null ? `<span class="${x.nxt > 0 ? 'up' : 'dn'}">Them <b>${cmxSg(x.nxt)}</b> next week</span>` : ''}<span class="${R.dOp > 0 ? 'up' : 'dn'}">Them <b>${cmxSg(R.dOp)}</b>/wk ROS</span></div>
+    <p class="te-why">${esc(pitch)}</p>${x.note ? `<p class="se-note">⚠️ ${esc(x.note)}</p>` : ''}</div>`;
+}
+const SE = { pick: null, D: null };
 async function seOpen(){
-  const body = sxShell(); body.innerHTML = `<div class="se"><div class="se-hd"><span class="se-ic" aria-hidden="true">😈</span><b>SCREW 'EM</b><small>Finding the most desperate team in your league…</small></div><div class="mu-ld">Loading every roster…</div></div>`;
-  const D = await cmxTrReady(); if (!body.isConnected) return;
-  if (!D) { body.querySelector('.se').innerHTML = `<div class="se-hd"><span class="se-ic">😈</span><b>SCREW 'EM</b></div><div class="mu-ld">Screw 'em needs your ESPN NFL fantasy league (Settings → Fantasy).</div>`; return; }
-  let R = null; try { R = seFind(D); } catch (e) { console.warn('screw em', e); }
-  const hd = `<div class="se-hd"><span class="se-ic" aria-hidden="true">😈</span><b>SCREW 'EM</b><em class="se-lbl">Suggestion only · never sent to ESPN</em></div>`;
-  if (!R || R.none) { body.querySelector('.se').innerHTML = hd + `<div class="mu-ld te-none">${R && R.dire ? `${esc(R.dire.t.name)} is the most desperate team (${esc(R.dire.why[0] || 'thin roster')}), but no lopsided deal works: nothing on your bench fills their hole for more value back.` : 'No team is desperate enough right now. Everyone has a healthy lineup.'}</div>`; return; }
-  const t = R.d.t, rec = t.rec ? `${t.rec.w}-${t.rec.l}${t.rec.t ? '-' + t.rec.t : ''}` : '';
-  const dm = Math.min(100, Math.round(R.d.sc * 9));
-  body.querySelector('.se').innerHTML = hd + `<div class="se-tm">${t.logo ? `<img src="${esc(t.logo)}" alt="" onerror="this.style.visibility='hidden'">` : ''}<span><b>${esc(t.name)}</b><i>${esc([rec, 'Desperation ' + dm + '/100'].filter(Boolean).join(' · '))}</i></span><span class="se-meter" title="Desperation score from needs, injuries, byes and record"><i style="width:${dm}%"></i></span></div>
-    <h4>Why they'd bite</h4><ul class="se-why">${R.d.why.slice(0, 5).map(w => `<li>${esc(w)}</li>`).join('')}</ul>
-    <h4>The pitch</h4><div class="te-sw se-sw"><div class="te-side"><h6>You give (you don't need him)</h6>${cmxPP(R.a, D)}</div><div class="te-x" aria-hidden="true">⇄</div><div class="te-side"><h6>You get</h6>${cmxPP(R.b, D)}</div></div>
-    <div class="cmx-gain"><span class="up">You <b>${cmxSg(R.r.dMe)}</b>/wk rest of season</span>${R.nxt != null ? `<span class="${R.nxt > 0 ? 'up' : 'dn'}">Them <b>${cmxSg(R.nxt)}</b> next week</span>` : ''}<span class="${R.r.dOp > 0 ? 'up' : 'dn'}">Them <b>${cmxSg(R.r.dOp)}</b>/wk ROS</span></div>
-    <p class="te-why">${esc(`${trNm(R.a)} fills their ${R.a.pos} hole right now, and you get the better long-term piece in ${trNm(R.b)}.`)}</p>
-    <p class="cmx-foot">😈 Suggestion only. Nothing is sent to ESPN. Make the offer yourself if you want it.</p>`;
+  const body = sxShell(); SE.pick = null;
+  const hd = `<div class="se-hd"><span class="se-ic" aria-hidden="true">😈</span><b>SCREW 'EM</b><em class="se-lbl">Suggestions only · never sent to ESPN</em></div>`;
+  body.innerHTML = `<div class="se">${hd}<div class="mu-ld">Loading every roster in your league…</div></div>`;
+  const D = await cmxTrReady(); if (!body.isConnected) return; SE.D = D;
+  const box = body.querySelector('.se');
+  if (!D) { box.innerHTML = hd + `<div class="mu-ld">Screw 'em needs your ESPN NFL fantasy league (Settings → Fantasy).</div>`; return; }
+  const own = q => D.teams.find(t => t.ps.some(x => x.id === q.id)), pool = D.teams.flatMap(t => t.ps.map(q => ({ q, t })));
+  box.innerHTML = hd + `<div class="sx-srch se-srch"><input type="search" placeholder="Build around a player (optional): yours or theirs, incl. D/ST and K…" aria-label="Pick a player for Screw 'em" autocomplete="off"></div><div class="sx-res se-pk" hidden></div><div class="se-pick" hidden></div><div class="se-out"></div><p class="cmx-foot">😈 Suggestions only. Nothing is sent to ESPN. Make the offer yourself if you want it.</p>`;
+  const inp = box.querySelector('input'), pk = box.querySelector('.se-pk'), chip = box.querySelector('.se-pick'), outEl = box.querySelector('.se-out');
+  let L = [];
+  const list = () => { const q = inp.value.trim().toLowerCase().replace(/\bdefen[cs]e\b|\bdst\b/g, 'd/st'); if (!q) { pk.hidden = true; return; }
+    L = pool.filter(({ q: p, t }) => (p.name + ' ' + p.pos + ' ' + (p.team || '') + ' ' + t.name).toLowerCase().includes(q)).slice(0, 12);
+    pk.innerHTML = L.map((x, i) => `<button type="button" data-sepk="${i}"><img src="${esc(x.q.hs || '')}" alt="" onerror="this.style.visibility='hidden'"><span><b>${esc(x.q.name)}</b> <small>${esc([x.q.pos, x.q.team, x.t.id === D.me ? 'your team' : x.t.name].filter(Boolean).join(' · '))}</small></span></button>`).join('') || '<div class="sx-ld">No rostered player matches.</div>'; pk.hidden = false; };
+  const show = () => { outEl.innerHTML = '<div class="mu-ld">Running every deal through your league…</div>';
+    setTimeout(() => { if (!outEl.isConnected) return; let R = null; try { R = seAll(D, SE.pick); } catch (e) { console.warn('screw em', e); }
+      if (!R) { outEl.innerHTML = '<div class="mu-ld te-none">Couldn\'t build deals right now.</div>'; return; }
+      if (R.none) { outEl.innerHTML = `<div class="mu-ld te-none">${esc(R.none)}</div>`; return; }
+      outEl.innerHTML = `<h4>${R.list.length} deal${R.list.length === 1 ? '' : 's'}${SE.pick ? ' with ' + esc(SE.pick.name) : ''} · most desperate teams first</h4>` + (R.list.length < 3 ? `<p class="se-note">Only ${R.list.length} deal${R.list.length === 1 ? '' : 's'} work${R.list.length === 1 ? 's' : ''} for both sides, even with relaxed rules.</p>` : '') + R.list.map((x, i) => seDeal(x, i, D)).join(''); }, 30); };
+  inp.addEventListener('input', list); inp.addEventListener('focus', list);
+  pk.addEventListener('click', ev => { const b = ev.target.closest('[data-sepk]'); if (!b) return; ev.stopPropagation(); const x = L[+b.dataset.sepk]; if (!x) return; SE.pick = x.q; inp.value = ''; pk.hidden = true;
+    chip.innerHTML = `<span>Building around <b>${esc(x.q.name)}</b> <small>${esc([x.q.pos, x.q.team, x.t.id === D.me ? 'yours' : x.t.name].filter(Boolean).join(' · '))}</small></span><button type="button" data-seclr aria-label="Clear the picked player">✕ Clear</button>`; chip.hidden = false; show(); });
+  chip.addEventListener('click', ev => { if (!ev.target.closest('[data-seclr]')) return; ev.stopPropagation(); SE.pick = null; chip.hidden = true; show(); });
+  show();
 }
 function stSport(lg){ const p = String(((CAT[lg] || {}).path) || lg || '').toLowerCase(); return /hockey/.test(p) ? 'hockey' : /basketball/.test(p) ? 'basketball' : /baseball|softball/.test(p) ? 'baseball' : /soccer/.test(p) ? 'soccer' : /mma|ufc/.test(p) ? 'mma' : /football/.test(p) ? 'football' : 'other'; }
 function stSportWords(lg, txt){ const w = { hockey: 'puck drop', basketball: 'tip-off', baseball: 'first pitch', mma: 'the walkout', soccer: 'kickoff', football: 'kickoff' }[stSport(lg)] || 'start time';
