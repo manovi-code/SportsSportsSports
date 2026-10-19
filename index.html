@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<script>/* storage check: if this browser blocks or can't write localStorage (private mode, in-app browser, sandboxed frame, full quota),
+<script>
+var LVP = {}, LVROW = {}, LVF = new Set();   // live-card state declared up front: cached renders can run before the live-card module
+/* storage check: if this browser blocks or can't write localStorage (private mode, in-app browser, sandboxed frame, full quota),
    fall back to an in-memory store so the page still runs, and remember why so a banner can explain that settings won't stick. */
 (function(){
   var why = '';
@@ -2458,16 +2460,288 @@
 .pc .pc-back{overflow-y:auto;scrollbar-width:none;overscroll-behavior:contain}.pc .pc-back::-webkit-scrollbar{display:none}.pc .pc-back .pc-key,.pc .pc-back .pc-bio{-webkit-line-clamp:1}
 @media (max-width:600px){.lf-n.t{display:none}.lf{padding:8px 9px;gap:7px}.lf-fld{height:72px}.lf-n{font-size:9.5px}.lf-ez{font-size:9.5px}.lf-ez img{width:18px;height:18px}.lf-ball img{width:18px;height:18px}.lf-hs{width:38px;height:38px}.lf-to small{display:none}}
 @media (prefers-reduced-motion:reduce){.lf-ball svg{animation:none}}
+
+/* ---- Oct 18 (late): live fantasy cards ---- */
+.lv-badge{display:none;align-items:center;gap:4px;background:#e0262f;color:#fff;font:900 9.5px/1 system-ui;letter-spacing:.8px;padding:3px 6px 3px 5px;border-radius:4px;box-shadow:0 1px 6px rgba(224,38,47,.6)}
+.lv-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:#fff;animation:lvDot 1.3s ease-in-out infinite}
+.is-live .lv-badge,.lv-badge.on,.lv-badge.sm{display:inline-flex}
+.lv-badge.sm{font-size:8.5px;padding:2px 5px;margin-right:5px;vertical-align:1px}
+@keyframes lvDot{50%{opacity:.25;transform:scale(.7)}}
+.cc .cc-tl{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.cc.is-live .cc-front{box-shadow:0 14px 30px rgba(0,0,0,.55),inset 0 0 0 3px #ff3b3b,0 0 0 1px rgba(255,59,59,.7),0 0 18px rgba(255,59,59,.38);animation:lvGlow 2.6s ease-in-out infinite}
+@keyframes lvGlow{50%{box-shadow:0 14px 30px rgba(0,0,0,.55),inset 0 0 0 3px #ff5b5b,0 0 0 1px rgba(255,59,59,.9),0 0 26px rgba(255,59,59,.55)}}
+.cc.lv-ping .cc-front{outline:3px solid #ffd34d;outline-offset:3px}
+.lv-box{position:absolute;z-index:4;display:flex;flex-direction:column;gap:3px;padding:6px 8px;border-radius:9px;background:rgba(10,12,18,.82);border:1px solid rgba(255,80,80,.65);box-shadow:0 4px 14px rgba(0,0,0,.55);color:#fff;backdrop-filter:blur(3px)}
+.lv-box.k-cc{left:10px;bottom:68px;max-width:calc(73% - 26px)}
+.lv-box.rz{background:linear-gradient(135deg,rgba(150,18,24,.9),rgba(10,12,18,.85));border-color:#ff4d4d}
+.lv-p{display:flex;align-items:baseline;gap:4px;line-height:1}.lv-p b{font-size:24px;font-weight:900;font-style:italic;letter-spacing:-.5px;font-variant-numeric:tabular-nums}.lv-p i{font-style:normal;font-size:9.5px;font-weight:900;letter-spacing:1px;color:#ffb3b3}
+.lv-g{display:flex;flex-wrap:wrap;gap:0 6px;font-size:11px;font-weight:800;line-height:1.25;font-variant-numeric:tabular-nums}.lv-ck{color:#ff8a8a}
+.lv-ps{font-size:10.5px;font-weight:900;color:#ffe08a;white-space:nowrap}.lv-ps b{background:#e0262f;color:#fff;font-size:8.5px;letter-spacing:.6px;padding:1px 4px;border-radius:3px;margin-left:3px}
+.lv-line{display:inline-block;margin-top:4px;font-style:normal;font-size:9.5px;font-weight:900;letter-spacing:.6px;color:#fff;background:rgba(0,0,0,.55);padding:2px 6px;border-radius:4px;text-shadow:none;white-space:nowrap}
+.cc .cc-ppg .lv-line{align-self:flex-start}
+/* My News card row (.pc) */
+.pc.is-live .pc-flip{border-radius:12px;box-shadow:0 0 0 2px #ff3b3b,0 0 16px rgba(255,59,59,.45);animation:lvGlowPc 2.6s ease-in-out infinite}
+@keyframes lvGlowPc{50%{box-shadow:0 0 0 2px #ff5b5b,0 0 24px rgba(255,59,59,.6)}}
+.pc .pc-top .lv-badge{margin-left:auto;font-size:8px;padding:2px 4px}
+html:not(.sx-nobdg) .cc .cc-tl .lv-badge{margin-left:28px}   /* clear the on-card spin badge (left:8px, 26px wide) */
+.lv-box.k-pc{left:6px;right:56px;top:30px;padding:4px 6px;gap:1px}   /* stop short of the headshot circle (top-right) */
+.lv-box.k-pc .lv-g{white-space:normal;line-height:1.2}
+.lv-box.k-pc .lv-p b{font-size:17px}.lv-box.k-pc .lv-g{font-size:9.5px}.lv-box.k-pc .lv-ps{font-size:9px}
+.lv-line.k-pc{position:absolute;left:6px;top:30px;z-index:4;margin:0;font-size:8.5px}
+/* matchup rows */
+.ms-sd.live{box-shadow:inset 0 0 0 1.5px rgba(255,59,59,.75),0 0 12px rgba(255,59,59,.25)}
+.ms-ps{font-size:11px;font-weight:900;color:#ffe08a;margin-top:1px}.ms-ps.rz b{background:#e0262f;color:#fff;font-size:9px;padding:1px 4px;border-radius:3px}
+/* starters: LIVE chip filter + Playing now */
+button.lv-chip{border:0;cursor:pointer;font:inherit;font-size:inherit}.lv-chip:hover{filter:brightness(1.15)}.lv-chip.on{box-shadow:0 0 0 2px #fff inset}
+.rg-b.lv-only .cc:not(.is-live){display:none}
+.pn-row{display:flex;align-items:center;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0 12px;margin-bottom:4px}
+.pn-row::-webkit-scrollbar{display:none}
+.pn-h{flex:none;display:flex;align-items:center;gap:6px;font-weight:900;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.pn-it{flex:none;display:flex;align-items:center;gap:8px;padding:5px 10px 5px 5px;border-radius:999px;background:rgba(255,59,59,.10);border:1px solid rgba(255,59,59,.55);color:var(--text);cursor:pointer;font:inherit}
+.pn-it:hover{background:rgba(255,59,59,.18)}.pn-it.rz{background:linear-gradient(90deg,rgba(200,30,36,.35),rgba(255,59,59,.1))}
+.pn-it img{width:30px;height:30px;border-radius:50%;object-fit:cover;background:#1b2232}
+.pn-n{display:flex;flex-direction:column;line-height:1.15;text-align:left}.pn-n b{font-size:12.5px;font-weight:800}.pn-n i{font-style:normal;font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.pn-p{font-weight:900;font-size:16px;font-variant-numeric:tabular-nums}.pn-p small{font-size:9px;font-weight:800;color:var(--muted);margin-left:2px}
+.pn-ps{font-size:13px;font-weight:900;color:#ffe08a}
+@media (prefers-reduced-motion:reduce){.lv-badge::before,.cc.is-live .cc-front,.pc.is-live .pc-flip{animation:none}}
+
+/* ---- Oct 18 (late): position-grouped big cards ---- */
+.pg{padding:12px 0 6px;border-top:2px solid var(--line)}
+.pg:first-child{border-top:0;padding-top:4px}
+.pg-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:2px 0 10px}
+.pg-pill{display:inline-flex;align-items:center;font:900 13px/1 system-ui;letter-spacing:1px;text-transform:uppercase;color:#fff;padding:6px 12px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.35);background:var(--pc,#64748b)}
+.pg-n{color:var(--muted);font-weight:700;font-size:12.5px}
+.pg-pts{margin-left:auto;font-size:12.5px;color:var(--muted);font-weight:700}.pg-pts b{color:var(--text);font-size:16px;font-weight:900;font-variant-numeric:tabular-nums}
+.ps-QB{--pc:#e0457b}.ps-RB{--pc:#16a36b}.ps-WR{--pc:#2f7df6}.ps-TE{--pc:#e08a00}.ps-FLEX{--pc:#8b5cf6}.ps-OP{--pc:#c026d3}.ps-DST{--pc:#475569}.ps-K{--pc:#0d9488}.ps-P{--pc:#0891b2}.ps-IDP{--pc:#b45309}.ps-HC,.ps-OTHER{--pc:#64748b}
+.cc-slot.s[class*="ps-"],.cc-slot.b[class*="ps-"],.cc-slot.i[class*="ps-"]{background:var(--pc);border-color:rgba(255,255,255,.55)}
+.cc-slot.b[class*="ps-"]::after{content:" · BENCH";opacity:.8;font-size:.85em}
+.cc-grid.pg-grid{display:grid;grid-template-columns:repeat(var(--cols,3),minmax(0,1fr));gap:var(--pgap,18px);justify-content:stretch;padding:2px 0 10px}
+.cc-grid.pg-grid>.cc.cc{--w:var(--bw,260px);--h:var(--bh,380px);width:var(--bw,260px);height:var(--bh,380px);max-width:none;zoom:var(--z,1);justify-self:start}
+.rg-b.lv-only .pg:not(.has-live){display:none}
+@media (max-width:560px){.pg-pill{font-size:12px;padding:5px 10px}.pg-pts b{font-size:15px}}
+
+/* ---- Oct 18 (late): hover video on cards ---- */
+.hv-wrap{transition:opacity .4s ease}.hv-wrap.hv-out{opacity:0}
+.hv-wrap video{background:#000}
+.hv-tag{max-width:calc(100% - 12px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;top:auto}
+.cc .cc-art .hv-wrap{bottom:62px;z-index:3}
+.pc .pc-front .hv-wrap{bottom:52px;z-index:1}
+.ft-card .ft-slots{position:relative}.ft-card .ft-slots .hv-wrap{inset:0;border-radius:0 0 12px 12px;z-index:5}
+.ft-card .hv-tag{bottom:8px;left:8px}
+.hl-btn.hl-tm{flex:none;width:30px;height:22px;margin-left:auto;margin-right:2px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.35);color:#ff4b4b;font-size:11px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.hl-btn.hl-tm.on{background:#e0262f;color:#fff}
+.hl-btn.hl-nov{opacity:.45}
+@media (prefers-reduced-motion:reduce){.hv-wrap{transition:none}}
+
+/* ===== Oct 18 polish: small-card pills, name fit, compact live strip, centered short groups, team header ===== */
+.rr-s{display:none}
+.pg-sm .cc .rr-l{display:none}.pg-sm .cc .rr-s{display:inline}
+.pg-sm .cc .cc-top{gap:4px}
+.pg-sm .cc .cc-tr{min-width:0;max-width:62%;align-items:flex-end}
+.pg-sm .cc .cc-rar{font-size:8px;letter-spacing:.5px;padding:2px 5px;white-space:nowrap}
+.pg-sm .cc .cc-tr .rar-chg{font-size:7.5px;letter-spacing:.2px;padding:1px 5px}
+.pg-sm .cc .cc-ln{max-width:100%;overflow:visible;text-overflow:clip}
+.cc-grid.pg-grid .cc .cc-ln{text-overflow:clip}
+.lv-scc{display:none}
+.pg-sm .lv-box.k-cc{flex-direction:row;align-items:center;flex-wrap:nowrap;gap:4px;left:8px;right:auto;max-width:calc(100% - 72px);top:auto;bottom:calc(var(--pl-top,90px) + 3px);padding:2px 4px;border-radius:7px;white-space:nowrap;overflow:visible;gap:3px}
+.pg-sm .lv-box.k-cc .lv-p b{font-size:calc(15px * var(--lvs,1))}.pg-sm .lv-box.k-cc .lv-p i{display:none}
+.pg-sm .lv-box.k-cc .lv-g{flex-wrap:nowrap;gap:3px;font-size:calc(7.5px * var(--lvs,1));line-height:1;white-space:nowrap}
+.pg-sm .lv-box.k-cc .lv-sc{display:none}.pg-sm .lv-box.k-cc .lv-scc{display:inline}
+.pg-sm .lv-box.k-cc .lv-ck{padding-left:3px;border-left:1px solid rgba(255,255,255,.35)}
+.pg-sm .lv-box.k-cc .lv-ps{position:absolute;left:-6px;top:-9px;font-size:11px;line-height:1;display:flex;align-items:center;filter:drop-shadow(0 1px 2px rgba(0,0,0,.8))}   /* possession sticker on the strip's corner */.pg-sm .lv-box.k-cc .lv-pt,.pg-sm .lv-box.k-cc .lv-ps b:not(.lv-rzs){display:none}
+.lv-rzs{display:none}.pg-sm .lv-box.k-cc.lv-noclk .lv-ck{display:none}.lv-badge[data-clk]{white-space:nowrap}.lv-badge[data-clk]::after{content:"· " attr(data-clk);margin-left:1px;letter-spacing:.3px}.pg-sm .lv-box.k-cc.lv-cut .lv-g{overflow:hidden;min-width:0}.pg-sm .lv-box.k-cc .lv-ps b.lv-rzs{display:inline;font-size:6.5px;padding:1px 3px;margin-left:2px}
+.cc-grid.pg-grid{grid-template-columns:repeat(var(--pn,var(--cols,3)),var(--cw,minmax(0,1fr)));justify-content:center}
+.ft-id .ft-lg{display:flex;align-items:center;gap:8px}
+.ft-id .ft-lg .hl-btn.hl-tm{margin:0;height:18px;width:26px;font-size:9px}
+.ft-id b.ft-nm{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere;line-height:1.1}
+@media (max-width:600px){.ft-id b.ft-nm{font-size:19px}}
+@media (min-width:981px){.news.static.fz-rail{position:sticky;top:calc(var(--stack-h,0px) + var(--tabs-h,0px) + 10px);max-height:calc(100vh - var(--stack-h,0px) - var(--tabs-h,0px) - var(--tkb,0px) - 20px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}}
+
+/* ===== Oct 18e: trading-card look, pop-out, maximized card, Screw 'em ===== */
+#pcRow .pc{flex-basis:154px;height:216px}   /* 2.5 × 3.5 */
+@media (hover:hover){ #pcRow .pc:hover .pc-flip:not(.flipped){transform:none} }   /* hover now pops the card out instead of flipping */
+#pcRow .pc.pc-popsrc{visibility:hidden}
+.pc .pc-holo{mix-blend-mode:color-dodge}.pc.r-rare .pc-holo{opacity:.14}.pc.r-epic .pc-holo{opacity:.2}
+.cc.r-rare .cc-holo{opacity:.12}
+.pc-pop{position:fixed;left:0;top:0;z-index:1200;transform-origin:0 0;transition:transform .22s cubic-bezier(.2,.8,.25,1),filter .22s;will-change:transform;perspective:900px;cursor:zoom-in;filter:drop-shadow(0 18px 30px rgba(0,0,0,.6))}
+.pc-pop>.pc{width:100%;height:100%;flex:none;margin:0}
+.pc-pop .pc-flip{transition:transform .12s linear;transform:none}
+.pc-pop .pc-flip.flipped{transform:none}
+.pc-pop .pc-front::after{content:"";position:absolute;inset:0;z-index:6;pointer-events:none;border-radius:inherit;background:radial-gradient(circle at var(--mx,50%) var(--my,30%),rgba(255,255,255,.28),transparent 45%);mix-blend-mode:soft-light}
+@media (prefers-reduced-motion:reduce){.pc-pop,.pc-pop .pc-flip{transition:none}}
+@media (hover:none),(pointer:coarse){
+  #pcRow{scroll-snap-type:x mandatory;padding:20px calc(50% - 77px) 26px;scroll-padding-inline:calc(50% - 77px)}
+  #pcRow .pc{scroll-snap-align:center;transition:transform .25s ease,filter .25s;transform-origin:50% 55%}
+  #pcRow .pc.pc-ctr{transform:scale(1.2);z-index:3;filter:drop-shadow(0 10px 18px rgba(0,0,0,.55))}
+  #pcRow .pc:not(.pc-ctr){filter:brightness(.82) saturate(.9)}
+  @media (prefers-reduced-motion:reduce){#pcRow .pc{transition:none}}
+}
+html.cmx-open{overflow:hidden}
+.cmx{position:fixed;inset:0;z-index:1300;background:rgba(4,6,12,.78);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:18px;overflow:auto}
+.cmx[hidden]{display:none}
+.cmx-box{position:relative;display:flex;gap:26px;align-items:flex-start;max-width:1160px;width:100%;max-height:100%;margin:auto}
+.cmx-x{position:absolute;right:-4px;top:-4px;z-index:5;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#141a28;color:#fff;font-size:16px;cursor:pointer}
+.cmx-card{flex:none;display:flex;flex-direction:column;align-items:center;gap:8px}
+.cmx-card>.cc.cc{--w:260px;--h:364px;width:260px;height:364px;max-width:none;zoom:var(--z,1.3)}
+.cmx-hint{font-size:11px;color:var(--muted)}
+.cmx-side{flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;max-height:calc(100vh - 60px);overflow:auto}
+.cmx-side h3{margin:0 0 10px;font-size:18px;display:flex;align-items:baseline;gap:8px}.cmx-side h3 small{font-size:12px;color:var(--muted);font-weight:700}
+.cmx-tc{margin-bottom:10px}
+.cmx-pp{display:flex;align-items:center;gap:8px;padding:4px 0}.cmx-pp img{width:38px;height:38px;border-radius:50%;object-fit:cover;background:#0d121d;flex:none}
+.cmx-pp span{display:flex;flex-direction:column;min-width:0}.cmx-pp b{font-size:13.5px}.cmx-pp i{font-style:normal;font-size:11.5px;color:var(--muted)}
+.cmx-gain{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 2px}.cmx-gain span{font-size:12px;font-weight:800;border-radius:8px;padding:3px 8px;background:rgba(255,255,255,.05)}
+.cmx-gain .up{color:#7ee2a0}.cmx-gain .dn{color:#ff9b9b}
+.cmx-foot{font-size:11.5px;color:var(--muted);margin:10px 0 0}
+@media (max-width:759px){.cmx{align-items:flex-start;padding:12px}.cmx-box{flex-direction:column;align-items:stretch;gap:14px}.cmx-card{align-self:center}.cmx-side{max-height:none}.cmx-x{right:0;top:0}}
+.se-go{position:relative;display:flex;align-items:center;gap:12px;width:100%;margin:0 0 12px;padding:12px 16px;border:0;border-radius:14px;color:#fff;cursor:pointer;text-align:left;background:#170c30;isolation:isolate}
+.se-go::before{content:"";position:absolute;inset:-2px;border-radius:inherit;z-index:-2;background:conic-gradient(from var(--sxa,0deg),#7b2ff7,#f107a3,#ff8a00,#ffd34d,#2fd4ff,#7b2ff7);animation:sxRot 3s linear infinite}
+.se-go::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;background:linear-gradient(135deg,#1d0f3d,#2a0f45)}
+.se-go .ic{font-size:24px;display:inline-block;animation:sxIco 2.4s linear infinite}.se-go b{display:block;font:900 15px system-ui;letter-spacing:1.5px}.se-go i{font-style:normal;font-size:12px;color:#cdb8ff}
+.se-go:hover{filter:brightness(1.15)}
+.se-hd{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}.se-hd b{font:900 20px system-ui;letter-spacing:2px;background:linear-gradient(90deg,#ff5fd2,#ffd34d);-webkit-background-clip:text;background-clip:text;color:transparent}
+.se-ic{font-size:30px;filter:drop-shadow(0 0 10px rgba(241,7,163,.8))}.se-hd small{color:#9fb0d3}
+.se-lbl{font-style:normal;font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#ffd34d;border:1px solid rgba(255,211,77,.5);border-radius:999px;padding:2px 9px}
+.se-tm{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;background:#151b2b;border:1px solid #2a3552;flex-wrap:wrap}.se-tm img{width:46px;height:46px;border-radius:50%;object-fit:cover}
+.se-tm span{display:flex;flex-direction:column}.se-tm b{font-size:16px}.se-tm i{font-style:normal;font-size:12px;color:#9fb0d3}
+.se-meter{flex:1;min-width:120px;height:8px;border-radius:99px;background:#2a3552;overflow:hidden}.se-meter i{display:block;height:100%;background:linear-gradient(90deg,#ffd34d,#ff5a2e,#f107a3)}
+.se h4{margin:14px 0 6px;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#cdb8ff}
+.se-why{margin:0;padding-left:18px;font-size:13.5px;line-height:1.5}
+@media (prefers-reduced-motion:reduce){.se-go::before,.se-go .ic{animation:none}}
+
+/* ===== Oct 18f: team spin tiers ===== */
+.st{--tc:#ffd34d;position:relative}
+.st-hd{display:flex;align-items:center;gap:12px}.st-hd h2{margin:0;font-size:20px}.st-hd small{color:#9fb0d3}
+.st-logo{width:56px;height:56px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(255,255,255,.25))}
+.st-sc{margin-left:auto;display:flex;align-items:baseline;gap:2px;font-weight:900}.st-sc b{font-size:30px;color:var(--tc)}.st-sc i{font-style:normal;color:#9fb0d3}
+.st-tier{display:flex;align-items:center;justify-content:center;gap:14px;margin:16px 0 8px;padding:18px 14px;border-radius:18px;position:relative;isolation:isolate;overflow:hidden;text-align:center;background:#170c30}
+.st-tier::before{content:"";position:absolute;inset:-40%;z-index:-2;background:conic-gradient(from var(--sxa,0deg),var(--tc),#7b2ff7,var(--tc),#f107a3,var(--tc));animation:sxRot 4s linear infinite;opacity:.9}
+.st-tier::after{content:"";position:absolute;inset:3px;border-radius:15px;z-index:-1;background:linear-gradient(135deg,#1d0f3d,#120a24)}
+.st-ic{font-size:54px;line-height:1;display:inline-block;filter:drop-shadow(0 0 14px var(--tc))}
+.st-nm{font:900 clamp(24px,4.2vw,38px)/1.05 system-ui;letter-spacing:.5px;text-transform:uppercase;color:var(--tc);text-shadow:0 0 18px color-mix(in srgb,var(--tc) 60%,transparent)}
+.st-joke{font-size:15px;font-weight:700;text-align:center;margin:6px 4px 10px;color:#f1e9ff}
+.st-why{margin:0 0 10px;padding-left:20px;font-size:14px;line-height:1.55}.st-why li::marker{color:var(--tc)}
+.st-ladder{display:flex;justify-content:center;gap:4px;flex-wrap:wrap;margin:6px 0 12px}.st-ladder span{font-size:18px;opacity:.35;filter:grayscale(.8);padding:2px 4px;border-radius:8px}
+.st-ladder span.on{opacity:1;filter:none;background:rgba(255,255,255,.08);box-shadow:0 0 0 2px var(--tc),0 0 14px var(--tc);transform:scale(1.25)}
+.st-how{font-size:12px;color:#9fb0d3;margin:8px 0}.st-how summary{cursor:pointer;font-weight:800}
+/* per-tier colors + effects (wildest at the top) */
+.st-t0{--tc:#ff2fd0}.st-t0 .st-tier::before{background:conic-gradient(from var(--sxa,0deg),#ff004c,#ff8a00,#ffe600,#00ff8c,#00c8ff,#a200ff,#ff004c);animation:sxRot 1.1s linear infinite}
+.st-t0 .st-ic{animation:stWild .55s ease-in-out infinite}.st-t0 .st-nm{animation:stHue 1.2s linear infinite,stShake .35s ease-in-out infinite}
+.st-t0 .st-tier{box-shadow:0 0 34px rgba(255,47,208,.6),0 0 70px rgba(255,138,0,.35)}
+.st-t1{--tc:#c86bff}.st-t1 .st-ic{animation:stGlitch 1.4s steps(2) infinite}.st-t1 .st-nm{animation:stGlitch 2.2s steps(2) infinite}
+.st-t2{--tc:#ffd34d}.st-t2 .st-nm{background:linear-gradient(90deg,#b8862b,#fff6cf,#ffd35a,#b8862b);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:stShim 2.4s linear infinite}.st-t2 .st-ic{animation:stFloat 2.4s ease-in-out infinite}
+.st-t3{--tc:#ff9f1c}.st-t3 .st-ic{animation:stDrive 1.6s ease-in-out infinite}
+.st-t4{--tc:#2ee6c5}.st-t4 .st-ic{animation:stTip 1.8s ease-in-out infinite}
+.st-t5{--tc:#4dabff}.st-t5 .st-ic{animation:stFloat 2.8s ease-in-out infinite}
+.st-t6{--tc:#c9d2e3}.st-t6 .st-tier::before{animation-duration:12s;opacity:.45}.st-t6 .st-ic{animation:stClap 1.6s ease-in-out infinite}
+.st-t7{--tc:#d4a373}.st-t7 .st-tier::before{animation-duration:14s;opacity:.4}.st-t7 .st-ic{animation:stPeek 2.2s ease-in-out infinite}
+.st-t8{--tc:#8d99ae}.st-t8 .st-tier::before{background:repeating-linear-gradient(0deg,#555 0 2px,#222 2px 4px);animation:stStatic .25s steps(3) infinite;opacity:.6}.st-t8 .st-nm{animation:stFlick 2.5s steps(1) infinite}
+.st-t9{--tc:#7aa2c8}.st-t9 .st-tier::before{background:linear-gradient(#24324a,#0b1220);animation:none;opacity:1}.st-t9 .st-ic{animation:stSob 2s ease-in-out infinite}.st-t9 .st-nm{animation:stSink 3s ease-in-out infinite}
+@keyframes stWild{0%,100%{transform:rotate(-14deg) scale(1.1)}50%{transform:rotate(14deg) scale(1.3)}}
+@keyframes stHue{to{filter:hue-rotate(360deg)}}
+@keyframes stShake{0%,100%{transform:translate(0,0) rotate(0)}25%{transform:translate(-2px,1px) rotate(-1.5deg)}75%{transform:translate(2px,-1px) rotate(1.5deg)}}
+@keyframes stGlitch{0%{transform:translate(0)}50%{transform:translate(2px,-1px) skewX(-6deg)}100%{transform:translate(-1px,1px)}}
+@keyframes stShim{to{background-position:-200% 0}}
+@keyframes stFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes stDrive{0%,100%{transform:translateX(-8px)}50%{transform:translateX(8px)}}
+@keyframes stTip{0%,100%{transform:rotate(0)}50%{transform:rotate(-14deg)}}
+@keyframes stClap{0%,100%{transform:scale(1)}50%{transform:scale(.92)}}
+@keyframes stPeek{0%,100%{transform:translateY(0)}50%{transform:translateY(5px) rotate(6deg)}}
+@keyframes stStatic{to{background-position:0 4px}}
+@keyframes stFlick{0%,100%{opacity:1}48%{opacity:1}50%{opacity:.4}52%{opacity:1}}
+@keyframes stSob{0%,100%{transform:rotate(0)}50%{transform:rotate(-8deg) translateY(3px)}}
+@keyframes stSink{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+@media (prefers-reduced-motion:reduce){.st *,.st *::before,.st-tier::before{animation:none!important}}
+@media (max-width:700px){.st-ic{font-size:42px}.st-tier{padding:14px 10px;gap:10px}.st-hd h2{font-size:17px}}
+
+/* ===== Oct 18g: clips on game + fight cards ===== */
+.card[data-hvg],.card[data-hvm]{position:relative}
+.card>.hl-btn.hl-gm{position:absolute;right:8px;bottom:8px;z-index:6;width:30px;height:22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.45);color:#ff4b4b;font-size:11px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.card>.hl-btn.hl-gm.on{background:#e0262f;color:#fff}.card>.hl-btn.hl-gm.hl-nov{opacity:.35}
+.card>.hv-wrap{position:absolute;inset:34px 0 0 0;z-index:5;border-radius:0 0 12px 12px;overflow:hidden;background:#000}
+.card>.hv-wrap video{width:100%;height:100%;object-fit:cover}
+
+/* ===== Oct 18h: Sleeper availability + player view ===== */
+.tr-pl .tr-link{flex-wrap:wrap}
+.tr-av{flex-basis:100%;display:flex;flex-wrap:wrap;gap:4px;padding:2px 0 0 26px}.tr-av:empty{display:none}
+.sl-c{display:inline-flex;align-items:center;font-size:10.5px;font-weight:800;border-radius:999px;padding:1px 7px;border:1px solid var(--line);color:var(--muted);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.sl-c.ok{color:#7ee2a0;border-color:rgba(81,207,102,.45)}.sl-c.inj.q{color:#ffe08a;border-color:rgba(255,200,61,.55)}.sl-c.inj.d{color:#ffb070;border-color:rgba(255,140,60,.55)}.sl-c.inj.o{color:#ff9b9b;border-color:rgba(255,90,90,.6)}
+.sl-c.fa{color:#0b1220;background:#51cf66;border-color:#51cf66}.sl-c.wv{color:#0b1220;background:#ffd34d;border-color:#ffd34d}.sl-c.mine{color:#fff;background:#2f7df6;border-color:#2f7df6}.sl-c.tm{color:#c9d2e3}
+.sl-box{max-width:640px;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}
+.sl-body{width:100%}
+.sl-hd{display:flex;gap:12px;align-items:flex-start;padding-right:36px}.sl-hd img{width:64px;height:64px;border-radius:50%;object-fit:cover;background:#0d121d;flex:none}.sl-hd h3{margin:0;font-size:20px}.sl-hd small{color:var(--muted)}
+.sl-hd .sl-cs{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}.sl-esp{margin-left:auto;font-size:12px;font-weight:800;white-space:nowrap}
+.sl-tabs{display:flex;gap:6px;margin:14px 0 8px;flex-wrap:wrap}.sl-tb{border:1px solid var(--line);background:transparent;color:var(--text);border-radius:999px;padding:6px 12px;font-weight:800;font-size:12.5px;cursor:pointer}.sl-tb.on{background:var(--accent,#ff6a13);border-color:transparent;color:#fff}
+.sl-l{list-style:none;margin:0;padding:0}.sl-r{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)}.sl-r img,.sl-ph{width:36px;height:36px;border-radius:50%;object-fit:cover;background:#0d121d;flex:none}
+.sl-i{width:18px;text-align:right;font-weight:900;color:var(--muted)}.sl-n{display:flex;flex-direction:column;min-width:0;flex:1}.sl-n b{font-size:13.5px}.sl-n i{font-style:normal;font-size:11.5px;color:var(--muted)}
+.sl-cs{display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end;max-width:52%}
+@media (max-width:600px){.sl-r{flex-wrap:wrap}.sl-cs{max-width:100%;justify-content:flex-start;padding-left:64px}.sl-box{padding:14px}}
+
+/* ===== Oct 18i: compact ticker controls + shrink-wrapped labels ===== */
+#ticker .tk-speed.tk-compact{flex:0 0 auto;width:auto;padding:0 6px!important;justify-content:center;align-items:center;gap:0}
+.tk-gear{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:#0d1220;color:var(--muted);font-size:16px;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0}
+.tk-gear:hover,.tk-gear.on{color:#111;background:var(--accent);border-color:transparent}
+.tk-gear:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tk-pop{position:fixed;z-index:1400;display:flex;flex-direction:column;gap:7px;padding:12px;min-width:230px;background:#0b0f1a;border:1px solid var(--line);border-radius:12px;box-shadow:0 14px 34px rgba(0,0,0,.6)}
+.tk-pop[hidden]{display:none}
+.tk-pop .tp-h{font-size:10px;font-weight:900;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase}
+.tk-pop .lbl{display:flex!important;order:5;margin:0}
+.tk-pop .grp{display:flex;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.tk-pop button{background:transparent;border:0;color:var(--muted);font:inherit;font-size:12px;font-weight:800;padding:6px 9px;cursor:pointer;display:inline-flex!important;align-items:center;justify-content:center}
+.tk-pop .grp button{flex:1}.tk-pop .grp button+button{border-left:1px solid var(--line)}
+.tk-pop button:hover{color:var(--text);background:#141b2b}.tk-pop button.on{background:var(--accent);color:#111}
+.tk-pop button[data-tkspeed="ludicrous"].on{background:linear-gradient(90deg,#ff3d6e,#ff9a3d);color:#111}
+.tk-pop .lx{display:none!important}
+.tk-pop .tk-2row,.tk-pop .tk-posb{order:6;border:1px solid var(--line)!important;border-radius:7px;width:100%;font-size:11.5px!important;padding:6px 9px!important}
+.tk-pop .tk-posb{order:7}.tk-pop .tp-rh{order:5}.tk-pop .lbl{order:6!important}
+#ticker .tk-speed .tk-gear{display:inline-flex!important;width:32px;height:32px;padding:0;border-radius:50%;border:1px solid #2a3350;background:#0d1220;color:#c9d2e3;font-size:18px}
+#ticker .tk-speed .tk-gear:hover,#ticker .tk-speed .tk-gear.on{background:var(--accent);color:#111;border-color:transparent}.tk-pop .tp-sz{order:4;display:flex;flex-direction:column;gap:5px}
+/* labels: shrink-wrap to the text, modest padding, keep the slant */
+.ticker-label{padding:0 26px 0 12px}
+.ticker.dsplit .tk-nlabel{min-width:0;padding:0 22px 0 10px}
+@media (max-width:600px){
+  .ticker.split .ticker-label{height:auto!important;align-self:center;padding:7px 0!important;max-height:96px}
+  .ticker.split .tk-nlabel{align-self:center;height:auto;padding:6px 0!important;max-height:100%}
+}
+
+/* ===== Oct 19: matchup face-off ===== */
+#fzMatch .mu-rows .ms{cursor:pointer}
+#foView .hx-x,#cmxMax .hx-x{display:none!important}
+.fo-box{flex-direction:column;align-items:center;gap:10px;max-width:1100px}
+.fo-h{margin:0;font-size:22px;font-weight:900;letter-spacing:2px;text-align:center}.fo-h small{font-size:12px;color:var(--muted);letter-spacing:0;font-weight:700}
+.fo-sl{display:inline-block;padding:2px 10px;border-radius:999px;background:var(--accent);color:#111;font-size:15px;letter-spacing:1px;margin-right:4px}
+.fo-cards{display:flex;align-items:center;justify-content:center;gap:clamp(10px,3vw,40px);width:100%}
+.fo-c{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
+.fo-who{font-size:11px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);max-width:calc(260px * var(--foz,1));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fo-c.me .fo-who{color:#7ab8ff}.fo-c.op .fo-who{color:#ff9b9b}
+.fo-c>.cc.cc{--w:260px;--h:364px;width:260px;height:364px;max-width:none;zoom:var(--z,1)}
+.fo-empty{width:calc(260px * var(--foz,1));height:calc(364px * var(--foz,1));display:flex;align-items:center;justify-content:center;text-align:center;border:2px dashed var(--line);border-radius:14px;color:var(--muted);font-weight:800}
+.fo-vs{flex:none;display:flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffcf70,#ff6a13 55%,#b3240b);box-shadow:0 0 0 3px #111,0 0 26px rgba(255,120,40,.75);animation:foVs 1.6s ease-in-out infinite}
+.fo-vs span{font-size:24px;font-weight:900;font-style:italic;color:#fff;text-shadow:0 2px 0 #6b1400,0 0 8px rgba(0,0,0,.5);letter-spacing:1px}
+@keyframes foVs{0%,100%{transform:scale(1) rotate(-6deg)}50%{transform:scale(1.1) rotate(6deg)}}
+.fo-names{display:none}
+.fo-st{width:100%;max-width:640px}
+.fo-t{width:100%;border-collapse:separate;border-spacing:0 4px;font-size:14px}
+.fo-t th{width:34%;text-align:center;font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);font-weight:900;padding:6px 4px}
+.fo-t td{width:33%;padding:7px 10px;background:#0d1220;border:1px solid var(--line);font-weight:800;vertical-align:middle}
+.fo-t td.a{text-align:right;border-radius:10px 0 0 10px;border-right:0}.fo-t td.b{text-align:left;border-radius:0 10px 10px 0;border-left:0}
+.fo-t td.lead{background:linear-gradient(90deg,rgba(74,222,128,.08),rgba(74,222,128,.22));color:#7ef0a6;box-shadow:inset 0 0 0 1px rgba(74,222,128,.55)}
+.fo-t td.b.lead{background:linear-gradient(270deg,rgba(74,222,128,.08),rgba(74,222,128,.22))}
+.fo-t td.lead::after{content:' ▲';font-size:10px}.fo-t td.a.lead::after{content:''}.fo-t td.a.lead::before{content:'▲ ';font-size:10px}
+.fo-t .fo-g td{font-size:12.5px}.fo-ps{font-size:11.5px;color:#ffd34d;margin-top:2px}.fo-ps.rz{color:#ff6b6b;font-weight:900}.fo-ln{font-size:11px;color:var(--muted);font-weight:700;margin-top:2px}
+.fo-inj{display:inline-block;padding:0 6px;border-radius:999px;background:#ff5a5a;color:#111;font-size:11px}.fo-ok{color:#7ee2a0}
+@media (max-width:759px){.fo.cmx{padding:10px}.fo-box{gap:8px}.fo-h{font-size:17px;padding-right:40px}.fo-vs{width:40px;height:40px;margin:0 -8px;z-index:2}.fo-vs span{font-size:15px}
+  .fo-cards{gap:4px}.fo-t{font-size:12.5px}.fo-t td{padding:6px 7px}.fo-t th{font-size:9.5px;letter-spacing:.6px}}
+@media (prefers-reduced-motion:reduce){.fo-vs{animation:none}}
 </style>
 </head>
 <body>
 
 <div class="topspacer" id="topspacer"><div class="topstack" id="topstack">
 <div class="ticker" id="ticker">
-  <div class="ticker-label" id="tkLabel" data-tk="s" aria-hidden="true"><span class="tl-box"><span class="tl-size">MY PLAYERS</span><span class="tl-t">Scores</span></span></div>
+  <div class="ticker-label" id="tkLabel" data-tk="s" aria-hidden="true"><span class="tl-box"><span class="tl-size">Scores</span><span class="tl-t">Scores</span></span></div>
   <div class="ticker-viewport" id="tickerViewport"><div class="ticker-track" id="tickerTrack"><span class="tk-empty">Loading scores…</span></div></div>
   <div class="tk-speed" role="group" aria-label="Ticker speed"><span class="lbl">SPEED<button class="tk-2row" data-tk2row="1" title="Show news &amp; player updates on their own second ticker row">2 ROWS</button></span><div class="grp"><button data-tkspeed="slow" title="Slow ticker">Slow</button><button data-tkspeed="med" title="Medium ticker">Med</button><button data-tkspeed="fast" title="Fast ticker">Fast</button><button data-tkspeed="faster" title="Faster ticker (130 px/s)">Faster</button><button data-tkspeed="ludicrous" title="Ludicrous speed (240 px/s)" aria-label="Ludicrous">🚀<span class="lx">Ludicrous</span></button></div><button class="tk-posb" data-tkpos="toggle" type="button" title="Move the ticker">⬇ BOTTOM</button></div>
-  <div class="tk-newsrow" id="tickerNewsRow"><div class="tk-nlabel" id="tkNewsLabel" data-tk="n" aria-hidden="true"><span class="tl-box"><span class="tl-size">PLAYERS</span><span class="tl-t">News</span></span></div><div class="ticker-viewport tk-nvp" id="tickerNewsViewport"><div class="ticker-track" id="tickerNewsTrack"></div></div></div>
+  <div class="tk-newsrow" id="tickerNewsRow"><div class="tk-nlabel" id="tkNewsLabel" data-tk="n" aria-hidden="true"><span class="tl-box"><span class="tl-size">News</span><span class="tl-t">News</span></span></div><div class="ticker-viewport tk-nvp" id="tickerNewsViewport"><div class="ticker-track" id="tickerNewsTrack"></div></div></div>
 </div>
 
 <header>
@@ -2500,7 +2774,7 @@
 <div class="modal" id="favsModal" hidden>
   <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="favsTitle" style="width:min(640px,100%)">
     <div class="modal-head"><div><h2 id="favsTitle">Manage favorites</h2><p>Teams pin their games and news; players get live stats and injury alerts.</p></div><button class="btn" data-close-favs>✕</button></div>
-    <div class="favs-body"><div class="usearch" data-usearch><span class="ico">🔍</span><input type="search" placeholder="Add a team or player…" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-label="Search teams and players"><kbd>/</kbd><div class="us-results" role="listbox" hidden></div></div><div class="fav-list" id="favList"></div><label class="fav-row"><input type="checkbox" id="wheelDrift"> Slowly auto-scroll the header team wheel when idle (pauses on hover; off if your system reduces motion)</label><label class="fav-row"><input type="checkbox" id="sxBadgesCb" checked> Spin-it badges: show a 🌀 button on player cards, table rows, matchups and teams</label><label class="fav-row"><input type="checkbox" id="hoverHL"> Hover highlights (off by default): also auto-play a muted clip when you hover a player card. Every card has a ▶ button under the headshot either way</label><label class="fav-row" style="gap:6px;flex-wrap:wrap">YouTube API key (optional, saved only on this device): <input type="password" id="ytKey" autocomplete="off" placeholder="AIza…" style="flex:1;min-width:160px;padding:4px 8px;border-radius:6px;border:1px solid #33405f;background:#151c30;color:#fff"></label></div>
+    <div class="favs-body"><div class="usearch" data-usearch><span class="ico">🔍</span><input type="search" placeholder="Add a team or player…" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-label="Search teams and players"><kbd>/</kbd><div class="us-results" role="listbox" hidden></div></div><div class="fav-list" id="favList"></div><label class="fav-row"><input type="checkbox" id="wheelDrift"> Slowly auto-scroll the header team wheel when idle (pauses on hover; off if your system reduces motion)</label><label class="fav-row"><input type="checkbox" id="sxBadgesCb" checked> Spin-it badges: show a 🌀 button on player cards, table rows, matchups and teams</label><label class="fav-row"><input type="checkbox" id="hoverHL"> Hover video on cards (on by default): hovering a player or team card on desktop plays its newest ESPN clip, muted, inside the card. Tables never autoplay; on phones tap the ▶ under the headshot</label><label class="fav-row" style="gap:6px;flex-wrap:wrap">YouTube API key (optional, saved only on this device): <input type="password" id="ytKey" autocomplete="off" placeholder="AIza…" style="flex:1;min-width:160px;padding:4px 8px;border-radius:6px;border:1px solid #33405f;background:#151c30;color:#fff"></label></div>
   </div>
 </div>
 <div class="toast" id="toast" hidden></div>
@@ -3334,7 +3608,8 @@ function card(g, showLeague){
   const fav = g.teams.some(t => isFav(g.lg, t.abbr));
   const label = `${g.teams.map(t => t.name).join(' vs ')}: open ${CAT[g.lg] && CAT[g.lg].path.startsWith('soccer/') ? 'match stats' : 'box score'} on ESPN`;
   const rd = rdChips(g), lf = lfHTML(g, rd);
-  return `<div class="card gm clickable${lf ? ' has-lf' : ''}${live ? ' live' : ''}${fav ? ' fav' : ''}${gxClose(g) ? ' gx-cl' : ''}"${cardLinkAttrs(g.box || g.link, label)}>${gxRings(g)}
+  const hvg = g.state !== 'pre' && g.id ? ` data-hvg="${esc(g.lg)}:${esc(g.id)}"` : '', hvb = hvg ? `<button type="button" class="hl-btn hl-gm" data-hl="g:${esc(g.lg)}:${esc(g.id)}" title="Play the latest highlight from this game" aria-label="Play the latest highlight from this game"><b aria-hidden="true">▶</b></button>` : '';
+  return `<div class="card gm clickable${lf ? ' has-lf' : ''}${live ? ' live' : ''}${fav ? ' fav' : ''}${gxClose(g) ? ' gx-cl' : ''}"${hvg}${cardLinkAttrs(g.box || g.link, label)}>${gxRings(g)}${hvb}
     <div class="card-top">
       <span>${live ? '<span class="badge-live">LIVE</span> ' : ''}${g.state === 'post' ? upTag(g) : ''}${gxBadge(g)}${showLeague ? esc(CAT[g.lg].short) + ' · ' : ''}${esc(statusText(g, true))}${g.state !== 'pre' ? tmTag(g.date) : ''}</span>
       <span class="tv">${g.state === 'post' ? esc(g.tv || '') : (watchChips(g.nets, g.lg, { compact: true, max: 1 }).html || esc(g.tv || ''))}</span>
@@ -3509,7 +3784,7 @@ function renderTicker(){
   if (plLive.length) html += `<span class="tk-league tk-pllabel" data-tk="p" data-tl="My Players" data-tls="Players">MY PLAYERS · LIVE</span>` + plLive.join('');
   html += segs.map(s => s.html).join('');
   const sizer = ['My Players', 'My Teams', 'Scores', ...segs.map(s => s.label)].reduce((a, b) => b.length > a.length ? b : a);
-  const sz = document.querySelector('#tkLabel .tl-size'); if (sz.textContent !== sizer) sz.textContent = sizer;
+  const sz = document.querySelector('#tkLabel .tl-size'), cur = document.querySelector('#tkLabel .tl-t:not(.out)'); void sizer; if (sz && cur && sz.textContent !== cur.textContent) sz.textContent = cur.textContent;   // Oct 18: shrink-wrap to the current label, not the widest
   let news = '';
   if (tickerNews) {
     const hs = tickerHeadlineItems();
@@ -3565,6 +3840,7 @@ function tkLabelAt(tr){
   L.cur = key; el.dataset.tk = k; if (mob) { const n = txt.replace(/\s/g, '').length; el.dataset.n = n > 7 ? 'L' : n; }
   box.querySelectorAll('.tl-t:not(.out)').forEach(o => { if (anim) { o.classList.add('out'); setTimeout(() => o.remove(), 300); } else o.remove(); });
   const n = document.createElement('span'); n.className = 'tl-t' + (anim ? ' in' : ''); n.textContent = txt; box.appendChild(n);
+  const sz = box.querySelector('.tl-size'); if (sz) sz.textContent = txt;   // Oct 18: label shrink-wraps to its current text
 }
 if (!TICKER_SPEEDS[TK.speed]) TK.speed = 'med';
 TK.twoRow = lsGet('mannTicker2Row.v1', true) !== false;
@@ -3790,9 +4066,9 @@ function ftCard(x){
   if (!g.loaded && !g.last && !g.next && !g.live) slots += `<div class="ft-slot empty"><span class="ft-main">${g.err ? "Couldn't load the schedule. Will retry." : 'Loading schedule…'}</span></div><div class="ft-mid"><div class="gt gt-none"></div></div><div class="ft-slot empty"></div>`;
   else if (g.live) slots += ftSlot('live', g.live, x) + mid() + nextSlot();
   else slots += ftSlot('last', g.last, x, 'No games played yet') + mid() + nextSlot();
-  return `<div class="ft-card clickable${g.live ? ' is-live' : ''}${small ? ' compact' : ''}" style="${esc(teamColorVars(x.lg, x.abbr, color, ''))}"${cardLinkAttrs(teamUrl(x.key), name + ': open ESPN team page')}>
+  return `<div class="ft-card clickable${g.live ? ' is-live' : ''}${small ? ' compact' : ''}" data-tmcard="${esc(x.key)}"${(g.live || g.last) && (g.live || g.last).id ? ` data-tmev="${esc((g.live || g.last).id)}"` : ''} style="${esc(teamColorVars(x.lg, x.abbr, color, ''))}"${cardLinkAttrs(teamUrl(x.key), name + ': open ESPN team page')}>
     <div class="ft-head">${logo ? `<img class="ft-logo" src="${esc(logo)}" alt="">` : '<div class="ft-logo ph"></div>'}
-      <div class="ft-id"><span class="ft-lg">${esc(CAT[x.lg].short)}${LEAGUES[x.lg] ? '' : ' · not in your sports'}</span><b>${esc(name)}</b><i>${esc(sub)}</i></div>
+      <div class="ft-id"><span class="ft-lg">${esc(CAT[x.lg].short)}${LEAGUES[x.lg] ? '' : ' · not in your sports'}<button type="button" class="hl-btn hl-tm" data-hl="t:${esc(x.key)}" data-hln="${esc(name)}" title="Play the newest ${esc(name)} clip" aria-label="Play the newest ${esc(name)} clip"><b aria-hidden="true">▶</b></button></span><b class="ft-nm">${esc(name)}</b><i>${esc(sub)}</i></div>
       <button class="star on" data-star="${esc(x.key)}" title="Unstar ${esc(name)}">★</button>${cmpOn ? fxBtn('t:' + x.key, name) : ''}</div>
     <div class="ft-slots">${slots}</div></div>`;
 }
@@ -4114,7 +4390,8 @@ function renderMMA(e){
   html += `<div class="grid">${e.fights.map((f, i) => {
     const live = f.state === 'in';
     const row = p => `<div class="row${f.state === 'post' && !p.winner ? ' lose' : ''}${p.winner ? ' win' : ''}">${p.flag ? flagImg(p.flag) : '<div class="ph"></div>'}<div class="name"><b>${esc(p.name)}${p.winner ? ' ✓' : ''}</b><i>${esc(p.record)}</i></div></div>`;
-    return `<div class="card clickable${live ? ' live' : ''}${i === 0 ? ' fav' : ''}"${cardLinkAttrs(e.link, f.fighters.map(x => x.name).join(' vs ') + ': open fightcenter on ESPN')}><div class="card-top"><span>${live ? '<span class="badge-live">LIVE</span> ' : ''}${i === 0 ? 'Main event · ' : ''}${esc(f.wc)}</span><span>${f.state === 'pre' ? esc(startLabel(f.date)) : esc(f.detail) + tmTag(f.date)}</span></div>${f.fighters.map(row).join('')}</div>`;
+    const fid = f.fighters.map(x => x.id).filter(Boolean).join(','), hvm = fid ? ` data-hvm="${esc(fid)}" data-hvmn="${esc(f.fighters.map(x => x.name).join('|'))}"` : '';
+    return `<div class="card clickable mma-fc${live ? ' live' : ''}${i === 0 ? ' fav' : ''}"${hvm}${cardLinkAttrs(e.link, f.fighters.map(x => x.name).join(' vs ') + ': open fightcenter on ESPN')}>${fid ? `<button type="button" class="hl-btn hl-gm" data-hl="m:${esc(fid)}" title="Play the latest fight clip" aria-label="Play the latest clip of these fighters"><b aria-hidden="true">▶</b></button>` : ''}<div class="card-top"><span>${live ? '<span class="badge-live">LIVE</span> ' : ''}${i === 0 ? 'Main event · ' : ''}${esc(f.wc)}</span><span>${f.state === 'pre' ? esc(startLabel(f.date)) : esc(f.detail) + tmTag(f.date)}</span></div>${f.fighters.map(row).join('')}</div>`;
   }).join('')}</div>`;
   if (e.link) html += `<div class="ev-meta" style="margin-top:8px"><a href="${esc(e.link)}" target="_blank" rel="noopener">Fight card on ESPN ↗</a></div>`;
   return html;
@@ -4123,7 +4400,7 @@ function renderMMA(e){
 function renderNews(){
   if (isMN()) return; // rendered by renderMyNews / renderFantasy
   const lg = state.tab, el = document.getElementById('news');
-  el.classList.remove('static');
+  el.classList.remove('static'); el.classList.remove('fz-rail');
   const items = state.news[lg];
   let html = `<h3>📰 ${esc(CAT[lg].label)} Headlines</h3>`;
   if (!items && state.newsErr[lg]) html += `<div class="err" style="margin-bottom:12px">Couldn't load headlines right now.</div>`;
@@ -4982,7 +5259,7 @@ function renderMyNews(){
   if (state.tab === FANTASY_TAB) return renderFantasy();
   if (state.tab === WATCH_TAB) return renderWatchTab();
   const el = document.getElementById('games'), side = document.getElementById('news');
-  side.classList.add('static');
+  side.classList.add('static'); side.classList.remove('fz-rail');
   if (el.dataset.view !== 'mynews') { el.dataset.view = 'mynews'; el.innerHTML = `<div id="mnTeams"></div>`; }
   const st = starList();
   const cta = (txt, q) => `<div class="cta-row"><span>${txt}</span><button class="linkbtn" data-focus-search="${esc(q || '')}">🔍 Search to add favorites</button></div>`;
@@ -5040,11 +5317,12 @@ function rosterSection(sp){
     const live = list.filter(p => { const n = playerNow(p); return n && n.state === 'in'; }).length;
     if (g === 'u') h += rosterSyncing.has(sp) ? `<div class="rg-sync" role="status">↻ Sorting your lineup from ESPN…</div>`
       : `<div class="rg-sync">${L && L.source !== 'paste' ? `Lineup slots unknown for these players${L.syncErr ? ` (ESPN: ${esc(L.syncErr)})` : ''}. <button class="linkbtn" data-efresync="${sp}">↻ Re-sync to sort</button>` : `No lineup slots from pasted names. <button class="linkbtn" data-efopen="${sp}">Import from your league link to sort</button>`}</div>`;
-    h += g === 's' ? `<div class="rg rg-s open"><div class="rg-h" style="cursor:default">${RG_NAMES[g]} <span class="cnt">${list.length}</span>${live ? `<span class="badge-live">${live} LIVE</span>` : ''}</div>
-      <div class="rg-b" id="${id}">${ccG(list)}</div></div>` : '';
+    if (g === 's') { LVROW[sp] = list; const on = live && LVF.has(sp);
+      h += `<div class="rg rg-s open"><div class="rg-h" style="cursor:default">${RG_NAMES[g]} <span class="cnt">${list.length}</span>${live ? `<button type="button" class="badge-live lv-chip${on ? ' on' : ''}" data-lvf="${sp}" aria-pressed="${on}" title="${on ? 'Show all starters' : 'Show only starters playing now'}">${live} LIVE${on ? ' ✕' : ''}</button>` : ''}</div>
+      <div data-lvrow="${sp}">${pnRow(sp)}</div><div class="rg-b${on ? ' lv-only' : ''}" id="${id}">${pgGroups(sp, list, g, ccG)}</div></div>`; }
     if (g === 's') continue;
     h += `<div class="rg rg-${g}${open ? ' open' : ''}"><button class="rg-h" data-rgtoggle="${key}" aria-expanded="${open}" aria-controls="${id}" title="${open ? 'Collapse' : 'Expand'} ${RG_NAMES[g]}"><span class="chev" aria-hidden="true">▾</span>${RG_NAMES[g]} <span class="cnt">${list.length}</span>${live ? `<span class="badge-live">${live} LIVE</span>` : ''}${!open && g !== 's' ? `<span class="rg-peek">${esc(list.slice(0, 4).map(p => p.short || p.name).join(', '))}${list.length > 4 ? '…' : ''}</span>` : ''}</button>
-      <div class="rg-b" id="${id}"${open ? '' : ' hidden'}>${ccG(list)}</div></div>`;
+      <div class="rg-b" id="${id}"${open ? '' : ' hidden'}>${g === 'u' ? ccG(list) : pgGroups(sp, list, g, ccG)}</div></div>`;
   }
   return h;
 }
@@ -5210,7 +5488,7 @@ function msSide(p, s, side, res, rank, l3, key){
     <span class="ms-th r-${tier}"><img src="${esc(p.headshot)}" alt="" loading="lazy" draggable="false" referrerpolicy="no-referrer" onerror="this.style.visibility='hidden'">${logo}<span class="ms-pos">${esc(p.pos)}</span></span>
     <div class="ms-i"><div class="ms-n"><b>${esc(p.name)}</b>${crown}</div>
       <div class="ms-sub"><span class="ms-tm">${esc(p.team)} · ${esc(p.pos)}</span>${inj ? `<span class="ms-inj" title="${esc(inj.status)}">${esc(inj.code)}</span>` : ''}${L3 != null ? `<span class="ms-x" title="Average of the last 3 weeks">L3 ${esc(L3)}</span>` : ''}${a.lw != null ? `<span class="ms-x" title="Last week">LW ${esc(a.lw)}</span>` : ''}</div>
-      ${s && (s.g || s.t) ? `<div class="ms-gs ${s.s}">${live ? '<i class="ms-dot"></i>' : ''}${esc(s.g || s.t)}</div>` : ''}
+      ${s && (s.g || s.t) ? `<div class="ms-gs ${s.s}">${live ? '<span class="lv-badge sm">LIVE</span>' : ''}${esc(s.g || s.t)}</div>` : ''}${live ? (L => L && L.poss ? `<div class="ms-ps${L.rz ? ' rz' : ''}">🏈 ${esc(L.ab)} ball${L.rz ? ' · <b>RED ZONE</b>' : ''}</div>` : '')(lvInfo(p)) : ''}
       ${s && s.line ? `<div class="ms-sl" title="Live stat line">${esc(s.line)}</div>` : ''}
       ${x ? `<div class="ms-dvw">${dvpMini(x)}</div>` : ''}</div>
     <div class="ms-p"><b>${a.act != null ? esc(a.act) : '–'}</b><i>proj ${a.proj ?? '–'}</i>${pr != null ? `<span class="ms-pb${a.act >= a.proj ? ' hit' : ''}" title="${a.act} of ${a.proj} projected (${pr}%)"><i style="width:${pr}%"></i></span>` : ''}</div></div>`;
@@ -5397,7 +5675,7 @@ function ensureMu(sp){
   if (!stale || FZX_BUSY.has(k) || (FZX_ERR[k] && now - FZX_ERR[k] < 2 * 60e3)) return;
   FZX_BUSY.add(k);
   muLoad(sp, L).then(() => { delete FZX_ERR[k]; try { lsSet(MU_KEY, MU.d); } catch (_) {} }).catch(e => { FZX_ERR[k] = Date.now(); console.warn('matchup', e); })
-    .finally(() => { FZX_BUSY.delete(k); if (state.tab === FANTASY_TAB && MN.fsTab === sp) muRender(sp); ensureDvp(sp);
+    .finally(() => { FZX_BUSY.delete(k); if (state.tab === FANTASY_TAB && MN.fsTab === sp) muRender(sp); ensureDvp(sp); try { lvPatch(); } catch (_) {}
       loadPlayerBoxes().then(() => { if (state.tab === FANTASY_TAB && MN.fsTab === sp) muRender(sp); }).catch(e => console.warn('mu boxes', e)); });
   ensureDvp(sp);
 }
@@ -5458,6 +5736,7 @@ async function trLoad(sp, L){
       sos: pos ? sos(pos, pl.proTeamId) : null,
       hs: dst ? (ab !== 'FA' ? `https://a.espncdn.com/i/teamlogos/nfl/500/${ab.toLowerCase()}.png` : '') : `https://a.espncdn.com/i/headshots/nfl/players/full/${pl.id}.png` }; };
   const teams = (d.teams || []).map(t => ({ id: String(t.id), name: (t.name || [t.location, t.nickname].filter(Boolean).join(' ') || 'Team ' + t.id).trim(), abbrev: t.abbrev || '', logo: t.logo || '',
+    rec: t.record && t.record.overall ? { w: +t.record.overall.wins || 0, l: +t.record.overall.losses || 0, t: +t.record.overall.ties || 0 } : null,
     ps: ((t.roster || {}).entries || []).map(e => mkP((e.playerPoolEntry || {}).player || {}, e.lineupSlotId)) }));
   // weekly actuals (last 3 + games played) for every rostered player, and the top free agents (waiver-level replacement)
   const ids = teams.flatMap(t => t.ps.map(p => +p.id)).filter(x => !isNaN(x));
@@ -5729,6 +6008,7 @@ document.addEventListener('change', e => {   // Oct 18: Trade Lab suggestion fil
 /* flipped trading card opens its back as a centered, enlarged overlay (✕ / Esc / tap outside closes and flips the card back) */
 function ccBigOpen(c){
   const st = c.querySelector('.cc-stock'); if (!st) return;
+  if (c.closest('#foView,#cmxMax') && parseFloat(c.style.getPropertyValue('--z') || '1') >= .9) return;   // big enough already: flip in place (face-off / maximized card)
   let o = document.getElementById('ccBig');
   if (!o) { o = document.createElement('div'); o.id = 'ccBig'; o.hidden = true; o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true'); document.body.appendChild(o); }
   const tier = [...c.classList].find(x => /^r-/.test(x)) || 'r-common', nm = (c.querySelector('.cc-bh b') || {}).textContent || 'Player';
@@ -5748,7 +6028,7 @@ document.addEventListener('click', e => { const o = document.getElementById('ccB
 document.addEventListener('keydown', e => { const o = document.getElementById('ccBig'); if (e.key === 'Escape' && o && !o.hidden) { e.preventDefault(); e.stopPropagation(); ccBigClose(); } }, true);
 function renderFantasy(){
   const el = document.getElementById('games'), side = document.getElementById('news');
-  side.classList.add('static');
+  side.classList.add('static'); side.classList.add('fz-rail');
   if (el.dataset.view !== FANTASY_TAB) { el.dataset.view = FANTASY_TAB; el.innerHTML = `<div id="fzHead"></div><div id="fzMatch"></div><div id="mnPlayers"></div><div id="fzWatchLink"></div><div id="fzPick"></div><div id="fzComps"></div><div id="mnFF"></div>`; }
   if (!document.getElementById('fzMatch')) { const fh = document.getElementById('fzHead'); if (fh) fh.insertAdjacentHTML('afterend', '<div id="fzMatch"></div>'); }
   if (!document.getElementById('fzPick')) { const wl = document.getElementById('fzWatchLink'); if (wl) wl.insertAdjacentHTML('afterend', '<div id="fzPick"></div>'); }
@@ -6054,7 +6334,7 @@ function wtSuggest(sp){
 }
 function renderWatchTab(){
   const el = document.getElementById('games'), side = document.getElementById('news');
-  side.classList.add('static');
+  side.classList.add('static'); side.classList.remove('fz-rail');
   if (!fantasySel.includes(MN.fsTab)) MN.fsTab = fantasySel[0];
   const sp = MN.fsTab, F = FSPORTS[sp]; if (!F) return;
   if (el.dataset.view !== WATCH_TAB || el.dataset.sp !== sp) {         // static shell keeps the search box stable while data refreshes
@@ -6296,8 +6576,11 @@ const rarDate = d => new Date(d * 864e5 + 12 * 3600e3).toLocaleDateString('en-US
 function rarTip(tl, r){ if (!r) return tl + ' (by positional rank)';
   const f = v => v == null ? 'n/a' : Math.round(v); return `${tl} · rarity score ${r.pct}/100 (top ${Math.max(1, Math.round(100 - r.pct))}% of the league pool)\nPPG ${f(r.parts.ppg)} · Projection ${f(r.parts.proj)} · Form ${f(r.parts.form)} · Rostered ${f(r.parts.own)} (position percentiles)`; }
 function rarBadge(id, mini){ const ch = rarChange(id); if (!ch) return '';
-  if (mini) return `<span class="rar-chg ${ch.dir}" title="${esc(`${ch.dir === 'up' ? 'Upgraded' : 'Downgraded'} from ${RAR_T[ch.from][1]} to ${RAR_T[ch.to][1]} on ${rarDate(ch.d)}`)}">${ch.dir === 'up' ? '▲ UP' : '▼ DOWN'}</span>`;
-  return `<span class="rar-chg ${ch.dir}" title="${esc(`${ch.dir === 'up' ? 'Upgraded' : 'Downgraded'} from ${RAR_T[ch.from][1]} to ${RAR_T[ch.to][1]} on ${rarDate(ch.d)}`)}">${ch.dir === 'up' ? '▲' : '▼'} ${esc(RAR_T[ch.to][1].replace('Ultra Rare', 'Ultra'))}</span>`; }
+  if (mini) return `<span class="rar-chg ${ch.dir}" title="${esc(`${ch.dir === 'up' ? 'Upgraded' : 'Downgraded'} from ${RAR_T[ch.from][1]} to ${RAR_T[ch.to][1]} on ${rarDate(ch.d)}`)}">${ch.dir === 'up' ? '▲' : '▼'} from ${esc(RAR_SH[ch.from] || RAR_T[ch.from][1])}</span>`;
+  return `<span class="rar-chg ${ch.dir}" title="${esc(`${ch.dir === 'up' ? 'Upgraded' : 'Downgraded'} from ${RAR_T[ch.from][1]} to ${RAR_T[ch.to][1]} on ${rarDate(ch.d)}`)}">${ch.dir === 'up' ? '▲' : '▼'} <span class="rr-l">from ${esc(RAR_T[ch.from][1])}</span><span class="rr-s">${esc(RAR_3[ch.from] || '')}</span></span>`; }
+var RAR_SH = ['Common', 'Unc.', 'Rare', 'Epic', 'Ultra', 'Leg.'];
+var RAR_3 = ['Com', 'Unc', 'Rare', 'Epic', 'Ult', 'Leg'];   // tier-change pill on small cards: '▲ Com' (full text in the tooltip)
+var RAR_SHORT = { Uncommon: 'Uncom', 'Ultra Rare': 'Ultra', Legendary: 'Legend' };
 function rarChart(id, w, h){   // step chart of rarity score with tier bands (oldest -> today)
   const H = RARH[id]; if (!H || !H.length) return '';
   const lo0 = Math.min(...H.map(e => e[2])), hi0 = Math.max(...H.map(e => e[2])), lo = RAR_T[Math.max(0, lo0)][2], hi = hi0 < 5 ? RAR_T[hi0 + 1][2] : 100;   // zoom to the tiers he has touched
@@ -6367,14 +6650,14 @@ function ccCard(p, scope, C, rank, i){
       ${art ? `<img class="cc-photo" src="${esc(art)}" alt="" loading="lazy" draggable="false" referrerpolicy="no-referrer" data-ind="${F.kind === 'team' ? '' : '1'}" onload="artFrame(this)" onerror="this.onerror=null;this.closest('.cc-art').classList.remove('has-art');this.className='cc-hsbig';this.src='${esc(p.headshot)}'">`
             : `${p.teamLogo ? `<img class="cc-logo-bg" src="${esc(p.teamLogo)}" alt="" draggable="false">` : ''}<img class="cc-hsbig" src="${esc(p.headshot)}" alt="" loading="lazy" draggable="false" onerror="this.style.visibility='hidden'">`}
       <div class="cc-fade"></div>
-      <div class="cc-top"><div class="cc-tl"><span class="cc-slot ${slotCls}" title="${p.watch ? 'On your Fantasy Lab watch list' : 'Fantasy lineup slot'}">${esc(slotTxt)}</span></div>
-        <div class="cc-tr"><span class="cc-rar" title="${esc(rarTip(tl, RR))}">${RAR_T.find(t => t[0] === tc)[3]} ${esc(tl)}</span>${rid ? rarBadge(rid) : ''}${inj ? `<span class="cc-inj st ${esc(inj.cls || inj.code)}" title="${esc(inj.status)}">${esc(inj.code || inj.status)}</span>` : ''}</div></div>
+      <div class="cc-top"><div class="cc-tl"><span class="cc-slot ${slotCls}${p.roster && !p.watch && psp(p) === 'nfl' ? ' ps-' + pgCls(g === 's' ? pgSlotKey(p) : pgPosKey(p)) : ''}" title="${p.watch ? 'On your Fantasy Lab watch list' : 'Fantasy lineup slot'}">${esc(slotTxt)}</span><span class="lv-badge" aria-label="Game in progress">LIVE</span></div>
+        <div class="cc-tr"><span class="cc-rar" title="${esc(rarTip(tl, RR))}">${RAR_T.find(t => t[0] === tc)[3]} <span class="rr-l">${esc(tl)}</span><span class="rr-s">${esc(RAR_SHORT[tl] || tl)}</span></span>${rid ? rarBadge(rid) : ''}${inj ? `<span class="cc-inj st ${esc(inj.cls || inj.code)}" title="${esc(inj.status)}">${esc(inj.code || inj.status)}</span>` : ''}</div></div>
       <span class="cc-flip-hint">TAP TO FLIP ⟲</span>
-      ${ppg != null ? `<div class="cc-ppg"><b>${ppg}</b><i>FP/G${R.rk ? ' · ' + esc(R.pos) + R.rk : ''}</i></div>` : big ? `<div class="cc-ppg"><b>${esc(big[1])}</b><i>${esc(big[0].toUpperCase())}${R.rk ? ' · ' + esc(R.pos) + R.rk : ''}</i></div>` : ''}
+      ${lvBox(p, ppg != null ? `<div class="cc-ppg"><b>${ppg}</b><i>FP/G${R.rk ? ' · ' + esc(R.pos) + R.rk : ''}</i></div>` : big ? `<div class="cc-ppg"><b>${esc(big[1])}</b><i>${esc(big[0].toUpperCase())}${R.rk ? ' · ' + esc(R.pos) + R.rk : ''}</i></div>` : '')}
       <span class="cc-circ"><img src="${esc(p.headshot)}" alt="" loading="lazy" draggable="false" onerror="this.style.visibility='hidden'">${p.teamLogo ? `<img class="cc-clg" src="${esc(p.teamLogo)}" alt="" draggable="false" onload="if(this.naturalWidth<8)this.remove()" onerror="this.remove()">` : ''}${hlBtn(p, 'cc')}</span>
       <div class="cc-plate">${first ? `<span class="cc-fn">${esc(first)}</span>` : ''}<span class="cc-ln">${esc(last)}</span>
         <span class="cc-tm">${p.teamLogo ? `<img src="${esc(p.teamLogo)}" alt="" draggable="false">` : ''}<span class="ps">${esc(p.pos || F.label)}</span>${esc(p.team || F.label)}${bio.num ? ' · #' + esc(bio.num) : ''}</span></div>
-      ${tc === 'leg' || tc === 'epic' || tc === 'ultra' ? '<div class="cc-holo"></div>' : ''}<div class="cc-shine"></div><div class="cc-glare"></div></div></div>`;
+      ${tc === 'leg' || tc === 'epic' || tc === 'ultra' || tc === 'rare' ? '<div class="cc-holo"></div>' : ''}<div class="cc-shine"></div><div class="cc-glare"></div></div></div>`;
   const sts = allSt.filter(([k]) => k !== 'GP').slice(0, 6), w = R.wk || [], l3 = w.slice(-3);
   let nx = '';
   if (R.next) nx = R.next.live ? `<span class="badge-live">LIVE</span> ${esc(R.next.txt || '')} ${esc(R.next.det || '')}` : `<a href="${esc(R.next.link || '#')}" target="_blank" rel="noopener">${esc(R.next.txt)}</a> · ${esc(dayLabelET(new Date(R.next.d)))} ${esc(timeET(new Date(R.next.d)))}`;
@@ -6393,7 +6676,7 @@ function ccCard(p, scope, C, rank, i){
         ${ccComps(p, I, rank || {})}
       </div>
       </div></div>`;
-  return `<div class="cc r-${tc}${fl ? ' flipped' : ''}" data-cc="${esc(key)}" data-plcard="${esc(p.id)}" data-sp="${sp}" style="${esc(colors)}--sd:${((i || 0) * 0.37 % 6).toFixed(2)}s" role="listitem">
+  return `<div class="cc r-${tc}${fl ? ' flipped' : ''}${lvIs(p) ? ' is-live' : ''}" data-lvc="${esc(peid(p))}" data-cc="${esc(key)}" data-plcard="${esc(p.id)}" data-sp="${sp}" style="${esc(colors)}--sd:${((i || 0) * 0.37 % 6).toFixed(2)}s" role="listitem">
     <div class="cc-in" tabindex="0" role="button" aria-pressed="${fl}" aria-label="${esc(p.name)} ${esc(tl)} card. Press to flip">${front}${back}</div></div>`;
 }
 // weekly fantasy points bar chart for the card back (real ESPN weekly scoring, labeled weeks)
@@ -6574,10 +6857,11 @@ function fantasySidebar(sp){
       const row = (p, dir) => { const wt = !!(p.espn && isWatched(p.espn, 'nfl'));
         const fav = p.espn && isPlayerFav(p.espn);
         const inj = p.inj ? ` <span class="st ${p.inj === 'Out' || p.inj === 'IR' ? 'O' : p.inj === 'Doubtful' ? 'D' : 'Q'}">${esc(p.inj === 'Questionable' ? 'Q' : p.inj === 'Doubtful' ? 'D' : p.inj)}</span>` : '';
-        return `<div class="tr-row tr-pl${fav ? ' mine' : ''}"><a class="tr-link" href="${esc(trUrl(p))}" target="_blank" rel="noopener" title="${esc(p.n)}: ${p.espn ? 'open ESPN player page' : 'search ESPN'}"><span class="pos">${esc(p.pos)}</span><span class="n">${esc(p.n)}${inj}</span><span class="c">${esc(p.team || '')}</span><span class="c ${dir}">${dir === 'up' ? '▲' : '▼'} ${Number(p.count || 0).toLocaleString()}</span></a>` +
+        return `<div class="tr-row tr-pl${fav ? ' mine' : ''}"><a class="tr-link" href="${esc(trUrl(p))}" target="_blank" rel="noopener" data-slv="${esc(p.sid)}" title="${esc(p.n)}: tap for availability, similar players and rankings"><span class="pos">${esc(p.pos)}</span><span class="n">${esc(p.n)}${inj}</span><span class="c">${esc(p.team || '')}</span><span class="c ${dir}">${dir === 'up' ? '▲' : '▼'} ${Number(p.count || 0).toLocaleString()}</span><span class="tr-av" data-slav="${esc(p.sid)}">${slRowChips(p)}</span></a>` +
           `<button class="tr-star tr-eye${wt ? ' on' : ''}" data-trwatch="${esc(p.sid)}" aria-pressed="${wt}" aria-label="${wt ? 'Stop watching' : 'Watch'} ${esc(p.n)}" title="${wt ? 'On your Fantasy Lab watch list: tap to remove' : 'Add to your Fantasy Lab watch list'}">👁</button>` +
           `<button class="tr-star${fav ? ' on' : ''}" data-trstar="${esc(p.sid)}" aria-pressed="${fav}" aria-label="${fav ? 'Remove' : 'Add'} ${esc(p.n)} ${fav ? 'from' : 'to'} favorites" title="${fav ? 'Remove from' : 'Add to'} favorites">${fav ? '★' : '☆'}</button></div>`; };
       const isFav = p => !!(p.espn && isPlayerFav(p.espn));
+      try { slEnsure([...S.trending.adds, ...S.trending.drops]); } catch (_) {}
       s += `<h4>Most added</h4>${S.trending.adds.length ? topList('tr:add', favFirst(S.trending.adds, isFav).map(p => row(p, 'up'))) : '<div class="tr-row">None</div>'}`;
       s += `<h4>Most dropped</h4>${S.trending.drops.length ? topList('tr:drop', favFirst(S.trending.drops, isFav).map(p => row(p, 'down'))) : '<div class="tr-row">None</div>'}`;
     } else s += S.src.sleeper && S.src.sleeper !== 'ok' ? `<div class="err">Sleeper trends unavailable (${esc(S.src.sleeper)}).</div>` : `<div class="empty">Loading…</div>`;
@@ -7491,12 +7775,12 @@ function pcCard(p, mk){
   if (key && key.replace(/<[^>]+>/g, '').length > 24) sts = sts.slice(0, hasT ? 4 : 6);   // a 2-line note: drop the 7th stat so the bio line still fits
   const bioL = [[bio.ht, bio.wt].filter(Boolean).join(' · '), bio.age ? 'Age ' + bio.age : '', bio.col, bio.exp].filter(Boolean);
   const tags = mk ? '' : (p.roster ? `<span title="On your fantasy roster${p.roster.slot ? ' (' + esc(p.roster.slot) + ')' : ''}">🎮${p.roster.slot ? ' ' + esc(p.roster.slot) : ''}</span>` : '') + (p.fav ? '<span title="★ favorite">★</span>' : '');
-  return `<div class="pc r-${rc}" data-plcard="${esc(p.id)}" data-sp="${esc(psp(p))}" role="listitem"><div class="pc-flip${fl ? ' flipped' : ''}" data-pcflip="${esc(p.id)}" tabindex="0" role="button" aria-pressed="${fl}" aria-label="${esc(p.name)} card. Press to flip for stats" style="${esc(colors)}">
+  return `<div class="pc r-${rc}${lvIs(p) ? ' is-live' : ''}" data-lvc="${esc(peid(p))}" data-plcard="${esc(p.id)}" data-sp="${esc(psp(p))}" role="listitem"><div class="pc-flip${fl ? ' flipped' : ''}" data-pcflip="${esc(p.id)}" tabindex="0" role="button" aria-pressed="${fl}" aria-label="${esc(p.name)} card. Press to flip for stats" style="${esc(colors)}">
     <div class="pc-face pc-front${art ? ' has-art' : ''}">${art ? `<img class="pc-art" src="${esc(art)}" alt="" loading="lazy" draggable="false" referrerpolicy="no-referrer" onerror="this.closest('.pc-front').classList.remove('has-art');this.remove()"><div class="pc-artfade"></div>` : ''}<div class="pc-shine"></div>
       ${mk === 'a' ? (bad => `<span class="pc-mk a${bad ? ' ' + esc(inj.cls) : ''}" title="${bad ? esc(inj.status) + ' (starting lineup' : 'Active starter (lineup'}${p.roster.slot ? ' slot ' + esc(p.roster.slot) : ''})">${bad ? esc(inj.cls === 'IR' ? inj.code : inj.status) : 'Active'}${p.roster.slot ? ' · ' + esc(p.roster.slot) : ''}</span>`)(inj && ['O', 'D', 'IR'].includes(inj.cls)) : mk ? `<span class="pc-mk ${mk}" title="${mk === 'w' ? 'On your Fantasy Lab watch list' : 'On your fantasy roster' + (p.roster && p.roster.slot ? ' (' + esc(p.roster.slot) + ')' : '')}">${mk === 'w' ? '👁 Watch' : rosLbl(p)}</span>` : ''}
       ${p.roster && (mk === 'a' || (mk === 'r' && !'bi'.includes(slotGroup(p)))) ? '<span class="pc-rost" title="On your ESPN fantasy roster">ROSTERED</span>' : ''}
-      <span class="pc-rar" title="${esc(rarTip(rl, RR))}">${RAR_T.find(t => t[0] === rc)[3]} ${esc(rl.replace('Ultra Rare', 'Ultra'))}</span>${rid ? rarBadge(rid, 1) : ''}${rc === 'leg' || rc === 'ultra' ? '<div class="pc-holo"></div>' : ''}
-      <div class="pc-top"><span class="pc-pos">${esc(p.pos || bio.pos || F.label)}</span>${num ? `<span class="pc-num">#${esc(num)}</span>` : ''}</div>
+      <span class="pc-rar" title="${esc(rarTip(rl, RR))}">${RAR_T.find(t => t[0] === rc)[3]} ${esc(rl.replace('Ultra Rare', 'Ultra'))}</span>${rid ? rarBadge(rid, 1) : ''}${rc === 'leg' || rc === 'ultra' || rc === 'epic' || rc === 'rare' ? '<div class="pc-holo"></div>' : ''}
+      <div class="pc-top"><span class="pc-pos">${esc(p.pos || bio.pos || F.label)}</span>${num ? `<span class="pc-num">#${esc(num)}</span>` : ''}<span class="lv-badge" aria-label="Game in progress">LIVE</span></div>${lvBox(p, '', 'pc')}
       ${inj ? `<span class="pc-inj st ${inj.cls || inj.code}" title="${esc(inj.status)}">${esc(inj.code || inj.status)}</span>` : ''}
       <img class="pc-hs" src="${esc(p.headshot)}" alt="" loading="lazy" draggable="false" onerror="this.style.visibility='hidden'">
       ${art ? `<span class="pc-circ"><img src="${esc(p.headshot)}" alt="" loading="lazy" draggable="false" onerror="this.parentNode.style.display='none'"></span>` : ''}
@@ -8216,7 +8500,7 @@ async function sxSchedule(t){
       const me = (c.competitors || []).find(x => String(x.id) === String(tm.id)), op = (c.competitors || []).find(x => x !== me); if (!me || !op) return null;
       const ms = parseFloat(scoreVal(me.score)), os = parseFloat(scoreVal(op.score)); if (isNaN(ms) || isNaN(os)) return null;
       const orec = ((op.record || op.records || [])[0] || {}).displayValue || '';
-      return { date: new Date(ev.date), opp: (op.team || {}).abbreviation || '', at: me.homeAway === 'home' ? 'vs' : '@', ms, os, r: me.winner ? 'W' : op.winner ? 'L' : ms > os ? 'W' : ms < os ? 'L' : 'T', orec };
+      return { id: String(ev.id), date: new Date(ev.date), opp: (op.team || {}).abbreviation || '', at: me.homeAway === 'home' ? 'vs' : '@', ms, os, r: me.winner ? 'W' : op.winner ? 'L' : ms > os ? 'W' : ms < os ? 'L' : 'T', orec };
     }).filter(Boolean).sort((a, b) => b.date - a.date);
     const nx = (d.events || []).map(ev => { const c = (ev.competitions || [])[0] || {}, st = ((c.status || {}).type) || {}; if (st.completed || st.state === 'post') return null; const me = (c.competitors || []).find(x => String(x.id) === String(tm.id)), op = (c.competitors || []).find(x => x !== me); if (!me || !op) return null;
       return { id: String(ev.id), date: new Date(ev.date), opp: (op.team || {}).abbreviation || '', at: me.homeAway === 'home' ? 'vs' : '@', tbd: c.timeValid === false }; }).filter(Boolean).sort((a, b) => a.date - b.date)[0] || null;
@@ -8295,7 +8579,7 @@ async function sxData(e){
     let sc = sxPlayerScore(e), basis = 'fantasy';
     if (!sc && team && e.team) { const t = sxTeam(FSPORTS[e.sp].lg, e.team); sc = sxTeamScore(t, team); basis = 'team'; }
     d = { gl, sc, basis, team, rar: e.sp === 'nfl' ? rarById(e.id) : null };
-  } else { const S = await sxSchedule(e); d = { S, sc: sxTeamScore(e, S) }; }
+  } else { const [S, IJ] = await Promise.all([sxSchedule(e), stInjuries(e.lg).catch(() => null)]); d = { S, sc: sxTeamScore(e, S), ts: stScore(e, S, IJ) }; }
   SX.cache[k] = { t: Date.now(), d }; return d;
 }
 function sxText(e, d){ const L = [`${e.name} — Spin-it`]; if (d.sc) L.push(`WHYDFML score: ${d.sc.s}/100 (${sxGrade(d.sc.s)}, ${sxLabel(d.sc.s)})`);
@@ -8367,11 +8651,11 @@ async function sxOpen(e){
   document.querySelectorAll('.sx-coach').forEach(c => c.remove()); document.querySelectorAll('.sx-ring-hl').forEach(x => x.classList.remove('sx-ring-hl')); try { lsSet('mannSpinCoach.v1', true); } catch (_) {}
   const body = sxShell(); body.innerHTML = `<div class="sx-ld">🌀 Spinning up ${esc(e.name)}…</div>`;
   const d = await sxData(e).catch(() => ({})); if (!SX.ov || !body.isConnected) return;
-  body.innerHTML = sxPanel(e, d);
-  const stg = body.querySelector('.sx-stage'); const tp = ev => { if (ev.pointerType === 'touch') stg.closest('.sx-grid').classList.add('hold'); }; stg.addEventListener('pointerdown', tp);
+  body.innerHTML = e.k === 't' ? stPanel(e, d) : sxPanel(e, d);
+  const stg = body.querySelector('.sx-stage'); const tp = ev => { if (ev.pointerType === 'touch') stg.closest('.sx-grid').classList.add('hold'); }; if (stg) stg.addEventListener('pointerdown', tp);
 }
 function sxSearchOpen(){
-  const body = sxShell(); body.innerHTML = `<div class="sx-srch"><input type="search" placeholder="Spin anything: player or team…" aria-label="Spin-it search"></div><div class="sx-res"></div>`;
+  const body = sxShell(); body.innerHTML = `<button type="button" class="se-go" data-sescrew><span class="ic" aria-hidden="true">🌀</span><span><b>😈 SCREW 'EM</b><i>Find the most desperate team and the lopsided deal they'd take</i></span></button><div class="sx-srch"><input type="search" placeholder="Spin anything: player or team…" aria-label="Spin-it search"></div><div class="sx-res"></div>`;
   const inp = body.querySelector('input'), res = body.querySelector('.sx-res'); inp.focus();
   const run = () => { const q = inp.value.trim().toLowerCase(); const out = [];
     sxAllPlayers().forEach(p => { if (!q || p.name.toLowerCase().includes(q)) out.push(sxPlayer(p.id, psp(p))); });
@@ -8478,17 +8762,34 @@ function cyShow(list){
 setInterval(cyCheck, 1500); setTimeout(cyCheck, 0);
 
 /* ===================== Hover highlights: ESPN clip (athlete-tagged) -> YouTube (known id / optional API key) -> nothing ===================== */
-const HV = { on: lsGet('mannHoverHL.v1', false) === true, /* Oct 18: hover auto-clips are opt-in (Settings); cards get a ▶ button instead */ key: (() => { try { return localStorage.getItem('mannYtKey.v1') || ''; } catch (_) { return ''; } })(), c: lsGet('mannHoverHLCache.v1', {}) || {}, t: 0, cur: null, scrollT: 0, src: {} };
-const HV_SEL = '.pc[data-plcard],.cc[data-plcard],.pl-card[data-plcard],.fzc[data-plcard],.wt-p[data-plcard]';
-function hvSave(){ const ks = Object.keys(HV.c); if (ks.length > 150) ks.sort((a, b) => HV.c[a].t - HV.c[b].t).slice(0, ks.length - 150).forEach(k => delete HV.c[k]); lsSet('mannHoverHLCache.v1', HV.c); }
-function hvPick(vids, id, name){
+const HV = { on: lsGet('mannHoverHL.v2', true) !== false, /* Oct 18 late: hover video on cards is back ON by default (Settings toggle; v2 key resets the earlier opt-in) */ key: (() => { try { return localStorage.getItem('mannYtKey.v1') || ''; } catch (_) { return ''; } })(), c: lsGet('mannHoverHLCache.v2', {}) || {}, t: 0, cur: null, scrollT: 0, src: {} };
+const HV_SEL = '.pc[data-plcard],.cc[data-plcard],.pl-card[data-plcard],.fzc[data-plcard],.wt-p[data-plcard],.ft-card[data-tmcard],.card[data-hvg],.card[data-hvm]';
+function hvSave(){ const ks = Object.keys(HV.c); if (ks.length > 150) ks.sort((a, b) => HV.c[a].t - HV.c[b].t).slice(0, ks.length - 150).forEach(k => delete HV.c[k]); lsSet('mannHoverHLCache.v2', HV.c); }
+const hvSrc = v => { const s = (v.links || {}).source || {}; return (s.HD || {}).href || s.href || (s.full || {}).href || (s.mezzanine || {}).href || ''; };
+const hvDt = v => +new Date(v.originalPublishDate || v.lastModified || v.published || 0) || 0;
+const HV_WEAK = /press conference|presser|podcast|interview|media availability|\breacts?\b|discuss|debate|predict|fantasy|analysis|\bshow\b|live stream|mic'd|speaks|talks|explains|answers|on the .* (?:report|show)/i;
+const HV_HL = /highlight|touchdown|\btd\b|catch|\brun\b|sack|interception|\bint\b|goal|save|dunk|homer|home run|play of|top plays|best plays|knockout|game-winn|walk-off|scores?\b/i;
+function hvChoose(L){
+  const seen = new Set(); L = L.filter(v => { const u = hvSrc(v); if (!u || seen.has(u)) return false; seen.add(u); return true; }).sort((a, b) => hvDt(b) - hvDt(a));
+  let v = L[0]; if (!v) return null;
+  if (HV_WEAK.test(v.headline || '') && !/highlight/i.test(v.headline || '')) { const h = L.find(x => HV_HL.test(x.headline || '') && !HV_WEAK.test(x.headline || '') && Date.now() - hvDt(x) < 7 * 864e5); if (h) v = h; }
+  return { k: 'espn', u: hvSrc(v), poster: v.thumbnail || '', title: v.headline || '', d: hvDt(v) };
+}
+function hvPick(vids, id, name){   // newest clip tagged to the athlete (or naming them)
   const nm = String(name || '').toLowerCase(), tagged = v => (v.categories || []).some(c => String(c.athleteId || (c.athlete || {}).id || '') === String(id));
-  const L = vids.filter(v => { const src = (v.links || {}).source || {}; return (src.HD || src.href || src.full || src.mezzanine) && (tagged(v) || String(v.headline || '').toLowerCase().includes(nm)); });
-  const sc = v => (tagged(v) ? 4 : 0) + (/highlight|td|touchdown|catch|run|throw|homer|home run|goal|knockout|ko\b|finish|game/i.test(v.headline || '') ? 3 : 0) + (v.duration && v.duration <= 150 ? 1 : 0);
-  L.sort((a, b) => sc(b) - sc(a) || new Date(b.originalPublishDate || b.lastModified || 0) - new Date(a.originalPublishDate || a.lastModified || 0));
-  const v = L[0]; if (!v) return null; const s = v.links.source; return { k: 'espn', u: (s.HD || {}).href || s.href || (s.full || {}).href || (s.mezzanine || {}).href, poster: v.thumbnail || '', title: v.headline || '' };
+  return hvChoose(vids.filter(v => tagged(v) || (nm && String(v.headline || '').toLowerCase().includes(nm))));
+}
+async function hvFindTeam(key, ev){   // newest ESPN clip: the team's latest/live game clips (summary) + team news videos (free site API, CORS ok); cached 3 h
+  const ck = 't:' + key + (ev ? ':' + ev : ''), c = HV.c[ck]; if (c && Date.now() - c.t < 3 * 36e5) return c.v;
+  const [lg, ab] = String(key).split(':'), L = CAT[lg], tid = MN.teamIds[lg + ':' + String(ab || '').toUpperCase()]; if (!L) return null;
+  const vids = [], jobs = [];
+  if (ev) jobs.push(getJSON(`${API}${L.path}/summary?event=${encodeURIComponent(ev)}`, 12000).then(d => vids.push(...(d.videos || []))).catch(() => {}));
+  if (tid) jobs.push(getJSON(`${API}${L.path}/news?team=${encodeURIComponent(tid)}&limit=50`, 12000).then(d => (d.articles || []).forEach(a => vids.push(...(a.video || []), ...(a.type === 'Media' && hvSrc(a) ? [a] : [])))).catch(() => {}));
+  await Promise.all(jobs);
+  const v = hvChoose(vids); HV.c[ck] = { t: Date.now(), v }; hvSave(); return v;
 }
 async function hvFind(p){
+  if (p && (p.dst || /D\/ST/.test(p.pos || '')) && psp(p) === 'nfl') return hvFindDst(p);
   const k = String(p.id), c = HV.c[k]; if (c && Date.now() - c.t < 24 * 36e5) return c.v;
   const sp = psp(p), F = FSPORTS[sp]; let v = null, vids = [];
   try { const d = await getJSON(`https://site.web.api.espn.com/apis/common/v3/sports/${F.path}/athletes/${encodeURIComponent(peid(p))}/overview`, 12000); (d.news || []).forEach(a => vids.push(...(a.video || []))); } catch (_) {}
@@ -8499,26 +8800,40 @@ async function hvFind(p){
     if (r.ok) { const j = await r.json(), it = (j.items || [])[0]; if (it && it.id && it.id.videoId) v = { k: 'yt', id: it.id.videoId, title: (it.snippet || {}).title || '' }; } } catch (_) {} }
   HV.c[k] = { t: Date.now(), v }; hvSave(); return v;
 }
-function hvStop(){ const c = HV.cur; clearTimeout(HV.t); if (!c) return; HV.cur = null; const w = c.querySelector('.hv-wrap'); if (w) { const vd = w.querySelector('video'); if (vd) { vd.pause(); vd.removeAttribute('src'); vd.load(); } w.remove(); } c.classList.remove('hv-on'); }
-function hvHost(card){ return card.querySelector('.cc-art') || card.querySelector('.wt-art')?.parentElement || card.querySelector('.cc-front') || card; }
-async function hvStart(card){
-  if (!HV.on || document.hidden || !card.isConnected || card.classList.contains('flipped')) return;
-  const p = sxAllPlayers().find(q => String(q.id) === card.dataset.plcard); if (!p) return;
-  const v = await hvFind(p); if (!v || HV.pend !== card || !card.matches(':hover') && !card._hvTouch) return;
-  hvStop(); const host = hvHost(card), w = document.createElement('div'); w.className = 'hv-wrap'; w.title = v.title;
-  w.innerHTML = v.k === 'espn' ? `<video muted autoplay loop playsinline preload="auto" ${v.poster ? `poster="${esc(v.poster)}"` : ''} src="${esc(v.u)}"></video><span class="hv-tag">▶ ESPN</span>`
-    : `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?autoplay=1&mute=1&controls=0&playsinline=1&loop=1&playlist=${encodeURIComponent(v.id)}&modestbranding=1" allow="autoplay; encrypted-media" title="${esc(v.title)}"></iframe><span class="hv-tag">▶ YouTube</span>`;
+const hvRM = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+function hvStop(fade){ const c = HV.cur; clearTimeout(HV.t); if (!c) return; HV.cur = null; c._hvTouch = false;
+  c.querySelectorAll('.hl-btn.on').forEach(b => b.classList.remove('on'));
+  c.querySelectorAll('.hv-wrap').forEach(w => { const kill = () => { const vd = w.querySelector('video'); if (vd) { try { vd.pause(); vd.removeAttribute('src'); vd.load(); } catch (_) {} } w.remove(); };
+    if (fade && !hvRM()) { w.classList.add('hv-out'); setTimeout(kill, 420); } else kill(); });
+  c.classList.remove('hv-on'); }
+function hvHost(card){ if (card.matches('.card[data-hvg],.card[data-hvm]')) return card; return card.querySelector('.cc-art') || card.querySelector('.pc-front') || (card.classList.contains('ft-card') && card.querySelector('.ft-slots')) || card.querySelector('.wt-art')?.parentElement || card.querySelector('.cc-front') || card; }
+async function hvStart(card, o){
+  o = o || {};
+  if ((!HV.on && !o.btn) || document.hidden || !card.isConnected || card.classList.contains('flipped') || (card.querySelector('.flipped') && !card.classList.contains('ft-card'))) return null;
+  const gk = card.dataset.hvg, mk = card.dataset.hvm, tk = card.dataset.tmcard, p = tk || gk || mk ? null : sxAllPlayers().find(q => String(q.id) === card.dataset.plcard) || (o.p || (typeof FO !== 'undefined' && FO.pm[card.dataset.plcard]) || null); if (!tk && !p && !gk && !mk) return null;
+  let v = null; try { v = gk ? await hvFindGame(gk) : mk ? await hvFindMMA(mk, card.dataset.hvmn || '') : tk ? await hvFindTeam(tk, card.dataset.tmev || '') : await hvFind(p); } catch (_) {}
+  if (!v || !v.u && v.k === 'espn' || HV.pend !== card || (!o.btn && !card.matches(':hover') && !card._hvTouch)) return v || null;
+  hvStop(); try { hlStop(); } catch (_) {}   // one clip at a time, site-wide
+  const host = hvHost(card), w = document.createElement('div'); w.className = 'hv-wrap'; w.title = v.title || '';
+  w.innerHTML = v.k === 'espn' ? `<video muted autoplay playsinline preload="auto" ${v.poster ? `poster="${esc(v.poster)}"` : ''} src="${esc(v.u)}"></video><span class="hv-tag">▶ ESPN${v.title ? ` · ${esc(trunc(v.title, 48))}` : ''}</span>`
+    : `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?autoplay=1&mute=1&controls=0&playsinline=1&modestbranding=1" allow="autoplay; encrypted-media" title="${esc(v.title)}"></iframe><span class="hv-tag">▶ YouTube</span>`;
   if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
-  host.appendChild(w); HV.cur = card; card.classList.add('hv-on'); HV.src[p.name] = v.k;
-  const vd = w.querySelector('video'); if (vd) { vd.muted = true; vd.play().catch(() => {}); vd.addEventListener('error', () => { HV.c[String(p.id)] = { t: Date.now(), v: null }; hvSave(); hvStop(); }, { once: true }); }
+  host.appendChild(w); HV.cur = card; card.classList.add('hv-on'); if (p) HV.src[p.name] = v.k;
+  if (o.btn) o.btn.classList.add('on');
+  const vd = w.querySelector('video');
+  if (vd) { vd.muted = true; vd.play().catch(() => {});
+    vd.addEventListener('ended', () => { if (HV.cur === card) hvStop(true); }, { once: true });   // clip done -> crossfade back to the card
+    vd.addEventListener('error', () => { HV.c[gk ? 'g:' + gk : mk ? 'm:' + mk : tk ? 't:' + tk + (card.dataset.tmev ? ':' + card.dataset.tmev : '') : (p.dst ? 'd:' + p.team : String(p.id))] = { t: Date.now(), v: null }; hvSave(); if (HV.cur === card) hvStop(); }, { once: true }); }
+  return v;
 }
-document.addEventListener('mouseover', e => { if (!HV.on || Date.now() - HV.scrollT < 400) return; const c = e.target.closest && e.target.closest(HV_SEL); if (!c || c === HV.pend) return; clearTimeout(HV.t); HV.pend = c; HV.t = setTimeout(() => hvStart(c), 800); }, { passive: true });
-document.addEventListener('mouseout', e => { const c = e.target.closest && e.target.closest(HV_SEL); if (!c || (e.relatedTarget && c.contains(e.relatedTarget))) return; if (HV.pend === c) { HV.pend = null; clearTimeout(HV.t); } if (HV.cur === c) hvStop(); }, { passive: true });
-window.addEventListener('scroll', () => { HV.scrollT = Date.now(); clearTimeout(HV.t); HV.pend = null; if (HV.cur) hvStop(); }, { passive: true, capture: true });
+// desktop only (real hover + fine pointer), never on tables, never with reduced motion; 350 ms intent delay; nothing is fetched until then
+document.addEventListener('mouseover', e => { if (!HV.on || hvRM() || !mupFine() || Date.now() - HV.scrollT < 400) return; const c = e.target.closest && e.target.closest(HV_SEL); if (!c || c === HV.pend || c.closest('.tb,table')) return; clearTimeout(HV.t); HV.pend = c; HV.t = setTimeout(() => hvStart(c), 350); }, { passive: true });
+document.addEventListener('mouseout', e => { const c = e.target.closest && e.target.closest(HV_SEL); if (!c || (e.relatedTarget && c.contains(e.relatedTarget))) return; if (HV.pend === c) { HV.pend = null; clearTimeout(HV.t); } if (HV.cur === c && !c._hvTouch) hvStop(true); }, { passive: true });
+window.addEventListener('scroll', e => { if (e.target && e.target.closest && e.target.closest('#muPop,#hlMini')) return; const tg = e.target; if (tg && tg !== document && tg !== document.documentElement && tg !== document.body && tg.contains && !((HV.cur && tg.contains(HV.cur)) || (HV.pend && tg.contains(HV.pend)))) return;   /* auto-drifting carousels/tickers elsewhere don't cancel a hover */ HV.scrollT = Date.now(); clearTimeout(HV.t); if (HV.pend && !HV.pend._hvTouch) HV.pend = null; if (HV.cur && !HV.cur._hvTouch) hvStop(true); }, { passive: true, capture: true });
 document.addEventListener('visibilitychange', () => { if (document.hidden) hvStop(); });
 document.addEventListener('pointerdown', e => { if (HV.cur && e.pointerType === 'touch' && !HV.cur.contains(e.target)) { HV.cur._hvTouch = false; hvStop(); } }, { passive: true });
 function hvPreview(card){ card._hvTouch = true; HV.pend = card; hvStart(card); }
-(() => { const cb = document.getElementById('hoverHL'), k = document.getElementById('ytKey'); if (cb) { cb.checked = HV.on; cb.addEventListener('change', () => { HV.on = cb.checked; lsSet('mannHoverHL.v1', HV.on); if (!HV.on) hvStop(); }); }
+(() => { const cb = document.getElementById('hoverHL'), k = document.getElementById('ytKey'); if (cb) { cb.checked = HV.on; cb.addEventListener('change', () => { HV.on = cb.checked; lsSet('mannHoverHL.v2', HV.on); if (!HV.on) hvStop(); }); }
   if (k) { k.value = HV.key; k.addEventListener('change', () => { HV.key = k.value.trim(); try { HV.key ? localStorage.setItem('mannYtKey.v1', HV.key) : localStorage.removeItem('mannYtKey.v1'); } catch (_) {} Object.keys(HV.c).forEach(x => { if (!HV.c[x].v) delete HV.c[x]; }); hvSave(); }); } })();
 
 /* ===== Oct 12d: Spin-it badges, shortcut, coach mark ===== */
@@ -8664,7 +8979,15 @@ async function hlPlay(b){
 document.addEventListener('click', e => { const t = e.target; if (!t || !t.closest) return;
   if (t.closest('#hlMini .hl-x')) { e.preventDefault(); e.stopPropagation(); const b = hlStop(); if (b && b.isConnected) b.focus({ preventScroll: true }); return; }
   if (t.closest('#hlMini')) { e.stopPropagation(); return; }   // clicks in the player never flip a card / close a popover
-  const b = t.closest('.hl-btn'); if (b) { e.preventDefault(); e.stopPropagation(); hlPlay(b); } }, true);
+  const b = t.closest('.hl-btn'); if (b) { e.preventDefault(); e.stopPropagation(); const card = !b.classList.contains('hl-bk') && b.closest(HV_SEL); if (card) hvBtn(b, card); else hlPlay(b); return; }
+  if (HV.cur && HV.cur._hvTouch && HV.cur.contains(t) && t.closest('.hv-wrap, .cc-art, .pc-front, .ft-slots') && !t.closest('a,button')) { e.preventDefault(); e.stopPropagation(); hvStop(true); } }, true);   // tap the playing clip = stop (no flip)
+async function hvBtn(b, card){
+  if (HV.cur === card) { hvStop(true); return; }
+  hlStop(); hvStop(); card._hvTouch = true; HV.pend = card; b.classList.add('busy'); b.setAttribute('aria-busy', 'true');
+  let p = null; try { p = hlPlayer(b); } catch (_) {}
+  const v = await hvStart(card, { btn: b, p }); b.classList.remove('busy'); b.removeAttribute('aria-busy');
+  if (!v) { card._hvTouch = false; b.classList.add('hl-nov'); b.title = 'No recent ESPN clip for this player'; b.setAttribute('aria-label', b.title); }   // no clip: nothing plays
+}
 ['pointerdown', 'mousedown', 'touchstart'].forEach(n => document.addEventListener(n, e => { if (e.target && e.target.closest && e.target.closest('.hl-btn,#hlMini')) e.stopPropagation(); }, { capture: true, passive: true }));
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && HL.el && (document.activeElement && document.activeElement.closest && document.activeElement.closest('#hlMini'))) { e.preventDefault(); e.stopPropagation(); const b = hlStop(); if (b && b.isConnected) b.focus({ preventScroll: true }); } }, true);
 document.addEventListener('visibilitychange', () => { if (document.hidden && HL.el) { const v = HL.el.querySelector('video'); if (v) v.pause(); } });
@@ -8849,6 +9172,594 @@ document.addEventListener('click', e => {
   if (pl) { pl.hidden = !on; if (on) { const g = Object.values(state.games).flat().find(x => x && String(x.id) === id) || (Object.values(NU).flatMap(n => n.games || []).find(x => String(x.id) === id));
     pl.innerHTML = g ? lfPlaysHTML(g) : ''; if (g) lfLoad(g); } }
 }, true);
+
+/* ================= Oct 18 (late): live status on fantasy player cards =================
+   Game state, score, clock, possession and red zone come from the dashboard's ESPN NFL scoreboard (playerNow -> g);
+   fantasy points are ESPN's live applied points for the current scoring period (matchup data, refreshed every 60 s while
+   a game is live by ensureMu; roster points as a fallback). Nothing is estimated: missing pieces are left out. */
+var LVP = LVP || {}, LVROW = LVROW || {}, LVF = LVF || new Set();
+function lvPts(p){
+  const D = MU.d && MU.d.nfl, id = peid(p);
+  if (D && !D.none) for (const sd of [D.me, D.op]) { const q = sd && (sd.ps || []).find(x => peid(x) === id); if (q) return q.pts && q.pts.act != null ? q.pts.act : null; }
+  const r = (p.roster && p.roster.pts) || p.pts;
+  return r && r.act != null && (!D || !D.per || !r.per || r.per === D.per) ? r.act : null;
+}
+function lvInfo(p){
+  if (!p || psp(p) !== 'nfl') return null; let n = null; try { n = playerNow(p); } catch (_) {} if (!n || !n.g || !n.g.teams || n.g.teams.length !== 2) return null;
+  const g = n.g, [a, h] = gtSide(g), pts = lvPts(p), T = String(p.team || '').toUpperCase(), me = g.teams.find(t => String(t.abbr).toUpperCase() === T) || null;
+  const sc = a.score !== '' && h.score !== '' ? `${a.abbr} ${a.score} – ${h.abbr} ${h.score}` : '', scc = sc ? `${a.abbr} ${a.score}-${h.score} ${h.abbr}` : '';
+  if (g.state === 'in') {
+    const per = +g.period || 0, det = String(g.detail || '');
+    const clk = /half/i.test(det) && !/\d:\d/.test(det) ? 'Halftime' : /^end/i.test(det) ? det.replace(/ of /i, ' ').replace(/(\d)(st|nd|rd|th) Quarter/i, 'Q$1') : per ? `${per > 4 ? (per > 5 ? per - 4 : '') + 'OT' : 'Q' + per}${g.clock ? ' ' + g.clock : ''}` : det;
+    const sit = g.sit || {}, pt = sit.poss ? g.teams.find(t => String(t.id) === String(sit.poss)) : null, poss = !!(me && pt && pt === me);
+    return { s: 'in', pts, sc, scc, clk, poss, ab: me ? me.abbr : '', rz: poss && !!sit.rz };
+  }
+  if (g.state === 'post') return { s: 'post', pts, sc };
+  if (g.state === 'pre') return { s: 'pre', ko: `${etFmt(g.date, { weekday: 'short' })} ${timeET(g.date)}` };
+  return null;
+}
+function lvIs(p){ const L = lvInfo(p); return !!(L && L.s === 'in'); }
+function lvBox(p, base, kind){
+  const id = peid(p); LVP[id] = { p, base: base || '', kind: kind || 'cc' };
+  return lvBoxHTML(p, base || '', kind || 'cc');
+}
+function lvBoxHTML(p, base, kind){
+  const id = esc(peid(p)), L = lvInfo(p);
+  if (L && L.s === 'in') return `<div class="lv-box k-${kind}${L.rz ? ' rz' : ''}" data-lv="${id}" role="status" aria-label="Live: ${esc([L.pts != null ? L.pts + ' fantasy points' : '', L.sc, L.clk, L.poss ? L.ab + ' ball' : ''].filter(Boolean).join(', '))}">
+    ${L.pts != null ? `<span class="lv-p"><b>${esc(L.pts)}</b><i>PTS</i></span>` : ''}<span class="lv-g">${L.sc ? `<span class="lv-sc">${esc(L.sc)}</span><span class="lv-scc">${esc(L.scc)}</span>` : ''}${L.clk ? `<span class="lv-ck">${esc(L.clk)}</span>` : ''}</span>
+    ${L.poss ? `<span class="lv-ps" title="${esc(L.ab)} ball${L.rz ? ' · red zone' : ''}">🏈<span class="lv-pt"> ${esc(L.ab)} ball</span>${L.rz ? ' <b>RED ZONE</b><b class="lv-rzs">RZ</b>' : ''}</span>` : ''}</div>`;
+  const line = L && L.s === 'post' ? `FINAL${L.pts != null ? ' · ' + L.pts + ' pts' : ''}` : L && L.s === 'pre' ? L.ko : '';
+  if (kind === 'pc') return line ? `<div class="lv-line k-pc" data-lv="${id}">${esc(line)}</div>` : `<i data-lv="${id}" hidden></i>`;
+  if (!base) return line ? `<div class="cc-ppg" data-lv="${id}"><em class="lv-line">${esc(line)}</em></div>` : `<i data-lv="${id}" hidden></i>`;
+  return base.replace('<div class="cc-ppg"', `<div class="cc-ppg" data-lv="${id}"`).replace(/<\/div>$/, `${line ? `<em class="lv-line">${esc(line)}</em>` : ''}</div>`);
+}
+function pnRow(sp){
+  const list = (LVROW[sp] || []).filter(lvIs); if (!list.length) return '';
+  return `<div class="pn-row" role="list" aria-label="Starters playing now"><span class="pn-h"><span class="lv-badge on">LIVE</span> Playing now</span>${list.map(p => { const L = lvInfo(p);
+    return `<button type="button" class="pn-it${L.rz ? ' rz' : ''}" role="listitem" data-pnjump="${esc(peid(p))}" title="Jump to ${esc(p.name)}'s card"><img src="${esc(p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><span class="pn-n"><b>${esc(p.short || p.name)}</b><i>${esc([L.sc, L.clk].filter(Boolean).join(' · '))}</i></span>${L.pts != null ? `<span class="pn-p">${esc(L.pts)}<small>pts</small></span>` : ''}${L.poss ? `<span class="pn-ps" title="${esc(L.ab)} has the ball">🏈${L.rz ? ' RZ' : ''}</span>` : ''}</button>`; }).join('')}</div>`;
+}
+function lvPatch(){   // re-draw live strips from data already in memory (no network); runs after matchup refresh + every 30 s
+  document.querySelectorAll('[data-lv]').forEach(el => { const E = LVP[el.dataset.lv]; if (!E) return; const html = lvBoxHTML(E.p, E.base, E.kind);
+    if (el.outerHTML !== html) { const t = document.createElement('template'); t.innerHTML = html; const n = t.content.firstElementChild; if (n) el.replaceWith(n); } });
+  document.querySelectorAll('[data-lvc]').forEach(c => { const E = LVP[c.dataset.lvc]; if (!E) return; const on = lvIs(E.p); if (c.classList.contains('is-live') !== on) c.classList.toggle('is-live', on); });
+  document.querySelectorAll('[data-lvrow]').forEach(r => { const h = pnRow(r.dataset.lvrow); if (r.innerHTML !== h) r.innerHTML = h; });
+  try { document.querySelectorAll('.pg-grid').forEach(pgText); } catch (_) {}
+}
+setInterval(() => { if (!document.hidden) try { lvPatch(); } catch (e) { console.warn('live cards', e); } }, 30e3);
+document.addEventListener('click', e => {
+  const f = e.target.closest && e.target.closest('[data-lvf]');
+  if (f) { e.preventDefault(); e.stopPropagation(); const sp = f.dataset.lvf, on = !LVF.has(sp); on ? LVF.add(sp) : LVF.delete(sp);
+    const rg = f.closest('.rg'), b = rg && rg.querySelector('.rg-b'); if (b) b.classList.toggle('lv-only', on);
+    f.classList.toggle('on', on); f.setAttribute('aria-pressed', on); f.title = on ? 'Show all starters' : 'Show only starters playing now';
+    f.textContent = f.textContent.replace(/\s*✕$/, '') + (on ? ' ✕' : '');
+    try { pgScan(); } catch (_) {}
+    const row = rg && (rg.querySelector('.pn-row') || b); if (on && row) row.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    return; }
+  const j = e.target.closest && e.target.closest('[data-pnjump]');
+  if (j) { e.preventDefault(); e.stopPropagation(); const c = document.querySelector(`.rg-s .cc[data-lvc="${CSS.escape(j.dataset.pnjump)}"]`);
+    if (c) { c.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); c.classList.add('lv-ping'); setTimeout(() => c.classList.remove('lv-ping'), 1600); const f2 = c.querySelector('.cc-in'); if (f2) f2.focus({ preventScroll: true }); } }
+}, true);
+
+/* ================= Oct 18 (late): big roster cards grouped by position =================
+   Starters grouped by lineup slot (QB, RB, WR, TE, FLEX, D/ST, K), bench / IR by position. Each group: colored pill,
+   count, and the group's ESPN fantasy points this week when ESPN has them. Cards keep their design and are zoomed to
+   fill the column (3 across on wide screens, 2 on phones); pgFit sizes them from the real column width. */
+var PG_ORDER = ['QB', 'RB', 'WR', 'TE', 'FLEX', 'OP', 'D/ST', 'K', 'P', 'IDP', 'HC', 'OTHER'];
+var PG_LBL = { QB: 'QB', RB: 'RB', WR: 'WR', TE: 'TE', FLEX: 'FLEX', OP: 'Superflex', 'D/ST': 'D/ST', K: 'Kicker', P: 'Punter', IDP: 'IDP', HC: 'Head coach', OTHER: 'Other' };
+function pgCls(k){ return String(k).replace(/[^A-Z]/gi, '').toUpperCase() || 'OTHER'; }
+function pgPosKey(p){ const x = String(p.pos || '').toUpperCase(); return x === 'DST' || x === 'D/ST' || p.dst ? 'D/ST' : x === 'PK' ? 'K' : PG_ORDER.includes(x) ? x : /^(DT|DE|LB|DL|CB|S|DB|DP|EDR)$/.test(x) ? 'IDP' : 'OTHER'; }
+function pgSlotKey(p){ const r = p.roster || {}, S = SLOTS[psp(p)], nm = String(r.slot || (S && S.names[r.sid]) || '').toUpperCase();
+  if (nm === 'FLEX' || nm === 'RB/WR' || nm === 'WR/TE' || nm === 'RB/WR/TE') return 'FLEX'; if (nm === 'OP' || nm === 'TQB') return nm === 'OP' ? 'OP' : 'QB';
+  if (nm === 'D/ST') return 'D/ST'; if (PG_ORDER.includes(nm)) return nm; if (/^(DT|DE|LB|DL|CB|S|DB|DP|EDR)$/.test(nm)) return 'IDP'; return pgPosKey(p); }
+function pgGroups(sp, list, g, ccG){
+  if (sp !== 'nfl' || !list.length) return ccG(list);
+  const by = new Map(); for (const p of list) { const k = g === 's' ? pgSlotKey(p) : pgPosKey(p); if (!by.has(k)) by.set(k, []); by.get(k).push(p); }
+  const keys = [...by.keys()].sort((a, b) => PG_ORDER.indexOf(a) - PG_ORDER.indexOf(b));
+  setTimeout(pgScan, 0);
+  return keys.map(k => { const ps = by.get(k), pts = ps.map(lvPts).filter(v => typeof v === 'number'), live = ps.filter(lvIs).length;
+    const sum = pts.length ? Math.round(pts.reduce((a, b) => a + b, 0) * 10) / 10 : null;
+    return `<section class="pg${live ? ' has-live' : ''}" aria-label="${esc(PG_LBL[k] || k)}"><div class="pg-h"><span class="pg-pill ps-${pgCls(k)}">${esc(PG_LBL[k] || k)}</span><span class="pg-n">${ps.length} ${g === 's' ? 'slot' : 'player'}${ps.length > 1 ? 's' : ''}</span>${live ? `<span class="lv-badge on">${live} LIVE</span>` : ''}${sum != null ? `<span class="pg-pts" title="ESPN fantasy points this week${pts.length < ps.length ? ' (players with points so far)' : ''}"><b>${esc(sum)}</b> pts</span>` : ''}</div>${ccG(ps).replace('class="cc-grid"', 'class="cc-grid pg-grid"')}</section>`; }).join('');
+}
+var PG_RO = null, PG_SEEN = new WeakSet();
+function pgFit(el){
+  const w = el.clientWidth; if (!w) return; const gap = w < 520 ? 10 : 18, cols = w >= 640 ? 3 : 2, small = w < 520;
+  const bw = small ? 170 : 260, bh = small ? 238 : 364,   /* 2.5 × 3.5 in trading-card ratio */ z = Math.max(.6, Math.min(2.2, ((w - gap * (cols - 1)) / cols) / bw));
+  const colW = (w - gap * (cols - 1)) / cols, n = [...el.children].filter(c => c.classList.contains('cc') && getComputedStyle(c).display !== 'none').length || cols;
+  const st = el.style; st.setProperty('--cols', cols); st.setProperty('--pn', Math.min(cols, n)); st.setProperty('--cw', colW.toFixed(2) + 'px'); st.setProperty('--pgap', gap + 'px'); st.setProperty('--bw', bw + 'px'); st.setProperty('--bh', bh + 'px'); st.setProperty('--z', z.toFixed(4));
+  el.classList.toggle('pg-sm', small); requestAnimationFrame(() => pgText(el));
+}
+function pgText(root){   // auto-shrink last names and live strips so they fit on one line (no ellipsis for normal names)
+  (root || document).querySelectorAll('.cc-ln').forEach(e => { e.style.fontSize = ''; const sw = e.scrollWidth, cw = e.clientWidth; if (!cw || sw <= cw + 1) return;
+    const fs = parseFloat(getComputedStyle(e).fontSize); e.style.fontSize = Math.max(fs * .6, fs * cw / sw * .97).toFixed(2) + 'px'; });
+  (root || document).querySelectorAll('.pg-sm .lv-box.k-cc').forEach(b => {   // one line, parked just above the name band and left of the headshot circle
+    const c = b.closest('.cc'), cb = b.offsetParent, pl = c && c.querySelector('.cc-plate'), ci = c && c.querySelector('.cc-circ'); if (!cb || !pl) return;
+    const z = parseFloat(getComputedStyle(c).zoom) || 1, Rb = cb.getBoundingClientRect(), P = pl.getBoundingClientRect(), C = ci && ci.offsetWidth ? ci.getBoundingClientRect() : null;
+    const left = parseFloat(getComputedStyle(b).left) || 12;
+    b.style.bottom = Math.max(0, (Rb.bottom - P.top) / z + 3).toFixed(1) + 'px';
+    const lg = c.querySelector('.cc-circ .cc-clg'), Lg = lg && lg.offsetWidth ? lg.getBoundingClientRect() : null, edge = Math.min(C ? C.left : Infinity, Lg ? Lg.left : Infinity);   // stop before the team-logo badge + headshot circle
+    if (edge < Infinity) b.style.maxWidth = Math.max(56, (edge - Rb.left) / z - left - 3).toFixed(1) + 'px';
+    const fit = () => { b.style.setProperty('--lvs', 1); for (let k = 20; k >= 16 && b.scrollWidth > b.clientWidth + 1; k--) b.style.setProperty('--lvs', (k / 20).toFixed(2)); return b.scrollWidth <= b.clientWidth + 1; };
+    const bd = c.querySelector('.cc-tl .lv-badge'), ck = b.querySelector('.lv-ck');
+    b.classList.remove('lv-noclk'); if (bd) bd.removeAttribute('data-clk');
+    if (!fit() && ck && bd) { b.classList.add('lv-noclk'); bd.setAttribute('data-clk', ck.textContent); fit(); }   // no room: the clock rides on the LIVE badge instead
+    b.classList.toggle('lv-cut', b.scrollWidth > b.clientWidth + 1); });
+}
+function pgScan(){
+  if (!PG_RO && 'ResizeObserver' in window) PG_RO = new ResizeObserver(es => es.forEach(e => pgFit(e.target)));
+  document.querySelectorAll('.pg-grid').forEach(el => { pgFit(el); if (PG_RO && !PG_SEEN.has(el)) { PG_SEEN.add(el); PG_RO.observe(el); } });
+}
+
+/* ===================== Oct 18e: card pop-out + maximized card with 🔁 Trade ideas + 😈 Screw 'em =====================
+   Desktop: hovering a card in the Fantasy cards row pops a ~1.8× copy above the row (fixed overlay, no layout shift);
+   it stays while hovered, tilts with the mouse, click = maximized card. Mobile: the card snapped to the centre grows; tap = maximized.
+   Trade ideas + Screw 'em use the Trade Lab model (real ESPN rosters, projections, byes, injuries). Suggestions only: nothing is sent to ESPN. */
+var CMX = { pop: null, src: null, t: 0, raf: 0 };
+const cmxFine = () => matchMedia('(hover:hover) and (pointer:fine)').matches;
+const cmxRM = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+function cmxPlayer(id){ id = String(id); try { const x = cardRowPlayers().find(x => String(x.p.id) === id); if (x) return x.p; } catch (_) {} return (players || []).find(p => String(p.id) === id) || null; }
+function cmxPopClose(){ clearTimeout(CMX.t); const p = CMX.pop; if (CMX.src) CMX.src.classList.remove('pc-popsrc'); CMX.pop = null; CMX.src = null; if (!p) return;
+  try { if (HV.cur && p.contains(HV.cur)) hvStop(); } catch (_) {}
+  if (cmxRM()) return p.remove(); p.classList.remove('on'); p.style.transform = p.dataset.t0; setTimeout(() => p.remove(), 200); }
+function cmxPopOpen(c){
+  if (!c.isConnected || CMX.src === c) return; cmxPopClose(); const r = c.getBoundingClientRect(); if (!r.width || r.bottom < 0 || r.top > innerHeight) return;
+  const top0 = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--stack-h')) || 0) + 8;
+  const k = Math.max(1.2, Math.min(1.85, (innerHeight - top0 - 16) / r.height, (innerWidth - 24) / r.width)), w = r.width * k, h = r.height * k;
+  const L = Math.max(12, Math.min(innerWidth - w - 12, r.left + r.width / 2 - w / 2)), T = Math.max(top0, Math.min(innerHeight - h - 10, r.top + r.height / 2 - h / 2));
+  const pop = document.createElement('div'); pop.className = 'pc-pop'; pop.setAttribute('aria-hidden', 'true');
+  pop.style.width = r.width + 'px'; pop.style.height = r.height + 'px'; pop.dataset.t0 = `translate(${r.left}px,${r.top}px) scale(1)`; pop.style.transform = pop.dataset.t0;
+  pop.innerHTML = c.outerHTML; const q = pop.firstElementChild; q.classList.remove('pc-popsrc'); q.querySelectorAll('.pc-flip.flipped').forEach(f => f.classList.remove('flipped'));
+  pop.dataset.id = c.dataset.plcard; document.body.appendChild(pop); CMX.pop = pop; CMX.src = c; c.classList.add('pc-popsrc');
+  const to = `translate(${L}px,${T}px) scale(${k.toFixed(3)})`;
+  if (cmxRM()) pop.style.transform = to; else requestAnimationFrame(() => requestAnimationFrame(() => { if (CMX.pop === pop) pop.style.transform = to; }));
+  pop.classList.add('on'); pop._box = { L, T, w, h };
+}
+document.addEventListener('mouseover', e => { if (!cmxFine()) return; const c = e.target.closest && e.target.closest('#pcRow .pc'); if (!c || c === CMX.src) return;
+  clearTimeout(CMX.t); CMX.t = setTimeout(() => cmxPopOpen(c), 230); });
+document.addEventListener('mouseout', e => { const c = e.target.closest && e.target.closest('#pcRow .pc'); if (c && c !== CMX.src && !(e.relatedTarget && c.contains(e.relatedTarget))) clearTimeout(CMX.t); });
+document.addEventListener('mousemove', e => { const p = CMX.pop; if (!p) return; const b = p._box, inPop = b && e.clientX >= b.L && e.clientX <= b.L + b.w && e.clientY >= b.T && e.clientY <= b.T + b.h;
+  const s = CMX.src && CMX.src.getBoundingClientRect(), inSrc = s && e.clientX >= s.left && e.clientX <= s.right && e.clientY >= s.top && e.clientY <= s.bottom;
+  if (!inPop && !inSrc) return cmxPopClose();
+  if (inPop && !cmxRM()) { const f = p.querySelector('.pc-flip'), px = (e.clientX - b.L) / b.w, py = (e.clientY - b.T) / b.h; cancelAnimationFrame(CMX.raf);   // 3D tilt following the mouse
+    CMX.raf = requestAnimationFrame(() => { if (!f) return; f.style.transform = `rotateY(${((px - .5) * 18).toFixed(1)}deg) rotateX(${((.5 - py) * 14).toFixed(1)}deg)`; p.style.setProperty('--mx', (px * 100).toFixed(0) + '%'); p.style.setProperty('--my', (py * 100).toFixed(0) + '%'); }); } }, { passive: true });
+window.addEventListener('scroll', e => { const t = e.target; if (CMX.pop && (t === document || t === document.documentElement || t === document.body || (t && t.contains && CMX.src && t.contains(CMX.src)))) cmxPopClose(); }, { capture: true, passive: true });   // only page / own-row scrolls (tickers drift constantly)
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && CMX.pop) cmxPopClose(); });
+window.addEventListener('click', e => {   // capture on window: runs before the card's own flip handlers
+  const t = e.target; if (!t.closest) return;
+  const pop = t.closest('.pc-pop');
+  if (pop) { if (t.closest('.hl-btn,.sx-b,a')) { if (t.closest('a')) return; const tb = t.closest('.hl-btn,.sx-b'); if (tb && CMX.src) { e.preventDefault(); e.stopPropagation(); const src = CMX.src.querySelector(tb.classList.contains('sx-b') ? '.sx-b' : '.hl-btn'); cmxPopClose(); if (src) src.click(); } return; }
+    e.preventDefault(); e.stopPropagation(); const id = pop.dataset.id; cmxPopClose(); cmxOpen(id); return; }
+  const c = t.closest('#pcRow .pc'); if (!c || t.closest('.hl-btn,.sx-b,a,.hx-x')) return;
+  if (cmxFine()) { e.preventDefault(); e.stopPropagation(); cmxPopClose(); cmxOpen(c.dataset.plcard); return; }
+  e.preventDefault(); e.stopPropagation();
+  if (c.classList.contains('pc-ctr')) cmxOpen(c.dataset.plcard); else c.scrollIntoView({ inline: 'center', block: 'nearest', behavior: cmxRM() ? 'auto' : 'smooth' });
+}, true);
+// mobile: the card snapped to the centre of the row grows
+function cmxCenter(){ const row = document.getElementById('pcRow'); if (!row || !row.offsetWidth) return; const R = row.getBoundingClientRect(), cx = R.left + R.width / 2; let best = null, bd = 1e9;
+  row.querySelectorAll('.pc').forEach(c => { const r = c.getBoundingClientRect(), d = Math.abs(r.left + r.width / 2 - cx); if (d < bd) { bd = d; best = c; } });
+  row.querySelectorAll('.pc.pc-ctr').forEach(c => { if (c !== best) c.classList.remove('pc-ctr'); }); if (best && !cmxFine()) best.classList.add('pc-ctr'); }
+document.addEventListener('scroll', e => { if (e.target && e.target.id === 'pcRow') { cancelAnimationFrame(CMX.cr); CMX.cr = requestAnimationFrame(cmxCenter); } }, { capture: true, passive: true });
+(() => { const row = document.getElementById('pcRow'); if (row && window.MutationObserver) new MutationObserver(() => requestAnimationFrame(cmxCenter)).observe(row, { childList: true }); })();
+// ---------- maximized card ----------
+function cmxOpen(id){
+  const p = cmxPlayer(id); if (!p) return; cmxPopClose(); try { hvStop(); } catch (_) {}
+  let o = document.getElementById('cmxMax'); if (!o) { o = document.createElement('div'); o.id = 'cmxMax'; o.className = 'cmx'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true'); document.body.appendChild(o); }
+  const sp = psp(p), C = sp === 'nfl' && CMP.d ? CMP.d.nfl : null; let card = '';
+  try { card = ccCard(p, 'max', C, C ? cmpRank(C) : {}, 0); } catch (e) { console.warn('max card', e); return; }
+  o.setAttribute('aria-label', p.name + ' card'); o._from = document.activeElement; o.dataset.pid = p.id;
+  o.innerHTML = `<div class="cmx-box"><button type="button" class="cmx-x" data-cmx-x aria-label="Close ${esc(p.name)} card" title="Close (Esc)">✕</button>
+    <div class="cmx-card">${card}<div class="cmx-hint">Tap the card to flip for stats</div></div>
+    <section class="cmx-side" aria-label="Trade ideas"><h3>🔁 Trade ideas <small>${esc(p.name)}</small></h3><div class="cmx-ti" data-cmxti>${sp === 'nfl' ? '<div class="mu-ld">Checking every team\'s roster…</div>' : '<div class="mu-ld">Trade ideas use your ESPN NFL league.</div>'}</div>
+    <p class="cmx-foot">Suggestions only. Nothing is sent to ESPN.</p></section></div>`;
+  o.hidden = false; document.documentElement.classList.add('cmx-open'); cmxFit(o);
+  try { pgText(o); } catch (_) {}
+  const x = o.querySelector('.cmx-x'); if (x) x.focus({ preventScroll: true });
+  if (sp === 'nfl') cmxTrReady().then(D => { if (o.hidden || o.dataset.pid !== String(p.id)) return; const el = o.querySelector('[data-cmxti]'); if (el) el.innerHTML = cmxTradesHTML(D, p); });
+}
+function cmxFit(o){ const c = o.querySelector('.cmx-card > .cc'); if (!c) return; const mob = innerWidth < 760;
+  const z = mob ? Math.min((innerWidth - 40) / 260, (innerHeight * .62) / 364) : Math.min(1.45, (innerHeight - 90) / 364); c.style.setProperty('--z', Math.max(.8, z).toFixed(3)); }
+function cmxClose(){ const o = document.getElementById('cmxMax'); if (!o || o.hidden) return; o.hidden = true; o.innerHTML = ''; document.documentElement.classList.remove('cmx-open');
+  try { CC.flip.forEach(k => { if (/^max:/.test(k)) CC.flip.delete(k); }); } catch (_) {}
+  if (o._from && o._from.isConnected) try { o._from.focus({ preventScroll: true }); } catch (_) {} }
+document.addEventListener('click', e => { const o = document.getElementById('cmxMax'); if (!o || o.hidden) return;
+  if (e.target === o || (e.target.closest && e.target.closest('[data-cmx-x]'))) { e.preventDefault(); e.stopPropagation(); cmxClose(); } }, true);
+document.addEventListener('keydown', e => { const o = document.getElementById('cmxMax'); if (e.key === 'Escape' && o && !o.hidden) { e.preventDefault(); e.stopPropagation(); cmxClose(); } }, true);
+addEventListener('resize', () => { const o = document.getElementById('cmxMax'); if (o && !o.hidden) cmxFit(o); });
+function cmxTrReady(){   // the Trade Lab league model (loads once, cached 15 min)
+  const L = espnLinks.nfl; if (!L || L.source === 'paste' || !L.leagueId || !L.teamId) return Promise.resolve(null);
+  const ok = () => TR.d && TR.d.lg === L.leagueId + ':' + L.teamId;
+  if (ok()) return Promise.resolve(TR.d);
+  if (!TR.busy) { TR.busy = true; trLoad('nfl', L).then(() => { TR.err = 0; }).catch(e => { TR.err = Date.now(); console.warn('trade', e && e.message); }).finally(() => { TR.busy = false; }); }
+  return new Promise(res => { const t0 = Date.now(), tick = () => { if (ok()) return res(TR.d); if (!TR.busy && !ok() || Date.now() - t0 > 45e3) return res(null); setTimeout(tick, 400); }; tick(); });
+}
+const cmxSg = v => (v > 0 ? '+' : '') + r1(v);
+function cmxPP(q, D){ const t = D && D.teams.find(z => z.ps.some(x => x.id === q.id));
+  return `<div class="cmx-pp"><img src="${esc(q.hs || '')}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><span><b>${esc(q.name)}</b><i>${esc([q.pos, q.team, q.v != null ? q.v + ' pts/g' : '', q.inj ? q.inj : ''].filter(Boolean).join(' · '))}</i></span></div>`; }
+function cmxIdeas(D, pid){
+  const avg = trPosAvg(D), me = D.teams.find(t => t.id === D.me); if (!me) return { none: 'Your team wasn\'t found in this league.' };
+  const owner = D.teams.find(t => t.ps.some(x => x.id === pid)), X = owner && owner.ps.find(x => x.id === pid);
+  if (!X) return { none: 'He isn\'t on a roster in your league (free agent), so there\'s no trade to make. Pick him up on waivers instead.' };
+  if (X.ir || X.base == null || X.dst || X.pos === 'K') return { none: X.ir ? 'He\'s on IR, so no trade model for him right now.' : 'Kickers and D/ST aren\'t traded in this model.' };
+  const ok = q => !q.ir && q.base != null && !q.dst && q.pos !== 'K';
+  const fair = r => { const a = r.vGive || 0, b = r.vGet || 0, mx = Math.max(a, b, 8); return Math.abs(a - b) / mx <= 0.45; };
+  const out = [], mineSide = owner.id === D.me, ops = mineSide ? D.teams.filter(t => t.id !== D.me) : [owner];
+  for (const op of ops) {
+    const theirs = op.ps.filter(ok), mine = me.ps.filter(ok);
+    const one = (give, get) => { const r = trEval(D, op.id, give, get); return r && r.dMe >= 0.5 && r.dOp >= 0.5 && fair(r) ? r : null; };
+    const singles = [];
+    if (mineSide) { for (const b of theirs) { const r = one([X], [b]); if (r) singles.push({ op, give: [X], get: [b], r }); } }
+    else { for (const a of mine) { const r = one([a], [X]); if (r) singles.push({ op, give: [a], get: [X], r }); } }
+    out.push(...singles);
+    // 2-player deals only when clearly good for both (each ≥ +3/wk) and better than every 1-for-1 inside it
+    const top = (ps, n) => ps.slice().sort((x, y) => (y.vorp || 0) - (x.vorp || 0)).slice(0, n), combos = [];
+    if (mineSide) { for (const m of top(mine.filter(q => q.id !== X.id), 5)) for (const b of top(theirs, 6)) combos.push([[X, m], [b]]); const tt = top(theirs, 6); for (let i = 0; i < tt.length; i++) for (let j = i + 1; j < tt.length; j++) combos.push([[X], [tt[i], tt[j]]]); }
+    else { for (const m of top(theirs.filter(q => q.id !== X.id), 5)) for (const a of top(mine, 6)) combos.push([[a], [X, m]]); const mm = top(mine, 6); for (let i = 0; i < mm.length; i++) for (let j = i + 1; j < mm.length; j++) combos.push([[mm[i], mm[j]], [X]]); }
+    for (const [g, t] of combos) { const r = trEval(D, op.id, g, t); if (!r || r.dMe < 3 || r.dOp < 3 || !fair(r)) continue;
+      let beat = true; for (const a of g) for (const b of t) { const q = trEval(D, op.id, [a], [b]); if (q && Math.min(q.dMe, q.dOp) >= Math.min(r.dMe, r.dOp) - 0.3) { beat = false; break; } } if (beat) out.push({ op, give: g, get: t, r, big: true }); }
+  }
+  out.forEach(x => { x.sc = Math.min(x.r.dMe, x.r.dOp) * 10 + x.r.dMe; try { x.fit = trFit(D, x.op.id, x.give, x.get, avg); } catch (_) { x.fit = []; } try { x.easy = trEasy(D, x.r, x.give, x.get, avg); } catch (_) { x.easy = ''; } });
+  out.sort((a, b) => b.sc - a.sc);
+  const seen = new Set(), res = []; for (const x of out) { const k = x.op.id; if (res.filter(y => y.op.id === k).length >= 2) continue; res.push(x); if (res.length >= 5) break; }
+  return { list: res, X, mineSide };
+}
+function cmxTradesHTML(D, p){
+  if (!D) return `<div class="mu-ld">${TR.err ? 'Couldn\'t load league rosters. Try again in a minute.' : 'Trade ideas need your ESPN NFL league (Settings → Fantasy).'}</div>`;
+  let I; try { I = cmxIdeas(D, String(peid(p))); } catch (e) { console.warn('trade ideas', e); return '<div class="mu-ld">Couldn\'t build trade ideas.</div>'; }
+  if (I.none) return `<div class="mu-ld te-none">${esc(I.none)}</div>`;
+  if (!I.list.length) return `<div class="mu-ld te-none">No trade involving ${esc(p.name)} helps both teams right now (each side needs +0.5 pts/wk and the values have to be close).</div>`;
+  const bar = (a, b) => `<div class="cmx-gain"><span class="${a > 0 ? 'up' : 'dn'}">You <b>${cmxSg(a)}</b>/wk</span><span class="${b > 0 ? 'up' : 'dn'}">Them <b>${cmxSg(b)}</b>/wk</span></div>`;
+  return I.list.map((x, i) => `<div class="te-card cmx-tc"><div class="te-with">#${i + 1} · with <b>${esc(x.op.name)}</b>${x.big ? ' <em class="tg ww">2-player</em>' : ''}</div>
+    <div class="te-sw"><div class="te-side"><h6>You give</h6>${x.give.map(q => cmxPP(q, D)).join('')}</div><div class="te-x" aria-hidden="true">⇄</div><div class="te-side"><h6>You get</h6>${x.get.map(q => cmxPP(q, D)).join('')}</div></div>
+    ${x.fit && x.fit.length ? `<div class="te-fit">${x.fit.map(([c, l]) => `<span class="${c}">${esc(l)}</span>`).join('')}</div>` : ''}${x.easy ? `<p class="te-why">${esc(x.easy)}</p>` : ''}${bar(x.r.dMe, x.r.dOp)}</div>`).join('')
+    + `<div class="te-cnt">Weekly gain = change in each team's best-lineup points per week, rest of season (ESPN projections, form, byes, injuries).</div>`;
+}
+// ---------- 😈 Screw 'em (Spin-it) ----------
+function seDire(D, t, avg){
+  const N = trNeedsX(D, t, avg), why = [], W4 = D.weeks.slice(0, 4); let sc = 0;
+  for (const pos of ND_POS) { const x = N[pos]; if (!x) continue;
+    const healthy = t.ps.filter(p => p.pos === pos && !p.ir && !/OUT|DOUBTFUL|INJURY|SUSPENSION/i.test(p.inj || ''));
+    if (x.s === 'need' && !healthy.length) { sc += 4; why.push(`They have no healthy ${pos}`); }
+    else if (x.s === 'need' && !x.own.length) { sc += 3; why.push(`They have no rostered ${pos} starter (starting a waiver guy)`); }
+    else if (x.s === 'need') { sc += 2; why.push(`Their ${pos}s score ${Math.abs(x.d)} pts/g less than an average starter`); }
+    else if (x.byeNeed) { sc += 1; why.push(`${trNm(x.byes[0][0])} (${pos}) is on bye in wk ${x.byes[0][1]} with no backup`); } }
+  const inj = t.ps.filter(p => (p.inj || p.ir) && p.base != null && p.base >= 8); if (inj.length) { sc += Math.min(3, inj.length * 0.75); why.push('Injuries: ' + inj.slice(0, 3).map(p => `${trNm(p)} (${p.ir ? 'IR' : p.inj.toLowerCase()})`).join(', ')); }
+  const r = t.rec; if (r && r.w + r.l > 0) { const d = r.l - r.w; if (d > 0) { sc += d * 0.6; why.push(`They're ${r.w}-${r.l}${r.t ? '-' + r.t : ''}, so every week is a must-win`); } }
+  return { t, sc: r1(sc), why, N };
+}
+function seFind(D){
+  const avg = trPosAvg(D), me = D.teams.find(t => t.id === D.me); if (!me) return null;
+  const ok = q => !q.ir && q.base != null && !q.dst && q.pos !== 'K';
+  const M = trNeedsX(D, me, avg), a0 = trLineup(me.ps, D.slots);
+  const spare = me.ps.filter(ok).filter(q => (a0.starts[q.id] || 0) <= D.weeks.length / 2 || (M[q.pos] && M[q.pos].s === 'sur'));   // bench / surplus
+  const dire = D.teams.filter(t => t.id !== D.me).map(t => seDire(D, t, avg)).sort((a, b) => b.sc - a.sc);
+  for (const d of dire.slice(0, 4)) { if (d.sc < 2) break; let best = null;
+    const needPos = new Set(ND_POS.filter(k => d.N[k] && (d.N[k].s === 'need' || d.N[k].byeNeed)));
+    for (const a of spare) { if (!needPos.has(a.pos)) continue;
+      for (const b of d.t.ps.filter(ok)) { const r = trEval(D, d.t.id, [a], [b]); if (!r) continue;
+        const nxt = r.b1.wk && r.b0.wk ? r1(r.b1.wk[0] - r.b0.wk[0]) : null;
+        if (r.dMe < 1 || (nxt != null ? nxt < 0.5 : r.dOp < 0)) continue;   // more value to you; they gain right now (that's why they'd bite)
+        if ((r.vGet || 0) < (r.vGive || 0)) continue;
+        const sc = r.dMe * 2 + (nxt || 0); if (!best || sc > best.sc) best = { a, b, r, nxt, sc }; } }
+    if (best) return { d, ...best, avg };
+  }
+  return { none: true, dire: dire[0] };
+}
+async function seOpen(){
+  const body = sxShell(); body.innerHTML = `<div class="se"><div class="se-hd"><span class="se-ic" aria-hidden="true">😈</span><b>SCREW 'EM</b><small>Finding the most desperate team in your league…</small></div><div class="mu-ld">Loading every roster…</div></div>`;
+  const D = await cmxTrReady(); if (!body.isConnected) return;
+  if (!D) { body.querySelector('.se').innerHTML = `<div class="se-hd"><span class="se-ic">😈</span><b>SCREW 'EM</b></div><div class="mu-ld">Screw 'em needs your ESPN NFL fantasy league (Settings → Fantasy).</div>`; return; }
+  let R = null; try { R = seFind(D); } catch (e) { console.warn('screw em', e); }
+  const hd = `<div class="se-hd"><span class="se-ic" aria-hidden="true">😈</span><b>SCREW 'EM</b><em class="se-lbl">Suggestion only · never sent to ESPN</em></div>`;
+  if (!R || R.none) { body.querySelector('.se').innerHTML = hd + `<div class="mu-ld te-none">${R && R.dire ? `${esc(R.dire.t.name)} is the most desperate team (${esc(R.dire.why[0] || 'thin roster')}), but no lopsided deal works: nothing on your bench fills their hole for more value back.` : 'No team is desperate enough right now. Everyone has a healthy lineup.'}</div>`; return; }
+  const t = R.d.t, rec = t.rec ? `${t.rec.w}-${t.rec.l}${t.rec.t ? '-' + t.rec.t : ''}` : '';
+  const dm = Math.min(100, Math.round(R.d.sc * 9));
+  body.querySelector('.se').innerHTML = hd + `<div class="se-tm">${t.logo ? `<img src="${esc(t.logo)}" alt="" onerror="this.style.visibility='hidden'">` : ''}<span><b>${esc(t.name)}</b><i>${esc([rec, 'Desperation ' + dm + '/100'].filter(Boolean).join(' · '))}</i></span><span class="se-meter" title="Desperation score from needs, injuries, byes and record"><i style="width:${dm}%"></i></span></div>
+    <h4>Why they'd bite</h4><ul class="se-why">${R.d.why.slice(0, 5).map(w => `<li>${esc(w)}</li>`).join('')}</ul>
+    <h4>The pitch</h4><div class="te-sw se-sw"><div class="te-side"><h6>You give (you don't need him)</h6>${cmxPP(R.a, D)}</div><div class="te-x" aria-hidden="true">⇄</div><div class="te-side"><h6>You get</h6>${cmxPP(R.b, D)}</div></div>
+    <div class="cmx-gain"><span class="up">You <b>${cmxSg(R.r.dMe)}</b>/wk rest of season</span>${R.nxt != null ? `<span class="${R.nxt > 0 ? 'up' : 'dn'}">Them <b>${cmxSg(R.nxt)}</b> next week</span>` : ''}<span class="${R.r.dOp > 0 ? 'up' : 'dn'}">Them <b>${cmxSg(R.r.dOp)}</b>/wk ROS</span></div>
+    <p class="te-why">${esc(`${trNm(R.a)} fills their ${R.a.pos} hole right now, and you get the better long-term piece in ${trNm(R.b)}.`)}</p>
+    <p class="cmx-foot">😈 Suggestion only. Nothing is sent to ESPN. Make the offer yourself if you want it.</p>`;
+}
+document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-sescrew]'); if (!b) return; e.preventDefault(); e.stopPropagation(); seOpen(); }, true);
+
+/* ===================== Oct 18f: TEAM Spin-it rebuilt: fan-commitment tiers =====================
+   Every team is scored from its own ESPN data (0-100):
+     35% form: last 5 completed games, weighted 30/25/20/15/10 (each = 70% result + 30% margin, margin capped ~1 big win for the sport)
+     25% season win% (ESPN record) · 20% point-differential trend (last 3 avg margin) · 20% quality: beating winning teams (+), losing to losing teams (-)
+     + streak (±3 per game, max ±12) · key injuries from ESPN's league injury report (-3 each, max -9) · next game: ESPN spread (favored +2 / big dog -2).
+   Missing pieces are dropped and re-weighted. The tier is the headline; 2-3 real reasons + a joke built from the same numbers. */
+var ST_TIERS = [
+  [96, '🤡', 'Fanatic WITHOUT a mask', 'st-t0', 'Shirt off, face painted, voice gone by kickoff. Security has your photo on file.'],
+  [89, '🎭', 'Fanatic with a mask', 'st-t1', 'Full face paint, but you would still like to keep your day job.'],
+  [81, '👑', 'Blue Blood', 'st-t2', 'Act like you\'ve been here before. Because you have.'],
+  [72, '🚌', 'Hop on the bandwagon', 'st-t3', 'Plenty of seats on the bus. Bring snacks, nobody will ask where you were in September.'],
+  [63, '🧢', 'Buy the hat', 'st-t4', 'Hat yes. Matching tattoo, let\'s give it a month.'],
+  [55, '👕', 'Order the jersey', 'st-t5', 'Get the jersey. Maybe skip the name on the back for now.'],
+  [47, '😐', 'Polite golf clap', 'st-t6', 'Clap. Politely. Then check your phone.'],
+  [38, '🙈', 'Hide the bumper sticker', 'st-t7', 'Park facing the wall so the neighbors don\'t see.'],
+  [28, '📺', 'Change the channel', 'st-t8', 'There\'s a baking show on. It\'s fine. You\'re fine.'],
+  [-1, '👶', 'Un-name your firstborn', 'st-t9', '"Junior" is a perfectly good name. Think about it.']];
+const stTier = s => ST_TIERS.find(t => s >= t[0]);
+var ST_INJ = {};
+async function stInjuries(lg){   // ESPN league-wide injury report (one request per league, cached 30 min)
+  const c = ST_INJ[lg]; if (c && Date.now() - c.t < 30 * 60e3) return c.v;
+  let v = null; try { const d = await getJSON(`${API}${CAT[lg].path}/injuries`, 12000); v = d && d.injuries || null; } catch (_) { v = null; }
+  ST_INJ[lg] = { t: Date.now(), v }; return v;
+}
+const ST_KEY = { football: ['QB', 'RB', 'WR', 'TE'], hockey: ['G', 'C', 'LW', 'RW', 'D'], basketball: ['PG', 'SG', 'SF', 'PF', 'C', 'G', 'F'], baseball: ['SP', 'C', '1B', '2B', '3B', 'SS', 'LF', 'CF', 'RF', 'DH'] };
+function stKeyOut(e, IJ){
+  if (!IJ) return []; const T = IJ.find(x => (x.displayName || '') === e.name || String(x.id) === String(e.tid)); if (!T) return [];
+  const sp = String(CAT[e.lg].path).split('/')[0], C = CMP.d && CMP.d.nfl, keyPos = ST_KEY[sp] || [];
+  return (T.injuries || []).filter(i => /^(out|injured reserve|doubtful)/i.test(i.status || '')).map(i => { const a = i.athlete || {}, pos = (a.position || {}).abbreviation || '', id = String(a.id || ((a.links || [])[0] || {}).href || '').match(/\d+/);
+      const fx = e.lg === 'nfl' && C && id ? C.p[id[0]] : null;
+      const key = e.lg === 'nfl' && !!fx && ((pos === 'QB' && (fx.ppg || 0) >= 12) || (pos !== 'QB' && (fx.ppg || 0) >= 9));   // NFL only: a real fantasy-relevant starter (ESPN league player pool); backups and other sports are not counted
+      return key ? { n: a.shortName || a.displayName || '', pos, st: /injured reserve/i.test(i.status) ? 'IR' : String(i.status).toLowerCase() } : null; }).filter(Boolean).slice(0, 4);
+}
+function stScore(e, S, IJ){
+  if (!S || !S.g || !S.g.length) return null;
+  const sp = String(CAT[e.lg].path).split('/')[0], sc = SX_SCALE[sp] || 10, G = S.g, L5 = G.slice(0, 5), W5 = [.3, .25, .2, .15, .1];
+  const wpOf = r => { const m = String(r || '').match(/^(\d+)-(\d+)(?:-(\d+))?/); if (!m) return null; const W = +m[1], L = +m[2], T = +(m[3] || 0), n = W + L + T; return n ? (W + (sp === 'hockey' ? 0 : T / 2)) / n : null; };
+  let f = 0, fw = 0; L5.forEach((g, i) => { const res = g.r === 'W' ? 1 : g.r === 'T' ? .5 : 0, mg = .5 + .5 * sxClamp((g.ms - g.os) / sc, -1, 1); f += (0.7 * res + 0.3 * mg) * W5[i]; fw += W5[i]; });
+  const form = 100 * f / fw, wp = wpOf(S.rec), L3 = G.slice(0, 3), m3 = L3.reduce((a, g) => a + g.ms - g.os, 0) / L3.length, mAll = G.reduce((a, g) => a + g.ms - g.os, 0) / G.length;
+  const diff = 50 + 50 * sxClamp(m3 / sc, -1, 1);
+  const owp = G.map(g => wpOf(g.orec)); let gw = 0, bl = 0, qn = 0; G.slice(0, 8).forEach((g, i) => { const o = owp[i]; if (o == null) return; qn++; if (g.r === 'W' && o >= .5) gw++; if (g.r === 'L' && o < .5) bl++; });
+  const qual = qn ? sxClamp(50 + 14 * gw - 16 * bl) : null;
+  let k = 0; const r0 = G[0].r; for (const g of G) { if (g.r === r0) k++; else break; }
+  const streak = r0 === 'W' ? Math.min(12, k * 3) : r0 === 'L' ? -Math.min(12, k * 3) : 0;
+  const outs = stKeyOut(e, IJ), inj = -Math.min(9, outs.length * 3);
+  const nx = S.next, ng = nx && nx.g, me = ng && (ng.teams || []).find(t => String(t.abbr).toUpperCase() === String(e.abbr).toUpperCase()), op = ng && (ng.teams || []).find(t => t !== me);
+  let spr = null; const od = ng && ng.odds && ng.odds.det; if (od && e.abbr) { const m = String(od).match(/^([A-Z]{2,5})\s*([+-]?\d+(?:\.\d+)?)/); if (m) { const v = Math.abs(parseFloat(m[2])); spr = m[1].toUpperCase() === String(e.abbr).toUpperCase() ? v : -v; } else if (/even|pk/i.test(od)) spr = 0; }
+  const nxAdj = spr == null ? 0 : spr >= 3 ? 2 : spr <= -7 ? -2 : 0;
+  const parts = [[form, .35], [wp != null ? wp * 100 : null, .25], [diff, .2], [qual, .2]].filter(p => p[0] != null), tw = parts.reduce((a, p) => a + p[1], 0);
+  const base = parts.reduce((a, p) => a + p[0] * p[1], 0) / tw, tot = Math.round(sxClamp(base + streak + inj + nxAdj));
+  // reasons: the 2-3 most telling real facts
+  const R = [], minM = arr => Math.min(...arr.map(g => Math.abs(g.ms - g.os))), unit = sp === 'hockey' || sp === 'soccer' ? 'goal' : sp === 'baseball' ? 'run' : 'point';
+  const pl = (n, u) => `${n} ${u}${n === 1 ? '' : 's'}`;
+  if (k >= 2) { const s = G.slice(0, k), mm = minM(s); R.push([k * 2 + (mm >= sc * .6 ? 3 : 0), r0 === 'W' ? `Won ${k} straight${mm >= sc * .5 ? ` by ${mm}+` : ''}` : r0 === 'L' ? `Lost ${k} straight${mm >= sc * .5 ? ` by ${mm}+` : ''}` : `${k} ties in a row`]); }
+  const g0 = G[0], m0 = g0.ms - g0.os; R.push([Math.abs(m0) >= sc ? 6 : 2, m0 >= sc ? `Blew out ${g0.opp} by ${m0}` : m0 > 0 ? `Beat ${g0.opp} ${g0.ms}-${g0.os}` : m0 <= -sc ? `Got smoked by ${g0.opp}, ${g0.ms}-${g0.os}` : m0 < 0 ? `Lost to ${g0.opp} ${g0.ms}-${g0.os}` : `Tied ${g0.opp} ${g0.ms}-${g0.os}`]);
+  if (S.rec && wp != null) R.push([wp >= .8 || wp <= .25 ? 7 : 3, `${wp === 1 ? 'Unbeaten at ' : wp === 0 ? 'Winless at ' : ''}${S.rec}${S.standing ? ', ' + S.standing : ''}`]);
+  if (L3.length >= 3) R.push([Math.abs(m3) >= sc * .5 ? 5 : 1, `${m3 >= 0 ? 'Outscoring' : 'Outscored by'} opponents ${m3 >= 0 ? 'by ' : ''}${Math.abs(r1(m3))} ${unit}s/game over the last 3${Math.abs(m3 - mAll) >= sc * .3 ? ` (season ${mAll >= 0 ? '+' : ''}${r1(mAll)})` : ''}`]);
+  if (gw >= 2) R.push([4, `Beat ${gw} winning teams`]); if (bl >= 2) R.push([5, `Lost to ${bl} losing teams`]);
+  if (outs.length) R.push([outs.some(o => o.pos === 'QB') ? 8 : 4, outs.some(o => o.pos === 'QB') ? `QB ${outs.find(o => o.pos === 'QB').n} ${outs.find(o => o.pos === 'QB').st === 'IR' ? 'on IR' : outs.find(o => o.pos === 'QB').st}` : `Key injuries: ${outs.slice(0, 2).map(o => `${o.n} (${o.pos}, ${o.st})`).join(', ')}`]);
+  if (nx && op) R.push([spr != null && Math.abs(spr) >= 3 ? 3 : 1, `Next: ${nx.at} ${op.abbr}${op.record ? ` (${op.record})` : ''}${spr != null ? (spr > 0 ? `, favored by ${spr}` : spr < 0 ? `, ${-spr}-${unit} underdog` : ', pick\'em') : ''}`]);
+  R.sort((a, b) => b[0] - a[0]);
+  const T = stTier(tot);
+  return { s: tot, T, reasons: R.slice(0, 3).map(x => x[1]), parts: { form: Math.round(form), wp: wp != null ? Math.round(wp * 100) : null, diff: Math.round(diff), qual: qual != null ? Math.round(qual) : null, streak, inj, nxAdj }, streak: r0 + k, outs, last: L5,
+    bars: G.slice(0, 5).reverse().map(g => ({ v: g.ms - g.os, l: g.at + ' ' + g.opp, t: g.r + ' ' + g.ms + '-' + g.os })) };
+}
+function stPanel(e, d){
+  const S = d.S, t = d.ts; const col = e.c1 ? `--c1:${e.c1};--c2:${e.c2}` : '';
+  const sub = [(CAT[e.lg] || {}).label, S && S.rec, S && S.standing].filter(Boolean).join(' · ');
+  if (!t) return `<div class="sx-hd"><div><h2>${esc(e.name)}</h2><small>${esc(sub)}</small></div></div><div class="sx-pnl"><div class="sx-ld">No completed games from ESPN yet, so no spin.</div></div>`;
+  const [, ic, nm, cls, joke] = t.T, lead = t.reasons[0] || '';
+  const p = t.parts, chip = (v, l) => v == null ? '' : `<div><b>${esc(v)}</b><i>${esc(l)}</i></div>`;
+  return `<div class="st ${cls}" style="${esc(col)}">
+    <div class="st-hd">${e.logo ? `<img class="st-logo" src="${esc(e.logo)}" alt="" onerror="this.remove()">` : ''}<div><h2>${esc(e.name)}</h2><small>${esc(sub)}</small></div><span class="st-sc" title="Fan-commitment score (0-100)"><b>${t.s}</b><i>/100</i></span></div>
+    <div class="st-tier" role="status"><span class="st-ic" aria-hidden="true">${ic}</span><span class="st-nm">${esc(nm)}</span></div>
+    <p class="st-joke">${esc(lead ? lead + '. ' : '')}${esc(joke)}</p>
+    <ul class="st-why">${t.reasons.map(r => `<li>${esc(r)}</li>`).join('')}</ul>
+    <div class="st-ladder" aria-label="Fan-commitment ladder">${ST_TIERS.map(x => `<span class="${x === t.T ? 'on ' + x[3] : ''}" title="${esc(x[2])}${x[0] >= 0 ? ' (' + x[0] + '+)' : ''}">${x[1]}</span>`).join('')}</div>
+    <div class="sx-pnl st-pnl">${sxBars(t.bars, null, true)}<div class="sx-kv">${chip(t.streak, 'Streak')}${chip(p.form, 'Form (last 5)')}${chip(p.wp != null ? p.wp + '%' : null, 'Win %')}${chip(p.diff, 'Margin trend')}${chip(p.qual, 'Quality wins')}${t.outs.length ? chip(t.outs.length, 'Key players out') : ''}</div>
+      <details class="st-how"><summary>How it's scored</summary>35% form (last 5 games, W/L + margin, newest weighted most) · 25% season win% · 20% margin trend (last 3) · 20% quality (beating winning teams, losing to losing teams) · streak ±3/game (max ±12) · key injuries from ESPN's injury report −3 each · ESPN spread for the next game ±2. Missing pieces are dropped.</details>
+      ${sxNext(e.lg, e.abbr, S.next)}</div></div>`;
+}
+
+/* ===== Oct 18g: hover / ▶ clips for every card type (ESPN only, lazy, cached) ===== */
+const HV_DEF = /sack|intercept|pick[- ]?six|picks? off|\bint\b|fumble|strip|forced|goal[- ]line|stop|defen|blocked|safety|stuff|deflect|takeaway|swat|stonewall/i;
+const HV_KO = /knock|\bko\b|tko|submission|submits|finish|stuns|sleeps|slam|choke|flatten|drops|spinning|walk-?off|devastating|brutal|vicious/i;
+async function hvFindGame(key){   // the game's own ESPN clips (summary), newest highlight first; live games refresh every 10 min
+  const ck = 'g:' + key, c = HV.c[ck]; if (c && Date.now() - c.t < 10 * 60e3) return c.v;
+  const i = key.indexOf(':'), lg = key.slice(0, i), id = key.slice(i + 1), L = CAT[lg]; if (!L) return null;
+  let vids = []; try { const d = await getJSON(`${API}${L.path}/summary?event=${encodeURIComponent(id)}`, 12000); vids = d.videos || []; } catch (_) {}
+  const hl = vids.filter(v => /highlight/i.test(v.headline || '')), v = hvChoose(hl.length ? hl : vids);
+  HV.c[ck] = { t: Date.now(), v }; hvSave(); return v;
+}
+async function hvFindMMA(ids, names){   // fighters' ESPN athlete feeds; knockouts / finishes from the last 30 days first
+  const ck = 'm:' + ids, c = HV.c[ck]; if (c && Date.now() - c.t < 6 * 36e5) return c.v;
+  const vids = [], nm = String(names || '').toLowerCase().split('|').map(x => x.split(' ').pop()).filter(Boolean);
+  await Promise.all(String(ids).split(',').slice(0, 2).map(id => getJSON(`https://site.web.api.espn.com/apis/common/v3/sports/mma/athletes/${encodeURIComponent(id)}/overview`, 12000).then(d => (d.news || []).forEach(a => vids.push(...(a.video || [])))).catch(() => {})));
+  const fresh = vids.filter(v => Date.now() - hvDt(v) < 30 * 864e5), ko = fresh.filter(v => HV_KO.test(v.headline || '') && (!nm.length || nm.some(n => String(v.headline || '').toLowerCase().includes(n))));
+  // no finish clip: only fight clips that name this fighter (no pro-wrestling / talk-show crossovers); none = no clip
+  const fight = vids.filter(v => { const h = String(v.headline || '').toLowerCase(); return nm.some(n => h.includes(n)) && !HV_WEAK.test(h) && !/\bwwe\b|wrestl|smackdown|\braw\b|reflect|podcast|show\b/.test(h); });
+  const v = hvChoose(ko.length ? ko : fight); HV.c[ck] = { t: Date.now(), v }; hvSave(); return v;
+}
+async function hvFindDst(p){   // D/ST: defensive plays (sacks, picks, strips, goal-line stands) from the team's latest game + team news; else the newest team highlight
+  const ab = String(p.team || '').toUpperCase(), ck = 'd:' + ab, c = HV.c[ck]; if (c && Date.now() - c.t < 3 * 36e5) return c.v; if (!ab || ab === 'FA') return null;
+  const t = sxTeam('nfl', ab), vids = [], own = [], opp = []; let S = null; try { S = t ? await sxSchedule(t) : null; } catch (_) {}
+  const ev = S && S.g && S.g[0] && S.g[0].id, tid = (t && t.tid) || MN.teamIds['nfl:' + ab];
+  await Promise.all([ev ? getJSON(`${API}${CAT.nfl.path}/summary?event=${encodeURIComponent(ev)}`, 12000).then(d => { vids.push(...(d.videos || [])); try { for (const c of d.header.competitions[0].competitors) (String(c.team.abbreviation).toUpperCase() === ab ? own : opp).push(...[c.team.location, c.team.name].filter(Boolean)); } catch (_) {} }).catch(() => {}) : null,
+    tid ? getJSON(`${API}${CAT.nfl.path}/news?team=${encodeURIComponent(tid)}&limit=50`, 12000).then(d => (d.articles || []).forEach(a => vids.push(...(a.video || [])))).catch(() => {}) : null].filter(Boolean));
+  const at = (h, a) => Math.min(...a.map(w => { if (!w) return 1e9; const m = new RegExp('\\b' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i').exec(h); return m ? m.index : 1e9; }), 1e9);
+  const has = (h, a) => at(h, a) < 1e9, mine = h => at(h, own) < at(h, opp);   // credited to the team named first
+  // only THIS defense's plays: the headline names this team and not the opponent ("Ramsey sacks Daniels to seal Steelers' win" is not a Bucs D/ST clip)
+  const def = vids.filter(v => { const h = v.headline || ''; return HV_DEF.test(h) && !HV_WEAK.test(h) && Date.now() - hvDt(v) < 14 * 864e5 && mine(h); });
+  const hl = vids.filter(v => /highlight/i.test(v.headline || ''));
+  const v = hvChoose(def.length ? def : hl.length ? hl : vids); if (v) v.def = !!def.length; HV.c[ck] = { t: Date.now(), v }; hvSave(); return v;
+}
+
+/* ===================== Oct 18h: Sleeper trending → ESPN league availability + player view (read-only) =====================
+   Availability = ESPN league 1486623708 (kona_player_info by ESPN id: ONTEAM + onTeamId / WAIVERS + waiverProcessDate / FREEAGENT).
+   Sleeper → ESPN match: Sleeper's espn_id, confirmed by the ESPN record's name AND (position or team). No confident match = availability hidden.
+   Dynasty: FantasyCalc public values API (keyless, CORS-enabled); the tab hides if it doesn't load. Nothing here writes to ESPN. */
+var SLA = { a: {}, teams: null, busy: new Set(), fc: null, fcT: 0 };
+const SL_POS = { 1: 'QB', 2: 'RB', 3: 'WR', 4: 'TE', 5: 'K', 16: 'D/ST' };
+function slLeague(){ const L = espnLinks.nfl; return L && L.leagueId && L.source !== 'paste' ? L : null; }
+async function slTeams(){
+  if (SLA.teams) return SLA.teams; const L = slLeague(); if (!L) return {};
+  try { const d = await efJSON(efLeagueUrl('nfl', L.season, L.leagueId, 'view=mTeam')); SLA.teams = Object.fromEntries((d.teams || []).map(t => [String(t.id), { name: (t.name || [t.location, t.nickname].filter(Boolean).join(' ') || 'Team ' + t.id).trim(), ab: t.abbrev || '' }])); } catch (_) { SLA.teams = {}; }
+  return SLA.teams;
+}
+async function slFetch(ids){   // availability + ESPN season numbers for up to 60 ESPN ids (cached 10 min per id)
+  const L = slLeague(); ids = [...new Set(ids.map(String).filter(x => /^\d+$/.test(x)))].filter(id => !(SLA.a[id] && Date.now() - SLA.a[id].t < 10 * 60e3) && !SLA.busy.has(id)).slice(0, 60);
+  if (!L || !ids.length) return; ids.forEach(id => SLA.busy.add(id));
+  const s = +L.season;
+  try { const [r] = await Promise.all([fetchWithTimeout(efLeagueUrl('nfl', L.season, L.leagueId, 'view=kona_player_info'), 15000, { credentials: 'omit', headers: { 'X-Fantasy-Filter': JSON.stringify({ players: { filterIds: { value: ids.map(Number) }, filterStatsForTopScoringPeriodIds: { value: 4, additionalValue: ['00' + s, '10' + s] } } }) } }), slTeams()]);
+    const d = r.ok ? await r.json() : null;
+    for (const e of (d && d.players) || []) { const pl = e.player || {}, st = pl.stats || [], f = (src) => st.find(x => x.seasonId === s && x.scoringPeriodId === 0 && x.statSourceId === src && x.statSplitTypeId === 0);
+      const ac = f(0), pj = f(1);
+      SLA.a[String(e.id)] = { t: Date.now(), st: e.status || '', on: String(e.onTeamId || ''), wpd: e.waiverProcessDate || null, n: pl.fullName || '', pos: SL_POS[pl.defaultPositionId] || '', inj: pl.injuryStatus || '',
+        ppg: ac && typeof ac.appliedAverage === 'number' ? r1(ac.appliedAverage) : null, tot: ac && typeof ac.appliedTotal === 'number' ? r1(ac.appliedTotal) : null, proj: pj && typeof pj.appliedAverage === 'number' ? r1(pj.appliedAverage) : null }; }
+  } catch (_) {} finally { ids.forEach(id => SLA.busy.delete(id)); }
+}
+function slMatch(p){   // confident Sleeper → ESPN match or null
+  const a = p && p.espn && SLA.a[p.espn]; if (!a || !a.n) return null;
+  const nEq = normName(a.n) === normName(p.n), posEq = !p.pos || !a.pos || a.pos === p.pos || (p.pos === 'DEF' && a.pos === 'D/ST');
+  return nEq && posEq ? a : null;
+}
+function slInjChip(code){ const c = String(code || '').toUpperCase().replace('_', ' ');
+  if (!c || c === 'ACTIVE' || c === 'NORMAL' || c === 'HEALTHY') return '<span class="sl-c ok" title="Healthy (no injury designation)">Healthy</span>';
+  const k = /IR|INJURY RESERVE/.test(c) ? 'IR' : /^O|OUT/.test(c) ? 'O' : /^D/.test(c) ? 'D' : /^Q/.test(c) ? 'Q' : /SUSP/.test(c) ? 'SUSP' : c.slice(0, 4);
+  return `<span class="sl-c inj ${k === 'Q' ? 'q' : k === 'D' ? 'd' : 'o'}" title="${esc(c.toLowerCase())}">${esc(k)}</span>`; }
+function slAvChip(a){ if (!a) return '';
+  const T = SLA.teams || {}, L = slLeague(), mine = L && a.on && a.on === String(L.teamId);
+  if (a.st === 'ONTEAM' || (a.on && a.on !== '0')) return mine ? '<span class="sl-c mine" title="On your ESPN roster">Yours</span>' : `<span class="sl-c tm" title="Rostered in your ESPN league">${esc(T[a.on] ? 'Rostered: ' + T[a.on].name : 'Rostered')}</span>`;
+  if (a.st === 'WAIVERS') return `<span class="sl-c wv" title="On waivers in your ESPN league">Waivers${a.wpd ? ' · clears ' + esc(dayLabelET(new Date(a.wpd)) + ' ' + timeET(new Date(a.wpd))) : ''}</span>`;
+  if (a.st === 'FREEAGENT') return '<span class="sl-c fa" title="Free agent in your ESPN league">Free agent</span>';
+  return ''; }
+function slRowChips(p){ const a = slMatch(p); return slInjChip(a ? a.inj : p.inj) + slAvChip(a); }
+function slEnsure(list){ const need = list.filter(p => p.espn && !(SLA.a[p.espn] && Date.now() - SLA.a[p.espn].t < 10 * 60e3)); if (!need.length) return;
+  slFetch(need.map(p => p.espn)).then(() => { document.querySelectorAll('[data-slav]').forEach(el => { const p = list.find(x => String(x.sid) === el.dataset.slav); if (p) el.innerHTML = slRowChips(p); }); }); }
+async function slFC(){ if (SLA.fc && Date.now() - SLA.fcT < 6 * 36e5) return SLA.fc;
+  try { const r = await fetchWithTimeout('https://api.fantasycalc.com/values/current?isDynasty=true&numQbs=1&numTeams=12&ppr=1', 12000, { credentials: 'omit' }); SLA.fc = r.ok ? await r.json() : null; } catch (_) { SLA.fc = null; } SLA.fcT = Date.now(); return SLA.fc; }
+function slTrending(sid){ const S = fsS('nfl'), T = S.trending; return T ? [...T.adds, ...T.drops].find(p => String(p.sid) === String(sid)) : null; }
+async function slOpen(sid){
+  const p = slTrending(sid); if (!p) return;
+  let o = document.getElementById('slView'); if (!o) { o = document.createElement('div'); o.id = 'slView'; o.className = 'cmx sl'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true'); document.body.appendChild(o); }
+  o._from = document.activeElement; o.dataset.sid = sid; o.hidden = false; document.documentElement.classList.add('cmx-open');
+  o.innerHTML = `<div class="cmx-box sl-box"><button type="button" class="cmx-x" data-slx aria-label="Close">✕</button><div class="sl-body"><div class="mu-ld">Checking your ESPN league…</div></div></div>`;
+  o.querySelector('.cmx-x').focus({ preventScroll: true });
+  const L = slLeague();
+  if (L && !(CMP.d && CMP.d.nfl)) { try { await cmpLoad('nfl', L); } catch (_) {} }
+  if (p.espn) await slFetch([p.espn]);
+  const a = slMatch(p), C = CMP.d && CMP.d.nfl, pool = C ? Object.values(C.p) : [], pos = (a && a.pos) || (p.pos === 'DEF' ? 'D/ST' : p.pos);
+  const me = (C && p.espn && C.p[p.espn]) || null, ppg = (a && a.ppg) ?? (me && me.ppg), l3 = q => { const w = (q.wk || []).slice(-3); return w.length ? w.reduce((x, y) => x + y, 0) / w.length : null; };
+  // Top 5 like him: same position, closest season PPG + last-3 form + ESPN projection; available in your league first
+  const sim = q => { const d1 = ppg != null && q.ppg != null ? Math.abs(q.ppg - ppg) : 9, m3 = me ? l3(me) : null, q3 = l3(q), d2 = m3 != null && q3 != null ? Math.abs(q3 - m3) : 6, d3 = me && me.proj != null && q.proj != null ? Math.abs(q.proj - me.proj) : 5; return d1 * 0.5 + d2 * 0.3 + d3 * 0.2; };
+  const same = pool.filter(q => q.pos === pos && String(q.id) !== String(p.espn) && q.ppg != null && (q.gp || 0) >= 1);
+  const avail = q => q.st === 'fa' || q.st === 'wv';
+  const close = same.slice().sort((x, y) => sim(x) - sim(y)).slice(0, 12), like = [...close.filter(avail), ...close.filter(q => !avail(q))].slice(0, 5);
+  const top = same.concat(me ? [me] : []).filter(q => q.tot != null).sort((x, y) => y.tot - x.tot).slice(0, 5);
+  const fc = await slFC(); const dyn = fc && Array.isArray(fc) ? fc.filter(x => x.player && (x.player.position === pos || (pos === 'D/ST' && false))).sort((x, y) => x.positionRank - y.positionRank).slice(0, 5) : null;
+  await slFetch([...like, ...top].map(q => q.id).concat(dyn ? dyn.map(x => x.player.espnId).filter(Boolean) : []));
+  if (o.hidden || o.dataset.sid !== String(sid)) return;
+  const row = (q, i, extra) => { const A = SLA.a[q.id]; return `<li class="sl-r"><span class="sl-i">${i + 1}</span><img src="https://a.espncdn.com/i/headshots/nfl/players/full/${esc(q.id)}.png" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><span class="sl-n"><b>${esc(q.n)}</b><i>${esc([q.pos, q.tm, extra].filter(Boolean).join(' · '))}</i></span><span class="sl-cs">${slInjChip(A ? A.inj : q.inj)}${slAvChip(A)}</span></li>`; };
+  const lst = (arr, f) => arr.length ? `<ol class="sl-l">${arr.map(f).join('')}</ol>` : '<div class="mu-ld">ESPN has no players to list here.</div>';
+  const tabs = [['like', 'Top 5 like him', !me && ppg == null ? '<div class="mu-ld">No ESPN season numbers for him yet, so no comparison.</div>' : lst(like, (q, i) => row(q, i, `${q.ppg} pts/g${l3(q) != null ? ' · L3 ' + r1(l3(q)) : ''}`))],
+    ['pos', `Top 5 ${pos}`, lst(top, (q, i) => row(q, i, `${q.tot} pts · ${q.ppg ?? '–'}/g${q.proj != null ? ' · proj ' + q.proj : ''}`))]];
+  if (dyn && dyn.length) tabs.push(['dyn', `Top 5 dynasty ${pos}`, `<ol class="sl-l">${dyn.map((x, i) => { const id = x.player.espnId; const A = id && SLA.a[id];
+      return `<li class="sl-r"><span class="sl-i">${x.positionRank}</span>${id ? `<img src="https://a.espncdn.com/i/headshots/nfl/players/full/${esc(id)}.png" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : '<span class="sl-ph"></span>'}<span class="sl-n"><b>${esc(x.player.name)}</b><i>${esc([x.player.position, x.player.maybeTeam, x.player.maybeAge ? 'age ' + r1(x.player.maybeAge) : '', 'value ' + Number(x.value).toLocaleString()].filter(Boolean).join(' · '))}</i></span><span class="sl-cs">${A && normName(A.n) === normName(x.player.name) ? slInjChip(A.inj) + slAvChip(A) : ''}</span></li>`; }).join('')}</ol><div class="te-cnt">Dynasty values: FantasyCalc (1QB, 12-team, PPR).</div>`]);
+  const dir = (fsS('nfl').trending.adds || []).some(x => String(x.sid) === String(sid)) ? '▲ added' : '▼ dropped';
+  o.querySelector('.sl-body').innerHTML = `<div class="sl-hd"><img src="${p.espn ? `https://a.espncdn.com/i/headshots/nfl/players/full/${esc(p.espn)}.png` : ''}" alt="" onerror="this.style.visibility='hidden'"><div><h3>${esc(p.n)}</h3><small>${esc([p.pos, p.team, `${dir} ${Number(p.count || 0).toLocaleString()} on Sleeper (24h)`].filter(Boolean).join(' · '))}</small>
+      <div class="sl-cs">${slInjChip(a ? a.inj : p.inj)}${a ? slAvChip(a) : '<span class="sl-c" title="No confident Sleeper ↔ ESPN match">ESPN availability unknown</span>'}${ppg != null ? `<span class="sl-c">${ppg} pts/g ESPN</span>` : ''}</div></div>
+      <a class="sl-esp" href="${esc(trUrl(p))}" target="_blank" rel="noopener">ESPN ↗</a></div>
+    <div class="sl-tabs" role="tablist">${tabs.map((t, i) => `<button type="button" role="tab" class="sl-tb${i ? '' : ' on'}" data-sltab="${t[0]}" aria-selected="${!i}">${esc(t[1])}</button>`).join('')}</div>
+    ${tabs.map((t, i) => `<div class="sl-pn" data-slpn="${t[0]}"${i ? ' hidden' : ''}>${t[2]}</div>`).join('')}
+    <p class="cmx-foot">Read-only: availability from your ESPN league; nothing is added, dropped or claimed.</p>`;
+}
+function slClose(){ const o = document.getElementById('slView'); if (!o || o.hidden) return; o.hidden = true; o.innerHTML = ''; document.documentElement.classList.remove('cmx-open'); if (o._from && o._from.isConnected) try { o._from.focus({ preventScroll: true }); } catch (_) {} }
+document.addEventListener('click', e => { const t = e.target; if (!t.closest) return;
+  const o = document.getElementById('slView');
+  if (o && !o.hidden) { if (t === o || t.closest('[data-slx]')) { e.preventDefault(); e.stopPropagation(); return slClose(); }
+    const tb = t.closest('[data-sltab]'); if (tb) { e.preventDefault(); o.querySelectorAll('[data-sltab]').forEach(b => { const on = b === tb; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); }); o.querySelectorAll('[data-slpn]').forEach(pn => pn.hidden = pn.dataset.slpn !== tb.dataset.sltab); return; } return; }
+  const l = t.closest('a[data-slv]'); if (l && !(e.metaKey || e.ctrlKey || e.shiftKey)) { e.preventDefault(); e.stopPropagation(); slOpen(l.dataset.slv); } }, true);
+document.addEventListener('keydown', e => { const o = document.getElementById('slView'); if (e.key === 'Escape' && o && !o.hidden) { e.preventDefault(); e.stopPropagation(); slClose(); } }, true);
+
+/* ===== Oct 18i: ticker controls → one ⚙ button + popover (speed, rows, top/bottom, size S/M/L) ===== */
+const TKSZ_KEY = 'mannTickerSize.v1', TKSZ = { s: .78, m: .9, l: 1.05 };
+var tkSize = TKSZ[lsGet(TKSZ_KEY, 'm')] ? lsGet(TKSZ_KEY, 'm') : 'm';
+function tkSetSize(k){ if (!TKSZ[k]) return; tkSize = k; lsSet(TKSZ_KEY, k); const tk = document.getElementById('ticker'); if (tk) tk.style.zoom = TKSZ[k];
+  document.querySelectorAll('[data-tksz]').forEach(b => { const on = b.dataset.tksz === k; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+  requestAnimationFrame(() => { tkTkb(); dispatchEvent(new Event('resize')); }); }
+function tkTkb(){ const tk = document.getElementById('ticker'); if (tk) document.documentElement.style.setProperty('--tkb', Math.round(tk.getBoundingClientRect().height) + 'px'); }
+(() => { const sp = document.querySelector('#ticker .tk-speed'); if (!sp) return;
+  const pop = document.createElement('div'); pop.className = 'tk-pop'; pop.id = 'tkPop'; pop.setAttribute('role', 'dialog'); pop.setAttribute('aria-label', 'Ticker settings'); pop.hidden = true;
+  [...sp.childNodes].forEach(n => pop.appendChild(n));
+  const lbl = pop.querySelector('.lbl'); if (lbl) { const t = lbl.firstChild; if (t && t.nodeType === 3) t.remove(); const h = document.createElement('span'); h.className = 'tp-h'; h.textContent = 'Speed'; pop.insertBefore(h, pop.querySelector('.grp')); }
+  const sz = document.createElement('div'); sz.className = 'tp-sz'; sz.innerHTML = '<span class="tp-h">Size</span><div class="grp">' + ['s', 'm', 'l'].map(k => `<button type="button" data-tksz="${k}" title="${{ s: 'Small', m: 'Medium (default)', l: 'Large' }[k]} ticker">${k.toUpperCase()}</button>`).join('') + '</div>';
+  pop.appendChild(sz); const rh = document.createElement('span'); rh.className = 'tp-h tp-rh'; rh.textContent = 'Rows & position'; pop.appendChild(rh);
+  const g = document.createElement('button'); g.type = 'button'; g.className = 'tk-gear'; g.setAttribute('aria-haspopup', 'dialog'); g.setAttribute('aria-expanded', 'false'); g.setAttribute('aria-controls', 'tkPop'); g.title = 'Ticker settings: speed, rows, position, size'; g.setAttribute('aria-label', g.title); g.innerHTML = '<span aria-hidden="true">⚙</span>';
+  sp.appendChild(g); document.body.appendChild(pop); sp.classList.add('tk-compact');
+  const place = () => { const r = g.getBoundingClientRect(), pw = pop.offsetWidth, ph = pop.offsetHeight, below = r.top < innerHeight / 2;
+    pop.style.left = Math.max(8, Math.min(innerWidth - pw - 8, r.right - pw)) + 'px'; pop.style.top = (below ? r.bottom + 8 : Math.max(8, r.top - ph - 8)) + 'px'; };
+  const open = on => { pop.hidden = !on; g.setAttribute('aria-expanded', on); g.classList.toggle('on', on); if (on) { place(); const f = pop.querySelector('button.on') || pop.querySelector('button'); f && f.focus({ preventScroll: true }); } };
+  g.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); open(pop.hidden); });
+  pop.addEventListener('click', e => { const b = e.target.closest('[data-tksz]'); if (b) { e.preventDefault(); tkSetSize(b.dataset.tksz); setTimeout(place, 60); } });
+  document.addEventListener('click', e => { if (!pop.hidden && !pop.contains(e.target) && e.target !== g && !g.contains(e.target)) open(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !pop.hidden) { open(false); g.focus({ preventScroll: true }); } });
+  addEventListener('resize', () => { if (!pop.hidden) place(); });
+  const tk = document.getElementById('ticker'); if (tk && window.ResizeObserver) new ResizeObserver(() => requestAnimationFrame(tkTkb)).observe(tk);
+  tkSetSize(tkSize);
+})();
+
+/* ===================== Oct 19: matchup FACE-OFF (tap a head-to-head slot row → both real trading cards, VS, stat-by-stat leaders) =====================
+   Data: the same matchup rows (MU.pm), ESPN weekly points/projections, CMP season FP/G, rarity tiers, injuries, live game state (lvInfo). Nothing invented; missing = row hidden. */
+var FO = { pm: {}, i: null, t: 0 };
+function foSide(E){ if (!E) return null; const C = CMP.d && CMP.d.nfl, rank = C ? cmpRank(C) : {}, pp = { ...E.p, roster: { slot: E.slot, sid: E.p.sid } };
+  FO.pm[String(pp.id)] = pp; let html = ''; try { html = ccCard(pp, 'fo', C, rank, 0); } catch (e) { console.warn('face-off card', e); }
+  const tc = (html.match(/class="cc r-([a-z]+)/) || [])[1] || '', ti = RAR_T.findIndex(t => t[0] === tc), cp = C && C.p ? C.p[String(pp.eid)] : null;
+  return { E, pp, html, ti, tl: ti >= 0 ? RAR_T[ti][1] : '', ic: ti >= 0 ? RAR_T[ti][3] : '', ppg: cp && cp.ppg != null ? cp.ppg : null, l3: ((MU.d.nfl || {}).l3 || {})[pp.eid] ?? null }; }
+function foStats(A, B){
+  const v = (S, f) => { if (!S) return null; try { return f(S); } catch (_) { return null; } };
+  const num = (lbl, f, fmt) => { const a = v(A, f), b = v(B, f); if (a == null && b == null) return '';
+    const la = a != null && (b == null || a > b), lb = b != null && (a == null || b > a);
+    return `<tr><td class="a${la ? ' lead' : ''}">${a != null ? esc(fmt ? fmt(a) : a) : '–'}</td><th>${lbl}</th><td class="b${lb ? ' lead' : ''}">${b != null ? esc(fmt ? fmt(b) : b) : '–'}</td></tr>`; };
+  const st = S => S && S.E.s ? S.E.s : {}, live = st(A).s === 'in' || st(B).s === 'in', fin = st(A).s === 'post' && st(B).s === 'post';
+  const ptsL = live ? 'Points (live)' : fin ? 'Points (final)' : 'Points this week';
+  const inj = S => S ? muInj(S.pp) : null;
+  const injRow = (A || B) ? (() => { const a = inj(A), b = inj(B), ok = x => !x;
+    const c = (S, x) => !S ? '–' : x ? `<span class="fo-inj" title="${esc(x.status)}">${esc(x.code)}</span> ${esc(x.status)}` : '<span class="fo-ok">Healthy</span>';
+    return `<tr><td class="a${A && ok(a) && B && !ok(b) ? ' lead' : ''}">${c(A, a)}</td><th>Status</th><td class="b${B && ok(b) && A && !ok(a) ? ' lead' : ''}">${c(B, b)}</td></tr>`; })() : '';
+  const tier = (A && A.tl) || (B && B.tl) ? `<tr><td class="a${A && B && A.ti > B.ti ? ' lead' : ''}">${A && A.tl ? esc(A.ic + ' ' + A.tl) : '–'}</td><th>Rarity</th><td class="b${A && B && B.ti > A.ti ? ' lead' : ''}">${B && B.tl ? esc(B.ic + ' ' + B.tl) : '–'}</td></tr>` : '';
+  const game = S => { if (!S) return '–'; const s = st(S), L = s.s === 'in' ? lvInfo(S.pp) : null; const t = s.g || s.t || ''; if (!t) return '–';
+    return `${s.s === 'in' ? '<span class="lv-badge sm">LIVE</span> ' : ''}${esc(t)}${L && L.poss ? `<div class="fo-ps${L.rz ? ' rz' : ''}">🏈 ${esc(L.ab)} ball${L.rz ? ' · RED ZONE' : ''}</div>` : ''}${s.line ? `<div class="fo-ln">${esc(s.line)}</div>` : ''}`; };
+  const gm = (st(A).t || st(A).g || st(B).t || st(B).g) ? `<tr class="fo-g"><td class="a">${game(A)}</td><th>Game</th><td class="b">${game(B)}</td></tr>` : '';
+  return `<table class="fo-t">${num(ptsL, S => S.pp.pts && S.pp.pts.act)}${num('Projection', S => S.pp.pts && S.pp.pts.proj)}${num('Season FP/G', S => S.ppg)}${num('Last 3 avg', S => S.l3)}${num('Season pts', S => S.pp.pts && S.pp.pts.tot)}${tier}${injRow}${gm}</table>`;
+}
+function foOpen(i){
+  const Ea = MU.pm && MU.pm['a' + i], Eb = MU.pm && MU.pm['b' + i]; if (!Ea && !Eb) return;
+  try { mupClose(true); } catch (_) {} try { cmxPopClose(); } catch (_) {} try { hvStop(); } catch (_) {}
+  FO.pm = {}; const A = foSide(Ea), B = foSide(Eb), slot = (Ea || Eb).slot, D = MU.d.nfl || {};
+  let o = document.getElementById('foView'); if (!o) { o = document.createElement('div'); o.id = 'foView'; o.className = 'cmx fo'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true'); document.body.appendChild(o); }
+  o._from = document.activeElement; FO.i = i; o.setAttribute('aria-label', `${slot} face-off`);
+  const empty = who => `<div class="fo-empty">${esc(who)}<br>empty slot</div>`, nm = S => S ? esc(S.pp.name) : 'Empty';
+  o.innerHTML = `<div class="cmx-box fo-box"><button type="button" class="cmx-x" data-fox aria-label="Close face-off" title="Close (Esc)">✕</button>
+    <h3 class="fo-h"><span class="fo-sl">${esc(slot)}</span> FACE-OFF${D.per ? ` <small>Week ${esc(D.per)}</small>` : ''}</h3>
+    <div class="fo-cards"><div class="fo-c me"><div class="fo-who">You</div>${A ? A.html : empty('You')}</div>
+      <div class="fo-vs" aria-hidden="true"><span>VS</span></div>
+      <div class="fo-c op"><div class="fo-who">${esc(D.op ? D.op.name : 'Opponent')}</div>${B ? B.html : empty('Opponent')}</div></div>
+    <div class="fo-names"><b>${nm(A)}</b><b>${nm(B)}</b></div>
+    <div class="fo-st" data-fost>${foStats(A, B)}</div>
+    <p class="cmx-foot">Real ESPN numbers · green = leader of each stat · tap a card to flip, ▶ for its latest clip.</p></div>`;
+  o.hidden = false; document.documentElement.classList.add('cmx-open'); foFit(o);
+  try { pgText(o); } catch (_) {} try { lvPatch && lvPatch(); } catch (_) {}
+  const x = o.querySelector('.cmx-x'); if (x) x.focus({ preventScroll: true });
+}
+function foFit(o){ const cs = o.querySelectorAll('.fo-c > .cc'); if (!cs.length) return;
+  const w = Math.min(innerWidth, 1100), mob = innerWidth < 760, gap = mob ? 30 : 90;
+  const zw = (w - (mob ? 24 : 80) - gap) / 2 / 260, zh = (innerHeight * (mob ? .46 : .58)) / 364, z = Math.max(.5, Math.min(1.35, zw, zh));
+  cs.forEach(c => c.style.setProperty('--z', z.toFixed(3))); o.style.setProperty('--foz', z.toFixed(3)); }
+function foClose(){ const o = document.getElementById('foView'); if (!o || o.hidden) return; try { if (HV.cur && o.contains(HV.cur)) hvStop(); } catch (_) {}
+  o.hidden = true; o.innerHTML = ''; FO.i = null; FO.pm = {}; document.documentElement.classList.remove('cmx-open');
+  try { CC.flip.forEach(k => { if (/^fo:/.test(k)) CC.flip.delete(k); }); } catch (_) {}
+  if (o._from && o._from.isConnected) try { o._from.focus({ preventScroll: true }); } catch (_) {} }
+document.addEventListener('click', e => { const t = e.target; if (!t.closest) return;
+  const o = document.getElementById('foView');
+  if (o && !o.hidden) { if (t === o || t.closest('[data-fox]') || t.classList.contains('fo-box') || t.classList.contains('fo-cards')) { e.preventDefault(); e.stopPropagation(); foClose(); } return; }
+  const row = t.closest('#fzMatch .mu-rows .ms'); if (!row || t.closest('a[href]:not(.ms-sd)')) return;
+  const i = [...row.parentElement.children].indexOf(row); if (i < 0) return; e.preventDefault(); e.stopPropagation(); foOpen(i); }, true);
+document.addEventListener('keydown', e => { const o = document.getElementById('foView');
+  if (e.key === 'Escape' && o && !o.hidden) { e.preventDefault(); e.stopPropagation(); return foClose(); }
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.closest && e.target.closest('#fzMatch .mu-rows .ms') && !(o && !o.hidden)) { const row = e.target.closest('.ms'); e.preventDefault(); e.stopPropagation(); foOpen([...row.parentElement.children].indexOf(row)); } }, true);
+addEventListener('resize', () => { const o = document.getElementById('foView'); if (o && !o.hidden) foFit(o); });
+setInterval(() => { const o = document.getElementById('foView'); if (!o || o.hidden || FO.i == null || document.hidden) return;   // live: refresh the comparison from the latest matchup data (cards keep flip state)
+  const Ea = MU.pm['a' + FO.i], Eb = MU.pm['b' + FO.i], el = o.querySelector('[data-fost]'); if (!el || (!Ea && !Eb)) return;
+  const C = CMP.d && CMP.d.nfl, mk = E => { if (!E) return null; const pp = { ...E.p, roster: { slot: E.slot, sid: E.p.sid } }, old = Object.values(FO.pm).find(q => String(q.id) === String(pp.id)); const cp = C && C.p ? C.p[String(pp.eid)] : null;
+    const prev = [...o.querySelectorAll('.fo-c > .cc')].find(c => c.dataset.plcard === String(pp.id)), tc = prev ? ([...prev.classList].find(x => /^r-/.test(x)) || '').slice(2) : '', ti = RAR_T.findIndex(t => t[0] === tc);
+    return { E, pp: old ? Object.assign(old, pp) : pp, ti, tl: ti >= 0 ? RAR_T[ti][1] : '', ic: ti >= 0 ? RAR_T[ti][3] : '', ppg: cp && cp.ppg != null ? cp.ppg : null, l3: ((MU.d.nfl || {}).l3 || {})[pp.eid] ?? null }; };
+  el.innerHTML = foStats(mk(Ea), mk(Eb)); }, 20000);
+// back button closes the overlay views too (shared OVL history stack)
+try { OVL_DEF.push({ id: 'fo', vis: () => { const o = document.getElementById('foView'); return !!(o && !o.hidden); }, close: () => foClose() },
+  { id: 'cmx', vis: () => { const o = document.getElementById('cmxMax'); return !!(o && !o.hidden); }, close: () => cmxClose() },
+  { id: 'slv', vis: () => { const o = document.getElementById('slView'); return !!(o && !o.hidden); }, close: () => slClose() }); } catch (_) {}
 </script>
 </body>
 </html>
