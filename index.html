@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261019-1530-bigger-previews">
+<meta name="build-id" content="20261019-1545-bench-label">
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261019-1530-bigger-previews';
+var BUILD_ID = '20261019-1545-bench-label';
 (function(){
   var shown = {};
   function chip(id, html, onTap){
@@ -2551,7 +2551,6 @@ button.lv-chip{border:0;cursor:pointer;font:inherit;font-size:inherit}.lv-chip:h
 .pg-pts{margin-left:auto;font-size:12.5px;color:var(--muted);font-weight:700}.pg-pts b{color:var(--text);font-size:16px;font-weight:900;font-variant-numeric:tabular-nums}
 .ps-QB{--pc:#e0457b}.ps-RB{--pc:#16a36b}.ps-WR{--pc:#2f7df6}.ps-TE{--pc:#e08a00}.ps-FLEX{--pc:#8b5cf6}.ps-OP{--pc:#c026d3}.ps-DST{--pc:#475569}.ps-K{--pc:#0d9488}.ps-P{--pc:#0891b2}.ps-IDP{--pc:#b45309}.ps-HC,.ps-OTHER{--pc:#64748b}
 .cc-slot.s[class*="ps-"],.cc-slot.b[class*="ps-"],.cc-slot.i[class*="ps-"]{background:var(--pc);border-color:rgba(255,255,255,.55)}
-.cc-slot.b[class*="ps-"]::after{content:" · BENCH";opacity:.8;font-size:.85em}
 .cc-grid.pg-grid{display:grid;grid-template-columns:repeat(var(--cols,3),minmax(0,1fr));gap:var(--pgap,18px);justify-content:stretch;padding:2px 0 10px}
 .cc-grid.pg-grid>.cc.cc{--w:var(--bw,260px);--h:var(--bh,380px);width:var(--bw,260px);height:var(--bh,380px);max-width:none;zoom:var(--z,1);justify-self:start}
 .rg-b.lv-only .pg:not(.has-live){display:none}
@@ -4610,6 +4609,8 @@ function playerNow(p, compact){
   const s = playerStat(p, compact);
   return { state: g.state, head: g.state === 'pre' ? `${g.teams[0].abbr} @ ${g.teams[1].abbr}` : gameScore(g), detail: g.detail, link: g.box || g.link, date: g.date, tv: g.tv || '', line: s ? s.line : '', g };
 }
+// Oct 19: pill text never repeats a word (case-insensitive): 'BENCH', 'BENCH · Q', 'IR' (not 'IR · IR')
+function pillJoin(...a){ const seen = new Set(); return a.filter(x => x != null && x !== '').flatMap(x => String(x).split(/\s*·\s*/)).filter(x => { const k = x.trim().toLowerCase(); if (!k || seen.has(k)) return false; seen.add(k); return true; }).join(' · '); }
 function playerInjury(p){
   const sp = psp(p), list = fsS(sp).injAll || [], id = peid(p);
   return list.find(i => (i.athId && i.athId === id) || (i.name === p.name && i.team === p.team)) || null;
@@ -4727,7 +4728,7 @@ function playerCard(p, ctx){
   let top = `<div class="pl-head">
     <img class="hs" src="${esc(p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
     <div class="t"><b><a href="${esc(playerUrl(p))}" target="_blank" rel="noopener" style="text-decoration:none" title="${esc(p.name)}: open ESPN player page">${esc(p.name)}</a></b>
-      <i>${inFz && p.roster ? `<span class="slot fz-slot s-${slotGroup(p)}" title="${p.roster.slot ? 'ESPN fantasy lineup slot' : 'Real position (lineup slot unknown)'}">${esc(p.roster.slot || p.pos || '?')}</span>` : ''}<span class="lgb sp-${sp}">${esc(F.label)}</span>${esc(p.pos)}${!inFz && p.roster ? `<span class="ros-b" title="On your ESPN fantasy roster${p.roster.slot ? ' (' + esc(p.roster.slot) + ')' : ''}">🎮</span>` : ''}${inFz && p.fav ? '<span class="ros-b fav" title="Also a ★ favorite">★</span>' : ''}${p.pos ? ' · ' : ''}${p.teamLogo ? `<img src="${esc(p.teamLogo)}" alt="">` : ''}${esc(p.teamName || p.team)} ${pill}</i></div>
+      <i>${inFz && p.roster ? `<span class="slot fz-slot s-${slotGroup(p)}" title="${p.roster.slot ? 'ESPN fantasy lineup slot' : 'Real position (lineup slot unknown)'}">${esc(pillJoin(p.roster.slot || p.pos || '?'))}</span>` : ''}<span class="lgb sp-${sp}">${esc(F.label)}</span>${esc(p.pos)}${!inFz && p.roster ? `<span class="ros-b" title="On your ESPN fantasy roster${p.roster.slot ? ' (' + esc(p.roster.slot) + ')' : ''}">🎮</span>` : ''}${inFz && p.fav ? '<span class="ros-b fav" title="Also a ★ favorite">★</span>' : ''}${p.pos ? ' · ' : ''}${p.teamLogo ? `<img src="${esc(p.teamLogo)}" alt="">` : ''}${esc(p.teamName || p.team)} ${pill}</i></div>
     ${p.fav ? `<button class="star on" data-rmplayer="${esc(p.id)}" title="Remove ${esc(p.name)} from ★ favorites${p.roster ? ' (stays on your fantasy roster)' : ''}" aria-label="Remove ${esc(p.name)} from favorites" aria-pressed="true">★</button>`
             : `<button class="star" data-addfav="${esc(p.id)}" title="Also add ${esc(p.name)} to ★ favorites (shows in the ${esc(CAT[FSPORTS[psp(p)].lg] ? CAT[FSPORTS[psp(p)].lg].label : FSPORTS[psp(p)].label)} tab)" aria-label="Add ${esc(p.name)} to favorites" aria-pressed="false">☆</button>`}${cmpOn ? fxBtn('p:' + p.id, p.name) : ''}</div>`;
   let shown = false;
@@ -6080,7 +6081,7 @@ function ccCard(p, scope, C, rank, i){
   const colors = F.kind === 'team' && p.team && p.team !== 'FA' ? teamColorVars(F.lg, p.team, '', '') : '';
   const [tc, tl, RR] = rarTier(p, R.rk), key = scope + ':' + p.id, fl = CC.flip.has(key), rid = RR ? RR.id : '';
   const parts = String(p.name || '').split(' '), first = parts.length > 1 ? parts[0] : '', last = parts.length > 1 ? parts.slice(1).join(' ') : p.name;
-  const fav = !p.roster && !p.watch, g = R.g, slotTxt = p.watch ? '👁 WATCH' : fav ? '★ ' + F.label : g === 's' ? (p.roster.slot || p.pos || 'START') : g === 'b' ? 'BENCH' : g === 'i' ? 'IR' : (p.pos || 'ROSTER');
+  const fav = !p.roster && !p.watch, g = R.g, slotTxt = p.watch ? '👁 WATCH' : fav ? '★ ' + F.label : g === 's' ? pillJoin(p.roster.slot || p.pos || 'START') : g === 'b' ? pillJoin('BENCH', inj && inj.code) : g === 'i' ? pillJoin('IR', inj && inj.code) : pillJoin(p.pos || 'ROSTER');
   const slotCls = p.watch ? 'w' : fav ? 'f' : g;
   const allSt = statPairs(p), big = (R.ppg ?? I.ppg) != null ? null : allSt.find(([k]) => !/^(GP|Starts|Age|Ht|Wt|Exp|College|Country)$/i.test(k)) || null;
   const ppg = R.ppg ?? I.ppg, team = p.teamName || p.team || '';
