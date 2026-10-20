@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261019-1615-spin-screwem">
+<meta name="build-id" content="20261020-1900-score-fit">
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261019-1615-spin-screwem';
+var BUILD_ID = '20261020-1900-score-fit';
 (function(){
   var shown = {};
   function chip(id, html, onTap){
@@ -2834,6 +2834,47 @@ html:not(.tk-bottom) .sys-chip{bottom:12px}
 .pc-tbl td:last-child,.cc-ppg b,.lv-p b,.tr-row .c,.tb td{font-variant-numeric:tabular-nums}
 .sx-b.on-card:focus-visible,.hx-x:focus-visible{outline:2px solid #ffc83d;outline-offset:2px}
 .sys-chip .sys-hint{display:block;font:500 9.5px ui-monospace,Menlo,monospace;color:#7d879c;margin-top:1px;text-align:left;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ---- Oct 20: score rows fit the screen + easier to read ----
+   Root cause of the phone overflow: .gr-grid used a 1fr track (= minmax(auto,1fr)), and the expanded
+   .gr-x card is a flex column whose children default to min-width:auto. The one-line (nowrap) recap
+   headline in .gm-xl set the card's min-content width, so the track grew past the screen. Tracks are now
+   minmax(0,1fr) and every grid/flex child may shrink, so long text wraps/ellipsizes inside the card. */
+.gr-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,215px),1fr))}
+.gr-grid>*,.gr-x>*,.gr-x .card,.gr-x .row,.gr-x .gm-xl,.gr-x .card-top,.gr-x .card-foot{min-width:0;max-width:100%}
+.gr-x .card{box-sizing:border-box;width:100%;overflow:hidden}
+.card.gm[data-hvg] .card-foot{padding-right:36px}   /* keeps Box score / Gamecast clear of the ▶ highlight button */
+.gr-x .card-foot>span{min-width:0}.gr-x .card-foot>span:last-child{flex:none;white-space:nowrap}
+.gm-xl .gr-hl{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.3;overflow-wrap:anywhere}
+.gm-xl .gr-ld{white-space:normal;overflow-wrap:anywhere}
+/* compact rows: brighter, bigger */
+.gr{min-height:64px}
+.gr-t{font-size:15px;color:var(--text)}
+.gr-t b{font-weight:800}
+.gr-t em{font-size:19px;font-weight:900;color:#f4f7fc;min-width:24px;text-align:right}
+.gr-t.l{opacity:1}.gr-t.l b,.gr-t.l em{color:#9aa6bd;font-weight:700}.gr-t.l img{opacity:.7}
+.gr-t.w b,.gr-t.w em{color:#fff;font-weight:900}
+.gr-rec{font-size:11.5px;color:#a7b2c8;font-weight:600}
+.gr-t small{color:#a7b2c8}
+.gr-st{font-size:12px;color:#b8c2d6;font-weight:600;max-width:96px}
+.gr-st .gr-tm{font-size:13px;color:#fff;font-weight:800}.gr-st .gr-tv,.gr-st .gr-od{font-size:11.5px;color:#b8c2d6}
+.gr-det{font-size:12.5px;color:#a7b2c8}
+.gr-ld b{font-size:10px;color:#8f9bb4}.gr-ld i{font-size:10.5px;color:#a7b2c8;opacity:1}.gr-ld span{color:#e8edf7;font-weight:600}
+/* expanded card: readable loser + leader lines */
+.gr-x .row.lose{opacity:1}.gr-x .row.lose .name b,.gr-x .row.lose .score{color:#9aa6bd}.gr-x .row.lose img{opacity:.7}
+.gr-x .row .name i{color:#a7b2c8;font-size:12.5px}
+.gr-x .card-top{color:#b8c2d6}
+.gr-x .gm-xl{font-size:13px;color:#a7b2c8;gap:3px}
+.gr-x .gm-xl .gr-hl{color:#e8edf7;font-size:13px}
+.gr-x .card-foot,.gr-x .card-foot a{color:#a7b2c8}
+@media (max-width:600px){.gr-grid{grid-template-columns:minmax(0,1fr)}.gr{min-height:64px;padding:7px 12px}}
+@media (max-width:360px){.gr-x .row .score{font-size:22px}.gr-x .row .name b{font-size:15px}.gr-x .gm-xl{font-size:12.5px}}
+@media (min-width:768px){
+  .gr-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr))}
+  .gr-t{font-size:16px}.gr-t em{font-size:22px;min-width:30px}
+  .gr-rec{font-size:12px}.gr-st{max-width:120px;font-size:12.5px}
+  .gr-det{font-size:12.5px}.gr-ls s{font-size:12px;color:#a7b2c8}
+}
 </style>
 </head>
 <body>
