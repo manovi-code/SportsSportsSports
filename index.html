@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261020-2030-player-stats">
+<meta name="build-id" content="20261020-2130-teamcard">
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261020-2030-player-stats';
+var BUILD_ID = '20261020-2130-teamcard';
 (function(){
   var shown = {};
   function chip(id, html, onTap){
@@ -3012,6 +3012,33 @@ a.pc-link.ps-open{font-size:12px}
 .cc .cc-art .cc-circ.cc-circ-x>img:first-child{visibility:hidden}
 .cc .cc-art .cc-circ img.cc-circ-lg:first-child{object-fit:contain;padding:12%;background:#fff;box-sizing:border-box}
 .cc .cc-art .cc-circ:has(img.cc-circ-lg) .cc-clg{display:none}
+/* Oct 20 · team card (reuses the .ps-* stats-view shell) + tappable teams in score rows */
+.tc-ov{z-index:10015}
+html.tc-open{overflow:hidden}
+.tc-hd .ps-ph.lg{background:rgba(255,255,255,.94)}
+.ps-act.tc-star.on{background:rgba(255,200,61,.16);border-color:#ffc83d;color:#ffe08a}
+.ps-act.tc-hl.on{background:#c40000;border-color:#ff8787}
+.tc-clip{margin-top:14px;border-radius:14px;overflow:hidden;background:#000;border:1px solid #2a3654}
+.tc-clip video{display:block;width:100%;max-height:60vh;background:#000}
+.tc-cap{padding:8px 12px;font:600 13px/1.35 system-ui;color:#d7def0;background:#111829}
+.tc-ol{width:18px;height:18px;object-fit:contain;vertical-align:-4px;margin:0 4px}
+.tc-last td,.tc-last th{text-align:left}
+.tc-lds{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px}
+.tc-ld{display:flex;gap:10px;align-items:center;background:#151d33;border:1px solid #263252;border-radius:12px;padding:8px 10px;min-width:0}
+.tc-ld img,.tc-ld .tc-nhs{flex:none;width:44px;height:44px;border-radius:50%;object-fit:cover;object-position:50% 15%;background:rgba(255,255,255,.08)}
+.tc-ld>div{min-width:0;display:flex;flex-direction:column;gap:1px}
+.tc-ld small{font:700 10.5px/1.2 system-ui;color:#9fb0d0;text-transform:uppercase;letter-spacing:.5px}
+.tc-ld em{font-style:normal;color:#8d9bb8;font-size:12px}
+.tc-ld span{font:700 13px/1.3 system-ui;color:#ffe066;overflow-wrap:anywhere}
+.tc-pn{all:unset;cursor:pointer;color:#fff;font-weight:800;text-decoration:underline;text-decoration-color:rgba(143,180,255,.5);text-underline-offset:3px;overflow-wrap:anywhere}
+.tc-pn:hover,.tc-pn:focus-visible{color:#8fb4ff;text-decoration-color:currentColor}
+.tc-ld .tc-pn{font-size:15px}
+.tc-injt td,.tc-injt th{text-align:left}
+.tc-inj{display:inline-block;border-radius:999px;padding:2px 8px;font:700 11.5px/1.3 system-ui;background:rgba(255,255,255,.1)}
+.tc-inj.s0{background:rgba(255,107,107,.18);color:#ffa8a8}.tc-inj.s1{background:rgba(255,146,43,.18);color:#ffc078}.tc-inj.s2,.tc-inj.s3{background:rgba(255,224,102,.14);color:#ffe066}
+[data-tct] .gr-t img,.gr-t[data-tct]>img,.gr-t[data-tct] b,.row[data-tct]>img,.row[data-tct]>.ph,.row[data-tct]>.name{cursor:pointer}
+.gr-t[data-tct] b:hover,.row[data-tct]>.name:hover b{text-decoration:underline;text-underline-offset:3px}
+@media (max-width:760px){ .tc-lds{grid-template-columns:1fr} }
 </style>
 </head>
 <body>
@@ -3610,7 +3637,7 @@ function teamRow(g, t){
   const lose = g.state === 'post' && !t.winner && g.teams.some(x => x.winner);
   const fav = isFav(g.lg, t.abbr);
   const logo = t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'ph'}))">` : '<div class="ph"></div>';
-  return `<div class="row${lose ? ' lose' : ''}">
+  return `<div class="row${lose ? ' lose' : ''}"${t.id ? ` data-tct="${esc(g.lg)}|${esc(t.id)}|${esc(t.abbr || '')}" data-tcn="${esc(t.name || '')}"` : ''}>
     ${logo}
     <div class="name"><b>${t.rank ? `<span class="rank">${t.rank}</span>` : ''}${esc(t.name)}</b><i>${esc(t.abbr)}${t.record ? ' · ' + esc(t.record) : ''}</i></div>
     ${t.abbr ? `<button class="star${fav ? ' on' : ''}" data-star="${esc(g.lg + ':' + t.abbr.toUpperCase())}" title="${fav ? 'Unstar' : 'Star'} ${esc(t.name)}">${fav ? '★' : '☆'}</button>` : ''}
@@ -4155,7 +4182,7 @@ function grRow(g){
   const k = g.lg + ':' + g.id, live = g.state === 'in', post = g.state === 'post', pre = g.state === 'pre';
   const win = post ? g.teams.find(t => t.winner) || null : null, nls = grLsOK(g);
   const ls = t => nls ? `<span class="gr-ls">${t.ls.map(v => `<s>${esc(v)}</s>`).join('')}</span>` : '';
-  const tm = t => { const lose = win && t !== win; return `<span class="gr-t${t === win ? ' w' : ''}${lose ? ' l' : ''}${isFav(g.lg, t.abbr) ? ' fav' : ''}">${t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy">` : '<i class="gr-nl"></i>'}${t.rank ? `<small>${esc(t.rank)}</small>` : ''}<b><span class="gr-ab">${esc(t.abbr || t.short)}</span><span class="gr-nm">${esc(t.short || t.abbr)}</span></b>${t.record ? `<i class="gr-rec">${esc(t.record)}</i>` : ''}${ls(t)}<em>${pre ? '' : live ? gxScore(g, t, t.score) : esc(t.score)}</em></span>`; };
+  const tm = t => { const lose = win && t !== win; return `<span class="gr-t${t === win ? ' w' : ''}${lose ? ' l' : ''}${isFav(g.lg, t.abbr) ? ' fav' : ''}"${t.id ? ` data-tct="${esc(g.lg)}|${esc(t.id)}|${esc(t.abbr || '')}" data-tcn="${esc(t.name || t.short || '')}"` : ''}>${t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy">` : '<i class="gr-nl"></i>'}${t.rank ? `<small>${esc(t.rank)}</small>` : ''}<b><span class="gr-ab">${esc(t.abbr || t.short)}</span><span class="gr-nm">${esc(t.short || t.abbr)}</span></b>${t.record ? `<i class="gr-rec">${esc(t.record)}</i>` : ''}${ls(t)}<em>${pre ? '' : live ? gxScore(g, t, t.score) : esc(t.score)}</em></span>`; };
   const lh = nls ? `<span class="gr-t gr-lh" aria-hidden="true"><span class="gr-ls">${Array.from({ length: nls }, (_, i) => `<s>${grLsLbl(g.lg, i)}</s>`).join('')}</span><em></em></span>` : '';
   const st = live ? `<span class="gr-live">LIVE</span><span>${esc(g.detail || '')}</span>`
     : pre ? `<span class="gr-tm">${esc(timeET(g.date))}</span>${g.tv ? `<span class="gr-tv">${esc(g.tv)}</span>` : ''}${g.odds && g.odds.det ? `<span class="gr-od">${esc(g.odds.det)}</span>` : ''}`
@@ -11087,6 +11114,172 @@ addEventListener('click', e => { const t = e.target && e.target.closest ? e.targ
   const b = t.closest('.hv-fs'); if (b) { e.preventDefault(); e.stopPropagation(); hvFsOpen(b); return; }
   if (FS.el && t.closest('.hv-full-x')) { e.preventDefault(); e.stopPropagation(); hvFsClose(); } }, true);
 addEventListener('keydown', e => { if (e.key === 'Escape' && FS.el && !fsEl()) { e.preventDefault(); e.stopPropagation(); hvFsClose(); } }, true);
+
+</script>
+<script>
+/* ===================== Oct 20: in-site TEAM CARD + score-row tap rules =====================
+   Tap a team (logo / name / abbreviation) in a score row or game card -> team card panel (same shell as the player stats view).
+   Expanded score cards collapse only on a tap in empty, non-interactive space; links, buttons, stars, ▶, 🌀, leaders, headline keep their own action.
+   Data (all CORS-enabled ESPN endpoints): site.api teams/{id}/schedule, /statistics, /roster, news?team=, core API season leaders. Missing pieces hide. */
+const TC = { el: null, T: null, c: {}, tok: 0, from: null };
+const TC_MS = 10 * 60e3;
+const TC_KEEP = 'a,button,input,select,textarea,label,summary,video,audio,iframe,[data-star],[data-ps],[data-hl],[data-tct],.sx-b,.hl-btn,.hv-wrap,.gr-ld,.gr-hl,[role="button"],[contenteditable]';
+const TC_HIT = '.gr-t img,.gr-t .gr-nl,.gr-t b,.gr-t small,.row>img,.row>.ph,.row>.name';
+function tcSp(lg){ const L = CAT[lg]; if (!L) return ''; return FS_PATH[L.path] || (L.path.startsWith('soccer/') ? 'soccer' : ''); }
+function tcKind(lg){ return String((CAT[lg] || {}).path || '').split('/')[0]; }
+const tcHttps = u => String(u || '').replace(/^http:/, 'https:');
+
+/* ---------- data ---------- */
+async function tcData(T){
+  const k = T.lg + ':' + T.id, hit = TC.c[k]; if (hit && Date.now() - hit.t < TC_MS) return hit;
+  const L = CAT[T.lg], b = `${API}${L.path}/teams/${encodeURIComponent(T.id)}`, o = { t: Date.now(), fail: 0 };
+  const safe = pr => Promise.resolve(pr).then(v => v, e => { o.fail++; console.warn('team card', e && e.message); return null; });
+  if (T.abbr) try { MN.teamIds[T.lg + ':' + String(T.abbr).toUpperCase()] = T.id; } catch (_) {}
+  [o.sch, o.st, o.ro, o.nw, o.clip] = await Promise.all([safe(getJSON(b + '/schedule', 12000)), safe(getJSON(b + '/statistics', 12000)), safe(getJSON(b + '/roster', 12000)),
+    safe(getJSON(`${API}${L.path}/news?team=${encodeURIComponent(T.id)}&limit=8`, 12000))]);
+  if (T.abbr) { const G = tcGames(o.sch, T.id), ev = G.find(g => g.st === 'in') || G.filter(g => g.done).slice(-1)[0];   // newest clip: live / latest game's ESPN clips, then team news videos
+    o.clip = await safe(hvFindTeam(T.lg + ':' + String(T.abbr).toUpperCase(), ev ? ev.id : '')); }
+  o.ath = {};
+  const ro = (o.ro && o.ro.athletes) || [], list = ro.length && ro[0] && Array.isArray(ro[0].items) ? ro.flatMap(g => g.items || []) : ro;
+  list.forEach(a => { if (a && a.id) o.ath[String(a.id)] = { id: String(a.id), name: a.displayName || a.fullName || '', short: a.shortName || '', pos: (a.position || {}).abbreviation || '', hs: (a.headshot || {}).href || '', inj: a.injuries || [], num: a.jersey || '' }; });
+  const se = (o.st && o.st.season) || (o.sch && o.sch.season) || null;
+  if (se && se.year) { const [sport, league] = L.path.split('/');
+    for (const ty of [...new Set([se.type, 2].filter(Boolean))]) {
+      const d = await safe(getJSON(`https://sports.core.api.espn.com/v2/sports/${sport}/leagues/${league}/seasons/${se.year}/types/${ty}/teams/${encodeURIComponent(T.id)}/leaders?lang=en&region=us`, 12000));
+      if (d && (d.categories || []).some(c => (c.leaders || []).length)) { o.ld = d; o.ldTy = ty; break; } } }
+  if (o.ld) { const want = tcLeaderCats(T.lg, o.ld), miss = [...new Set(want.map(c => c.aid).filter(id => id && !o.ath[id]))].slice(0, 8);
+    await Promise.all(miss.map(id => { const c = want.find(x => x.aid === id); return safe(getJSON(tcHttps(c.ref), 10000)).then(a => { if (a && a.id) o.ath[id] = { id, name: a.displayName || a.fullName || '', short: a.shortName || '', pos: (a.position || {}).abbreviation || '', hs: (a.headshot || {}).href || '', inj: [] }; }); })); }
+  TC.c[k] = o; return o;
+}
+const TC_LD = { football: ['passingLeader', 'rushingLeader', 'receivingLeader', 'totalTackles', 'sacks', 'interceptions'],
+  baseball: ['avg', 'homeRuns', 'RBIs', 'ERA', 'wins', 'saves'], hockey: ['points', 'goals', 'assists', 'plusMinus', 'wins', 'savePct'],
+  basketball: ['pointsPerGame', 'reboundsPerGame', 'assistsPerGame', 'stealsPerGame', 'blocksPerGame', 'points', 'rebounds', 'assists'] };
+function tcLeaderCats(lg, ld){
+  const cats = (ld.categories || []).filter(c => (c.leaders || []).length && c.leaders[0].athlete && c.leaders[0].athlete.$ref), pref = TC_LD[tcKind(lg)] || [];
+  let pick = pref.map(n => cats.find(c => c.name === n)).filter(Boolean); if (pick.length < 3) pick = cats;
+  return pick.slice(0, 6).map(c => { const l = c.leaders[0], ref = l.athlete.$ref, m = /athletes\/(\d+)/.exec(ref);
+    return { cat: String(c.displayName || c.shortDisplayName || c.name).replace(/\s*Leader$/i, ''), v: l.displayValue || (l.value != null ? String(l.value) : ''), aid: m ? m[1] : '', ref }; }); }
+function tcStatMap(cats){ const m = {}; (cats || []).forEach(c => (c.stats || []).forEach(s => { const v = s.displayValue != null ? s.displayValue : s.value; if (v == null || v === '') return; m[c.name + '.' + s.name] = String(v); if (!(s.name in m)) m[s.name] = String(v); })); return m; }
+const TC_ST = {
+  football: [['PPG', 'totalPointsPerGame'], ['Opp PPG', 'o:totalPointsPerGame'], ['Yds/G', 'yardsPerGame'], ['Opp Yds/G', 'o:yardsPerGame'], ['Pass Yds/G', 'passingYardsPerGame'], ['Rush Yds/G', 'rushingYardsPerGame'],
+    ['3rd Down %', 'thirdDownConvPct'], ['TO Diff', 'turnOverDifferential'], ['Takeaways', 'totalTakeaways'], ['Giveaways', 'totalGiveaways'], ['Sacks', 'defensive.sacks'], ['Penalties', 'totalPenalties']],
+  basketball: [['PPG', 'avgPoints'], ['FG%', 'fieldGoalPct'], ['3P%', 'threePointFieldGoalPct'], ['FT%', 'freeThrowPct'], ['Reb/G', 'avgRebounds'], ['Ast/G', 'avgAssists'], ['TO/G', 'avgTurnovers'], ['Stl/G', 'avgSteals'], ['Blk/G', 'avgBlocks']],
+  hockey: [['Goals', 'offensive.goals'], ['GA/G', 'avgGoalsAgainst'], ['Shot %', 'shootingPct'], ['Save %', 'savePct'], ['PP Goals', 'powerPlayGoals'], ['Faceoff %', 'faceoffPercent'], ['Shots', 'shotsTotal'], ['PIM', 'penaltyMinutes']],
+  baseball: [['AVG', 'batting.avg'], ['OBP', 'batting.onBasePct'], ['SLG', 'batting.slugAvg'], ['OPS', 'batting.OPS'], ['HR', 'batting.homeRuns'], ['Runs', 'batting.runs'], ['SB', 'batting.stolenBases'],
+    ['ERA', 'pitching.ERA'], ['WHIP', 'pitching.WHIP'], ['Pitching K', 'pitching.strikeouts'], ['Saves', 'pitching.saves'], ['Errors', 'fielding.errors']] };
+function tcGames(sch, id){
+  const sv = x => x && x.score != null ? String(typeof x.score === 'object' ? (x.score.displayValue != null ? x.score.displayValue : x.score.value != null ? x.score.value : '') : x.score) : '';
+  return ((sch && sch.events) || []).map(e => { const c = (e.competitions || [])[0] || {}, cs = c.competitors || [];
+    const me = cs.find(x => String(x.id || (x.team || {}).id) === String(id)), op = cs.find(x => x !== me); if (!me || !op) return null;
+    const ty = ((c.status || {}).type) || {};
+    return { id: String(e.id || ''), d: new Date(e.date), st: ty.state || (ty.completed ? 'post' : 'pre'), done: !!ty.completed, det: ty.shortDetail || ty.detail || '', home: me.homeAway === 'home', op: op.team || {}, ms: sv(me), os: sv(op), w: !!me.winner, l: !!op.winner,
+      tv: (((c.broadcasts || [])[0] || {}).media || {}).shortName || '', link: ((e.links || []).find(l => (l.rel || []).includes('summary')) || {}).href || '' }; }).filter(Boolean).sort((a, b) => a.d - b.d); }
+const tcRes = g => g.w ? 'W' : g.l ? 'L' : g.ms !== '' && g.ms === g.os ? (tcKind(TC.T && TC.T.lg) === 'soccer' ? 'D' : 'T') : '';
+function tcStreak(G){ const d = G.filter(g => g.done && tcRes(g)).reverse(); if (!d.length) return ''; const r = tcRes(d[0]); let n = 0; for (const g of d) { if (tcRes(g) !== r) break; n++; } return r + n; }
+
+/* ---------- render ---------- */
+function tcTeamInfo(T, d){ const s = (d.sch && d.sch.team) || (d.st && d.st.team) || {};
+  return { name: s.displayName || T.name || T.abbr, abbr: s.abbreviation || T.abbr, logo: s.logo || T.logo || '', color: s.color || '', rec: s.recordSummary || T.rec || '', stand: s.standingSummary || '',
+    url: s.clubhouse || `https://www.espn.com/${String(CAT[T.lg].path).split('/')[1]}/team/_/id/${encodeURIComponent(T.id)}` }; }
+function tcHead(T, d){
+  const I = tcTeamInfo(T, d), G = tcGames(d.sch, T.id), sk = d.sch ? tcStreak(G) : '', key = T.lg + ':' + String(I.abbr || '').toUpperCase(), fav = I.abbr && stars.has(key);
+  const nx = G.find(g => !g.done && g.d > Date.now() - 6 * 36e5);
+  const sg = nx && (state.games[T.lg] || []).find(g => String(g.id) === nx.id);   // the scoreboard has the fresher live score + clock
+  if (sg && sg.state !== 'pre') { const me = sg.teams.find(t => String(t.id) === String(T.id)) || {}, op = sg.teams.find(t => t !== me) || {}; nx.st = sg.state; nx.ms = String(me.score ?? ''); nx.os = String(op.score ?? ''); nx.det = sg.detail || nx.det; }
+  const nxt = nx ? (nx.st === 'in' ? `LIVE · ${esc(I.abbr)} ${esc(nx.ms)} – ${esc(nx.os)} ${esc(nx.op.abbreviation || '')}${nx.det ? ' · ' + esc(nx.det) : ''}`
+    : `${nx.home ? 'vs' : '@'} ${esc(nx.op.displayName || nx.op.abbreviation || '')} · ${esc(dayLabelET(nx.d))} ${esc(timeET(nx.d))}${nx.tv ? ' · ' + esc(nx.tv) : ''}`) : '';
+  const pills = [I.rec ? `<span class="ps-pill">${esc(I.rec)}</span>` : '', I.stand ? `<span class="ps-pill">${esc(I.stand)}</span>` : '',
+    sk ? `<span class="ps-pill ${sk[0] === 'W' ? 'ok' : sk[0] === 'L' ? 'inj' : ''}" title="Current streak">Streak · ${esc(sk)}</span>` : ''].filter(Boolean).join('');
+  const colors = teamColorVars(T.lg, I.abbr || T.abbr, I.color ? '#' + String(I.color).replace('#', '') : '', '');
+  return `<header class="ps-hd tc-hd" style="${esc(colors)}">${I.logo ? `<div class="ps-ph lg"><img src="${esc(I.logo)}" alt="" onerror="this.parentNode.style.display='none'"></div>` : ''}
+    <div class="ps-id"><h2 id="tcTitle">${esc(I.name)}</h2>
+      <div class="ps-tm"><span>${esc([CAT[T.lg].short || CAT[T.lg].label, I.abbr].filter(Boolean).join(' · '))}</span></div>
+      ${pills ? `<div class="ps-pills">${pills}</div>` : ''}
+      ${nxt ? `<div class="ps-nx"><b>${nx.st === 'in' ? 'Now' : 'Next'}</b> ${nxt}</div>` : ''}
+      <div class="ps-acts">${I.abbr ? `<button type="button" class="ps-act tc-star${fav ? ' on' : ''}" data-tcstar="${esc(key)}" aria-pressed="${fav ? 'true' : 'false'}" title="${fav ? 'Unstar' : 'Star'} ${esc(I.name)}">${fav ? '★ Starred' : '☆ Star team'}</button>` : ''}${d.clip && d.clip.u ? `<button type="button" class="ps-act tc-hl" data-tchl title="Play the newest ${esc(I.name)} clip">▶ Latest highlight</button>` : ''}<a class="ps-espn" href="${esc(I.url)}" target="_blank" rel="noopener" title="Open ${esc(I.name)} on ESPN">ESPN ↗</a></div></div></header>`; }
+function tcName(T, a, txt){ const sp = tcSp(T.lg); if (!a || !a.name) return esc(txt || '');
+  return sp ? `<button type="button" class="tc-pn"${psAttr({ id: a.id, eid: a.id, sp, name: a.name, team: T.abbr, pos: a.pos, headshot: a.hs })} title="Full stats for ${esc(a.name)}">${esc(txt || a.name)}</button>` : esc(txt || a.name); }
+function tcLastHTML(T, d){ const G = tcGames(d.sch, T.id).filter(g => g.done).slice(-5).reverse(); if (!G.length) return '';
+  const rows = G.map(g => { const r = tcRes(g); return `<tr><td>${esc(etFmt(g.d, { month: 'short', day: 'numeric' }))}</td><th>${g.home ? 'vs' : '@'} ${(L => L ? `<img class="tc-ol" src="${esc(L)}" alt="" loading="lazy" onerror="this.remove()">` : '')(g.op.logo || ((g.op.logos || [])[0] || {}).href || '')}${esc(g.op.abbreviation || g.op.shortDisplayName || '')}</th><td class="${r === 'W' ? 'w' : r === 'L' ? 'l' : ''}">${esc(r)} ${esc(g.ms)}-${esc(g.os)}</td></tr>`; });
+  return psSec('🗓️ Last 5', psTable([{ h: 'Date' }, { h: 'Opp' }, { h: 'Result' }], rows, 'tc-last'), ''); }
+function tcStatsHTML(T, d){
+  const kind = tcKind(T.lg), R = (d.st && d.st.results) || {}, S = tcStatMap((R.stats || {}).categories), O = tcStatMap(Array.isArray(R.opponent) ? R.opponent : (R.opponent || {}).categories);
+  const G = tcGames(d.sch, T.id).filter(g => g.done && g.ms !== '' && g.os !== ''), n = G.length, unit = kind === 'baseball' ? 'Runs' : kind === 'hockey' || kind === 'soccer' ? 'Goals' : 'Pts';
+  const gp = +(S.teamGamesPlayed || S.gamesPlayed || S.games || 0), stale = gp > 0 && n + 2 < gp;
+  const avg = f => n ? (Math.round(G.reduce((t, g) => t + (parseFloat(f(g)) || 0), 0) / n * 10) / 10).toFixed(1) : '';
+  const now = n ? psTiles([[unit + '/G', avg(g => g.ms), `${unit} scored per game (${n} games this season)`, 'hi'], ['Opp ' + unit + '/G', avg(g => g.os), `${unit} allowed per game (${n} games)`, 'hi']]) : '';
+  const spec = TC_ST[kind];
+  let tiles = spec ? spec.map(([lab, key]) => [lab, key.startsWith('o:') ? O[key.slice(2)] : S[key]]) : [];
+  if (stale) tiles = tiles.filter(([l]) => !/^(PPG|Opp PPG)$/.test(l));
+  if (!spec || tiles.filter(x => x[1] != null).length < 3) { const cats = (R.stats || {}).categories || [];
+    tiles = cats.flatMap(c => (c.stats || []).filter(s => s.displayValue != null && parseFloat(s.value) !== 0 && !/gamesPlayed|games$/i.test(s.name)).map(s => [s.shortDisplayName || s.abbreviation || s.displayName || s.name, String(s.displayValue), s.displayName || ''])).slice(0, 12); }
+  const esp = psTiles(tiles), dup = !stale && ['PPG', 'Opp PPG'].every(l => tiles.some(x => x[0] === l && x[1] != null));   // ESPN already has both per-game numbers
+  const a = now && !dup ? psSec('📊 This season', now, `${n} game${n > 1 ? 's' : ''} · from results`) : '';
+  const b = esp ? psSec(stale ? '📊 Team stats · last season' : '📊 Team stats', esp, `${gp ? gp + ' games · ' : ''}ESPN`) : '';
+  return a + b; }
+function tcLeadersHTML(T, d){ if (!d.ld) return ''; const L = tcLeaderCats(T.lg, d.ld).filter(c => c.v && d.ath[c.aid]); if (!L.length) return '';
+  return psSec('🏅 Team leaders', `<div class="tc-lds">${L.map(c => { const a = d.ath[c.aid]; return `<div class="tc-ld">${a.hs ? `<img src="${esc(a.hs)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : '<i class="tc-nhs"></i>'}<div><small>${esc(c.cat)}</small>${tcName(T, a)}${a.pos ? ` <em>${esc(a.pos)}</em>` : ''}<span>${esc(c.v)}</span></div></div>`; }).join('')}</div>`, d.ldTy === 3 ? 'postseason · ESPN' : 'ESPN'); }
+const TC_SEV = s => /out|injured reserve|\bir\b|suspend|pup|60-day|15-day|10-day|7-day|day-to-day/i.test(s) ? (/day-to-day/i.test(s) ? 2 : 0) : /doubt/i.test(s) ? 1 : 3;
+function tcInjHTML(T, d){ const L = Object.values(d.ath || {}).filter(a => (a.inj || []).length).map(a => ({ a, s: String(a.inj[0].status || a.inj[0].type || 'Injured'), dt: a.inj[0].date ? new Date(a.inj[0].date) : null }))
+    .sort((x, y) => TC_SEV(x.s) - TC_SEV(y.s) || (y.dt || 0) - (x.dt || 0)); if (!L.length) return '';
+  const rows = L.slice(0, 14).map(({ a, s, dt }) => `<tr><th>${tcName(T, a)}</th><td>${esc(a.pos)}</td><td><span class="tc-inj s${TC_SEV(s)}">${esc(s)}</span></td><td>${dt ? esc(dayLabelET(dt)) : ''}</td></tr>`);
+  return psSec('🚑 Injury report', psTable([{ h: 'Player' }, { h: 'Pos' }, { h: 'Status' }, { h: 'Updated' }], rows, 'tc-injt'), L.length > 14 ? `${L.length} players · showing 14` : `${L.length} player${L.length > 1 ? 's' : ''} · ESPN`); }
+function tcNewsHTML(d){ const A = (() => { try { return mapArticles((d.nw || {}).articles); } catch (_) { return []; } })().slice(0, 6); if (!A.length) return '';
+  return psSec('📰 Recent news', `<ul class="ps-news">${A.map(n => `<li><a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.title)}</a>${n.date ? ` <i>${esc(dayLabelET(n.date))}</i>` : ''}</li>`).join('')}</ul>`, ''); }
+function tcBody(T, d){ const parts = [tcLastHTML(T, d), tcStatsHTML(T, d), tcLeadersHTML(T, d), tcInjHTML(T, d), tcNewsHTML(d)].filter(Boolean);
+  return parts.length ? parts.join('') : `<div class="ps-empty">${d.fail ? "Couldn't reach ESPN for this team right now. Try again in a minute." : 'ESPN has no team details yet.'}</div>`; }
+
+/* ---------- open / close ---------- */
+function tcRender(){ const o = TC.el, T = TC.T; if (!o || !T) return; const d = TC.c[T.lg + ':' + T.id], box = o.querySelector('.ps-box'), y = box.scrollTop;
+  box.innerHTML = `<button type="button" class="ps-x" data-tcx aria-label="Close team card" title="Close (Esc)">✕</button>${tcHead(T, d || {})}<div class="ps-bd">${d ? tcBody(T, d) : '<div class="ps-ld" role="status"><span class="ps-spin" aria-hidden="true"></span>Loading team from ESPN…</div>'}</div>`;
+  box.scrollTop = y; }
+async function tcOpen(T){
+  if (!T || !T.lg || !T.id || !CAT[T.lg]) return;
+  try { hvStop(); } catch (_) {} try { hlStop(); } catch (_) {}
+  let o = document.getElementById('tcView');
+  if (!o) { o = document.createElement('div'); o.id = 'tcView'; o.className = 'ps-ov tc-ov'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true'); o.setAttribute('aria-labelledby', 'tcTitle'); o.innerHTML = '<div class="ps-box" tabindex="-1"></div>'; document.body.appendChild(o); }
+  if (o.hidden || !TC.el) TC.from = document.activeElement;
+  TC.el = o; TC.T = T; o.hidden = false; o.querySelector('.ps-box').scrollTop = 0; document.documentElement.classList.add('tc-open');
+  tcRender(); const x = o.querySelector('.ps-x'); if (x) x.focus({ preventScroll: true });
+  try { ovlSoon(); } catch (_) {}
+  const tok = ++TC.tok;
+  try { await tcData(T); } catch (e) { console.warn('team card', e); TC.c[T.lg + ':' + T.id] = { t: Date.now(), fail: 1, ath: {} }; }
+  if (tok === TC.tok && TC.T === T && !o.hidden) tcRender(); }
+function tcClose(){ const o = TC.el; if (!o || o.hidden) return; TC.tok++;
+  o.hidden = true; o.querySelector('.ps-box').innerHTML = ''; TC.T = null; document.documentElement.classList.remove('tc-open');
+  const f = TC.from; TC.from = null; if (f && f.isConnected && f.focus) try { f.focus({ preventScroll: true }); } catch (_) {}
+  try { ovlSoon(); } catch (_) {} }
+function tcClip(btn){ const T = TC.T, d = T && TC.c[T.lg + ':' + T.id], v = d && d.clip; if (!v || !v.u) return;
+  const bd = TC.el.querySelector('.ps-bd'); let w = bd.querySelector('.tc-clip');
+  if (w) { w.remove(); btn.classList.remove('on'); return; }
+  w = document.createElement('div'); w.className = 'tc-clip';
+  w.innerHTML = `<video controls playsinline autoplay preload="metadata"${v.poster ? ` poster="${esc(v.poster)}"` : ''} src="${esc(v.u)}"></video>${v.title ? `<div class="tc-cap">${esc(v.title)}</div>` : ''}`;
+  const vd = w.querySelector('video'); vd.muted = !(typeof HV !== 'undefined' && HV.snd);   // sound follows the preview-sound setting (off by default)
+  bd.prepend(w); btn.classList.add('on'); try { vd.play().catch(() => {}); } catch (_) {} }
+function tcFromEl(el){ const [lg, id, abbr] = String(el.dataset.tct || '').split('|'); if (!lg || !id) return null;
+  const g = el.closest('.gr,.card'); const nm = el.querySelector('.gr-nm,.name b'), img = el.querySelector('img'), rec = el.querySelector('.gr-rec');
+  return { lg, id, abbr, name: (el.dataset.tcn || (nm && nm.textContent) || abbr || '').trim(), logo: img ? img.getAttribute('src') : '', rec: rec ? rec.textContent.trim() : '' }; }
+
+/* ---------- events (window capture: before the score-row expander and card-link handlers) ---------- */
+['pointerdown', 'mousedown', 'touchstart'].forEach(n => addEventListener(n, e => { const t = e.target; if (t && t.closest && t.closest('[data-tct]') && t.closest(TC_HIT)) e.stopPropagation(); }, { capture: true, passive: true }));
+addEventListener('click', e => {
+  if (e.defaultPrevented) return;
+  const t = e.target && e.target.closest ? e.target : null; if (!t) return;
+  if (TC.el && !TC.el.hidden && (t === TC.el || TC.el.contains(t))) {
+    if (t === TC.el || t.closest('[data-tcx]')) { e.preventDefault(); e.stopPropagation(); tcClose(); return; }
+    const s = t.closest('[data-tcstar]'); if (s) { e.preventDefault(); e.stopPropagation(); const k = s.dataset.tcstar; stars.has(k) ? stars.delete(k) : stars.add(k); saveStars(); try { favsChanged(); } catch (_) {}
+      const on = stars.has(k); s.classList.toggle('on', on); s.setAttribute('aria-pressed', on ? 'true' : 'false'); s.textContent = on ? '★ Starred' : '☆ Star team'; return; }
+    const h = t.closest('[data-tchl]'); if (h) { e.preventDefault(); e.stopPropagation(); tcClip(h); return; }
+    return; }
+  const tm = t.closest('[data-tct]');
+  if (tm && t.closest(TC_HIT) && !t.closest('.sx-b,.star,a,button:not(.gr)')) { const T = tcFromEl(tm); if (T) { e.preventDefault(); e.stopPropagation(); tcOpen(T); return; } }
+  const gx = t.closest('.gr-x');
+  if (gx) { if (t.closest(TC_KEEP)) return; try { if (String(getSelection() || '').trim()) return; } catch (_) {}
+    const col = gx.querySelector(':scope>.gr-col'); if (!col) return; e.preventDefault(); e.stopPropagation();
+    const k = col.dataset.grx; GRX.delete(k); renderGames(); const f = document.querySelector(`.gr[data-grx="${CSS.escape(k)}"]`); if (f) f.focus({ preventScroll: true }); }
+}, true);
+addEventListener('keydown', e => { if (e.key !== 'Escape' || e.defaultPrevented || !TC.el || TC.el.hidden) return; if (typeof PS !== 'undefined' && PS.el && !PS.el.hidden) return; e.preventDefault(); e.stopPropagation(); tcClose(); }, true);
+try { OVL_DEF.unshift({ id: 'tc', vis: () => !!(TC.el && !TC.el.hidden), close: () => tcClose() }); } catch (_) {}
 
 </script>
 <script>
