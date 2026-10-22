@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261022-1915-matchup-deck">
+<meta name="build-id" content="20261022-1930-fav-fit">
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261022-1915-matchup-deck';
+var BUILD_ID = '20261022-1930-fav-fit';
 (function(){
   var shown = {};
   function chip(id, html, onTap){
@@ -3171,8 +3171,15 @@ html.tc-open{overflow:hidden}
   }
   @media (prefers-reduced-motion:reduce){.cc-grid>.cc{transition:none}}
   /* favorites: in-place game details */
-  .ft-card.gmd-on{flex-wrap:wrap;height:auto!important}
-  .ft-card>.gm-d{flex:1 1 100%;margin:0 10px 10px}
+  /* Oct 22b fav-fit: wrapping only in the wide row layout (a wrapped flex column sizes its line to the widest child's max-content, which pushed the card past the screen) */
+  .ft-card.gmd-on{flex-wrap:nowrap;height:auto!important}
+  @container (min-width:760px){.ft-card.gmd-on{flex-wrap:wrap}}
+  .ft-card>.gm-d{flex:1 1 100%;margin:0 10px 10px;min-width:0}
+  .ft-card,.ft-card>*,.ft-slots,.ft-slot,.ft-mid,.ft-main,.ft-side{min-width:0;max-width:100%}
+  .ft-side{overflow-wrap:anywhere}.ft-clock{white-space:normal}
+  .gm-d{min-width:0;max-width:100%;overflow-wrap:anywhere}
+  .gm-dt{table-layout:fixed;width:100%}.gm-dt td{width:22%;white-space:nowrap;font-size:12px}.gm-dt th{width:56%;white-space:normal;line-height:1.2;overflow-wrap:anywhere}
+  .gm-dp li{overflow-wrap:anywhere}.gm-dp i{white-space:normal}
   .ft-slot a.ft-go{text-decoration:none;font-weight:700}.ft-slot a.ft-go:hover{text-decoration:underline}
   .ft-head .ft-logo,.ft-head .ft-nm{cursor:pointer}
   .tb-vt.seg.seg3{grid-template-columns:1fr 1fr 1fr}.tb-vt.seg.seg3::before{width:calc((100% - 6px) / 3)}
