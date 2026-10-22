@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261021-2145-matchup-ticker">
+<meta name="build-id" content="20261022-1915-matchup-deck">
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261021-2145-matchup-ticker';
+var BUILD_ID = '20261022-1915-matchup-deck';
 (function(){
   var shown = {};
   function chip(id, html, onTap){
@@ -1951,7 +1951,7 @@ var LVP = {}, LVROW = {}, LVF = new Set();   // live-card state declared up fron
   .mu-rows.play .ms-c .dl.dn .ar{animation:msArR .5s ease-out calc(var(--d) + .2s) 1 both}
   @media (prefers-reduced-motion:reduce){.ms-dot,.mu-rows.play .ms-c .dl .ar{animation:none!important}}
   @media (max-width:760px){.mu{max-height:520px}}
-  @container mub (max-width:560px){
+  @container mub (max-width:760px){
     .ms{grid-template-columns:minmax(0,1fr) 38px minmax(0,1fr);gap:3px}
     .ms-sd,.ms-sd.op{flex-direction:column;align-items:stretch;min-height:0;height:auto;gap:4px;padding:6px 6px;text-align:left}
     .ms-sd.op{text-align:right}
@@ -3108,6 +3108,79 @@ html.tc-open{overflow:hidden}
   .gm-dt td{font-weight:800;width:30%}.gm-dt td:first-child{text-align:left}.gm-dt td:last-child{text-align:right}.gm-dt th{font-size:11px;color:#9fb0cc;font-weight:700;text-align:center}
   .gm-dp{margin:0;padding-left:16px;display:grid;gap:3px}.gm-dp i{font-style:normal;color:var(--muted);font-size:11px;margin-left:6px;white-space:nowrap}
   .gm-dm{color:#b9c6e0;font-size:12px;line-height:1.5}.gm-dl{color:var(--muted)}.gm-dh{font-size:10.5px;color:var(--muted);text-align:right}
+  /* ===== Oct 22: matchup + deck release ===== */
+  /* matchup rows: bigger cards, a bold centre plate, prominent projections */
+  .mu{max-height:780px}
+  .mu-rows .ms{grid-template-columns:minmax(0,1fr) 136px minmax(0,1fr);gap:8px}
+  .mu-rows .ms-sd{min-height:132px;padding:9px 12px 9px 9px;gap:12px}
+  .mu-rows .ms-sd.op{padding:9px 9px 9px 12px}
+  .mu-rows .ms-th{width:86px;height:114px}
+  .mu-rows .ms-lg{width:28px;height:28px}
+  .mu-rows .ms-n b{font-size:16.5px}
+  .mu-rows .ms-sub,.mu-rows .ms-gs{font-size:11.5px}
+  .mu-rows .ms-p{width:auto;min-width:76px;gap:2px}
+  .mu-rows .ms-p b{font-size:32px;line-height:1}
+  .ms-pj{display:inline-flex;align-items:baseline;gap:4px;margin-top:3px;padding:2px 8px;border-radius:7px;background:rgba(255,200,61,.13);box-shadow:inset 0 0 0 1px rgba(255,200,61,.5);color:#ffd166;font-weight:900;font-size:15px;font-variant-numeric:tabular-nums;white-space:nowrap;line-height:1.2}
+  .ms-pj small{font-size:9px;letter-spacing:.9px;color:#f5c85a;font-weight:900}
+  .ms-pj.big{font-size:26px;padding:3px 10px}.ms-pj.big small{font-size:10px}
+  .ms-c.ms-vs{gap:6px;padding:10px 4px;border-radius:14px;background:radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.07),rgba(0,0,0,.25));border:1px solid rgba(255,255,255,.09);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 6px 16px rgba(0,0,0,.35)}
+  .ms-vs .sl{font-size:12px!important;padding:2px 10px!important}
+  .vs-sc{display:flex;align-items:baseline;justify-content:center;gap:6px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .vs-sc b{font-size:23px;font-weight:900;color:#e5e7eb;line-height:1}.vs-sc b.w{color:#4ade80;text-shadow:0 0 14px rgba(74,222,128,.4)}.vs-sc b.l{color:#8b97ab}
+  .vs-sc i{font-style:normal;font-size:10px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  .ms-vs .dl{font-size:17px!important;font-weight:900;padding:3px 11px;border-radius:999px;background:#1f2937;color:#cbd5e1;line-height:1.1}
+  .ms-vs .dl.up{background:rgba(74,222,128,.16);color:#4ade80!important;box-shadow:inset 0 0 0 1.5px rgba(74,222,128,.6)}
+  .ms-vs .dl.dn{background:rgba(248,113,113,.15);color:#f87171!important;box-shadow:inset 0 0 0 1.5px rgba(248,113,113,.6)}
+  .vs-w{font-size:10.5px;font-weight:900;letter-spacing:.9px;text-transform:uppercase}.vs-w.up{color:#4ade80}.vs-w.dn{color:#f87171}.vs-w.even{color:var(--muted)}
+  .ms-vs .ms-st{font-size:9.5px;font-weight:800;color:#9fb0cc}.ms-vs.m-live .ms-st{color:#f87171}.ms-vs.m-final .ms-st{color:#e5e7eb}
+  .ms-vs .ms-sh{width:84px;height:6px}
+  @container mub (max-width:760px){
+    .mu-rows .ms{grid-template-columns:minmax(0,1fr) 74px minmax(0,1fr);gap:4px}
+    .mu-rows .ms-sd,.mu-rows .ms-sd.op{min-height:0;padding:7px 7px;gap:5px}
+    .mu-rows .ms-th{width:100%;height:auto}
+    .mu-rows .ms-th img:first-child{width:54px;height:66px}
+    .mu-rows .ms-th img.ms-lg{left:40px;width:20px;height:20px}.mu-rows .ms-sd.op .ms-th img.ms-lg{left:auto;right:40px}
+    .mu-rows .ms-n b{font-size:13px}
+    .mu-rows .ms-sub,.mu-rows .ms-gs{font-size:10px}
+    .mu-rows .ms-p{min-width:0}.mu-rows .ms-p b{font-size:22px}
+    .ms-pj{font-size:12.5px;padding:1px 6px}.ms-pj.big{font-size:19px;padding:2px 7px}.ms-pj small{font-size:8px}.ms-pj.big small{font-size:8.5px}
+    .ms-c.ms-vs{padding:7px 2px;gap:4px;border-radius:11px}
+    .vs-sc{flex-direction:column;align-items:center;gap:1px}.vs-sc b{font-size:18px}.vs-sc i{font-size:8.5px}
+    .ms-vs .dl{font-size:13px!important;padding:2px 7px}.vs-w{font-size:8.5px;letter-spacing:.5px}.ms-vs .ms-st{font-size:8px}
+    .ms-vs .ms-sh{width:52px;height:5px}.ms-vs .sl{font-size:10.5px!important;padding:1px 7px!important}
+  }
+  /* Fantasy team views: the wheel sits in its own view */
+  .fz-wslot .pc-wrap{margin:8px 0 12px}
+  /* deck feel for the card grids (Fantasy + Fantasy Lab cards): layered edges behind each card, a slight fan + overlap on wide screens, a swipeable row on phones */
+  .cc-grid>.cc{z-index:1}
+  .cc-grid>.cc::before,.cc-grid>.cc::after{content:"";position:absolute;inset:0;border-radius:16px;pointer-events:none;z-index:-1;background:linear-gradient(160deg,#f6efdc,#cdbf9f);box-shadow:0 8px 16px rgba(0,0,0,.45)}
+  .cc-grid>.cc::before{transform:translate(5px,5px) rotate(1.4deg);opacity:.85}
+  .cc-grid>.cc::after{transform:translate(10px,10px) rotate(2.8deg);opacity:.55;filter:brightness(.72)}
+  @media (min-width:900px){
+    .cc-grid{display:flex;flex-wrap:wrap;gap:26px 0;padding:12px 24px 22px 6px}
+    .cc-grid>.cc{margin-right:-18px;transform:translateY(var(--lift,0px)) rotate(var(--fan,0deg));transition:transform .22s ease}
+    .cc-grid>.cc:nth-child(4n+1){--fan:-1.8deg}.cc-grid>.cc:nth-child(4n+2){--fan:.8deg;--lift:3px}.cc-grid>.cc:nth-child(4n+3){--fan:-.6deg;--lift:-2px}.cc-grid>.cc:nth-child(4n){--fan:1.6deg;--lift:4px}
+    .cc-grid>.cc:hover,.cc-grid>.cc:focus-within,.cc-grid>.cc.flipped{--fan:0deg;--lift:-12px;z-index:6}
+  }
+  @media (max-width:899px) and (min-width:561px){.cc-grid{gap:22px;padding:10px 12px 18px 4px}}
+  @media (max-width:560px){
+    .cc-grid{display:flex;grid-template-columns:none;justify-content:flex-start;gap:16px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;padding:10px 28px 22px 8px;margin:0 -6px;scrollbar-width:none}
+    .cc-grid::-webkit-scrollbar{display:none}
+    .cc-grid>.cc{flex:0 0 min(78vw,300px);width:min(78vw,300px);max-width:none;--w:min(78vw,300px);--h:430px;height:430px;scroll-snap-align:center}
+    .cc-grid>.cc:last-child{margin-right:12px}
+  }
+  @media (prefers-reduced-motion:reduce){.cc-grid>.cc{transition:none}}
+  /* favorites: in-place game details */
+  .ft-card.gmd-on{flex-wrap:wrap;height:auto!important}
+  .ft-card>.gm-d{flex:1 1 100%;margin:0 10px 10px}
+  .ft-slot a.ft-go{text-decoration:none;font-weight:700}.ft-slot a.ft-go:hover{text-decoration:underline}
+  .ft-head .ft-logo,.ft-head .ft-nm{cursor:pointer}
+  .tb-vt.seg.seg3{grid-template-columns:1fr 1fr 1fr}.tb-vt.seg.seg3::before{width:calc((100% - 6px) / 3)}
+  .tb-vt.seg.seg3.v-wheel::before{transform:translateX(100%)}.tb-vt.seg.seg3.v-table::before{transform:translateX(200%)}
+  @media (max-width:430px){.tb-vt.seg.seg3 button{padding:7px 11px;font-size:13px;gap:5px}}
+  .mu-rows .ms-th{width:72px;height:96px}.mu-rows .ms-n b{font-size:15.5px}.mu-rows .ms-sd{gap:9px}.mu-rows .ms-p{min-width:64px}
+  @container mub (min-width:761px){.mu-rows .ms{grid-template-columns:minmax(0,1fr) 124px minmax(0,1fr)}}
+  @container mub (min-width:561px) and (max-width:760px){.mu-rows .ms{grid-template-columns:minmax(0,1fr) 96px minmax(0,1fr)}.vs-sc{flex-direction:row;gap:5px}.vs-sc b{font-size:20px}.ms-vs .dl{font-size:15px!important}.vs-w{font-size:9.5px}}
 </style>
 </head>
 <body>
@@ -4061,15 +4134,18 @@ function ftGames(x){
 function ftSlot(kind, g, x, extra){
   const lbl = { live: 'Live', last: 'Last', next: 'Next' }[kind];
   if (!g) return `<div class="ft-slot empty ${kind}"><span class="ft-lbl">${lbl}</span><span class="ft-main">${esc(extra || '')}</span></div>`;
-  const link = cardLinkAttrs(kind === 'next' ? (g.link || g.box) : g.box, `${g.me.abbr} ${g.me.homeAway === 'home' ? 'vs' : 'at'} ${g.opp.abbr}: open ${kind === 'next' ? 'game page' : 'box score'} on ESPN`);
+  const gk = g.id && x && CAT[x.lg] ? x.lg + ':' + g.id : '';   // Oct 22: tapping a favorite's game expands its details in place (same panel as the Today cards)
+  if (gk && typeof GMD !== 'undefined') GMD.g[gk] = { ...g, lg: x.lg };
+  const link = cardLinkAttrs(kind === 'next' ? (g.link || g.box) : g.box, `${g.me.abbr} ${g.me.homeAway === 'home' ? 'vs' : 'at'} ${g.opp.abbr}: show game details`) + (gk ? ` data-gmd="${esc(gk)}"` : '');
+  const goU = kind === 'next' ? (g.link || g.box) : (g.box || g.link), goA = t => goU ? `<a class="ft-go" href="${esc(goU)}" target="_blank" rel="noopener">${t}</a>` : '';
   if (kind === 'last') {
     const ms = Number(g.me.score), os = Number(g.opp.score);
     const r = g.me.winner ? 'W' : g.opp.winner ? 'L' : (g.me.score !== '' && ms === os ? 'T' : (ms > os ? 'W' : ms < os ? 'L' : ''));
-    return `<div class="ft-slot last clickable"${link}><span class="ft-lbl">Last</span><span class="ft-main"><span class="ft-res ${r.toLowerCase()}">${r}</span><span class="ft-sc">${esc(g.me.score)}–${esc(g.opp.score)}</span>${ftOpp(g)}</span><span class="ft-side"><span>${esc(dayLabelET(g.date))}</span><span class="ft-go">Box score ↗</span></span></div>`;
+    return `<div class="ft-slot last clickable"${link}><span class="ft-lbl">Last</span><span class="ft-main"><span class="ft-res ${r.toLowerCase()}">${r}</span><span class="ft-sc">${esc(g.me.score)}–${esc(g.opp.score)}</span>${ftOpp(g)}</span><span class="ft-side"><span>${esc(dayLabelET(g.date))}</span>${goA('Box score ↗')}</span></div>`;
   }
   const w = watchChips(g.nets, g.lg, { compact: true, max: 1 });
-  if (kind === 'live') return `<div class="ft-slot live clickable"${link}><span class="ft-lbl"><span class="dotl"></span>Live</span><span class="ft-main"><span class="ft-sc big">${esc(g.me.score || '0')}–${esc(g.opp.score || '0')}</span>${ftOpp(g)}</span><span class="ft-side"><span class="ft-clock">${esc(g.detail || 'In progress')}</span>${w.html || (g.nets[0] ? `<span>${esc(g.nets[0])}</span>` : '')}</span></div>`;
-  return `<div class="ft-slot next clickable"${link}><span class="ft-lbl">Next</span><span class="ft-main">${ftOpp(g)}${extra ? `<span class="ft-tag">${esc(extra)}</span>` : ''}</span><span class="ft-side"><span>${esc(ftWhen(g))}</span>${w.html || (g.nets.length ? `<span class="ft-net">${esc(g.nets.slice(0, 2).join(', '))}</span>` : '')}</span></div>`;
+  if (kind === 'live') return `<div class="ft-slot live clickable"${link}><span class="ft-lbl"><span class="dotl"></span>Live</span><span class="ft-main"><span class="ft-sc big">${esc(g.me.score || '0')}–${esc(g.opp.score || '0')}</span>${ftOpp(g)}</span><span class="ft-side"><span class="ft-clock">${esc(g.detail || 'In progress')}</span>${w.html || (g.nets[0] ? `<span>${esc(g.nets[0])}</span>` : '')}${goA('Gamecast ↗')}</span></div>`;
+  return `<div class="ft-slot next clickable"${link}><span class="ft-lbl">Next</span><span class="ft-main">${ftOpp(g)}${extra ? `<span class="ft-tag">${esc(extra)}</span>` : ''}</span><span class="ft-side"><span>${esc(ftWhen(g))}</span>${w.html || (g.nets.length ? `<span class="ft-net">${esc(g.nets.slice(0, 2).join(', '))}</span>` : '')}${goA('Preview ↗')}</span></div>`;
 }
 function toggleFx(k){ FX.has(k) ? FX.delete(k) : FX.add(k); lsSet(FX_KEY, [...FX]); }
 function ftLine(x, name, logo, color, g){
@@ -4106,11 +4182,13 @@ function ftCard(x){
   if (!g.loaded && !g.last && !g.next && !g.live) slots += `<div class="ft-slot empty"><span class="ft-main">${g.err ? "Couldn't load the schedule. Will retry." : 'Loading schedule…'}</span></div><div class="ft-mid"><div class="gt gt-none"></div></div><div class="ft-slot empty"></div>`;
   else if (g.live) slots += ftSlot('live', g.live, x) + mid() + nextSlot();
   else slots += ftSlot('last', g.last, x, 'No games played yet') + mid() + nextSlot();
-  return `<div class="ft-card clickable${g.live ? ' is-live' : ''}${small ? ' compact' : ''}" data-tmcard="${esc(x.key)}"${(g.live || g.last) && (g.live || g.last).id ? ` data-tmev="${esc((g.live || g.last).id)}"` : ''} style="${esc(teamColorVars(x.lg, x.abbr, color, ''))}"${cardLinkAttrs(teamUrl(x.key), name + ': open ESPN team page')}>
-    <div class="ft-head">${logo ? `<img class="ft-logo" src="${esc(logo)}" alt="">` : '<div class="ft-logo ph"></div>'}
+  const tid = (tm.id || MN.teamIds[x.key] || info.id || ''), fg = g.live || g.next || g.last, fgk = fg && fg.id ? x.lg + ':' + fg.id : '', ok = typeof GMD !== 'undefined' && GMD.ft[x.key];
+  const panel = ok && GMD.g[ok] ? `<div class="gm-d">${gmdHTML(GMD.g[ok])}</div>` : '';
+  return `<div class="ft-card clickable${g.live ? ' is-live' : ''}${small ? ' compact' : ''}${panel ? ' gmd-on' : ''}" data-ftk="${esc(x.key)}"${fgk ? ` data-ftg="${esc(fgk)}"` : ''} data-tmcard="${esc(x.key)}"${(g.live || g.last) && (g.live || g.last).id ? ` data-tmev="${esc((g.live || g.last).id)}"` : ''} style="${esc(teamColorVars(x.lg, x.abbr, color, ''))}"${cardLinkAttrs(teamUrl(x.key), name + ': open ESPN team page')}>
+    <div class="ft-head"${tid ? ` data-tct="${esc(x.lg)}|${esc(tid)}|${esc(x.abbr)}" data-tcn="${esc(name)}"` : ''}>${logo ? `<img class="ft-logo" src="${esc(logo)}" alt="">` : '<div class="ft-logo ph"></div>'}
       <div class="ft-id"><span class="ft-lg">${esc(CAT[x.lg].short)}${LEAGUES[x.lg] ? '' : ' · not in your sports'}<button type="button" class="hl-btn hl-tm" data-hl="t:${esc(x.key)}" data-hln="${esc(name)}" title="Play the newest ${esc(name)} clip" aria-label="Play the newest ${esc(name)} clip"><b aria-hidden="true">▶</b></button></span><b class="ft-nm">${esc(name)}</b><i>${esc(sub)}</i></div>
       <button class="star on" data-star="${esc(x.key)}" title="Unstar ${esc(name)}">★</button>${cmpOn ? fxBtn('t:' + x.key, name) : ''}</div>
-    <div class="ft-slots">${slots}</div></div>`;
+    <div class="ft-slots">${slots}</div>${panel}</div>`;
 }
 function renderTabs(){
   document.getElementById('tabs').innerHTML = `<button class="tab mynews${state.tab === 'mynews' ? ' active' : ''}" data-tab="mynews">⭐ My News</button>` + tabOrder().map(lg => {
@@ -5243,6 +5321,7 @@ function rosterSection(sp){
   if (!ros.length) return h + (L ? `<div class="cta-row ros-empty"><span>Roster linked but empty — try Re-sync, or import again.</span></div>` : '');   // unsynced empty: hero banner from espnBar
   h += totalsBar(sp) + tbBar('fz', sp);
   if (tbView('fz') === 'table') return h + tbTable('fz', sp, ros);
+  if (tbView('fz') === 'wheel') return h + '<div class="fz-wslot" id="fzWheelSlot"></div>';
   const ccC = sp === 'nfl' ? CMP.d.nfl : null, ccR = ccC ? cmpRank(ccC) : {}, ccG = list => ccGrid(list, 'fz', ccC, ccR);
   const groups = { s: [], b: [], i: [], u: [] };
   for (const p of ros) groups[slotGroup(p)].push(p);
@@ -5406,7 +5485,7 @@ function msSide(p, s, side, res, rank, l3, key){
       ${s && (s.g || s.t) ? `<div class="ms-gs ${s.s}">${live ? '<span class="lv-badge sm">LIVE</span>' : ''}${esc(s.g || s.t)}</div>` : ''}${live ? (L => L && L.poss ? `<div class="ms-ps${L.rz ? ' rz' : ''}">🏈 ${esc(L.ab)} ball${L.rz ? ' · <b>RED ZONE</b>' : ''}</div>` : '')(lvInfo(p)) : ''}
       ${s && s.line ? `<div class="ms-sl" title="Live stat line">${esc(s.line)}</div>` : ''}
       ${x ? `<div class="ms-dvw">${dvpMini(x)}</div>` : ''}</div>
-    <div class="ms-p">${s && s.s ? `<span class="ms-gst ${s.s}">${s.s === 'in' ? '● Playing' : s.s === 'post' ? '✓ Done' : 'Yet to play'}</span>` : ''}<b>${a.act != null ? esc(a.act) : '–'}</b><i>proj ${a.proj ?? '–'}</i>${pr != null ? `<span class="ms-pb${a.act >= a.proj ? ' hit' : ''}" title="${a.act} of ${a.proj} projected (${pr}%)"><i style="width:${pr}%"></i></span>` : ''}</div></div>`;
+    <div class="ms-p">${s && s.s ? `<span class="ms-gst ${s.s}">${s.s === 'in' ? '● Playing' : s.s === 'post' ? '✓ Done' : 'Yet to play'}</span>` : ''}${a.act != null ? `<b>${esc(a.act)}</b>` : a.proj == null ? '<b>–</b>' : ''}${a.proj != null ? `<span class="ms-pj${a.act == null ? ' big' : ''}" title="ESPN projected points"><small>PROJ</small>${esc(a.proj)}</span>` : ''}${pr != null ? `<span class="ms-pb${a.act >= a.proj ? ' hit' : ''}" title="${a.act} of ${a.proj} projected (${pr}%)"><i style="width:${pr}%"></i></span>` : ''}</div></div>`;
 }
 function mupEl(){
   let o = document.getElementById('muPop'); if (o) return o;
@@ -5516,7 +5595,7 @@ function muSection(sp){
       if (r.a) MU.pm['a' + i] = { p: r.a, s: r.sa, slot: r.slot, me: 1 }; if (r.b) MU.pm['b' + i] = { p: r.b, s: r.sb, slot: r.slot, me: 0 };
       const pa = r.a && r.a.pts && r.a.pts.proj, pb = r.b && r.b.pts && r.b.pts.proj, sh = pa > 0 && pb > 0 ? Math.round(pa / (pa + pb) * 100) : null;
       return `<div class="ms" style="--d:${(i * 0.22).toFixed(2)}s">${msSide(r.a, r.sa, 'me', ra, rank, l3, 'a' + i)}
-        <div class="ms-c"><span class="sl">${esc(r.slot)}</span><span class="dl ${r.dl > 0 ? 'up' : r.dl < 0 ? 'dn' : ''}" title="${r.done ? 'Final' : 'Projected'} edge"><em class="ar">${r.dl > 0 ? '◀' : r.dl < 0 ? '▶' : ''}</em>${r.dl ? '+' + Math.abs(r.dl) : 'even'}</span><span class="ms-st">${r.done ? 'final' : 'proj'}</span>${sh != null ? `<span class="ms-sh" title="Share of this slot's projected points: you ${sh}% · them ${100 - sh}%"><i style="width:${sh}%"></i></span>` : ''}<span class="mu-boom" aria-hidden="true"></span></div>
+        ${msMid(r, sh)}
         ${msSide(r.b, r.sb, 'op', rb, rank, l3, 'b' + i)}</div>`; }).join('')}</div>`;
   }
   const S = SLOTS[sp], bn = s => (s ? s.ps : []).filter(p => S.bench.includes(p.sid) || S.ir.includes(p.sid)).sort((a, b) => ((b.pts || {}).proj || 0) - ((a.pts || {}).proj || 0));
@@ -6492,7 +6571,7 @@ function pkMini(C, pos, me){   // inside comps panels: top pickups at this playe
 }
 function tbBar(scope, sp){
   const v = tbView(scope), pos = TB_POS.includes(TB.pos) ? TB.pos : 'All';
-  return `<div class="tb-bar tb-sticky"><div class="tb-vt seg v-${v}" role="group" aria-label="View"><button data-tbview="${scope}:cards" aria-pressed="${v === 'cards'}" class="${v === 'cards' ? 'on' : ''}" title="Trading-card view"><span class="ic" aria-hidden="true">🃏</span>Cards</button><button data-tbview="${scope}:table" aria-pressed="${v === 'table'}" class="${v === 'table' ? 'on' : ''}" title="Spreadsheet view"><span class="ic" aria-hidden="true">▦</span>Table</button></div>
+  return `<div class="tb-bar tb-sticky"><div class="tb-vt seg${scope === 'fz' ? ' seg3' : ''} v-${v}" role="group" aria-label="${scope === 'fz' ? 'Fantasy team view' : 'View'}"><button data-tbview="${scope}:cards" aria-pressed="${v === 'cards'}" class="${v === 'cards' ? 'on' : ''}" title="Trading-card view"><span class="ic" aria-hidden="true">🃏</span>Cards</button>${scope === 'fz' ? `<button data-tbview="fz:wheel" aria-pressed="${v === 'wheel'}" class="${v === 'wheel' ? 'on' : ''}" title="Card wheel: highlights play in place, tap to flip"><span class="ic" aria-hidden="true">🎡</span>Wheel</button>` : ''}<button data-tbview="${scope}:table" aria-pressed="${v === 'table'}" class="${v === 'table' ? 'on' : ''}" title="Spreadsheet view"><span class="ic" aria-hidden="true">▦</span>Table</button></div>
     ${v === 'table' && sp === 'nfl' ? `<div class="chips tb-pos" role="group" aria-label="Position filter">${TB_POS.map(k => `<button class="chip${k === pos ? ' on' : ''}" data-tbpos="${k}" aria-pressed="${k === pos}">${k}</button>`).join('')}</div>` : ''}</div>`;
 }
 function tbTable(scope, sp, list){
@@ -7293,10 +7372,16 @@ function pcCard(p, mk){
       <div class="pc-act">${psBtn(p, '', '📊 Stats')}${hxBackBtn(p).replace('🙈 Hide from view', '🙈 Hide')}</div></div>
   </div><a class="pc-link ps-open" href="${esc(playerUrl(p))}" target="_blank" rel="noopener"${psAttr(p)} title="Full stats for ${esc(p.name)}" aria-label="Full stats for ${esc(p.name)}">📊</a>${hlBtn(p, 'pc')}</div>`;
 }
+function pcPlace(){   // Oct 22: on Fantasy the wheel lives inside the roster's Wheel view (not at the top of the tab); elsewhere it stays above favorites
+  const w = window.PCW || (window.PCW = document.getElementById('pcWrap')); if (!w) return null;
+  const slot = state.tab === FANTASY_TAB && tbView('fz') === 'wheel' ? document.getElementById('fzWheelSlot') : null;
+  if (slot) { if (w.parentNode !== slot) slot.appendChild(w); w.classList.add('in-slot'); }
+  else { const fs = document.getElementById('favSection'); if (fs && (w.parentNode !== fs.parentNode || w.nextElementSibling !== fs)) fs.parentNode.insertBefore(w, fs); w.classList.remove('in-slot'); }
+  return w; }
 function renderCardRow(){
-  const wrap = document.getElementById('pcWrap'); if (!wrap) return;
+  const wrap = pcPlace(); if (!wrap) return;
   const pls = cardRowPlayers(), fz = state.tab === FANTASY_TAB;
-  wrap.hidden = !pls.length; if (wrap.hidden) return;   // cards only on My News (favorites) + Fantasy (roster + watch list)
+  wrap.hidden = !pls.length || (fz && !wrap.classList.contains('in-slot')); if (wrap.hidden) return;   // cards only on My News (favorites) + Fantasy (roster + watch list)
   const row = document.getElementById('pcRow'), btn = document.getElementById('pcToggle'), pcHidden = !!pcHM[pcTab()];
   const nW = pls.filter(x => x.mk === 'w').length;
   document.getElementById('pcTitleTxt').textContent = fz ? `🃏 Fantasy cards · ${FSPORTS[MN.fsTab].label}` : '🃏 My Players';
@@ -9615,10 +9700,11 @@ document.addEventListener('change', e => { if (e.target.id === 'wtSort') { lsSet
    Reuses roster pts (p.roster.pts + FZX.wk), Comps pool (CMP.d.nfl: ppg/lw/tot/own/chg/ss/wk/st), trendData() and PL.ov.
    State: view per scope ('fz' | 'wt') persisted (default table), position filter + sort persisted, open comps rows per session. */
 var TB_KEY = 'mannTableView.v1';
-var TB = (v => ({ view: { fz: 'table', wt: 'table' }, pos: 'All', sort: { k: 'slot', d: 1 }, sub: { k: 'ppg', d: -1 }, ...(v && typeof v === 'object' ? v : {}) }))(lsGet(TB_KEY, null));
+var TB = (v => ({ view: { fz: 'cards', wt: 'table' }, pos: 'All', sort: { k: 'slot', d: 1 }, sub: { k: 'ppg', d: -1 }, ...(v && typeof v === 'object' ? v : {}) }))(lsGet(TB_KEY, null));
 TB.open = new Set();
 const tbSave = () => lsSet(TB_KEY, { view: TB.view, pos: TB.pos, sort: TB.sort, sub: TB.sub });
-const tbView = s => (TB.view && TB.view[s]) === 'cards' ? 'cards' : 'table';
+const tbView = s => { const v = TB.view && TB.view[s]; if (s === 'fz') return v === 'table' || v === 'wheel' ? v : 'cards';   // Oct 22: fantasy team view = Cards (default) / Wheel / Table
+  return v === 'cards' ? 'cards' : 'table'; };
 const TB_POS = ['All', 'QB', 'RB', 'WR', 'TE', 'K', 'D/ST'];
 
 
@@ -9749,7 +9835,7 @@ addEventListener('resize', () => { clearTimeout(tbSubFit.t); tbSubFit.t = setTim
 document.addEventListener('click', e => {
   const t = e.target.closest && e.target.closest('[data-tbview],[data-tbpos],[data-tbsort],[data-tbcmp]'); if (!t) return;
   const ds = t.dataset, refocus = sel => { const b = document.querySelector(sel); if (b) b.focus({ preventScroll: true }); };
-  if (ds.tbview) { const [s, v] = ds.tbview.split(':'); TB.view[s] = v; tbSave(); renderMyNews(); refocus(`[data-tbview="${ds.tbview}"]`); return; }
+  if (ds.tbview) { const [s, v] = ds.tbview.split(':'); TB.view[s] = v; tbSave(); renderMyNews(); try { renderCardRow(); } catch (_) {} refocus(`[data-tbview="${ds.tbview}"]`); return; }
   if (ds.tbpos) { TB.pos = ds.tbpos; tbSave(); renderMyNews(); refocus(`[data-tbpos="${CSS.escape(TB.pos)}"]`); return; }
   if (ds.tbsort) { const [w, k] = ds.tbsort.split(':'), S = w === 'sub' ? TB.sub : TB.sort;
     if (S.k === k) S.d = -S.d; else { S.k = k; S.d = /^(slot|avail|pos|rk|next)$/.test(k) ? 1 : -1; } tbSave(); renderMyNews(); refocus(`[data-tbsort="${CSS.escape(ds.tbsort)}"]`); return; }
@@ -10287,7 +10373,7 @@ document.addEventListener('click', e => {
   if (e.target.closest('[data-open-sports]')) { openSports(); return; }
   if (e.target.closest('[data-close-modal]') || e.target.id === 'sportsModal') { closeSports(); return; }
   const card = e.target.closest('[data-href]');
-  if (card && !e.target.closest('a,button,input,label,summary,[data-star]')) { if (card.dataset.gmd && typeof gmdToggle === 'function') gmdToggle(card); else openCard(card); return; }
+  if (card && !e.target.closest('a,button,input,label,summary,[data-star],.gm-d')) { if ((card.dataset.gmd || card.dataset.ftk) && typeof gmdToggle === 'function') gmdToggle(card); else openCard(card); return; }
   const t = e.target.closest('[data-tab]');
   if (t) {
     state.tab = t.dataset.tab; try { localStorage.setItem(TAB_KEY, state.tab); } catch(_){}
@@ -10319,7 +10405,7 @@ document.addEventListener('input', e => {
 
 document.addEventListener('keydown', e => {
   const c = e.target.closest && e.target.closest('[data-href]');
-  if (c && e.target === c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); if (c.dataset.gmd && typeof gmdToggle === 'function') gmdToggle(c); else openCard(c); }
+  if (c && e.target === c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); if ((c.dataset.gmd || c.dataset.ftk) && typeof gmdToggle === 'function') gmdToggle(c); else openCard(c); }
 });
 document.addEventListener('keydown', e => {                    // slim favorite rows: Enter / Space expands
   if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('fl-line')) { e.preventDefault(); e.target.click(); }
@@ -11222,7 +11308,7 @@ addEventListener('keydown', e => { if (e.key === 'Escape' && FS.el && !fsEl()) {
 const TC = { el: null, T: null, c: {}, tok: 0, from: null };
 const TC_MS = 10 * 60e3;
 const TC_KEEP = '.gm-d,a,button,input,select,textarea,label,summary,video,audio,iframe,[data-star],[data-ps],[data-hl],[data-tct],.sx-b,.hl-btn,.hv-wrap,.gr-ld,.gr-hl,[role="button"],[contenteditable]';
-const TC_HIT = '.gr-t img,.gr-t .gr-nl,.gr-t b,.gr-t small,.row>img,.row>.ph,.row>.name';
+const TC_HIT = '.gr-t img,.gr-t .gr-nl,.gr-t b,.gr-t small,.row>img,.row>.ph,.row>.name,.ft-head>.ft-logo,.ft-head .ft-nm';
 function tcSp(lg){ const L = CAT[lg]; if (!L) return ''; return FS_PATH[L.path] || (L.path.startsWith('soccer/') ? 'soccer' : ''); }
 function tcKind(lg){ return String((CAT[lg] || {}).path || '').split('/')[0]; }
 const tcHttps = u => String(u || '').replace(/^http:/, 'https:');
@@ -11423,9 +11509,18 @@ addEventListener('click', e => { const t = e.target && e.target.closest ? e.targ
   e.preventDefault(); e.stopPropagation(); try { tcOpen({ lg, id, abbr, name: b.dataset.tkn, logo: b.dataset.tkl, rec: b.dataset.tkr }); } catch (err) { console.warn('team card', err); } }, true);
 
 /* in-site game details: tapping empty space on a full game card expands it in place (Box score ↗ / Gamecast ↗ links stay in the footer) */
-const GMD = { open: new Set(), d: {}, busy: new Set() };
-function gmdFind(k){ const [lg, id] = k.split(':'); return (state.games[lg] || []).find(g => String(g.id) === id) || null; }
-function gmdToggle(el){ const k = el.dataset.gmd, g = gmdFind(k); if (!g) { openCard(el); return; }
+const GMD = { open: new Set(), d: {}, busy: new Set(), g: {}, ft: {} };   // g: favorite-schedule games by key · ft: favorite team key -> open game key
+function gmdFind(k){ const [lg, id] = k.split(':'); return (state.games[lg] || []).find(g => String(g.id) === id) || GMD.g[k] || null; }
+function gmdFav(el){   // favorites: a game row opens (or switches) its details; empty space on the card collapses them, or opens the featured game when closed
+  const card = el.closest('.ft-card'), tk = card && card.dataset.ftk; if (!tk) return false;
+  const isCard = el === card, cur = GMD.ft[tk];
+  const k = isCard ? (cur ? null : card.dataset.ftg) : el.dataset.gmd;
+  let d = card.querySelector(':scope > .gm-d');
+  if (!k) { delete GMD.ft[tk]; card.classList.remove('gmd-on'); if (d) d.remove(); return true; }
+  const g = gmdFind(k); if (!g) { if (!isCard) openCard(el); return true; }
+  GMD.ft[tk] = k; card.classList.add('gmd-on'); if (!d) { d = document.createElement('div'); d.className = 'gm-d'; card.appendChild(d); }
+  d.dataset.gk = k; d.innerHTML = gmdHTML(g); gmdLoad(g); return true; }
+function gmdToggle(el){ if (el.closest('.ft-card') && gmdFav(el)) return; const k = el.dataset.gmd, g = gmdFind(k); if (!g) { openCard(el); return; }
   if (GMD.open.has(k)) { GMD.open.delete(k); el.classList.remove('gmd-on'); const d = el.querySelector(':scope > .gm-d'); if (d) d.remove(); return; }
   GMD.open.add(k); el.classList.add('gmd-on'); let d = el.querySelector(':scope > .gm-d'); if (!d) { d = document.createElement('div'); d.className = 'gm-d'; const f = el.querySelector(':scope > .card-foot'); el.insertBefore(d, f || null); }
   d.innerHTML = gmdHTML(g); gmdLoad(g); }
@@ -11437,7 +11532,7 @@ async function gmdLoad(g){ const k = g.lg + ':' + g.id, c = GMD.d[k]; if (GMD.bu
     GMD.d[k] = { t: Date.now(), final: g.state === 'post', bx, sp, odds: pc ? [pc.details, pc.overUnder != null ? 'O/U ' + pc.overUnder : ''].filter(Boolean).join(' · ') : '',
       venue: [v.fullName, v.address && [v.address.city, v.address.state].filter(Boolean).join(', ')].filter(Boolean).join(' · '), att: gi.attendance || 0, wx: gi.weather ? [gi.weather.temperature != null ? gi.weather.temperature + '°' : '', gi.weather.conditionId || gi.weather.displayValue || ''].filter(Boolean).join(' ') : '' };
   } catch (e) { GMD.d[k] = { t: Date.now(), err: 1 }; } finally { GMD.busy.delete(k); }
-  document.querySelectorAll(`.card.gm[data-gmd="${CSS.escape(k)}"] > .gm-d`).forEach(el => { el.innerHTML = gmdHTML(g); }); }
+  document.querySelectorAll(`.card.gm[data-gmd="${CSS.escape(k)}"] > .gm-d, .ft-card > .gm-d[data-gk="${CSS.escape(k)}"]`).forEach(el => { el.innerHTML = gmdHTML(g); }); }
 function gmdHTML(g){ const k = g.lg + ':' + g.id, D = GMD.d[k]; if (!D) { gmdLoad(g); return '<div class="gm-dl">Loading game details…</div>'; }
   if (D.err) return '<div class="gm-dl">Game details unavailable right now — use Box score ↗ below.</div>';
   let h = ''; const [A, H] = D.bx;
@@ -11446,7 +11541,20 @@ function gmdHTML(g){ const k = g.lg + ':' + g.id, D = GMD.d[k]; if (!D) { gmdLoa
   if (D.sp.length) h += `<div class="gm-ds"><h6>Latest scoring</h6><ol class="gm-dp">${D.sp.map(p => `<li><b>${esc(p.ab)}</b> ${esc(trunc(p.t, 120))}<i>${p.per ? 'P' + esc(p.per) : ''}${p.clk ? ' ' + esc(p.clk) : ''}${p.sc ? ' · ' + esc(p.sc) : ''}</i></li>`).join('')}</ol></div>`;
   const meta = [D.odds && g.state === 'pre' ? '📈 ' + D.odds : '', D.venue ? '🏟 ' + D.venue : '', D.att ? '👥 ' + D.att.toLocaleString() : '', D.wx ? '🌤 ' + D.wx : ''].filter(Boolean);
   if (meta.length) h += `<div class="gm-dm">${meta.map(esc).join('<br>')}</div>`;
-  return (h || '<div class="gm-dl">No extra details from ESPN yet.</div>') + '<div class="gm-dh">Tap the card again to collapse</div>'; }
+  return (h || '<div class="gm-dl">No extra details from ESPN yet.</div>') + `<div class="gm-dh">Tap empty space on the card to collapse</div>`; }
+// Oct 22: the Fantasy wheel re-attaches after the roster re-renders (its Wheel view slot is rebuilt)
+(() => { const f = renderFantasy; renderFantasy = function(){ const r = f.apply(this, arguments); try { if (tbView('fz') === 'wheel' && !(window.PCW && PCW.closest('#fzWheelSlot'))) renderCardRow(); } catch (_) {} return r; }; })();
+function msMid(r, sh){   // Oct 22: the matchup row's centre plate — points vs points, who's ahead, by how much
+  const A = (r.a && r.a.pts) || {}, B = (r.b && r.b.pts) || {}, ss = x => x && x.s;
+  const started = A.act != null || B.act != null || [ss(r.sa), ss(r.sb)].some(x => x === 'in' || x === 'post');
+  const mode = r.done ? 'final' : started ? 'live' : 'proj';
+  const va = mode === 'proj' ? A.proj : A.act, vb = mode === 'proj' ? B.proj : B.act, f = v => v == null ? '–' : esc(r1(v));
+  const m = va != null || vb != null ? r1((va || 0) - (vb || 0)) : null, res = !m ? 'even' : m > 0 ? 'up' : 'dn';
+  const word = mode === 'proj' ? (m > 0 ? 'Favored' : m < 0 ? 'Underdog' : 'Even') : mode === 'final' ? (m > 0 ? 'Won' : m < 0 ? 'Lost' : 'Tied') : (m > 0 ? 'Leading' : m < 0 ? 'Trailing' : 'Tied');
+  return `<div class="ms-c ms-vs m-${mode}"><span class="sl">${esc(r.slot)}</span>
+    <div class="vs-sc"><b class="${m > 0 ? 'w' : m < 0 ? 'l' : ''}">${f(va)}</b><i>vs</i><b class="${m < 0 ? 'w' : m > 0 ? 'l' : ''}">${f(vb)}</b></div>
+    ${m != null ? `<span class="dl ${res}" title="${mode === 'proj' ? 'Projected' : mode === 'final' ? 'Final' : 'Live'} margin"><em class="ar">${m > 0 ? '◀' : m < 0 ? '▶' : ''}</em>${m ? (m > 0 ? '+' : '−') + esc(Math.abs(m)) : 'even'}</span><span class="vs-w ${res}">${word}</span>` : ''}
+    <span class="ms-st">${mode === 'proj' ? 'Projected' : mode === 'live' ? 'Live' : 'Final'}</span>${sh != null ? `<span class="ms-sh" title="Share of this slot's projected points: you ${sh}% · them ${100 - sh}%"><i style="width:${sh}%"></i></span>` : ''}<span class="mu-boom" aria-hidden="true"></span></div>`; }
 </script>
 <script>
 /* Oct 19: boot last, after every script block above has defined its globals (see bootDashboard). */
