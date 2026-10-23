@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261022-1930-fav-fit">
+<meta name="build-id" content="20261022-2030-fav-cleanup">
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261022-1930-fav-fit';
+var BUILD_ID = '20261022-2030-fav-cleanup';
 (function(){
   var shown = {};
   function chip(id, html, onTap){
@@ -3182,6 +3182,44 @@ html.tc-open{overflow:hidden}
   .gm-dp li{overflow-wrap:anywhere}.gm-dp i{white-space:normal}
   .ft-slot a.ft-go{text-decoration:none;font-weight:700}.ft-slot a.ft-go:hover{text-decoration:underline}
   .ft-head .ft-logo,.ft-head .ft-nm{cursor:pointer}
+  /* Oct 22c fav-cleanup */
+  #favSection .fv-tools{margin:0 0 12px;max-width:640px}
+  #favSection .fv-search{margin:0;max-width:100%}
+  #favSection .fv-search input{min-width:0}
+  .fl-line.fv2{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"tm acts" "st st" "sx sx";align-items:center;gap:5px 8px;height:auto;padding:8px 8px 9px 10px;font-size:13px;border-radius:10px;min-width:0}
+  .fl-line.fv2 .fl-tm{grid-area:tm;display:flex;align-items:center;gap:9px;min-width:0}
+  .fl-line.fv2 .fl-img{width:30px;height:30px;flex:0 0 30px;cursor:pointer}
+  .fl-line.fv2 .fl-nm{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 7px;min-width:0}
+  .fl-line.fv2 .fl-n{max-width:100%;font-size:15px;cursor:pointer;white-space:normal;overflow-wrap:anywhere}
+  .fl-line.fv2 .fl-n:hover{text-decoration:underline;text-underline-offset:3px}
+  .fl-line.fv2 .fl-rec{font-style:normal;color:var(--muted);font-size:12px;font-weight:600}
+  .fl-acts,.ft-acts{display:flex;align-items:center;gap:6px;flex:0 0 auto}
+  .fl-line.fv2 .fl-acts{grid-area:acts}
+  .ft-head .ft-acts{align-self:flex-start}
+  .fl-acts>*,.ft-acts>*{width:30px!important;height:30px!important;flex:0 0 30px!important;margin:0!important;padding:0!important;display:inline-flex!important;align-items:center;justify-content:center;border-radius:8px;align-self:center!important}
+  .fl-acts>.sx-b,.ft-acts>.sx-b{border-radius:50%;width:28px!important;height:28px!important;flex-basis:28px!important;font-size:15px}
+  .fl-acts>.star,.ft-acts>.star{font-size:17px!important;line-height:1;border:1px solid var(--line);background:rgba(10,14,24,.55)}
+  .fl-acts .fx-btn svg,.ft-acts .fx-btn svg{width:14px;height:14px}
+  .fl-line.fv2 .fl-st{grid-area:st;display:flex;flex-wrap:wrap;align-items:center;gap:3px 6px;white-space:normal;overflow:visible;color:var(--muted);line-height:1.35;min-width:0}
+  .fl-line.fv2 .fl-st b{color:var(--text)}.fl-line.fv2 .fv-sc{font-size:15px}
+  .fl-line.fv2 .fv-clk{color:var(--live);font-weight:700}
+  .fv-lb{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#8c98b0}
+  .fv-orec{font-style:normal;color:var(--muted);font-weight:600;font-size:.92em;margin-left:3px}
+  .fl-line.fv2 .fv-sx{grid-area:sx}
+  .fv-sx{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:11.5px;min-width:0}
+  .ft-id .fv-sx{margin-top:6px}
+  .fv-l5{display:inline-flex;gap:3px}
+  .fv-sx .fv-l5 i{width:17px;height:17px;margin:0;border-radius:4px;font:800 10px/17px system-ui,sans-serif;text-align:center;font-style:normal;color:#0b0f1a;background:#7b869c;opacity:1}
+  .fv-l5 i.w{background:#3ccf86}.fv-l5 i.l{background:#ff6262}.fv-l5 i.t,.fv-l5 i.d{background:#c7ccd8}
+  .fv-pill{padding:1px 7px;border-radius:999px;background:rgba(24,33,58,.85);border:1px solid var(--line);color:#9aa6bf;white-space:nowrap;font-weight:600}
+  .fv-pill b{color:var(--text);margin-left:4px;font-size:12px}
+  .fv-sk.w b{color:#3ccf86}.fv-sk.l b{color:#ff7373}
+  .ft-id>i{white-space:normal!important;overflow:visible!important}
+  .fv-sk .fv-skl{margin-right:0}
+  .fl-line.fv2 .fv-skl{display:none}.fl-line.fv2 .fv-sk b{margin-left:0}.fl-line.fv2 .fv-sx{gap:4px 5px}.fl-line.fv2 .fv-pill{padding:1px 6px}
+  .fl-line.fv2 .fv-l5{gap:2px}.fl-line.fv2 .fv-sx .fv-l5 i{width:15px;height:15px;line-height:15px;font-size:9.5px}
+  .ft-slot .ft-main{flex-wrap:wrap;row-gap:2px}.ft-slot .ft-main .fv-orec{white-space:nowrap;flex:0 0 auto}
+  @media (max-width:600px){.fl-line.fv2{font-size:12.5px}.fl-line.fv2 .fl-n{font-size:14.5px}.fv-sx{gap:4px 5px;font-size:11px}.fv-sx .fv-l5 i{width:15px;height:15px;line-height:15px;font-size:9.5px}.fv-l5{gap:2px}.fv-pill{padding:1px 6px}.fv-sk .fv-skl{display:none}.fv-sk b{margin-left:0}}
   .tb-vt.seg.seg3{grid-template-columns:1fr 1fr 1fr}.tb-vt.seg.seg3::before{width:calc((100% - 6px) / 3)}
   .tb-vt.seg.seg3.v-wheel::before{transform:translateX(100%)}.tb-vt.seg.seg3.v-table::before{transform:translateX(200%)}
   @media (max-width:430px){.tb-vt.seg.seg3 button{padding:7px 11px;font-size:13px;gap:5px}}
@@ -4039,6 +4077,52 @@ function tickerFrame(t){
   TK.raf = requestAnimationFrame(tickerFrame);
 }
 function startTicker(){ if (!TK.raf) { TK.last = 0; TK.raf = requestAnimationFrame(tickerFrame); } }
+/* ===== Oct 22c fav-cleanup: at-a-glance stats (schedule results + one light /statistics call per favorite), opponent record, favorites search ===== */
+const FVS_KEY = 'mannFavStats.v1', FV = { s: lsGet(FVS_KEY, {}) || {}, q: {}, tm: 0 };
+const FV_ST = { football: [['TO ±', 'miscellaneous.turnOverDifferential']], hockey: [['SV%', 'savePct']], basketball: [['FG%', 'offensive.fieldGoalPct']], baseball: [['OPS', 'batting.OPS']] };
+const FV_U = { football: ['PPG', 'Opp PPG'], basketball: ['PPG', 'Opp PPG'], hockey: ['GF/G', 'GA/G'], baseball: ['R/G', 'RA/G'], soccer: ['GF/G', 'GA/G'] };
+const fvKind = lg => String((CAT[lg] || {}).path || '').split('/')[0];
+const fvStand = s => String(s || '').replace(/\s+in\s+/, ' ').replace(/\s+(Division|Conference)$/i, '');
+function fvRes(x){ const f = FT[x.key] || {}, id = (f.team && f.team.id) || MN.teamIds[x.key];
+  return (f.events || []).filter(g => g.state === 'post' && !/postponed|cancel/i.test(g.desc || '')).sort((a, b) => a.date - b.date).map(g => {
+    const me = g.teams.find(t => (id && t.id && t.id === String(id)) || t.abbr === x.abbr), op = me && g.teams.find(t => t !== me); if (!me || !op) return null;
+    const ms = parseFloat(me.score), os = parseFloat(op.score); if (isNaN(ms) || isNaN(os)) return null;
+    return { r: me.winner ? 'W' : op.winner ? 'L' : ms > os ? 'W' : ms < os ? 'L' : 'T', ms, os }; }).filter(Boolean); }
+function fvStats(x){
+  const R = fvRes(x), k = fvKind(x.lg), n = R.length, U = FV_U[k] || ['PF/G', 'PA/G'], soc = k === 'soccer';
+  const l5 = R.slice(-5).map(g => soc && g.r === 'T' ? 'D' : g.r);
+  let sk = ''; if (n) { const r = R[n - 1].r; let c = 0; for (let i = n - 1; i >= 0 && R[i].r === r; i--) c++; sk = (soc && r === 'T' ? 'D' : r) + c; }
+  const avg = f => (Math.round(R.reduce((t, g) => t + g[f], 0) / n * 10) / 10).toFixed(1);
+  const tiles = n ? [[U[0], avg('ms')], [U[1], avg('os')]] : [];
+  const e = FV.s[x.key];
+  if (e && e.v && (!e.gp || e.gp + 2 >= n)) (FV_ST[k] || []).forEach(([l, key]) => { const v = e.v[key]; if (v != null && v !== '') tiles.push([l, /Diff|±/.test(l) && +v > 0 ? '+' + v : v]); });
+  return { l5, sk, tiles: tiles.slice(0, 3), n }; }
+function fvSxHTML(S){ if (!S || (!S.l5.length && !S.tiles.length)) return '';
+  return `<div class="fv-sx">${S.l5.length ? `<span class="fv-l5" title="Last ${S.l5.length} (oldest → newest)">${S.l5.map(r => `<i class="${r.toLowerCase()}">${r}</i>`).join('')}</span>` : ''}${S.sk ? `<span class="fv-pill fv-sk ${S.sk[0].toLowerCase()}" title="Current streak"><span class="fv-skl">Streak</span><b>${esc(S.sk)}</b></span>` : ''}${S.tiles.map(([l, v]) => `<span class="fv-pill">${esc(l)}<b>${esc(v)}</b></span>`).join('')}</div>`; }
+function fvOppRec(lg, g){ if (!g || !g.opp) return '';
+  const sg = (state.games[lg] || []).find(z => String(z.id) === String(g.id)), t = sg && sg.teams.find(z => (g.opp.id && String(z.id) === String(g.opp.id)) || z.abbr === g.opp.abbr);
+  if (t && t.record) return String(t.record).split(',')[0];
+  if (!g.opp.id) return ''; const k = 'o:' + lg + ':' + g.opp.id, e = FV.s[k];
+  if (e && Date.now() - e.t < 6 * 36e5) return e.r || '';
+  if (!FV.q[k]) { FV.q[k] = 1; getJSON(`${API}${CAT[lg].path}/teams/${encodeURIComponent(g.opp.id)}`, 12000).then(d => { const it = (((d.team || {}).record || {}).items || [])[0]; FV.s[k] = { t: Date.now(), r: (it && it.summary) || '' }; })
+    .catch(() => { FV.s[k] = { t: Date.now() - 5 * 36e5, r: '' }; }).finally(() => { delete FV.q[k]; fvSoon(); }); }
+  return ''; }
+function fvSoon(){ clearTimeout(FV.tm); FV.tm = setTimeout(() => { lsSet(FVS_KEY, FV.s); renderFavorites(); }, 300); }
+function fvQueue(st){ (st || []).forEach(x => { if (!CAT[x.lg] || CAT[x.lg].kind !== 'team' || !FV_ST[fvKind(x.lg)]) return;
+  const e = FV.s[x.key]; if ((e && Date.now() - e.t < 6 * 36e5) || FV.q[x.key]) return;
+  const tc = typeof TC !== 'undefined' && Object.values(TC.c).find(o => o && o.st && o.sch && o.sch.team && String(o.sch.team.abbreviation || '').toUpperCase() === x.abbr && Date.now() - o.t < 6 * 36e5);
+  const use = d => { const R = (d && d.results) || {}, m = tcStatMap((R.stats || {}).categories), v = {}; (FV_ST[fvKind(x.lg)] || []).forEach(([, key]) => { if (m[key] != null) v[key] = m[key]; });
+    FV.s[x.key] = { t: Date.now(), v, gp: +(m['general.gamesPlayed'] || m.teamGamesPlayed || m.gamesPlayed || 0) }; };
+  if (tc) { use(tc.st); fvSoon(); return; }
+  FV.q[x.key] = 1; resolveTeamId(x.key).then(id => getJSON(`${API}${CAT[x.lg].path}/teams/${encodeURIComponent(id)}/statistics`, 12000)).then(use)
+    .catch(() => { FV.s[x.key] = { t: Date.now() - 5 * 36e5, v: {} }; }).finally(() => { delete FV.q[x.key]; fvSoon(); }); }); }
+let FV_SW = null;
+function fvSearchEl(){ if (FV_SW) return FV_SW; if (typeof SEARCH_HTML === 'undefined') return null; const t = document.createElement('div'); t.innerHTML = SEARCH_HTML('Find a team or player: open its card or stats');
+  FV_SW = t.firstElementChild; FV_SW.setAttribute('data-usfav', ''); FV_SW.classList.add('fv-search'); return FV_SW; }
+async function fvOpenRow(w, i){ const st = usState(w), r = st.rows[i]; if (!r) return; st.active = i; usClose(w);
+  if (r.kind === 'player') { psOpen({ ...r, id: r.id, eid: r.eid || r.id, sp: psp(r), headshot: r.headshot || '', teamLogo: r.teamLogo || '' }); return; }
+  let id = r.id; if (!id) try { id = await resolveTeamId(r.key); } catch (_) {}
+  if (id) tcOpen({ lg: r.lg, id: String(id), abbr: r.abbr, name: r.name, logo: r.logo || '' }); }
 function renderFavorites(){
   const el = document.getElementById('favSection');
   const st = starList();
@@ -4053,6 +4137,7 @@ function renderFavorites(){
   el.dataset.mode = 'favs';
   const liveN = st.filter(x => ftGames(x).live).length, slim = !isMyNews(), minOn = slim && !!FMIN.teams;
   let html = `<div class="section-title${minOn ? ' fmin-off' : ''}">★ Favorites <small>${st.length} team${st.length === 1 ? '' : 's'}${liveN ? ` · <span style="color:var(--live)">${liveN} live</span>` : ''}</small><button class="linkbtn" style="margin-left:auto;font-size:13px" data-open-favs>Manage</button>${slim ? fminBtn('teams') : ''}</div>`;
+  if (!minOn) html += `<div class="fv-tools" data-fvslot></div>`;
   if (minOn) {}
   else if (st.length) {
     const sorted = st.slice().sort((a, b) => !!ftGames(b).live - !!ftGames(a).live);
@@ -4064,7 +4149,11 @@ function renderFavorites(){
     }
   }
   else if (st.length === 0) html += `<div class="fav-none">No favorite teams yet. Your players are in My News below.<button class="linkbtn" style="margin-left:auto" data-focus-search="">＋ Add teams</button></div>`;
+  const sw = fvSearchEl(), had = !!sw && sw.contains(document.activeElement), ss = had ? [document.activeElement.selectionStart, document.activeElement.selectionEnd] : null;
   el.innerHTML = html;
+  const slot = el.querySelector('[data-fvslot]'); if (slot && sw) slot.appendChild(sw); else if (slot) slot.remove();
+  if (had && slot) { const i = sw.querySelector('input'); try { i.focus({ preventScroll: true }); i.setSelectionRange(ss[0], ss[1]); } catch (_) {} }
+  fvQueue(st);
 }
 function ensureTeamColor(lg, abbr){
   const k = lg + ':' + String(abbr).toUpperCase(), c = TCOL[k];
@@ -4152,24 +4241,27 @@ function ftSlot(kind, g, x, extra){
   }
   const w = watchChips(g.nets, g.lg, { compact: true, max: 1 });
   if (kind === 'live') return `<div class="ft-slot live clickable"${link}><span class="ft-lbl"><span class="dotl"></span>Live</span><span class="ft-main"><span class="ft-sc big">${esc(g.me.score || '0')}–${esc(g.opp.score || '0')}</span>${ftOpp(g)}</span><span class="ft-side"><span class="ft-clock">${esc(g.detail || 'In progress')}</span>${w.html || (g.nets[0] ? `<span>${esc(g.nets[0])}</span>` : '')}${goA('Gamecast ↗')}</span></div>`;
-  return `<div class="ft-slot next clickable"${link}><span class="ft-lbl">Next</span><span class="ft-main">${ftOpp(g)}${extra ? `<span class="ft-tag">${esc(extra)}</span>` : ''}</span><span class="ft-side"><span>${esc(ftWhen(g))}</span>${w.html || (g.nets.length ? `<span class="ft-net">${esc(g.nets.slice(0, 2).join(', '))}</span>` : '')}${goA('Preview ↗')}</span></div>`;
+  return `<div class="ft-slot next clickable"${link}><span class="ft-lbl">Next</span><span class="ft-main">${ftOpp(g)}${(o => o ? `<i class="fv-orec">(${esc(o)})</i>` : '')(x ? fvOppRec(x.lg, g) : '')}${extra ? `<span class="ft-tag">${esc(extra)}</span>` : ''}</span><span class="ft-side"><span>${esc(ftWhen(g))}</span>${w.html || (g.nets.length ? `<span class="ft-net">${esc(g.nets.slice(0, 2).join(', '))}</span>` : '')}${goA('Preview ↗')}</span></div>`;
 }
 function toggleFx(k){ FX.has(k) ? FX.delete(k) : FX.add(k); lsSet(FX_KEY, [...FX]); }
 function ftLine(x, name, logo, color, g){
   const ha = gm => gm.me.homeAway === 'home' ? 'vs' : '@', opp = gm => esc(gm.opp.abbr || gm.opp.short || 'TBD');
+  const f = FT[x.key] || {}, tm = f.team || {}, info = MN.teamInfo[x.key] || {}, S = fvStats(x);
   let st, rd = '';
-  if (g.live) { st = `<span class="badge-live">LIVE</span><b>${esc(g.live.me.score || '0')}-${esc(g.live.opp.score || '0')}</b> ${ha(g.live)} ${opp(g.live)} · ${esc(g.live.detail || '')}`; rd = rdChips(g.live, true); }
+  if (g.live) { st = `<span class="badge-live">LIVE</span><b class="fv-sc">${esc(g.live.me.score || '0')}–${esc(g.live.opp.score || '0')}</b><span>${ha(g.live)} ${opp(g.live)}</span>${g.live.detail ? `<span class="fv-clk">${esc(g.live.detail)}</span>` : ''}`; rd = rdChips(g.live, true); }
   else if (g.last && rdEligible(g.last)) {
     const ms = Number(g.last.me.score), os = Number(g.last.opp.score), r = g.last.me.winner ? 'W' : g.last.opp.winner ? 'L' : ms > os ? 'W' : ms < os ? 'L' : 'T';
-    st = `<b>Final ${r} ${esc(g.last.me.score)}-${esc(g.last.opp.score)}</b> ${ha(g.last)} ${opp(g.last)}`; rd = rdChips(g.last, true);
+    st = `<b>Final ${r} ${esc(g.last.me.score)}–${esc(g.last.opp.score)}</b><span>${ha(g.last)} ${opp(g.last)}</span>`; rd = rdChips(g.last, true);
   }
-  else if (g.next) st = `Next: <b>${ha(g.next)} ${opp(g.next)}</b> ${esc(g.next.timeValid === false ? dayLabelET(g.next.date) + ' TBD' : flWhen(g.next.date))}`;
-  else if (g.last) { const ms = Number(g.last.me.score), os = Number(g.last.opp.score); st = `Last: ${g.last.me.winner || ms > os ? 'W' : g.last.opp.winner || ms < os ? 'L' : 'T'} ${esc(g.last.me.score)}-${esc(g.last.opp.score)} ${ha(g.last)} ${opp(g.last)}`; }
-  else st = g.loaded ? (g.bye ? 'Bye week' : 'No games scheduled') : g.err ? 'Schedule unavailable' : 'Loading…';
-  const k = 't:' + x.key;
-  return `<div class="fl-line${g.live ? ' is-live' : ''}" data-fx="${esc(k)}" role="button" tabindex="0" aria-expanded="false" title="${esc(name)}: tap to expand" style="${esc(teamColorVars(x.lg, x.abbr, color, ''))}">
-    ${logo ? `<img class="fl-img" src="${esc(logo)}" alt="" loading="lazy">` : '<span class="fl-img ph"></span>'}<span class="fl-n">${esc(name)}</span><span class="fl-st">${st}</span>${rd}
-    <button class="star on" data-star="${esc(x.key)}" title="Unstar ${esc(name)}">★</button>${fxBtn(k, name)}</div>`;
+  else if (g.next) { const orc = fvOppRec(x.lg, g.next); st = `<span class="fv-lb">Next</span><b>${ha(g.next)} ${opp(g.next)}</b>${orc ? `<i class="fv-orec">(${esc(orc)})</i>` : ''}<span>${esc(g.next.timeValid === false ? dayLabelET(g.next.date) + ' TBD' : flWhen(g.next.date))}</span>`; }
+  else if (g.last) { const ms = Number(g.last.me.score), os = Number(g.last.opp.score); st = `<span class="fv-lb">Last</span><b>${g.last.me.winner || ms > os ? 'W' : g.last.opp.winner || ms < os ? 'L' : 'T'} ${esc(g.last.me.score)}–${esc(g.last.opp.score)}</b><span>${ha(g.last)} ${opp(g.last)}</span>`; }
+  else st = `<span>${g.loaded ? (g.bye ? 'Bye week' : 'No games scheduled') : g.err ? 'Schedule unavailable' : 'Loading…'}</span>`;
+  const k = 't:' + x.key, tid = tm.id || MN.teamIds[x.key] || info.id || '';
+  const rec = [tm.record || info.record, fvStand(tm.standing || info.standing)].filter(Boolean).join(' · ');
+  return `<div class="fl-line fv2${g.live ? ' is-live' : ''}" data-fx="${esc(k)}" role="button" tabindex="0" aria-expanded="false" title="${esc(name)}: tap to expand" style="${esc(teamColorVars(x.lg, x.abbr, color, ''))}">
+    <span class="fl-tm"${tid ? ` data-tct="${esc(x.lg)}|${esc(tid)}|${esc(x.abbr)}" data-tcn="${esc(tm.name || info.name || name)}"` : ''}>${logo ? `<img class="fl-img" src="${esc(logo)}" alt="" loading="lazy">` : '<span class="fl-img ph"></span>'}<span class="fl-nm"><b class="fl-n">${esc(name)}</b>${rec ? `<i class="fl-rec">${esc(rec)}</i>` : ''}</span></span>
+    <span class="fl-acts"><button class="star on" data-star="${esc(x.key)}" title="Unstar ${esc(name)}">★</button>${fxBtn(k, name)}</span>
+    <div class="fl-st">${st}${rd}</div>${fvSxHTML(S)}</div>`;
 }
 function ftCard(x){
   const f = FT[x.key] || {}, tm = f.team || {}, info = MN.teamInfo[x.key] || {}, m = favMetaFor(x.key), g = ftGames(x);
@@ -4193,8 +4285,8 @@ function ftCard(x){
   const panel = ok && GMD.g[ok] ? `<div class="gm-d">${gmdHTML(GMD.g[ok])}</div>` : '';
   return `<div class="ft-card clickable${g.live ? ' is-live' : ''}${small ? ' compact' : ''}${panel ? ' gmd-on' : ''}" data-ftk="${esc(x.key)}"${fgk ? ` data-ftg="${esc(fgk)}"` : ''} data-tmcard="${esc(x.key)}"${(g.live || g.last) && (g.live || g.last).id ? ` data-tmev="${esc((g.live || g.last).id)}"` : ''} style="${esc(teamColorVars(x.lg, x.abbr, color, ''))}"${cardLinkAttrs(teamUrl(x.key), name + ': open ESPN team page')}>
     <div class="ft-head"${tid ? ` data-tct="${esc(x.lg)}|${esc(tid)}|${esc(x.abbr)}" data-tcn="${esc(name)}"` : ''}>${logo ? `<img class="ft-logo" src="${esc(logo)}" alt="">` : '<div class="ft-logo ph"></div>'}
-      <div class="ft-id"><span class="ft-lg">${esc(CAT[x.lg].short)}${LEAGUES[x.lg] ? '' : ' · not in your sports'}<button type="button" class="hl-btn hl-tm" data-hl="t:${esc(x.key)}" data-hln="${esc(name)}" title="Play the newest ${esc(name)} clip" aria-label="Play the newest ${esc(name)} clip"><b aria-hidden="true">▶</b></button></span><b class="ft-nm">${esc(name)}</b><i>${esc(sub)}</i></div>
-      <button class="star on" data-star="${esc(x.key)}" title="Unstar ${esc(name)}">★</button>${cmpOn ? fxBtn('t:' + x.key, name) : ''}</div>
+      <div class="ft-id"><span class="ft-lg">${esc(CAT[x.lg].short)}${LEAGUES[x.lg] ? '' : ' · not in your sports'}<button type="button" class="hl-btn hl-tm" data-hl="t:${esc(x.key)}" data-hln="${esc(name)}" title="Play the newest ${esc(name)} clip" aria-label="Play the newest ${esc(name)} clip"><b aria-hidden="true">▶</b></button></span><b class="ft-nm">${esc(name)}</b><i>${esc(sub)}</i>${fvSxHTML(fvStats(x))}</div>
+      <span class="ft-acts"><button class="star on" data-star="${esc(x.key)}" title="Unstar ${esc(name)}">★</button>${cmpOn ? fxBtn('t:' + x.key, name) : ''}</span></div>
     <div class="ft-slots">${slots}</div>${panel}</div>`;
 }
 function renderTabs(){
@@ -7543,7 +7635,7 @@ function usRender(w){
   if (st.players.length) html += `<div class="us-group">Players · all sports</div>` + st.players.map((r, i) => row(st.rows[st.teams.length + i], st.teams.length + i)).join('');
   if (st.loading) html += `<div class="us-msg">Searching…</div>`;
   else if (!st.rows.length) html += `<div class="us-msg">${esc(st.err || `No teams or players found for “${st.q}”.`)}</div>`;
-  html += `<div class="us-foot">↑ ↓ to move · Enter to add or remove ★ · Esc to close</div>`;
+  html += w.hasAttribute('data-usfav') ? `<div class="us-foot">Tap a result to open its team card or 📊 stats · ☆ adds to favorites · Esc to close</div>` : `<div class="us-foot">↑ ↓ to move · Enter to add or remove ★ · Esc to close</div>`;
   box.innerHTML = html; box.hidden = false; input.setAttribute('aria-expanded', 'true');
   input.setAttribute('aria-activedescendant', st.active >= 0 ? 'usr-' + st.active : '');
   const a = box.querySelector('.us-row.active'); if (a) a.scrollIntoView({ block: 'nearest' });
@@ -10295,7 +10387,9 @@ document.addEventListener('click', e => {
   const usw = e.target.closest('[data-uswatch]');
   if (usw) { const w = usw.closest('[data-usearch]'), r = usState(w).rows[+usw.dataset.uswatch]; if (r) toggleWatch({ ...r, sp: psp(r) }); w.querySelector('input').focus(); return; }
   const usr = e.target.closest('[data-usrow]');
-  if (usr) { const w = usr.closest('[data-usearch]'); usToggle(w, +usr.dataset.usrow); w.querySelector('input').focus(); return; }
+  if (usr) { const w = usr.closest('[data-usearch]');
+    if (w.hasAttribute('data-usfav') && !e.target.closest('.us-star')) { fvOpenRow(w, +usr.dataset.usrow); return; }
+    usToggle(w, +usr.dataset.usrow); w.querySelector('input').focus(); return; }
   document.querySelectorAll('[data-usearch]').forEach(w => { if (!w.contains(e.target)) usClose(w); });
   const uf = e.target.closest('[data-unfav]');
   if (uf) { stars.delete(uf.dataset.unfav); saveStars(); favsChanged(); return; }
@@ -10423,7 +10517,7 @@ document.addEventListener('keydown', e => {
     const st = usState(w), open = !w.querySelector('.us-results').hidden, n = (st.rows || []).length;
     if (e.key === 'ArrowDown' && n) { e.preventDefault(); if (!open) usRender(w); st.active = (st.active + 1) % n; usRender(w); return; }
     if (e.key === 'ArrowUp' && n) { e.preventDefault(); st.active = st.active <= 0 ? n - 1 : st.active - 1; usRender(w); return; }
-    if (e.key === 'Enter') { e.preventDefault(); if (open && n) usToggle(w, st.active >= 0 ? st.active : 0); return; }
+    if (e.key === 'Enter') { e.preventDefault(); if (open && n) (w.hasAttribute('data-usfav') ? fvOpenRow : usToggle)(w, st.active >= 0 ? st.active : 0); return; }
     if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); if (open) usClose(w); else if (e.target.value) { e.target.value = ''; st.q = ''; } else if (w.closest('#favsModal')) closeFavs(); else e.target.blur(); return; }
   }
   if (e.target.id === 'wlInput') {
@@ -11315,7 +11409,7 @@ addEventListener('keydown', e => { if (e.key === 'Escape' && FS.el && !fsEl()) {
 const TC = { el: null, T: null, c: {}, tok: 0, from: null };
 const TC_MS = 10 * 60e3;
 const TC_KEEP = '.gm-d,a,button,input,select,textarea,label,summary,video,audio,iframe,[data-star],[data-ps],[data-hl],[data-tct],.sx-b,.hl-btn,.hv-wrap,.gr-ld,.gr-hl,[role="button"],[contenteditable]';
-const TC_HIT = '.gr-t img,.gr-t .gr-nl,.gr-t b,.gr-t small,.row>img,.row>.ph,.row>.name,.ft-head>.ft-logo,.ft-head .ft-nm';
+const TC_HIT = '.gr-t img,.gr-t .gr-nl,.gr-t b,.gr-t small,.row>img,.row>.ph,.row>.name,.ft-head>.ft-logo,.ft-head .ft-nm,.fl-tm>.fl-img,.fl-tm .fl-n';
 function tcSp(lg){ const L = CAT[lg]; if (!L) return ''; return FS_PATH[L.path] || (L.path.startsWith('soccer/') ? 'soccer' : ''); }
 function tcKind(lg){ return String((CAT[lg] || {}).path || '').split('/')[0]; }
 const tcHttps = u => String(u || '').replace(/^http:/, 'https:');
