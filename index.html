@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261022-2230-ticker-links">
+<meta name="build-id" content="20261023-1100-matchup-fit">
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261022-2230-ticker-links';
+var BUILD_ID = '20261023-1100-matchup-fit';
 (function(){
   var shown = {};
   function chip(id, html, onTap){
@@ -1654,6 +1654,17 @@ var LVP = {}, LVROW = {}, LVF = new Set();   // live-card state declared up fron
     .ms-c .sl{font-size:9px;padding:0 4px}.ms-c .dl{font-size:9px}.ms-sh{width:32px}
     .mu-bar{flex-wrap:wrap;gap:6px}.mu-bar .mu-wp{order:3;flex-basis:100%}
   }
+  @media (max-width:480px){
+    .ms{grid-template-columns:minmax(0,1fr) 40px minmax(0,1fr);gap:3px}
+    .ms-sd{height:58px;gap:5px;padding:3px 5px 3px 4px;align-items:center}.ms-sd.op{padding:3px 4px 3px 5px}
+    .ms-th{width:28px;height:38px;padding:1.5px}.ms-pos{font-size:7px;line-height:9px}
+    .ms-i{gap:2px}.ms-n b{font-size:11px}.ms-tm{display:none}.ms-inj{font-size:8px;line-height:12px;padding:0 3px}
+    .ms-m{flex-direction:column!important;align-items:flex-start;gap:2px;font-size:9px}.ms-sd.op .ms-m{align-items:flex-end}
+    .ms-x{display:none}.ms-m .dvk{display:none}.ms-m .dv{padding:0 4px 0 1px;font-size:8.5px}.ms-m .dv .dv-sh{width:12px;height:14px}.ms-m .dv .dv-sh img{width:8px;height:8px}
+    .ms-p{width:34px}.ms-p b{font-size:15px}.ms-p i{font-size:8px}
+    .ms-c .sl{font-size:9px;padding:0 4px}.ms-c .dl{font-size:9px}.ms-sh{width:32px}
+    .mu-bar{flex-wrap:wrap;gap:6px}.mu-bar .mu-wp{order:3;flex-basis:100%}
+  }
   /* matchup player popover / mobile sheet */
   #muPop{position:fixed;z-index:10000}#muPop[hidden]{display:none!important}
   #muPop.pop{width:min(560px,calc(100vw - 16px))}
@@ -1969,6 +1980,24 @@ var LVP = {}, LVROW = {}, LVF = new Set();   // live-card state declared up fron
     .ms-m .dvk,.ms-dvw .dvk{display:inline}.ms-dvw .dv{font-size:9px}
     .ms-c .sl{font-size:9px;padding:1px 4px}.ms-c .dl{font-size:10px}.ms-sh{width:32px}
   }
+  @media (max-width:480px){
+    .ms{grid-template-columns:minmax(0,1fr) 38px minmax(0,1fr);gap:3px}
+    .ms-sd,.ms-sd.op{flex-direction:column;align-items:stretch;min-height:0;height:auto;gap:4px;padding:6px 6px;text-align:left}
+    .ms-sd.op{text-align:right}
+    .ms-th{width:100%;height:auto;display:flex;align-items:center;gap:6px;padding:0;background:none!important;box-shadow:none!important}
+    .ms-sd.op .ms-th{flex-direction:row-reverse}
+    .ms-th img:first-child{width:40px;height:48px;flex:0 0 auto;border-radius:6px;border:2px solid #cfd5df}
+    .ms-th.r-leg img:first-child{border-color:#ffd35a}.ms-th.r-ultra img:first-child{border-color:#ff5a2e}.ms-th.r-epic img:first-child{border-color:#b56aff}.ms-th.r-rare img:first-child{border-color:#5fb0ff}.ms-th.r-unc img:first-child{border-color:#3fbf6a}
+    .ms-th img.ms-lg{left:28px;right:auto;bottom:-2px;width:18px;height:18px}.ms-sd.op .ms-th img.ms-lg{left:auto;right:28px}
+    .ms-pos{position:static;width:auto;background:none;color:var(--muted);font-size:9px}
+    .ms-p{width:auto;flex-direction:row;align-items:baseline;gap:5px;flex-wrap:wrap}.ms-sd.op .ms-p{justify-content:flex-end}
+    .ms-p b{font-size:20px}.ms-p i{font-size:9.5px}.ms-pb{flex-basis:100%}
+    .ms-n b{font-size:12px}.ms-sd.op .ms-n{justify-content:flex-end}
+    .ms-sub,.ms-gs,.ms-sl{font-size:9.5px}.ms-sub .ms-tm{font-size:9.5px}
+    .ms-x{display:inline}
+    .ms-m .dvk,.ms-dvw .dvk{display:inline}.ms-dvw .dv{font-size:9px}
+    .ms-c .sl{font-size:9px;padding:1px 4px}.ms-c .dl{font-size:10px}.ms-sh{width:32px}
+  }
   /* table: no truncation */
   .mu-tb td.n b,.mu-tb td.n i{white-space:nowrap;overflow:visible;text-overflow:clip;max-width:none}
   .mu-tb .dv,.mu-tb .dv b,.mu-tb .dv i{overflow:visible;text-overflow:clip;max-width:none}
@@ -1986,6 +2015,7 @@ var LVP = {}, LVROW = {}, LVF = new Set();   // live-card state declared up fron
   .mup .mup-cc{--w:220px;--h:320px}.mup-b{max-height:320px}
   #muPop.sheet .mup-cc{--w:220px;--h:320px}
   @container mub (max-width:560px){.ms-sub .ms-tm{display:inline}.ms-th .ms-pos{display:none}.ms-p b{font-size:18px}}
+  @media (max-width:480px){.ms-sub .ms-tm{display:inline}.ms-th .ms-pos{display:none}.ms-p b{font-size:18px}}
   /* ===================== Oct 12c: Spin-it (context menu + spinning medallion + WHYDFML score) & hide cards ===================== */
   .sx-menu{position:fixed;z-index:10050;min-width:220px;max-width:280px;background:rgba(16,21,34,.97);border:1px solid #2c3754;border-radius:12px;box-shadow:0 14px 40px rgba(0,0,0,.6);padding:6px;font:13px/1.3 system-ui,sans-serif;color:#e8edf8;backdrop-filter:blur(8px);animation:sxPop .14s ease-out}
   @keyframes sxPop{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
@@ -3149,6 +3179,40 @@ html.tc-open{overflow:hidden}
     .ms-vs .dl{font-size:13px!important;padding:2px 7px}.vs-w{font-size:8.5px;letter-spacing:.5px}.ms-vs .ms-st{font-size:8px}
     .ms-vs .ms-sh{width:52px;height:5px}.ms-vs .sl{font-size:10.5px!important;padding:1px 7px!important}
   }
+  @media (max-width:480px){
+    .mu-rows .ms{grid-template-columns:minmax(0,1fr) 74px minmax(0,1fr);gap:4px}
+    .mu-rows .ms-sd,.mu-rows .ms-sd.op{min-height:0;padding:7px 7px;gap:5px}
+    .mu-rows .ms-th{width:100%;height:auto}
+    .mu-rows .ms-th img:first-child{width:54px;height:66px}
+    .mu-rows .ms-th img.ms-lg{left:40px;width:20px;height:20px}.mu-rows .ms-sd.op .ms-th img.ms-lg{left:auto;right:40px}
+    .mu-rows .ms-n b{font-size:13px}
+    .mu-rows .ms-sub,.mu-rows .ms-gs{font-size:10px}
+    .mu-rows .ms-p{min-width:0}.mu-rows .ms-p b{font-size:22px}
+    .ms-pj{font-size:12.5px;padding:1px 6px}.ms-pj.big{font-size:19px;padding:2px 7px}.ms-pj small{font-size:8px}.ms-pj.big small{font-size:8.5px}
+    .ms-c.ms-vs{padding:7px 2px;gap:4px;border-radius:11px}
+    .vs-sc{flex-direction:column;align-items:center;gap:1px}.vs-sc b{font-size:18px}.vs-sc i{font-size:8.5px}
+    .ms-vs .dl{font-size:13px!important;padding:2px 7px}.vs-w{font-size:8.5px;letter-spacing:.5px}.ms-vs .ms-st{font-size:8px}
+    .ms-vs .ms-sh{width:52px;height:5px}.ms-vs .sl{font-size:10.5px!important;padding:1px 7px!important}
+  }
+  /* Oct 23 matchup-fit: phones whose browser skips the @container rules above (older iOS Safari) got the wide desktop centre plate and clipped side cards — tighten by viewport too */
+  @media (max-width:480px){
+    .mu-rows .ms{grid-template-columns:minmax(0,1fr) clamp(58px,20vw,80px) minmax(0,1fr)!important;gap:4px!important}
+    .mu-rows .ms>*{min-width:0;max-width:100%}
+    .mu-rows .ms-sd,.mu-rows .ms-sd.op{min-width:0;overflow:hidden}
+    .mu-rows .ms-i{min-width:0}
+    .mu-rows .ms-n b{font-size:clamp(11.5px,3.4vw,13px);overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+    .mu-rows .ms-sub,.mu-rows .ms-gs,.mu-rows .ms-sl{overflow-wrap:anywhere;min-width:0}
+    .mu-rows .ms-dvw .dv{max-width:100%;overflow:hidden}
+    .mu-rows .ms-p{min-width:0;max-width:100%}
+    .mu-rows .ms-pj{font-size:clamp(11px,3.3vw,12.5px);padding:1px 5px;max-width:100%}.mu-rows .ms-pj.big{font-size:clamp(14px,4.6vw,19px);padding:2px 5px}.mu-rows .ms-pj small{font-size:7.5px;letter-spacing:.5px}
+    .mu-rows .ms-c.ms-vs{padding:6px 2px;gap:3px;overflow:hidden}
+    .mu-rows .ms-vs .sl{font-size:clamp(9px,2.7vw,10.5px)!important;padding:1px 5px!important;max-width:100%}
+    .mu-rows .vs-sc{flex-direction:column;align-items:center;gap:0}.mu-rows .vs-sc b{font-size:clamp(14px,4.5vw,18px)}.mu-rows .vs-sc i{font-size:8px}
+    .mu-rows .ms-vs .dl{font-size:clamp(10.5px,3.2vw,13px)!important;padding:2px 5px;max-width:100%}
+    .mu-rows .vs-w{font-size:clamp(7px,2.1vw,8.5px);letter-spacing:.3px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .mu-rows .ms-vs .ms-st{font-size:clamp(7px,2vw,8px);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .mu-rows .ms-vs .ms-sh{width:min(52px,88%)}
+  }
   /* Fantasy team views: the wheel sits in its own view */
   .fz-wslot .pc-wrap{margin:8px 0 12px}
   /* deck feel for the card grids (Fantasy + Fantasy Lab cards): layered edges behind each card, a slight fan + overlap on wide screens, a swipeable row on phones */
@@ -3288,7 +3352,7 @@ html.tc-open{overflow:hidden}
   @media (max-width:430px){.tb-vt.seg.seg3 button{padding:7px 11px;font-size:13px;gap:5px}}
   .mu-rows .ms-th{width:72px;height:96px}.mu-rows .ms-n b{font-size:15.5px}.mu-rows .ms-sd{gap:9px}.mu-rows .ms-p{min-width:64px}
   @container mub (min-width:761px){.mu-rows .ms{grid-template-columns:minmax(0,1fr) 124px minmax(0,1fr)}}
-  @container mub (min-width:561px) and (max-width:760px){.mu-rows .ms{grid-template-columns:minmax(0,1fr) 96px minmax(0,1fr)}.vs-sc{flex-direction:row;gap:5px}.vs-sc b{font-size:20px}.ms-vs .dl{font-size:15px!important}.vs-w{font-size:9.5px}}
+  @container mub (min-width:561px) and (max-width:760px){.mu-rows .ms{grid-template-columns:minmax(0,1fr) 106px minmax(0,1fr)}.vs-sc{flex-direction:row;gap:5px}.vs-sc b{font-size:20px}.ms-vs .dl{font-size:15px!important}.vs-w{font-size:9.5px}}
 
   /* Oct 22 roast */
   .rq-roast{margin:6px 0 0;padding:6px 9px;border-left:3px solid #ffc21a;background:rgba(255,194,26,.08);border-radius:0 8px 8px 0;font-size:13px;line-height:1.4;font-weight:600;font-style:italic;color:#ffe8a3;white-space:normal;overflow-wrap:anywhere;max-width:100%;box-sizing:border-box}
