@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261022-2100-fav-statpage">
+<meta name="build-id" content="20261022-2145-close-outline">
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261022-2100-fav-statpage';
+var BUILD_ID = '20261022-2145-close-outline';
 (function(){
   var shown = {};
   function chip(id, html, onTap){
@@ -3289,6 +3289,18 @@ html.tc-open{overflow:hidden}
   .mu-rows .ms-th{width:72px;height:96px}.mu-rows .ms-n b{font-size:15.5px}.mu-rows .ms-sd{gap:9px}.mu-rows .ms-p{min-width:64px}
   @container mub (min-width:761px){.mu-rows .ms{grid-template-columns:minmax(0,1fr) 124px minmax(0,1fr)}}
   @container mub (min-width:561px) and (max-width:760px){.mu-rows .ms{grid-template-columns:minmax(0,1fr) 96px minmax(0,1fr)}.vs-sc{flex-direction:row;gap:5px}.vs-sc b{font-size:20px}.ms-vs .dl{font-size:15px!important}.vs-w{font-size:9.5px}}
+
+  /* Oct 22 roast */
+  .rq-roast{margin:6px 0 0;padding:6px 9px;border-left:3px solid #ffc21a;background:rgba(255,194,26,.08);border-radius:0 8px 8px 0;font-size:13px;line-height:1.4;font-weight:600;font-style:italic;color:#ffe8a3;white-space:normal;overflow-wrap:anywhere;max-width:100%;box-sizing:border-box}
+  .sx-gauge>div{min-width:0}.sx-quip{margin-top:6px;font-size:14px;line-height:1.4;font-style:italic;font-weight:600;color:#ffe8a3;white-space:normal;overflow-wrap:anywhere}
+  .sx-lbl{overflow-wrap:anywhere}
+  /* ===== Oct 22 close-outline: amber outline + CLOSE pill inside the status area (never on the border) ===== */
+  .gx-ctop{display:none!important}
+  .card.gx-cl,.gr.gx-cl,.ft-slot.gx-cl,.fl-line.gx-cl{border-color:#ffc21a!important;box-shadow:0 0 0 1px rgba(255,194,26,.6),0 0 14px rgba(255,194,26,.22)!important;animation:none!important}
+  .gx-close.gx-in{position:static;transform:none;margin:0;flex:none;align-self:flex-end;font-size:10.5px;line-height:1.3;padding:1px 7px;white-space:nowrap;animation:none;box-shadow:none}
+  .card-top .gx-close.gx-in{margin:0 4px 0 0}
+  .fl-line .gx-close.gx-in{align-self:center}
+  @media (min-width:601px){.gr-ls s{width:17px}}   /* a little more room for full team names on desktop/iPad rows */
 </style>
 </head>
 <body>
@@ -4302,7 +4314,7 @@ function ftSlot(kind, g, x, extra){
     return `<div class="ft-slot last clickable"${link}><span class="ft-lbl">Last</span><span class="ft-main"><span class="ft-res ${r.toLowerCase()}">${r}</span><span class="ft-sc">${esc(g.me.score)}–${esc(g.opp.score)}</span>${ftOpp(g)}</span><span class="ft-side"><span>${esc(dayLabelET(g.date))}</span>${goA('Box score ↗')}</span></div>`;
   }
   const w = watchChips(g.nets, g.lg, { compact: true, max: 1 });
-  if (kind === 'live') return `<div class="ft-slot live clickable"${link}><span class="ft-lbl"><span class="dotl"></span>Live</span><span class="ft-main"><span class="ft-sc big">${esc(g.me.score || '0')}–${esc(g.opp.score || '0')}</span>${ftOpp(g)}</span><span class="ft-side"><span class="ft-clock">${esc(g.detail || 'In progress')}</span>${w.html || (g.nets[0] ? `<span>${esc(g.nets[0])}</span>` : '')}${goA('Gamecast ↗')}</span></div>`;
+  if (kind === 'live') return `<div class="ft-slot live clickable${gxBadge(g) ? ' gx-cl' : ''}"${link}><span class="ft-lbl"><span class="dotl"></span>Live</span><span class="ft-main"><span class="ft-sc big">${esc(g.me.score || '0')}–${esc(g.opp.score || '0')}</span>${ftOpp(g)}</span><span class="ft-side"><span class="ft-clock">${esc(g.detail || 'In progress')}</span>${gxBadge(g)}${w.html || (g.nets[0] ? `<span>${esc(g.nets[0])}</span>` : '')}${goA('Gamecast ↗')}</span></div>`;
   return `<div class="ft-slot next clickable"${link}><span class="ft-lbl">Next</span><span class="ft-main">${ftOpp(g)}${(o => o ? `<i class="fv-orec">(${esc(o)})</i>` : '')(x ? fvOppRec(x.lg, g) : '')}${extra ? `<span class="ft-tag">${esc(extra)}</span>` : ''}</span><span class="ft-side"><span>${esc(ftWhen(g))}</span>${w.html || (g.nets.length ? `<span class="ft-net">${esc(g.nets.slice(0, 2).join(', '))}</span>` : '')}${goA('Preview ↗')}</span></div>`;
 }
 function toggleFx(k){ FX.has(k) ? FX.delete(k) : FX.add(k); lsSet(FX_KEY, [...FX]); }
@@ -4310,7 +4322,7 @@ function ftLine(x, name, logo, color, g){
   const ha = gm => gm.me.homeAway === 'home' ? 'vs' : '@', opp = gm => esc(gm.opp.abbr || gm.opp.short || 'TBD');
   const f = FT[x.key] || {}, tm = f.team || {}, info = MN.teamInfo[x.key] || {}, S = fvStats(x);
   let st, rd = '';
-  if (g.live) { st = `<span class="badge-live">LIVE</span><b class="fv-sc">${esc(g.live.me.score || '0')}–${esc(g.live.opp.score || '0')}</b><span>${ha(g.live)} ${opp(g.live)}</span>${g.live.detail ? `<span class="fv-clk">${esc(g.live.detail)}</span>` : ''}`; rd = rdChips(g.live, true); }
+  if (g.live) { st = `<span class="badge-live">LIVE</span><b class="fv-sc">${esc(g.live.me.score || '0')}–${esc(g.live.opp.score || '0')}</b><span>${ha(g.live)} ${opp(g.live)}</span>${g.live.detail ? `<span class="fv-clk">${esc(g.live.detail)}</span>` : ''}${gxBadge(g.live)}`; rd = rdChips(g.live, true); }
   else if (g.last && rdEligible(g.last)) {
     const ms = Number(g.last.me.score), os = Number(g.last.opp.score), r = g.last.me.winner ? 'W' : g.last.opp.winner ? 'L' : ms > os ? 'W' : ms < os ? 'L' : 'T';
     st = `<b>Final ${r} ${esc(g.last.me.score)}–${esc(g.last.opp.score)}</b><span>${ha(g.last)} ${opp(g.last)}</span>`; rd = rdChips(g.last, true);
@@ -4320,7 +4332,7 @@ function ftLine(x, name, logo, color, g){
   else st = `<span>${g.loaded ? (g.bye ? 'Bye week' : 'No games scheduled') : g.err ? 'Schedule unavailable' : 'Loading…'}</span>`;
   const k = 't:' + x.key, tid = tm.id || MN.teamIds[x.key] || info.id || '';
   const rec = [tm.record || info.record, fvStand(tm.standing || info.standing)].filter(Boolean).join(' · ');
-  return `<div class="fl-line fv2${g.live ? ' is-live' : ''}" data-fx="${esc(k)}" role="button" tabindex="0" aria-expanded="false" title="${esc(name)}: tap to expand" style="${esc(teamColorVars(x.lg, x.abbr, color, ''))}">
+  return `<div class="fl-line fv2${g.live ? ' is-live' : ''}${g.live && gxBadge(g.live) ? ' gx-cl' : ''}" data-fx="${esc(k)}" role="button" tabindex="0" aria-expanded="false" title="${esc(name)}: tap to expand" style="${esc(teamColorVars(x.lg, x.abbr, color, ''))}">
     <span class="fl-tm"${tid ? ` data-tct="${esc(x.lg)}|${esc(tid)}|${esc(x.abbr)}" data-tcn="${esc(tm.name || info.name || name)}"` : ''}>${logo ? `<img class="fl-img" src="${esc(logo)}" alt="" loading="lazy">` : '<span class="fl-img ph"></span>'}<span class="fl-nm"><b class="fl-n">${esc(name)}</b>${rec ? `<i class="fl-rec">${esc(rec)}</i>` : ''}</span></span>
     <span class="fl-acts"><button class="star on" data-star="${esc(x.key)}" title="Unstar ${esc(name)}">★</button>${fxBtn(k, name)}</span>
     <div class="fl-st"${g.live && g.live.id ? ` data-ltk="${esc(x.lg + ':' + g.live.id)}"` : ''}>${st}${rd}</div>${fvSxHTML(S)}</div>`;
@@ -4494,7 +4506,7 @@ function grRow(g){
   const ls = t => nls ? `<span class="gr-ls">${t.ls.map(v => `<s>${esc(v)}</s>`).join('')}</span>` : '';
   const tm = t => { const lose = win && t !== win; return `<span class="gr-t${t === win ? ' w' : ''}${lose ? ' l' : ''}${isFav(g.lg, t.abbr) ? ' fav' : ''}"${t.id ? ` data-tct="${esc(g.lg)}|${esc(t.id)}|${esc(t.abbr || '')}" data-tcn="${esc(t.name || t.short || '')}"` : ''}>${t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy">` : '<i class="gr-nl"></i>'}${t.rank ? `<small>${esc(t.rank)}</small>` : ''}<b><span class="gr-ab">${esc(t.abbr || t.short)}</span><span class="gr-nm">${esc(t.short || t.abbr)}</span></b>${t.record ? `<i class="gr-rec">${esc(t.record)}</i>` : ''}${ls(t)}<em>${pre ? '' : live ? gxScore(g, t, t.score) : esc(t.score)}</em></span>`; };
   const lh = nls ? `<span class="gr-t gr-lh" aria-hidden="true"><span class="gr-ls">${Array.from({ length: nls }, (_, i) => `<s>${grLsLbl(g.lg, i)}</s>`).join('')}</span><em></em></span>` : '';
-  const st = live ? `<span class="gr-live">LIVE</span><span>${esc(g.detail || '')}</span>`
+  const st = live ? `<span class="gr-live">LIVE</span><span>${esc(g.detail || '')}</span>${gxBadge(g)}`
     : pre ? `<span class="gr-tm">${esc(timeET(g.date))}</span>${g.tv ? `<span class="gr-tv">${esc(g.tv)}</span>` : ''}${g.odds && g.odds.det ? `<span class="gr-od">${esc(g.odds.det)}</span>` : ''}`
     : `${upTag(g)}<span>${esc(/^final/i.test(g.detail || '') ? g.detail : 'Final' + (g.detail ? ' · ' + g.detail : ''))}</span>`;
   if (GRX.has(k)) return `<div class="gr-x"><button type="button" class="gr-col" data-grx="${esc(k)}" aria-expanded="true">▴ Collapse</button>${card(g)}</div>`;
@@ -6028,10 +6040,10 @@ function trSection(sp){
       ${give.length !== get.length ? `<div class="tb-foot">${give.length > get.length ? esc(op.name) + ' would need to drop ' + (give.length - get.length) : 'You would need to drop ' + (get.length - give.length)} bench player${Math.abs(give.length - get.length) > 1 ? 's' : ''} to make room.</div>` : ''}</details></div>`;
   } else res = `<div class="mu-ld">${!op ? 'Pick a team, then tap who you give and who you want.' : 'Tap one or two players on each side.'}</div>`;
   const tg = x => { const s = x.tags.filter(t => t[0] === 'sh' || t[0] === 'bl'); return (s.length ? s : x.tags.slice(0, 1)); };
-  const sugH = !sug ? '<div class="mu-ld">Finding 2-player deals that help both teams…</div>' : sug.length ? sug.map((x, i) => { const t = D.teams.find(z => z.id === x.op), g = x.give.map(id => trPl(D, id)), r = x.get.map(id => trPl(D, id));
+  const sugH = !sug ? '<div class="mu-ld">Finding 2-player deals that help both teams…</div>' : sug.length ? sug.map((x, i) => { const t = D.teams.find(z => z.id === x.op), g = x.give.map(id => trPl(D, id)), r = x.get.map(id => trPl(D, id)); if (i === 0) rqDeal.u = new Set();
       return `<div class="te-card"><div class="te-main" role="button" tabindex="0" data-tr="${sk}${i}" title="Load into the trade builder"><div class="te-with">#${i + 1} · with <b>${esc(t.name)}</b>${tg(x).map(([c, l]) => ` <em class="tg ${c}">${esc(l)}</em>`).join('')}</div>
         <div class="te-sw"><div class="te-side"><h6>You give</h6>${g.map(pp).join('')}</div><div class="te-x" aria-hidden="true">⇄</div><div class="te-side"><h6>You get</h6>${r.map(pp).join('')}</div></div>
-        <p class="te-why">${esc(x.easy)}</p>${x.fit && x.fit.length ? `<div class="te-fit">${x.fit.map(([c, l]) => `<span class="${c}">${esc(l)}</span>`).join('')}</div>` : ''}${bar(x.dMe, x.dOp)}</div>
+        <p class="te-why">${esc(x.easy)}</p>${rqHTML(rqDeal(g, r, { opp: t && t.name, dMe: x.dMe, dOp: x.dOp }, rqDeal.u))}${x.fit && x.fit.length ? `<div class="te-fit">${x.fit.map(([c, l]) => `<span class="${c}">${esc(l)}</span>`).join('')}</div>` : ''}${bar(x.dMe, x.dOp)}</div>
         <details class="te-det"><summary>Details</summary><div class="tr-mx"><span>ROS swing <b class="${x.ros > 0 ? 'up' : 'dn'}">${sg(x.ros)}</b></span>${x.po != null ? `<span>Playoffs wk ${esc(D.poW[0])}–${esc(D.poW[D.poW.length - 1])} <b>${sg(x.po)}</b> you · <b>${sg(x.poOp)}</b> them</span>` : ''}<span>Confidence <b class="tr-cf ${esc(x.conf)}">${esc(x.conf)}</b></span></div>
         <small class="tr-why">${esc(x.why)}</small>${x.tags.length ? `<span class="tr-tags">${x.tags.map(([c, l]) => `<em class="tg ${c}">${esc(l)}</em>`).join('')}</span>` : ''}</details></div>`; }).join('')
     : `<div class="mu-ld te-none">${FL.team || FL.pos ? `No ${big ? '2-player deal' : '1-for-1 trade'}${fTeam ? ' with ' + esc(fTeam.name) : ''}${FL.pos ? ' that gets you a ' + esc(FL.pos) : ''} helps both teams right now. <button class="linkbtn" data-tr="fclear">Clear filters</button>` : big ? 'No 2-player deal helps both teams enough right now (each side needs +3/wk and it has to beat the 1-for-1s).' : 'No 1-for-1 trade helps both teams right now. Try <button class="linkbtn" data-tr="mode:2">2-player deals</button>.'}</div>`;
@@ -7966,7 +7978,75 @@ async function sxSchedule(t){
   SX.sch[k] = { t: Date.now(), v }; return v;
 }
 function sxRecent(wk){ const l = (wk || []).slice(-3).reverse(); if (!l.length) return null; let s = 0, w = 0; l.forEach((v, i) => { s += v * SX_W[i]; w += SX_W[i]; }); return s / w; }
-function sxLabel(s){ return s >= 90 ? 'Carrying the franchise' : s >= 75 ? 'Pulling his weight' : s >= 60 ? 'Solid citizen' : s >= 45 ? 'Meh' : s >= 30 ? 'On thin ice' : s >= 15 ? 'Benchwarmer energy' : 'Cut him'; }
+/* ===== Oct 22 roast: trade trash-talk + Spin-it tiers (templates only, real deal/score data, no API calls) ===== */
+function rqFill(t, v){ return t.replace(/\{(\w+)\}/g, (_, k) => v[k] != null && v[k] !== '' ? String(v[k]) : ''); }
+function rqPick(pool, v, used){ const ok = pool.filter(t => !(used && used.has(t)) && (t.match(/\{(\w+)\}/g) || []).every(k => { const x = v[k.slice(1, -1)]; return x != null && x !== ''; }));
+  const L = ok.length ? ok : pool.filter(t => (t.match(/\{(\w+)\}/g) || []).every(k => v[k.slice(1, -1)] != null && v[k.slice(1, -1)] !== '')); if (!L.length) return '';
+  const t = L[Math.floor(Math.random() * L.length)]; if (used) used.add(t); return rqFill(t, v); }
+const rqLast = n => { const s = String(n || '').replace(/\s+(Jr\.?|Sr\.?|II|III|IV)$/i, '').trim(); return /D\/ST$/i.test(s) ? s : s.split(' ').slice(-1)[0] || s; };
+function rqTrade(){ return rqTrade.c || (rqTrade.c = {
+  you: ["{opp} is about to accept this and their league-mates are going to stage an intervention.", "Sending {g1} for {r1} is grand larceny with extra steps.", "If {opp} says yes, frame the screenshot. This fleece belongs in a museum.",
+    "You {me}/wk, them {them}. This isn't a trade, it's a mugging with a handshake.", "{opp} is the guy who buys the timeshare for the free breakfast. Send it.", "Pitch it fast and keep eye contact. {r1} is coming home.",
+    "This one has 'commissioner veto vote' written all over it. Worth it.", "{g1} for {r1}? Somewhere a group chat is typing 'LMAOOO' in all caps.", "Send it at 2 a.m., when {opp}'s judgment is at its weakest.",
+    "{opp} drafted with a magazine from 2019. Respect the opportunity.", "{opp} gets {g1} and a life lesson. You get {r1} and bragging rights.", "Lowball? No. This is a subterranean ball. Fire it off."],
+  them: ["You'd be handing {opp} a gift basket. With a bow. And a card that says 'sorry.'", "{opp} called. They want to thank you in their championship speech.", "Sending {g1} for {r1} is how you end up doing the last-place punishment.",
+    "This helps {opp} more than you. Generous. Suspiciously generous.", "You {me}, them {them}. Charity is great, just not in a money league.", "The only thing you'd get here is the 'worst trade of the year' trophy.",
+    "Accepting this is like paying for {opp}'s dinner and then they eat yours too."],
+  both: ["A win-win trade in fantasy? Somebody alert the league historians.", "Both lineups go up. Disgustingly wholesome. Do it anyway.", "{opp} gets better, you get better, and nobody has to start a kicker at flex. Peace in our time.",
+    "The rare trade where nobody gets roasted… until Sunday.", "Fair deal. The group chat will be furious there's nothing to make fun of.", "{g1} for {r1}: the fantasy version of splitting the check evenly. Mature. Boring. Effective.",
+    "Two teams helping each other? Get this energy out of my league.", "Healthy, balanced, mutually beneficial. Gross. Send it."],
+  any: ["{g1} has been giving you {gptsLo} a week like he's on a budget. Ship him.", "{r1} at {rpts} a game is exactly the upgrade your {rpos} spot has been begging for.", "Your {rpos} slot has been a crime scene. {r1} is the detective.",
+    "{g1} is a fine {gpos}. 'Fine' doesn't win money leagues.", "Send {give}. Receive {get}. Receive respect. Receive the group chat's hatred.", "Trade offer drafted. Smugness loaded. Hit send.",
+    "Not saying it's a heist, but park the getaway car close.", "{g1} is about to be someone else's problem. Beautiful.", "Pitch it like a timeshare: 'Limited-time offer, {opp}.'",
+    "Getting {r1} is the fantasy version of finding twenty bucks in last year's jeans.", "{g1} has the vibe of a guy who drops 25 the week you bench him. Get out while you can.", "Trust the process. The process is fleecing {opp}.",
+    "Your {gpos} depth is a junk drawer. Time to clean it out.", "{opp} sees '{g1}' and remembers one highlight from 2022. Let them.", "Ship {g1} before the next 4-point dud makes him untradeable.",
+    "{r1} brings {rptsHi} pts a game. {g1} brings {gptsLo} and a pep talk.", "This trade has more upside than your entire draft-day strategy.", "Swap {g1} for {r1} and act like you weren't thinking about it for three days.",
+    "{opp} will either say yes or 'lol no' in under nine seconds. Either way, content.", "Every great dynasty started with somebody getting fleeced.", "Send it with a 'just trying to help you out, bro.' Classic.",
+    "If {opp} counters, they're scared. If they accept, they're cooked.", "{rpos} upgrade incoming. Your next opponent just felt a chill.", "{g1} to {opp}: it's not you, it's your {gptsLo} points a game.",
+    "Somebody at {opp}'s house is about to ask 'why are you yelling at your phone?'", "Sports-bar hot take, but with actual math behind it.", "Send the offer first, the trash talk second. Order matters.",
+    "Pull the trigger, then mute the group chat for 48 hours.", "{r1} will look great in your lineup and even better in your screenshot.", "{opp} is one bad Sunday away from saying yes to literally anything.",
+    "{g1} has been riding your bench like it's a lazy river.", "This trade slaps harder than a wet towel in a locker room."],
+  ginj: ["Selling {ginj} while he's {ginjs}? Used-car-lot energy. Respect.", "{ginj} is {ginjs}. Move him before the hamstring becomes a group-chat meme.", "Trading away {ginj} ({ginjs}) and calling it 'roster balance.' Sneaky."],
+  rinj: ["Taking on {rinj} while he's {rinjs}? Bold. Bring snacks to the injury report.", "{rinj} is {rinjs}, so the price tag says 'clearance rack.' Shop accordingly."],
+  dire: ["{opp} is {rec}. Desperate people make beautiful decisions.", "A {rec} team will accept anything that smells like hope. Bottle it.", "Desperation {dm}/100. They'd trade grandma's lasagna recipe for a flex upgrade.",
+    "{opp} at {rec} is scrolling trade offers in the shower. Strike now.", "{rec} and spiraling. You're not a vulture, you're a 'strategic partner.'", "They're {rec}. This isn't trading, it's grief counseling with a return policy."] }); }
+const rqSg = n => n == null || isNaN(n) ? '' : (n > 0 ? '+' : '') + (Math.round(n * 10) / 10);
+// a: give players, b: get players, o: { opp, dMe, dOp, rec, dm }
+function rqDeal(a, b, o, used){ try {
+  a = (a || []).filter(Boolean); b = (b || []).filter(Boolean); if (!a.length || !b.length) return '';
+  const P = rqTrade(), ns = L => L.map(p => rqLast(p.name)).join(' + '), pts = p => p && p.v != null && !isNaN(p.v) ? (Math.round(p.v * 10) / 10).toFixed(1) : '';
+  const gi = a.find(p => p.inj), ri = b.find(p => p.inj), lc = s => String(s || '').toLowerCase().replace(/_/g, ' ');
+  const v = { opp: o.opp || 'They', g1: rqLast(a[0].name), r1: rqLast(b[0].name), give: ns(a), get: ns(b), gpos: a[0].pos, rpos: b[0].pos, gpts: pts(a[0]), rpts: pts(b[0]), gptsLo: a[0].v != null && b[0].v != null && a[0].v < b[0].v ? pts(a[0]) : '', rptsHi: a[0].v != null && b[0].v != null && b[0].v > a[0].v ? pts(b[0]) : '',
+    me: rqSg(o.dMe), them: rqSg(o.dOp), ginj: gi ? rqLast(gi.name) : '', ginjs: gi ? lc(gi.inj) : '', rinj: ri ? rqLast(ri.name) : '', rinjs: ri ? lc(ri.inj) : '', rec: o.rec || '', dm: o.dm != null ? o.dm : '' };
+  const side = o.dMe > 0 && o.dOp > 0 && Math.abs(o.dMe - o.dOp) < 2 ? 'both' : o.dMe > o.dOp ? 'you' : 'them';
+  let pool = P[side].concat(P.any);
+  if (gi) pool = pool.concat(P.ginj, P.ginj); if (ri) pool = pool.concat(P.rinj); const rw = String(v.rec).match(/^(\d+)-(\d+)/); if (rw && +rw[1] < +rw[2]) pool = pool.concat(P.dire.filter(t => !t.includes('{dm}')), P.dire.filter(t => !t.includes('{dm}'))); if (o.dm != null && o.dm >= 50) pool = pool.concat(P.dire.filter(t => t.includes('{dm}')));
+  return rqPick([...new Set(pool)], v, used);
+} catch (_) { return ''; } }
+const rqHTML = s => s ? `<p class="rq-roast"><span aria-hidden="true">🎤</span> ${esc(s)}</p>` : '';
+/* Spin-it tiers: 12 from elite to dumpster fire; score math unchanged */
+const SX_TIERS = [
+  [95, 'Certified Cheat Code', '🎮', '#22e3ff', ["{name} is putting up {stat}. Somebody check for a Game Genie.", "{name} isn't playing the game, {name} is speedrunning it.", "Report {name} to the league office. {stat}?!", "{stat}. The other team should be allowed to file a complaint.", "Up, up, down, down, left, right… {name}.", "{name} unlocked god mode and refuses to give it back.", "The developers call this 'unintended behavior.' We call it {name}."]],
+  [88, 'Final Boss', '👑', '#c29bff', ["{name} is the level you rage-quit on.", "{stat}. Opponents need three continues and a prayer.", "{name} has a health bar the size of a city block.", "Everyone else is grinding side quests. {name} is the final boss.", "{name} walks in and the music changes.", "Beat {name}? Cool. There's a second phase."]],
+  [80, 'Main Character Energy', '🎬', '#51cf66', ["{name} is the protagonist and everyone else is an NPC.", "{stat}. Cue the montage music.", "{name} is getting the slow-motion walkout treatment this week.", "Somebody cut the hype video. {name} is cooking.", "Plot armor: equipped. {name}: unbothered.", "{name} has hit the trailer-moment part of the season."]],
+  [72, 'Dad Strength', '💪', '#8ce99a', ["{name} doesn't lift. {name} carries every grocery bag in one trip.", "{stat}. Not flashy. Gets the job done. Fixes the sink.", "{name} has old-guy-at-the-Y strength. Do not challenge.", "Quietly reliable, like a tape measure clipped to a belt.", "{name} just grilled 40 burgers without breaking a sweat.", "{stat}. No highlight reel, just results and a firm handshake."]],
+  [64, 'Solid Citizen', '🧑‍💼', '#c0eb75', ["{name} pays taxes on time and returns the shopping cart.", "{stat}. The fantasy equivalent of a sensible sedan.", "Nothing to see here, just {name} doing a respectable job.", "{name} will never make the highlight show but always shows up.", "{name} is the reason the group project gets a B+.", "Dependable. Like a Costco rotisserie chicken."]],
+  [56, 'Microwave Burrito', '🌯', '#ffd43b', ["{name} is hot on the edges and frozen in the middle.", "{stat}. Some bites are great. Some will hurt you.", "{name}: occasionally delicious, frequently regrettable.", "One good bite of {name} a week, then lava, then ice.", "{name} needs another 30 seconds and a stir.", "{stat}. Edible. Technically."]],
+  [48, 'Participation Trophy', '🏅', '#ffc078', ["{name} showed up. That's… something. Here's a ribbon.", "{stat}. Orange slices at halftime, everybody.", "{name} is why they stopped keeping score at youth soccer.", "Great effort, {name}! said nobody in a money league.", "{name}'s family is proud. The rest of us have notes.", "{stat}. Everybody gets a trophy. Nobody gets a ring."]],
+  [40, 'Mid-Life Crisis', '🏎️', '#ffa94d', ["{name} just bought a convertible. It's not helping.", "{stat}. Remember when {name} was good? {name} does. Constantly.", "{name} is out here reliving 2019 and the stats aren't cooperating.", "{name} signed up for a half-marathon and pulled up at mile two.", "Somebody tell {name} the new haircut isn't fixing this.", "{stat}. The glory days are in the rear-view mirror of the sports car."]],
+  [32, 'Waiver Wire Ghost', '👻', '#ff922b', ["{name} is technically rostered. Spiritually, unclaimed.", "{stat}. Haunting your lineup, not helping it.", "You can see right through {name}. Nothing there.", "{name} has the box-score presence of a Wi-Fi password nobody remembers.", "Drop {name} and nobody notices for weeks. Including {name}.", "{name}'s paranormal activity: disappearing every game day."]],
+  [24, 'Witness Protection', '🕶️', '#ff6b6b', ["{name} has a new identity, and it's 'invisible.'", "{stat}. The FBI couldn't find {name} in a box score.", "Last seen: a while ago. If found, please return {name} to the lineup.", "{name} is in the program. New name, new town, zero production.", "Milk carton alert: have you seen {name}?", "{name} is so hidden the scouting report is a blank page."]],
+  [12, 'Group Chat Punchline', '🤡', '#fa5252', ["{name} is the meme of the week. The group chat thanks you.", "{stat}. Screenshotted, captioned and forwarded to everybody.", "{name} has been reduced to a reaction GIF.", "Every time {name} plays, someone in the chat types 'LMAO.'", "{name} is the reason the league has a last-place punishment.", "{stat}. Somewhere a rival just made this a profile pic."]],
+  [0, 'Dumpster Fire', '🗑️🔥', '#ff2d2d', ["{name} isn't a fantasy asset. {name} is a hazmat situation.", "{stat}. Call the fire department. Call two.", "{name} looks like it was assembled from spare parts in the dark.", "If {name} were a stock, trading would be halted.", "Roast marshmallows over {name}. At least someone gets value.", "{stat}. That's not a slump, that's a lifestyle.", "{name} is on fire, and not the good kind."]]];
+function sxTier(s){ return SX_TIERS.find(t => s >= t[0]) || SX_TIERS[SX_TIERS.length - 1]; }
+function sxQuip(e, sc){ try { if (!sc) return ''; const T = sxTier(sc.s), name = e.k === 'p' ? rqLast(e.name) : (e.short || e.nick || String(e.name || '').split(' ').slice(-1)[0]);
+  let stat = '';
+  if (sc.x && sc.x.wk && sc.x.wk.length) { const l = sc.x.wk.slice(-3); stat = (l.reduce((a, b) => a + b, 0) / l.length).toFixed(1) + ' pts a game lately'; }
+  else if (sc.parts && sc.parts[0] && sc.parts[0].raw) stat = sc.parts[0].raw.trim().split(/\s+/).join('-') + ' over the last ' + sc.parts[0].raw.trim().split(/\s+/).length;
+  if (stat) stat = stat[0].toUpperCase() + stat.slice(1);
+  const v = { name, stat }, u = new Set(sxQuip.last ? [sxQuip.last] : []); let q = rqPick(T[4], v, u); if (!stat) q = rqPick(T[4].filter(t => !t.includes('{stat}')), v, u); sxQuip.last = [...u].pop();
+  return q.replace(/(^|\. )(\w)/g, (m, a, b) => a + b.toUpperCase()); } catch (_) { return ''; } }
+function sxLabel(s){ const t = sxTier(s); return t[2] + ' ' + t[1]; }
 function sxGrade(s){ return s >= 93 ? 'A+' : s >= 85 ? 'A' : s >= 78 ? 'B+' : s >= 70 ? 'B' : s >= 62 ? 'C+' : s >= 52 ? 'C' : s >= 40 ? 'D' : 'F'; }
 function sxCombine(parts){ let s = 0, w = 0; parts.forEach(p => { if (p.v != null && !isNaN(p.v)) { s += p.v * p.w; w += p.w; } }); return w ? Math.round(s / w) : null; }
 function sxPlayerScore(e){
@@ -8083,7 +8163,7 @@ function sxPanel(e, d){
     : `<b>How it's scored (0-100):</b> last 3 completed games weighted 50/30/20 toward the most recent. Each game = 70% result (W 1, T ½, L 0) + 30% margin of victory (capped at about two scores for the sport)${'; scaled by opponent win% when ESPN lists it'}. Then a streak bonus of ±2.5 per game in the current streak (max ±10).${e.k === 'p' ? ' No fantasy points for this player, so this is his team\'s score.' : ''}`;
   return `<div class="sx-hd">${e.k === 'p' && e.logo ? `<img src="${esc(e.logo)}" alt="" width="34" height="34" onerror="this.remove()">` : ''}<div><h2>${esc(e.name)}</h2><small>${esc(e.k === 'p' ? [e.pos, e.team, (FSPORTS[e.sp] || {}).label].filter(Boolean).join(' · ') : [(CAT[e.lg] || {}).label, d.S && d.S.rec].filter(Boolean).join(' · '))}</small></div></div>
   <div class="sx-grid"><div class="sx-stage" style="${esc(col)}" tabindex="0" aria-label="Spinning medallion. Hover or tap for stats; click to flip."><div class="sx-coin"><div class="sx-face sx-front">${face}</div><div class="sx-face sx-back">${back}</div></div><span class="sx-hint">Hover / tap to pause & see stats · click to flip</span></div>
-  <div class="sx-side">${sc ? `<div class="sx-pnl"><div class="sx-gauge">${sxGauge(sc.s)}<div><div class="sx-gr" style="color:${sc.s >= 75 ? '#51cf66' : sc.s >= 50 ? '#ffd43b' : sc.s >= 30 ? '#ff922b' : '#ff4d4f'}">${sxGrade(sc.s)}</div><div class="sx-lbl">${esc(sxLabel(sc.s))}</div><div class="sx-sub">What Have You Done For Me Lately <button class="sx-i" data-sxi aria-label="How the score works">i</button></div></div></div>
+  <div class="sx-side">${sc ? `<div class="sx-pnl"><div class="sx-gauge">${sxGauge(sc.s)}<div><div class="sx-gr" style="color:${sxTier(sc.s)[3]}">${sxGrade(sc.s)}</div><div class="sx-lbl" style="color:${sxTier(sc.s)[3]}">${esc(sxLabel(sc.s))}</div>${(q => q ? `<div class="sx-quip">“${esc(q)}”</div>` : '')(sxQuip(e, sc))}<div class="sx-sub">What Have You Done For Me Lately <button class="sx-i" data-sxi aria-label="How the score works">i</button></div></div></div>
       <div class="sx-form">${form}</div><div class="sx-parts">${sc.parts.filter(p => p.v != null || p.raw).map(p => `<div><b>${p.v != null ? Math.round(p.v) : esc(p.raw)}</b><span class="sx-pk">${esc(p.k)}</span>${p.w ? `<span class="sx-pw">${p.w}% of score</span>` : ''}${p.v != null && p.raw ? `<span class="sx-pr">${esc(p.raw)}</span>` : ''}</div>`).join('')}</div>${sxBars(sc.bars, sc.ref, e.k === 't' || d.basis === 'team')}</div>`
     : `<div class="sx-pnl"><div class="sx-ld">No recent games from ESPN, so no WHYDFML score yet.</div></div>`}
     <div class="sx-pnl sx-stats">${sxStatsHTML(e, d)}</div></div></div>`;
@@ -8668,7 +8748,7 @@ function seDeal(x, i, D){
     ${x.d.why.length ? `<ul class="se-why">${x.d.why.slice(0, 3).map(w => `<li>${esc(w)}</li>`).join('')}</ul>` : ''}
     <div class="te-sw se-sw"><div class="te-side"><h6>You give</h6>${x.give.map(q => cmxPP(q, D)).join('')}</div><div class="te-x" aria-hidden="true">⇄</div><div class="te-side"><h6>You get</h6>${x.get.map(q => cmxPP(q, D)).join('')}</div></div>
     <div class="cmx-gain"><span class="${R.dMe > 0 ? 'up' : 'dn'}">You <b>${cmxSg(R.dMe)}</b>/wk ROS</span>${x.nxt != null ? `<span class="${x.nxt > 0 ? 'up' : 'dn'}">Them <b>${cmxSg(x.nxt)}</b> next week</span>` : ''}<span class="${R.dOp > 0 ? 'up' : 'dn'}">Them <b>${cmxSg(R.dOp)}</b>/wk ROS</span></div>
-    <p class="te-why">${esc(pitch)}</p>${x.note ? `<p class="se-note">⚠️ ${esc(x.note)}</p>` : ''}</div>`;
+    <p class="te-why">${esc(pitch)}</p>${(() => { if (i === 0 || !seDeal.u) seDeal.u = new Set(); return rqHTML(rqDeal(x.give, x.get, { opp: t.name, dMe: R.dMe, dOp: x.nxt != null ? x.nxt : R.dOp, rec, dm }, seDeal.u)); })()}${x.note ? `<p class="se-note">⚠️ ${esc(x.note)}</p>` : ''}</div>`;
 }
 const SE = { pick: null, D: null };
 async function seOpen(){
@@ -8748,7 +8828,7 @@ function stPanel(e, d){
   const S = d.S, t = d.ts; const col = e.c1 ? `--c1:${e.c1};--c2:${e.c2}` : '';
   const sub = [(CAT[e.lg] || {}).label, S && S.rec, S && S.standing].filter(Boolean).join(' · ');
   if (!t) return `<div class="sx-hd"><div><h2>${esc(e.name)}</h2><small>${esc(sub)}</small></div></div><div class="sx-pnl"><div class="sx-ld">No completed games from ESPN yet, so no spin.</div></div>`;
-  const [, ic, nm, cls, joke0] = t.T, lead = t.reasons[0] || '', joke = stSportWords(e.lg, joke0);
+  const [, ic, nm, cls] = t.T, lead = t.reasons[0] || '', joke = stSportWords(e.lg, stQuip(e, d, t));
   const p = t.parts, chip = (v, l) => v == null ? '' : `<div><b>${esc(v)}</b><i>${esc(l)}</i></div>`;
   return `<div class="st ${cls}" style="${esc(col)}">
     <div class="st-hd">${e.logo ? `<img class="st-logo" src="${esc(e.logo)}" alt="" onerror="this.remove()">` : ''}<div><h2>${esc(e.name)}</h2><small>${esc(sub)}</small></div><span class="st-sc" title="Fan-commitment score (0-100)"><b>${t.s}</b><i>/100</i></span></div>
@@ -10252,7 +10332,7 @@ const GX = { prev: {}, hit: {} };   // prev scores per lg:gameId:abbr (in memory
 const gxSport = lg => String((CAT[lg] || {}).path || '').split('/');
 
 
-const gxBadge = g => '';   // CLOSE badge sits center-top of the score box (gxRings)
+const gxBadge = g => { try { return g && Array.isArray(g.teams) && GA.badge && gxClose(g) ? '<span class="gx-close gx-in" title="Close game late">🔥 CLOSE</span>' : ''; } catch (_) { return ''; } };   // close-outline: pill lives inside the status area
 // Oct 17: game alerts. Live / close games flash the score box's border (no ripple, no inward motion).
 // One settings group (Sports & settings → Game alerts). Defaults match the old ring: 3 flashes live, 5 when close.
 const GA_KEY = 'mannGameAlerts.v1', GA_DEF = { on: true, live: 3, close: 5, badge: true }, GA_LIVE = [1, 3, 5], GA_CLOSE = [3, 5, 8];
@@ -10261,7 +10341,7 @@ const GA = (() => { const v = lsGet(GA_KEY, null), o = Object.assign({}, GA_DEF,
 const GXR = {}, GXR_DUR = 0.6;   // seconds per flash
 
 const gxRings = g => { const r = gxRingState(g), cl = gxClose(g);
-  return (r ? `<span class="gx-flash" aria-hidden="true" style="--gxn:${r.n};animation-delay:-${r.el.toFixed(2)}s"></span>` : '') + (cl && GA.badge ? '<span class="gx-close gx-ctop" title="Close game late">🔥 CLOSE</span>' : ''); };
+  return (r ? `<span class="gx-flash" aria-hidden="true" style="--gxn:${r.n};animation-delay:-${r.el.toFixed(2)}s"></span>` : ''); };
 
 document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('#gaSet [data-ga-tg], #gaSet [data-ga-n]'); if (!b) return; e.preventDefault();
   if (b.dataset.gaTg) GA[b.dataset.gaTg] = !GA[b.dataset.gaTg]; else { const [k, v] = b.dataset.gaN.split(':'); GA[k] = +v; }
@@ -11015,6 +11095,22 @@ var ST_TIERS = [
   [28, '📺', 'Change the channel', 'st-t8', 'There\'s a baking show on. It\'s fine. You\'re fine.'],
   [-1, '👶', 'Un-name your firstborn', 'st-t9', '"Junior" is a perfectly good name. Think about it.']];
 const stTier = s => ST_TIERS.find(t => s >= t[0]);
+/* Oct 22 roast: 6-7 re-rolled comments per team tier (real record/streak), the original joke stays in the pool */
+const ST_QUIPS = [
+  ["{name} at {rec}? Buy the body paint in bulk.", "A {streak} streak. Your boss already knows you're calling in sick on game day.", "{name} fans are legally required to stand the entire game now.", "You've screamed so much your group chat gets voice memos of just static.", "At {rec}, the face paint is load-bearing.", "Security has two of your photos on file now. Worth it."],
+  ["{name} are {rec}. The paint goes on, but the LinkedIn stays professional.", "{streak} and rolling. Keep the mask handy for the next work Zoom.", "Fanatic-adjacent. You own three foam fingers and deny all of them.", "You'd tattoo the logo, but only somewhere a dress shirt covers.", "{name} winning makes you text your ex. Don't.", "Half fanatic, half HR-compliant."],
+  ["{name} at {rec}: act like you've been here before.", "A {streak} run and you're already pricing playoff tickets.", "Old money energy. You clap with one hand and hold a drink with the other.", "{name} fans don't celebrate. They nod knowingly.", "{rec} and the swagger tax just went up.", "Your dad's dad was smug about {name} too. Tradition."],
+  ["{name} at {rec}. The bus is pulling out, get on.", "{streak}? Suddenly everyone at work 'always liked {name}.'", "Plenty of seats on the bandwagon. Exact change only.", "{rec} and the wagon has cupholders now.", "Your cousin who's never watched a game just posted a {name} story.", "Hop on, and act like you knew the backup's name all along."],
+  ["{name} at {rec}: hat yes, tattoo pending.", "A {streak} streak earns a hat. Not a parking-lot tailgate. Yet.", "Buy the hat. Keep the receipt.", "{name} have you at 'fitted cap, curved brim' commitment.", "Good enough to rep, not good enough to argue about online.", "{rec}. The hat goes on, the opinions stay quiet."],
+  ["{name} at {rec}: get the jersey, skip the name on the back.", "{streak}. Jersey-worthy, but buy it on sale.", "Order the jersey. If it ships slow, that's a sign.", "Respectable enough to wear in public. Mostly in the suburbs.", "The jersey says fan. The tags still on say 'returnable.'", "{rec} is a medium-size commitment. Order a medium."],
+  ["{name} at {rec}. Golf clap. Look at your phone.", "{streak} is the sports equivalent of 'that's nice, dear.'", "{name} are giving lukewarm-coffee energy.", "Clap twice, check fantasy scores, clap once more.", "{rec}. Nobody's mad. Nobody's excited. Everyone's eating nachos.", "This team is beige. Politely beige."],
+  ["{name} at {rec}? Peel off the bumper sticker slowly so no one notices.", "A {streak} skid. Park facing the wall.", "Wear the hoodie inside out until further notice.", "{name} merch is now 'loungewear only.'", "{rec}. Tell people you're 'more of a general sports fan.'", "Your car's {name} magnet just quietly fell off. Let it go."],
+  ["{name} at {rec}. Change the channel. There's a baking show on.", "{streak}. Even the announcers sound like they want to leave.", "Remote in hand, finger on 'anything else.'", "{name} are the reason streaming services have 'continue watching' for other stuff.", "{rec} and the local news is leading with the weather instead.", "Somewhere a dog show is more competitive than this."],
+  ["{name} at {rec}? 'Junior' is a perfectly good name. Think about it.", "A {streak} streak. Un-name the firstborn. Un-name the dog too.", "{name} fandom is now a support group with snacks.", "{rec}. The tickets are cheaper than parking, and still not worth it.", "Somebody check on {name} fans. Bring a casserole.", "This is a dumpster fire with a mascot."]];
+function stQuip(e, d, t){ try { const T = t.T, i = ST_TIERS.indexOf(T), pool = (ST_QUIPS[i] || []).concat([T[4]]);
+  const name = String(e.name || '').split(' ').slice(-1)[0], v = { name, rec: d.S && d.S.rec || '', streak: t.streak || '' };
+  const u = new Set(stQuip.last ? [stQuip.last] : []), q = rqPick(pool, v, u) || T[4]; stQuip.last = [...u].pop(); return q.replace(/(^|\. )([a-z])/g, (m, a, b) => a + b.toUpperCase()); } catch (_) { return t.T[4]; } }
+
 
 
 
