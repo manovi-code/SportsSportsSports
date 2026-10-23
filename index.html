@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261022-2145-close-outline">
+<meta name="build-id" content="20261022-2230-ticker-links">
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261022-2145-close-outline';
+var BUILD_ID = '20261022-2230-ticker-links';
 (function(){
   var shown = {};
   function chip(id, html, onTap){
@@ -3294,12 +3294,36 @@ html.tc-open{overflow:hidden}
   .rq-roast{margin:6px 0 0;padding:6px 9px;border-left:3px solid #ffc21a;background:rgba(255,194,26,.08);border-radius:0 8px 8px 0;font-size:13px;line-height:1.4;font-weight:600;font-style:italic;color:#ffe8a3;white-space:normal;overflow-wrap:anywhere;max-width:100%;box-sizing:border-box}
   .sx-gauge>div{min-width:0}.sx-quip{margin-top:6px;font-size:14px;line-height:1.4;font-style:italic;font-weight:600;color:#ffe8a3;white-space:normal;overflow-wrap:anywhere}
   .sx-lbl{overflow-wrap:anywhere}
+  /* ticker-links: tappable items get a subtle underline on hover-capable screens and a focus ring (no layout change) */
+  @media (hover:hover){ #ticker a[href]:hover,#ticker [data-tktc]:hover{cursor:pointer;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px} }
+  #ticker a:focus-visible,#ticker button:focus-visible{outline:2px solid #ffc21a;outline-offset:-2px}
+  /* Oct 22 loyalty */
+  .loy{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:0 0 8px;font-size:12px;color:#b8c2d6}
+  .loy-b{padding:2px 9px;border-radius:999px;background:rgba(255,194,26,.12);border:1px solid rgba(255,194,26,.45);color:#ffe8a3;font-weight:800;white-space:nowrap}
+  .loy-s select{margin-left:4px;font:inherit;background:#141a2b;color:#e6ecf8;border:1px solid #33405c;border-radius:6px;padding:1px 4px}
+  .st-joke2{font-size:14px;margin-top:-4px;color:#ffd8a8;overflow-wrap:anywhere}
+  .st-brk{margin:4px 0 12px;padding:10px 12px;border-radius:12px;background:#0f1424;border:1px solid #2a3450;font-size:13px}
+  .st-brk>b{display:block;margin-bottom:6px;letter-spacing:.5px;color:#ffe8a3}
+  .st-brk>div{display:flex;justify-content:space-between;gap:10px;padding:2px 0;border-bottom:1px dashed #222b42}.st-brk>div:last-child{border-bottom:0}
+  .st-brk i{font-style:normal;color:#8d9bb8;margin-left:4px}.st-brk em{font-style:normal;font-weight:800;font-variant-numeric:tabular-nums}
+  .st-brk .sum{font-weight:800}.st-brk .tot em{color:#ffe8a3;font-size:15px}
+  /* Oct 22 Sweat-o-Meter */
+  .sw{flex:1 1 100%;display:flex;align-items:center;gap:6px;min-width:0;max-width:100%;box-sizing:border-box;font-size:11px;color:#b8c2d6;line-height:1.2;margin-top:2px}
+  .sw-k{flex:none}.sw-bar{flex:1 1 40px;min-width:30px;height:6px;border-radius:99px;background:#1f2840;overflow:hidden}.sw-bar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#74c0fc,#ffc21a 55%,var(--swc));}
+  .sw b{flex:none;font-variant-numeric:tabular-nums;color:var(--swc)}.sw em{flex:0 1 auto;min-width:0;font-style:normal;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sw-big{font-size:13px;padding:8px 10px;margin:8px 0;border-radius:10px;background:rgba(255,194,26,.07);border:1px solid rgba(255,194,26,.3);flex-wrap:wrap}.sw-big .sw-k{font-weight:800;color:#ffe8a3}.sw-big .sw-bar{height:9px;flex-basis:90px}.sw-big b{font-size:16px}
+  /* Oct 22 YouTube TV pill */
+  .card-top{flex-wrap:wrap;row-gap:4px}.card-top>span:first-child{flex:0 1 auto}.card-top .tv{margin-left:auto}   /* chips drop to a second line instead of squeezing LIVE / clock / the close tag */
+  .yttv-pill{display:inline-flex;align-items:center;flex:none;max-width:100%;padding:1px 7px;border-radius:999px;background:#ff0033;color:#fff!important;font:800 10.5px/1.35 system-ui,sans-serif;letter-spacing:.2px;text-decoration:none!important;white-space:nowrap;margin-left:4px;vertical-align:middle}
+  .yttv-pill:hover{background:#d6002b}.gr-st .yttv-pill,.ft-side .yttv-pill{margin-left:0;align-self:flex-end}.lt-foot .yttv-pill{font-size:12px;padding:3px 10px}
   /* ===== Oct 22 close-outline: amber outline + CLOSE pill inside the status area (never on the border) ===== */
   .gx-ctop{display:none!important}
   .card.gx-cl,.gr.gx-cl,.ft-slot.gx-cl,.fl-line.gx-cl{border-color:#ffc21a!important;box-shadow:0 0 0 1px rgba(255,194,26,.6),0 0 14px rgba(255,194,26,.22)!important;animation:none!important}
   .gx-close.gx-in{position:static;transform:none;margin:0;flex:none;align-self:flex-end;font-size:10.5px;line-height:1.3;padding:1px 7px;white-space:nowrap;animation:none;box-shadow:none}
   .card-top .gx-close.gx-in{margin:0 4px 0 0}
   .fl-line .gx-close.gx-in{align-self:center}
+  .gr-st:has(.gx-in){max-width:none}.gx-close.gx-in{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+  #ticker .gx-close.gx-in{max-width:none}
   @media (min-width:601px){.gr-ls s{width:17px}}   /* a little more room for full team names on desktop/iPad rows */
 </style>
 </head>
@@ -3383,7 +3407,7 @@ html.tc-open{overflow:hidden}
       <div class="ga-row"><span class="ga-t">Flash the score box when a live game changes<em>Going live, every score, and when it gets close</em></span><button type="button" class="ga-sw" role="switch" data-ga-tg="on"><i></i><span class="ga-st">On</span></button></div>
       <div class="ga-row"><span class="ga-t">Flashes for a live game</span><span class="ga-pills"><button type="button" data-ga-n="live:1">1</button><button type="button" data-ga-n="live:3">3</button><button type="button" data-ga-n="live:5">5</button></span></div>
       <div class="ga-row"><span class="ga-t">Flashes for a close game</span><span class="ga-pills"><button type="button" data-ga-n="close:3">3</button><button type="button" data-ga-n="close:5">5</button><button type="button" data-ga-n="close:8">8</button></span></div>
-      <div class="ga-row"><span class="ga-t">Show the 🔥 CLOSE tag on close games</span><button type="button" class="ga-sw" role="switch" data-ga-tg="badge"><i></i><span class="ga-st">On</span></button></div>
+      <div class="ga-row"><span class="ga-t">Show the 🔥 NECK &amp; NECK tag on close games</span><button type="button" class="ga-sw" role="switch" data-ga-tg="badge"><i></i><span class="ga-st">On</span></button></div>
     </div><small><b>What counts as close:</b> football — 4th quarter or OT, within 8 · basketball — 4th quarter (2nd half in college), within 5 · hockey — 3rd period or OT, within 1 · baseball — 8th inning on, within 2 · soccer — 75th minute on, within 1. Flashes are a quick red border blink (a steady outline if your device has Reduce Motion on). Saves instantly.</small></div>
     <div class="set-name set-ob"><label>Setup</label><button class="btn" id="obRerun" type="button">↺ Run setup again</button><small>Walk through picking sports, teams and fantasy again. Starts from your current choices; nothing changes until you tap “Build my dashboard”.</small></div>
     <div class="set-name set-order"><label id="toLbl">Tab order</label><ol class="to-list" id="tabOrderList" aria-labelledby="toLbl"></ol>
@@ -3731,6 +3755,11 @@ function watchFor(net, lg){
   for (const [re, svc] of WATCH.rules) if (re.test(n)) { const k = typeof svc === 'function' ? svc(lg) : svc; return WATCH.services[k] ? { key: k, net: n, ...WATCH.services[k] } : null; }
   return null;
 }
+/* Oct 22: ▶ YouTube TV pill on live / starting-within-an-hour games when ESPN lists a network YouTube TV carries (streaming-only = no pill).
+   YouTube TV has no public per-game deep link, so it opens the live guide (tv.youtube.com/live). */
+function yttvPill(g){ try { if (!g) return ''; const soon = g.state === 'pre' && g.date && new Date(g.date) - Date.now() < 60 * 60e3 && new Date(g.date) - Date.now() > -30 * 60e3; if (g.state !== 'in' && !soon) return '';
+  const w = (g.nets || []).map(n => watchFor(n, g.lg)).find(x => x && x.key === 'yttv'); if (!w) return '';
+  return `<a class="yttv-pill" href="https://tv.youtube.com/live" target="_blank" rel="noopener" title="Watch ${esc(w.net)} on YouTube TV (opens the live guide)" aria-label="Watch ${esc(w.net)} on YouTube TV">▶ YouTube TV</a>`; } catch (_) { return ''; } }
 function watchChips(nets, lg, opts = {}){
   const seen = new Set(), chips = [], rest = [];
   for (const n of nets || []) {
@@ -3916,9 +3945,9 @@ function card(g, showLeague){
   return `<div class="card gm clickable${lf ? ' has-lf' : ''}${live ? ' live' : ''}${fav ? ' fav' : ''}${gxClose(g) ? ' gx-cl' : ''}${gopen ? ' gmd-on' : ''}"${hvg} data-gmd="${esc(gk)}"${cardLinkAttrs(g.box || g.link, label)}>${gxRings(g)}${hvb}
     <div class="card-top">
       <span>${live ? '<span class="badge-live">LIVE</span> ' : ''}${g.state === 'post' ? upTag(g) : ''}${gxBadge(g)}${showLeague ? esc(CAT[g.lg].short) + ' · ' : ''}${esc(statusText(g, true))}${g.state !== 'pre' ? tmTag(g.date) : ''}</span>
-      <span class="tv">${g.state === 'post' ? esc(g.tv || '') : (watchChips(g.nets, g.lg, { compact: true, max: 1 }).html || esc(g.tv || ''))}</span>
+      <span class="tv">${g.state === 'post' ? esc(g.tv || '') : (watchChips(g.nets, g.lg, { compact: true, max: 1 }).html || esc(g.tv || ''))}${yttvPill(g)}</span>
     </div>
-    ${g.teams.map(t => teamRow(g, t)).join('')}
+    ${g.teams.map(t => teamRow(g, t)).join('')}${live && typeof swGame === 'function' ? swGame(g) : ''}
     ${lf ? lf : live ? `<div class="gt-area${rd ? ' has-rd' : ''}">${gtHTML(g, { compact: !!rd })}${rd}</div>` : rd ? `<div class="gt-area gt-rdonly has-rd">${rd}</div>` : ''}
     ${lf ? '' : gmLines(g)}${g.state !== 'pre' && ((g.ldr || []).length || (g.state === 'post' && g.hl)) ? `<div class="gm-xl">${(g.ldr || []).map(grLd).join('')}${g.state === 'post' && g.hl && g.hl.t ? `<a class="gr-hl" href="${esc(g.hl.u || g.link || '')}" target="_blank" rel="noopener">📰 ${esc(g.hl.t)}</a>` : ''}</div>` : ''}
     ${gopen ? `<div class="gm-d">${gmdHTML(g)}</div>` : ''}<div class="card-foot"><span>${esc(g.note || (lf ? '' : g.venue))}</span><span>${g.box ? `<a href="${esc(g.box)}" target="_blank" rel="noopener">Box score ↗</a>` : ''}${g.link ? ` · <a href="${esc(g.link)}" target="_blank" rel="noopener">Gamecast ↗</a>` : ''}</span></div>
@@ -4021,7 +4050,7 @@ function tickerTeamItems(lg, now){
   return games.map(g => {
     const [a, h] = g.teams; if (!a || !h) return null;
     return { live: g.state === 'in', fav: fav(g),
-      html: `<a${g.state === 'in' ? ` data-ltk="${esc(g.lg + ':' + g.id)}"` : ''} class="tk-game tg${g.state === 'in' ? ' is-live' : ''}${gxClose(g) ? ' gx-cl' + (GA.badge ? ' tk-close' : '') : ''}${g.state === 'post' && gmEndedAgo(g) < 2 * 36e5 ? ' tk-fresh' : ''}" href="${esc(g.box || g.link || '#')}" target="_blank" rel="noopener">${gxRings(g)}${tkTeam(g, a)}<span class="tk-sep" style="color:#4b5875">${g.state === 'pre' ? '@' : '–'}</span>${tkTeam(g, h)}<span class="tk-status${g.state === 'in' ? ' live' : ''}">${g.state === 'in' ? '<span class="tk-livebadge">LIVE</span>' : ''}${g.state === 'post' && gmEndedAgo(g) < 2 * 36e5 ? '<span class="tk-finbadge">FINAL</span>' : ''}${g.state === 'post' ? upTag(g, 'tk-up') : ''}${gxBadge(g)}${g.state === 'post' && gmEndedAgo(g) < 2 * 36e5 && /^final$/i.test(statusText(g)) ? '' : `<span class="tk-st">${statusText(g).split(' · ').map(x => `<span>${esc(x)}</span>`).join('<i class="tk-dot"> · </i>')}</span>`}</span></a>${g.state === 'in' ? tkWatch(g) : ''}` };
+      html: `<a${g.state === 'in' ? ` data-ltk="${esc(g.lg + ':' + g.id)}"` : g.id ? ` data-tkg="${esc(g.lg + ':' + g.id)}"` : ''} class="tk-game tg${g.state === 'in' ? ' is-live' : ''}${gxClose(g) ? ' gx-cl' + (GA.badge ? ' tk-close' : '') : ''}${g.state === 'post' && gmEndedAgo(g) < 2 * 36e5 ? ' tk-fresh' : ''}" href="${esc(g.box || g.link || '#')}" target="_blank" rel="noopener">${gxRings(g)}${tkTeam(g, a)}<span class="tk-sep" style="color:#4b5875">${g.state === 'pre' ? '@' : '–'}</span>${tkTeam(g, h)}<span class="tk-status${g.state === 'in' ? ' live' : ''}">${g.state === 'in' ? '<span class="tk-livebadge">LIVE</span>' : ''}${g.state === 'post' && gmEndedAgo(g) < 2 * 36e5 ? '<span class="tk-finbadge">FINAL</span>' : ''}${g.state === 'post' ? upTag(g, 'tk-up') : ''}${gxBadge(g)}${g.state === 'post' && gmEndedAgo(g) < 2 * 36e5 && /^final$/i.test(statusText(g)) ? '' : `<span class="tk-st">${statusText(g).split(' · ').map(x => `<span>${esc(x)}</span>`).join('<i class="tk-dot"> · </i>')}</span>`}</span></a>${g.state === 'in' ? tkWatch(g) : ''}` };
   }).filter(Boolean);
 }
 function tkWatch(g){ const w = (g.nets || []).map(n => watchFor(n, g.lg)).find(Boolean); return w ? `<a class="tk-watch" href="${esc(w.url)}" target="_blank" rel="noopener" title="Watch ${esc(w.viaNet ? w.net + ' on YouTube TV' : 'on ' + w.label)}">▶ ${esc(w.viaNet ? w.net : w.label)}</a>` : ''; }
@@ -4314,7 +4343,7 @@ function ftSlot(kind, g, x, extra){
     return `<div class="ft-slot last clickable"${link}><span class="ft-lbl">Last</span><span class="ft-main"><span class="ft-res ${r.toLowerCase()}">${r}</span><span class="ft-sc">${esc(g.me.score)}–${esc(g.opp.score)}</span>${ftOpp(g)}</span><span class="ft-side"><span>${esc(dayLabelET(g.date))}</span>${goA('Box score ↗')}</span></div>`;
   }
   const w = watchChips(g.nets, g.lg, { compact: true, max: 1 });
-  if (kind === 'live') return `<div class="ft-slot live clickable${gxBadge(g) ? ' gx-cl' : ''}"${link}><span class="ft-lbl"><span class="dotl"></span>Live</span><span class="ft-main"><span class="ft-sc big">${esc(g.me.score || '0')}–${esc(g.opp.score || '0')}</span>${ftOpp(g)}</span><span class="ft-side"><span class="ft-clock">${esc(g.detail || 'In progress')}</span>${gxBadge(g)}${w.html || (g.nets[0] ? `<span>${esc(g.nets[0])}</span>` : '')}${goA('Gamecast ↗')}</span></div>`;
+  if (kind === 'live') return `<div class="ft-slot live clickable${gxBadge(g) ? ' gx-cl' : ''}"${link}><span class="ft-lbl"><span class="dotl"></span>Live</span><span class="ft-main"><span class="ft-sc big">${esc(g.me.score || '0')}–${esc(g.opp.score || '0')}</span>${ftOpp(g)}</span><span class="ft-side"><span class="ft-clock">${esc(g.detail || 'In progress')}</span>${gxBadge(g)}${yttvPill(g)}${w.html || (g.nets[0] ? `<span>${esc(g.nets[0])}</span>` : '')}${goA('Gamecast ↗')}</span></div>`;
   return `<div class="ft-slot next clickable"${link}><span class="ft-lbl">Next</span><span class="ft-main">${ftOpp(g)}${(o => o ? `<i class="fv-orec">(${esc(o)})</i>` : '')(x ? fvOppRec(x.lg, g) : '')}${extra ? `<span class="ft-tag">${esc(extra)}</span>` : ''}</span><span class="ft-side"><span>${esc(ftWhen(g))}</span>${w.html || (g.nets.length ? `<span class="ft-net">${esc(g.nets.slice(0, 2).join(', '))}</span>` : '')}${goA('Preview ↗')}</span></div>`;
 }
 function toggleFx(k){ FX.has(k) ? FX.delete(k) : FX.add(k); lsSet(FX_KEY, [...FX]); }
@@ -4322,7 +4351,7 @@ function ftLine(x, name, logo, color, g){
   const ha = gm => gm.me.homeAway === 'home' ? 'vs' : '@', opp = gm => esc(gm.opp.abbr || gm.opp.short || 'TBD');
   const f = FT[x.key] || {}, tm = f.team || {}, info = MN.teamInfo[x.key] || {}, S = fvStats(x);
   let st, rd = '';
-  if (g.live) { st = `<span class="badge-live">LIVE</span><b class="fv-sc">${esc(g.live.me.score || '0')}–${esc(g.live.opp.score || '0')}</b><span>${ha(g.live)} ${opp(g.live)}</span>${g.live.detail ? `<span class="fv-clk">${esc(g.live.detail)}</span>` : ''}${gxBadge(g.live)}`; rd = rdChips(g.live, true); }
+  if (g.live) { st = `<span class="badge-live">LIVE</span><b class="fv-sc">${esc(g.live.me.score || '0')}–${esc(g.live.opp.score || '0')}</b><span>${ha(g.live)} ${opp(g.live)}</span>${g.live.detail ? `<span class="fv-clk">${esc(g.live.detail)}</span>` : ''}${gxBadge(g.live)}${yttvPill(g.live)}`; rd = rdChips(g.live, true); }
   else if (g.last && rdEligible(g.last)) {
     const ms = Number(g.last.me.score), os = Number(g.last.opp.score), r = g.last.me.winner ? 'W' : g.last.opp.winner ? 'L' : ms > os ? 'W' : ms < os ? 'L' : 'T';
     st = `<b>Final ${r} ${esc(g.last.me.score)}–${esc(g.last.opp.score)}</b><span>${ha(g.last)} ${opp(g.last)}</span>`; rd = rdChips(g.last, true);
@@ -4506,11 +4535,11 @@ function grRow(g){
   const ls = t => nls ? `<span class="gr-ls">${t.ls.map(v => `<s>${esc(v)}</s>`).join('')}</span>` : '';
   const tm = t => { const lose = win && t !== win; return `<span class="gr-t${t === win ? ' w' : ''}${lose ? ' l' : ''}${isFav(g.lg, t.abbr) ? ' fav' : ''}"${t.id ? ` data-tct="${esc(g.lg)}|${esc(t.id)}|${esc(t.abbr || '')}" data-tcn="${esc(t.name || t.short || '')}"` : ''}>${t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy">` : '<i class="gr-nl"></i>'}${t.rank ? `<small>${esc(t.rank)}</small>` : ''}<b><span class="gr-ab">${esc(t.abbr || t.short)}</span><span class="gr-nm">${esc(t.short || t.abbr)}</span></b>${t.record ? `<i class="gr-rec">${esc(t.record)}</i>` : ''}${ls(t)}<em>${pre ? '' : live ? gxScore(g, t, t.score) : esc(t.score)}</em></span>`; };
   const lh = nls ? `<span class="gr-t gr-lh" aria-hidden="true"><span class="gr-ls">${Array.from({ length: nls }, (_, i) => `<s>${grLsLbl(g.lg, i)}</s>`).join('')}</span><em></em></span>` : '';
-  const st = live ? `<span class="gr-live">LIVE</span><span>${esc(g.detail || '')}</span>${gxBadge(g)}`
+  const st = live ? `<span class="gr-live">LIVE</span><span>${esc(g.detail || '')}</span>${gxBadge(g)}${yttvPill(g)}`
     : pre ? `<span class="gr-tm">${esc(timeET(g.date))}</span>${g.tv ? `<span class="gr-tv">${esc(g.tv)}</span>` : ''}${g.odds && g.odds.det ? `<span class="gr-od">${esc(g.odds.det)}</span>` : ''}`
     : `${upTag(g)}<span>${esc(/^final/i.test(g.detail || '') ? g.detail : 'Final' + (g.detail ? ' · ' + g.detail : ''))}</span>`;
   if (GRX.has(k)) return `<div class="gr-x"><button type="button" class="gr-col" data-grx="${esc(k)}" aria-expanded="true">▴ Collapse</button>${card(g)}</div>`;
-  return `<div class="gr${live ? ' live' : ''}${pre ? ' pre' : ''}${gxClose(g) ? ' gx-cl' : ''}" role="button" tabindex="0" data-grx="${esc(k)}" aria-expanded="false" title="Tap for the full game card">${live ? gxRings(g) : ''}<span class="gr-tms">${lh}${g.teams.map(tm).join('')}</span><span class="gr-st">${st}</span>${grDet(g)}</div>`;
+  return `<div class="gr${live ? ' live' : ''}${pre ? ' pre' : ''}${gxClose(g) ? ' gx-cl' : ''}" role="button" tabindex="0" data-grx="${esc(k)}" aria-expanded="false" title="Tap for the full game card">${live ? gxRings(g) : ''}<span class="gr-tms">${lh}${g.teams.map(tm).join('')}</span><span class="gr-st">${st}</span>${grDet(g)}${live ? swGame(g) : ''}</div>`;
 }
 function nuWant(lg){
   const L = CAT[lg], n = NU[lg]; if (n && (n.busy || Date.now() - n.t < 30 * 60e3)) return n;
@@ -5189,7 +5218,7 @@ function gameScore(g){ const [a, h] = g.teams; return `${a.abbr} ${a.score} – 
 function playerLiveTickerItems(){
   return activePlayers().map(p => {
     const n = playerNow(p, true); if (!n || n.state !== 'in') return '';
-    return `<a class="tk-pl" href="${esc(n.link || playerUrl(p))}" target="_blank" rel="noopener">${imgTag(p.headshot)}<span class="lv">● LIVE</span>${p.roster ? '<span class="tk-ros" title="Fantasy roster">🎮</span>' : ''}${esc(p.short)}: ${esc(n.line || 'no stats yet')}<span class="tk-status">${esc(n.head)}${n.detail ? ' · ' + esc(n.detail) : ''}</span></a>`;
+    return `<a class="tk-pl" href="${esc(n.link || playerUrl(p))}" target="_blank" rel="noopener"${typeof psAttr === 'function' ? psAttr(p) : ''} title="Full stats for ${esc(p.name)}">${imgTag(p.headshot)}<span class="lv">● LIVE</span>${p.roster ? '<span class="tk-ros" title="Fantasy roster">🎮</span>' : ''}${esc(p.short)}: ${esc(n.line || 'no stats yet')}<span class="tk-status">${esc(n.head)}${n.detail ? ' · ' + esc(n.detail) : ''}</span></a>`;
   }).filter(Boolean);
 }
 function playerUpdateTickerItems(){
@@ -5737,7 +5766,7 @@ function muScore(D, part){
   const tmH = (t, cls, lead) => `<div class="mu-tm ${cls}${lead ? ' lead' : ''}">${logo(t)}<div class="nm"><b>${esc(t.name)}</b><i>${esc(t.rec ? t.rec : '')}${cls === 'me' ? ' · You' : ''}</i></div>
     <div class="sc"><b>${esc(r1(t.live || 0))}</b><i>proj ${t.proj != null ? esc(r1(t.proj)) : '–'}</i></div></div>`;
   if (part === 'wp') return `<div class="mu-wp" title="${A.wp != null ? 'ESPN win probability' : 'Win chance estimated from projections'}"><div class="mu-wpl"><span><b>${pct}%</b> win${A.wp == null ? ' (est.)' : ''}</span><span>${esc(B.name)} <b>${100 - pct}%</b></span></div><div class="mu-wpb"><span style="width:${pct}%"></span></div></div>`;
-  return `<div class="mu-sb">${tmH(A, 'me', mg > 0)}<div class="mu-mid">${anyLive ? 'LIVE' : 'PROJ'} MARGIN<b>${mg > 0 ? '+' : ''}${mg}</b>Wk ${esc(D.per)}</div>${tmH(B, 'op', mg < 0)}</div>`;
+  return `<div class="mu-sb">${tmH(A, 'me', mg > 0)}<div class="mu-mid">${anyLive ? 'LIVE' : 'PROJ'} MARGIN<b>${mg > 0 ? '+' : ''}${mg}</b>Wk ${esc(D.per)}</div>${tmH(B, 'op', mg < 0)}</div>${typeof swFantasy === 'function' ? swFantasy(D) : ''}`;
 }
 function muSection(sp){
   if (sp !== 'nfl') return '';
@@ -7979,7 +8008,7 @@ async function sxSchedule(t){
 }
 function sxRecent(wk){ const l = (wk || []).slice(-3).reverse(); if (!l.length) return null; let s = 0, w = 0; l.forEach((v, i) => { s += v * SX_W[i]; w += SX_W[i]; }); return s / w; }
 /* ===== Oct 22 roast: trade trash-talk + Spin-it tiers (templates only, real deal/score data, no API calls) ===== */
-function rqFill(t, v){ return t.replace(/\{(\w+)\}/g, (_, k) => v[k] != null && v[k] !== '' ? String(v[k]) : ''); }
+function rqFill(t, v){ return t.replace(/\{(\w+)\}/g, (_, k) => k[0] === '_' ? '' : v[k] != null && v[k] !== '' ? String(v[k]) : ''); }   // {_flag} slots gate a line and print nothing
 function rqPick(pool, v, used){ const ok = pool.filter(t => !(used && used.has(t)) && (t.match(/\{(\w+)\}/g) || []).every(k => { const x = v[k.slice(1, -1)]; return x != null && x !== ''; }));
   const L = ok.length ? ok : pool.filter(t => (t.match(/\{(\w+)\}/g) || []).every(k => v[k.slice(1, -1)] != null && v[k.slice(1, -1)] !== '')); if (!L.length) return '';
   const t = L[Math.floor(Math.random() * L.length)]; if (used) used.add(t); return rqFill(t, v); }
@@ -8019,7 +8048,12 @@ function rqDeal(a, b, o, used){ try {
   const v = { opp: o.opp || 'They', g1: rqLast(a[0].name), r1: rqLast(b[0].name), give: ns(a), get: ns(b), gpos: a[0].pos, rpos: b[0].pos, gpts: pts(a[0]), rpts: pts(b[0]), gptsLo: a[0].v != null && b[0].v != null && a[0].v < b[0].v ? pts(a[0]) : '', rptsHi: a[0].v != null && b[0].v != null && b[0].v > a[0].v ? pts(b[0]) : '',
     me: rqSg(o.dMe), them: rqSg(o.dOp), ginj: gi ? rqLast(gi.name) : '', ginjs: gi ? lc(gi.inj) : '', rinj: ri ? rqLast(ri.name) : '', rinjs: ri ? lc(ri.inj) : '', rec: o.rec || '', dm: o.dm != null ? o.dm : '' };
   const side = o.dMe > 0 && o.dOp > 0 && Math.abs(o.dMe - o.dOp) < 2 ? 'both' : o.dMe > o.dOp ? 'you' : 'them';
+  const H = loyHeat(), M = rqMe(); Object.assign(v, M);
+  const sm = a.concat(b).map(p => [p, rqGames(p)]).find(([, n]) => n != null && n <= 2);
+  if (sm) { v.sm = rqLast(sm[0].name); v.smn = sm[1] + (sm[1] === 1 ? ' game' : ' games'); return rqPick([...new Set(RQ_SMALL.trade.concat(P.both))], v, used); }
   let pool = P[side].concat(P.any);
+  const me = RQ_ME.mild.concat(H >= 3 ? RQ_ME.rough : []); pool = pool.concat(me, H >= 2 ? me : []);
+  if (H >= 3) pool = pool.concat(RQ_HOT.t3, RQ_HOT.t3); if (H >= 4) pool = pool.concat(RQ_HOT.t4, RQ_HOT.t4, RQ_HOT.t4);
   if (gi) pool = pool.concat(P.ginj, P.ginj); if (ri) pool = pool.concat(P.rinj); const rw = String(v.rec).match(/^(\d+)-(\d+)/); if (rw && +rw[1] < +rw[2]) pool = pool.concat(P.dire.filter(t => !t.includes('{dm}')), P.dire.filter(t => !t.includes('{dm}'))); if (o.dm != null && o.dm >= 50) pool = pool.concat(P.dire.filter(t => t.includes('{dm}')));
   return rqPick([...new Set(pool)], v, used);
 } catch (_) { return ''; } }
@@ -8039,14 +8073,73 @@ const SX_TIERS = [
   [12, 'Group Chat Punchline', '🤡', '#fa5252', ["{name} is the meme of the week. The group chat thanks you.", "{stat}. Screenshotted, captioned and forwarded to everybody.", "{name} has been reduced to a reaction GIF.", "Every time {name} plays, someone in the chat types 'LMAO.'", "{name} is the reason the league has a last-place punishment.", "{stat}. Somewhere a rival just made this a profile pic."]],
   [0, 'Dumpster Fire', '🗑️🔥', '#ff2d2d', ["{name} isn't a fantasy asset. {name} is a hazmat situation.", "{stat}. Call the fire department. Call two.", "{name} looks like it was assembled from spare parts in the dark.", "If {name} were a stock, trading would be halted.", "Roast marshmallows over {name}. At least someone gets value.", "{stat}. That's not a slump, that's a lifestyle.", "{name} is on fire, and not the good kind."]]];
 function sxTier(s){ return SX_TIERS.find(t => s >= t[0]) || SX_TIERS[SX_TIERS.length - 1]; }
-function sxQuip(e, sc){ try { if (!sc) return ''; const T = sxTier(sc.s), name = e.k === 'p' ? rqLast(e.name) : (e.short || e.nick || String(e.name || '').split(' ').slice(-1)[0]);
+function sxQuip(e, sc){ try { if (!sc) return ''; const T = sxTierFor(sc), small = sxSmall(sc), H = small ? 1 : loyHeat(), name = e.k === 'p' ? rqLast(e.name) : (e.short || e.nick || String(e.name || '').split(' ').slice(-1)[0]);
   let stat = '';
   if (sc.x && sc.x.wk && sc.x.wk.length) { const l = sc.x.wk.slice(-3); stat = (l.reduce((a, b) => a + b, 0) / l.length).toFixed(1) + ' pts a game lately'; }
   else if (sc.parts && sc.parts[0] && sc.parts[0].raw) stat = sc.parts[0].raw.trim().split(/\s+/).join('-') + ' over the last ' + sc.parts[0].raw.trim().split(/\s+/).length;
   if (stat) stat = stat[0].toUpperCase() + stat.slice(1);
-  const v = { name, stat }, u = new Set(sxQuip.last ? [sxQuip.last] : []); let q = rqPick(T[4], v, u); if (!stat) q = rqPick(T[4].filter(t => !t.includes('{stat}')), v, u); sxQuip.last = [...u].pop();
-  return q.replace(/(^|\. )(\w)/g, (m, a, b) => a + b.toUpperCase()); } catch (_) { return ''; } }
-function sxLabel(s){ const t = sxTier(s); return t[2] + ' ' + t[1]; }
+  const gp = sc.x && sc.x.wk ? sc.x.wk.length + (sc.x.wk.length === 1 ? ' game' : ' games') : '';
+  const v = Object.assign({ name, stat, gp }, small ? {} : { visits: LOY.visits, today: LOY.today > 1 ? LOY.today : '' }), u = new Set(sxQuip.last ? [sxQuip.last] : []), good = sc.s >= 56;
+  let pool = T[4].slice(); if (!small) { if (H >= 2) pool = pool.concat(RQ_HOT.pm); if (H >= 3) pool = pool.concat(good ? RQ_HOT.g3 : RQ_HOT.b3, good ? RQ_HOT.g3 : RQ_HOT.b3); if (H >= 4) pool = pool.concat(good ? RQ_HOT.g4 : RQ_HOT.b4, good ? RQ_HOT.g4 : RQ_HOT.b4); }
+  if (!stat) pool = pool.filter(t => !t.includes('{stat}'));
+  const q = rqPick(pool, v, u); sxQuip.last = [...u].pop();
+  return q.replace(/(^|\. )([a-z])/g, (m, a, b) => a + b.toUpperCase()); } catch (_) { return ''; } }
+/* ===== Oct 22 loyalty + personal roasts: local-only visit history (localStorage on this device, never sent anywhere) ===== */
+var LOY_KEY = 'mannLoyalty.v1', RL_KEY = 'mannRoastLvl.v1';
+var LOY = (function(){ let o = null; try { o = JSON.parse(localStorage.getItem(LOY_KEY) || 'null'); } catch (_) {}
+  const now = Date.now(), day = new Date().toLocaleDateString('en-CA');
+  if (!o || !o.first) { let old = false; try { old = ['mannSportsStars.v1', 'mannFavPlayers.v2', 'mannFantasyWatch.v1', 'mannProfile.v1', 'mannFantasyRoster.v1', 'mannTabOrder.v1', 'mannSportsSelected.v1'].some(k => localStorage.getItem(k) != null); } catch (_) {}
+    o = { first: now, last: now, visits: old ? 20 : 1, days: old ? 7 : 1, day, today: 1, seeded: old }; }
+  else { if (now - (o.last || 0) > 30 * 60e3) { o.visits = (o.visits || 0) + 1; o.today = o.day === day ? (o.today || 0) + 1 : 1; } if (o.day !== day) { o.days = (o.days || 0) + 1; o.day = day; if (now - (o.last || 0) <= 30 * 60e3) o.today = 1; } o.last = now; }
+  try { localStorage.setItem(LOY_KEY, JSON.stringify(o)); } catch (_) {}
+  const save = () => { try { const c = JSON.parse(localStorage.getItem(LOY_KEY) || 'null'); if (!c || !c.first) return; c.last = Date.now(); localStorage.setItem(LOY_KEY, JSON.stringify(c)); o.last = c.last; } catch (_) {} };   // only bumps 'last' on the stored record (never clobbers another tab's count)
+  try { document.addEventListener('visibilitychange', save); addEventListener('pagehide', save); setInterval(() => { if (!document.hidden) save(); }, 5 * 60e3); } catch (_) {}
+  return o; })();
+var LOY_LV = [null, ['Rookie', '🐣'], ['Regular', '🍺'], ['Season Ticket Holder', '🏟️'], ['Hall of Famer', '🏆']];
+function loyLevel(){ const o = LOY || {}; return o.visits >= 60 || o.days >= 30 ? 4 : o.visits >= 20 || o.days >= 7 ? 3 : o.visits >= 5 ? 2 : 1; }
+function loyHeat(){ let m = 'auto'; try { m = JSON.parse(localStorage.getItem(RL_KEY) || '"auto"'); } catch (_) {} return m === 'mild' ? 1 : m === 'savage' ? 4 : loyLevel(); }
+function loyBadge(){ const L = LOY_LV[loyLevel()]; let m = 'auto'; try { m = JSON.parse(localStorage.getItem(RL_KEY) || '"auto"'); } catch (_) {}
+  return `<div class="loy"><span class="loy-b" title="Counted on this device only (localStorage). Nothing is sent anywhere.">${L[1]} ${esc(L[0])} · ${LOY.visits} visit${LOY.visits === 1 ? '' : 's'}</span><label class="loy-s">Roast <select data-loysel aria-label="Roast level">${[['auto', 'Auto'], ['mild', 'Mild'], ['savage', 'Savage']].map(([v, l]) => `<option value="${v}"${m === v ? ' selected' : ''}>${l}</option>`).join('')}</select></label></div>`; }
+document.addEventListener('change', e => { const s = e.target && e.target.closest && e.target.closest('[data-loysel]'); if (!s) return; try { localStorage.setItem(RL_KEY, JSON.stringify(s.value)); } catch (_) {}
+  document.querySelectorAll('[data-loysel]').forEach(x => { x.value = s.value; }); try { if (typeof renderFantasy === 'function' && state.tab !== 'nhl') {} } catch (_) {} });
+// your own league/fan data for personal lines; every slot is blank when the data isn't there (blank slot = the line is skipped)
+function rqMe(){ const v = { visits: LOY.visits, today: LOY.today > 1 ? LOY.today : '' };
+  try { const D = MU.d && MU.d.nfl; if (D && !D.none && D.me) { const me = D.me, op = D.op || {}, lv = (me.live || 0) + (op.live || 0) > 0;
+      v.team = me.name || ''; v.myrec = me.rec || ''; v.mopp = op.name || ''; if (lv) { v.myS = r1(me.live || 0); v.opS = r1(op.live || 0); v._down = (op.live || 0) > (me.live || 0) ? 'y' : ''; }
+      const S = SLOTS.nfl, act = p => p && p.pts && p.pts.act != null ? p.pts.act : null, bench = (me.ps || []).filter(p => S.bench.includes(p.sid) && act(p) != null), st = (me.ps || []).filter(p => !S.bench.includes(p.sid) && !S.ir.includes(p.sid) && act(p) != null);
+      const went = p => { try { const n = playerNow(p); return n ? n.state === 'post' || n.state === 'in' : !!(p.pts && p.pts.act != null); } catch (_) { return false; } };
+      let best = null; bench.forEach(b => st.forEach(s => { if (s.pos && s.pos === b.pos && went(b) && went(s) && act(b) - act(s) >= 4 && (!best || act(b) - act(s) > best[2])) best = [b, s, act(b) - act(s)]; }));
+      if (best) { v.benchP = rqLast(best[0].name); v.startP = rqLast(best[1].name); v.bPts = r1(act(best[0])); v.sPts = r1(act(best[1])); }
+      const st2 = st.filter(went).sort((a, b) => act(a) - act(b))[0]; if (st2 && act(st2) < 6) v.dud = rqLast(st2.name); } } catch (_) {}
+  try { const fav = [...stars].map(k => [k, MN.teamInfo[k] || {}]).filter(([, i]) => i.record && i.name); const f = fav.find(([, i]) => { const m = String(i.record).match(/^(\d+)-(\d+)/); return m && +m[1] < +m[2]; }) || fav[0];
+    if (f) { v.fav = String(f[1].name).split(' ').slice(-1)[0]; v.favRec = String(f[1].record).split(',')[0]; const m = v.favRec.match(/^(\d+)-(\d+)/); v._favBad = m && +m[1] < +m[2] ? 'y' : ''; } } catch (_) {}
+  return v; }
+var RQ_ME = {
+  mild: ["{visits} visits to this site and {team} is still {myrec}. Maybe try watching the games.", "{team} at {myrec}. This might be the first smart move you've made since the draft.", "You benched {benchP} ({bPts}) to start {startP} ({sPts}). Coach of the year, everybody.",
+    "{mopp} is up {opS}-{myS} on you{_down} this week. A trade won't fix that by Sunday, but it's a start.", "Checked this site {today} times today and {fav} are still {favRec}{_favBad}. Refresh harder.", "{team}: great name. {myrec} record. Pick one to be proud of.",
+    "{visits} visits and you're still starting {dud}? Bold. Stupid, but bold.", "Your {fav} are {favRec}, your fantasy team is {myrec}. Rough week to be you."],
+  rough: ["{visits} visits and still starting {dud}?! The site's tired of watching you do this.", "{benchP} dropped {bPts} on YOUR BENCH while {startP} gave you {sPts}. Turn in your clipboard.", "{team} is {myrec} and you're on this site for the {visits}th time. Touch grass, then make this trade.",
+    "{fav} are {favRec}{_favBad} and so is your decision-making. Fix one of them today.", "Checked the site {today} times today. {fav} still {favRec}{_favBad}. The scoreboard doesn't care how often you look.", "{mopp} is beating you {opS}-{myS}{_down}. Your group chat has already started the eulogy."] };
+var RQ_HOT = {
+  t3: ["OH MY GOODNESS! {opp} JUST GOT POSTERIZED BY A TRADE OFFER!", "Boom goes the dynamite! {r1} to your squad, {g1} to the shadow realm!", "This trade has more juice than a pregame Gatorade bucket. SEND IT, BRO!", "Coach says leave it all on the field. Leave {g1} on {opp}'s field.",
+    "Protein shake, lineup upgrade, chest bump. That's the {r1} lifestyle.", "Somebody get {opp} a helmet, they're about to take a big hit!", "FROM DOWNTOWN! You just drained a trade from half court!", "{g1} out, {r1} in. LINE CHANGE, BABY! Fresh legs!",
+    "This trade does two-a-days. Your old roster takes naps.", "WHAT A MOVE! The crowd at {opp}'s place goes SILENT!", "Ice in the veins, brain in the protein shaker. Pull the trigger.", "You've been benching like a meathead and lifting nothing. Lift THIS trade."],
+  t4: ["Hell yes. {opp} is about to get their ass handed to them by a trade offer.", "Damn, this deal is filthy. Send it before {opp} wakes up.", "{g1} for {r1}? That's daylight robbery and I'm the damn getaway driver.", "Holy sh*t, {opp} might actually say yes. Hit send. NOW.",
+    "{opp}'s lineup is a hot damn mess. Be the hero they don't deserve.", "This trade is so lopsided the field is tilted. Who gives a damn? Send it.", "Kick their ass in the trade market, then kick it again on Sunday.", "Hall of Famer move: fleece {opp}, talk sh*t, repeat.",
+    "If {opp} turns this down, they're dumber than a bag of footballs.", "Fuck it. Send it. Legends don't ask permission.", "Hell of a deal. {r1} rides in, {g1} rides the bus home.", "Damn near criminal. Fantasy criminal. The best kind."],
+  g3: ["{name} IS ON FIRE! NBA JAM ON FIRE!", "BANG! {name} with the triple-double of vibes!", "Gatorade bath for {name}! Somebody dump the cooler!", "{name} is cooking with gas and the stadium smells like wings!", "BIG-TIME PLAYERS MAKE BIG-TIME PLAYS! {name}!", "Put {name} on the Jumbotron! The kiss cam can wait!"],
+  b3: ["{name} just got cut from the practice squad of life!", "FUMBLE! {name} put the ball on the turf AGAIN!", "{name} is running routes like a lost golden retriever!", "Somebody check {name}'s helmet, it might be on backwards!", "{name} couldn't hit water if they fell out of a boat!", "Ladies and gentlemen, the {name} show has been CANCELED!"],
+  g4: ["Holy sh*t, {name} is a damn cheat code.", "{name} is kicking ass and taking names. Mostly yours.", "Hell yeah, {name}. Absolute unit.", "{name} is playing like the rent's due. Damn.", "{name} went full beast mode. Somebody call animal control, hell.", "Fuck it, {name} is the GOAT this week."],
+  b4: ["{name} is a hot damn mess.", "{name} is playing like ass. Professional-grade ass.", "What the hell is {name} doing out there? Interpretive dance?", "{name} stinks worse than a hockey bag in August. Damn.", "Sh*t, {name}. Even the mascot played better.", "{name} has been dog sh*t. Respectfully. Not respectfully."],
+  pm: ["{visits} visits and you're still spinning {name}? Let it go.", "Spun {name} again? Visit #{visits}. You need a hobby. A second one.", "Checked this site {today} times today and {name} still hasn't changed. Neither have you."] };
+var RQ_SMALL = {
+  tier: [null, 'Small Sample Size', '🔬', '#74c0fc', ["Only {gp} of data on {name}. The jury's still out, and the jury went for snacks.", "{name} has {gp} on the résumé. That's a trailer, not a movie.", "Rookie Wall Pending: ask about {name} again in three weeks.", "Small sample size alert. Don't panic, don't brag.",
+    "{name} is still in the preseason of our opinion.", "{stat}. Cute. Come back with more games.", "Too early to roast {name}. We're sharpening the knives for later.", "{name}: TBD. Like your draft grades."]],
+  trade: ["{sm} has {smn} of stats. Jury's still out, so don't pay for hype.", "Small sample alert: {sm} is a mystery box. Could be a TV, could be socks.", "Trading on {smn} of {sm}? That's speed-dating, not scouting.", "{sm} has the résumé of a rookie card still in the wrapper. Handle gently.", "Rookie Wall Pending on {sm}. Ask again in three weeks."] };
+function rqGames(p){ try { const C = CMP.d && CMP.d.nfl; if (!C || !p) return null; const x = C.p[String(p.id)] || (typeof peid === 'function' ? C.p[String(peid(p))] : null) || (p.eid ? C.p[String(p.eid)] : null); return x && x.wk ? x.wk.length : null; } catch (_) { return null; } }
+function sxSmall(sc){ return !!(sc && sc.x && sc.x.wk && sc.x.wk.length <= 2); }
+function sxTierFor(sc){ return sxSmall(sc) ? RQ_SMALL.tier : sxTier(sc.s); }
+function sxLabel(s, sc){ const t = sc ? sxTierFor(sc) : sxTier(s); return t[2] + ' ' + t[1]; }
 function sxGrade(s){ return s >= 93 ? 'A+' : s >= 85 ? 'A' : s >= 78 ? 'B+' : s >= 70 ? 'B' : s >= 62 ? 'C+' : s >= 52 ? 'C' : s >= 40 ? 'D' : 'F'; }
 function sxCombine(parts){ let s = 0, w = 0; parts.forEach(p => { if (p.v != null && !isNaN(p.v)) { s += p.v * p.w; w += p.w; } }); return w ? Math.round(s / w) : null; }
 function sxPlayerScore(e){
@@ -8114,7 +8207,7 @@ async function sxData(e){
   } else { const [S, IJ] = await Promise.all([sxSchedule(e), stInjuries(e.lg).catch(() => null)]); d = { S, sc: sxTeamScore(e, S), ts: stScore(e, S, IJ) }; }
   SX.cache[k] = { t: Date.now(), d }; return d;
 }
-function sxText(e, d){ const L = [`${e.name} — Spin-it`]; if (d.sc) L.push(`WHYDFML score: ${d.sc.s}/100 (${sxGrade(d.sc.s)}, ${sxLabel(d.sc.s)})`);
+function sxText(e, d){ const L = [`${e.name} — Spin-it`]; if (d.sc) L.push(`WHYDFML score: ${d.sc.s}/100 (${sxGrade(d.sc.s)}, ${sxLabel(d.sc.s, d.sc)})`);
   if (d.sc && d.sc.bars) L.push('Recent: ' + d.sc.bars.map(b => (b.t || b.v) + ' (' + b.l + ')').join(', ')); if (d.S) L.push('Record ' + d.S.rec); return L.join('\n'); }
 function sxGauge(s){
   const a = Math.PI * (1 - s / 100), R = 70, cx = 85, cy = 90, col = s >= 75 ? '#51cf66' : s >= 50 ? '#ffd43b' : s >= 30 ? '#ff922b' : '#ff4d4f', len = Math.PI * R;
@@ -8158,12 +8251,12 @@ function sxStatsHTML(e, d){
 function sxPanel(e, d){
   const sc = d.sc, col = e.c1 ? `--c1:${e.c1};--c2:${e.c2}` : (() => { const tm = e.k === 'p' ? e.team : e.abbr, lg = e.k === 'p' ? (FSPORTS[e.sp] || {}).lg : e.lg; const v = tm && lg ? teamColorVars(lg, tm, '', '') : ''; const a = (v.match(/--tc:([^;]+)/) || [])[1], b = (v.match(/--tc2:([^;]+)/) || [])[1]; return a ? `--c1:${a};--c2:${b || '#111'}` : ''; })();
   const face = e.k === 'p' ? `${e.hs ? `<img class="sx-pic" src="${esc(e.hs)}" alt="" onerror="this.remove()">` : ''}${e.logo ? `<img class="sx-bdg" src="${esc(e.logo)}" alt="" onerror="this.remove()">` : ''}` : `${e.logo ? `<img class="sx-tlogo" src="${esc(e.logo)}" alt="" onerror="this.remove()">` : ''}`;
-  const back = sc ? `<b>${sc.s}</b><em>${sxGrade(sc.s)}</em><i>${esc(sxLabel(sc.s))}</i>` : `<i>No recent games to score</i>`;
+  const back = sc ? `<b>${sc.s}</b><em>${sxGrade(sc.s)}</em><i>${esc(sxLabel(sc.s, sc))}</i>` : `<i>No recent games to score</i>`;
   const form = e.k === 'p' && d.basis === 'fantasy' ? `<b>How it's scored (0-100):</b> 45% his last 3 games of ESPN fantasy points, weighted 50/30/20 toward the most recent, as a percentile vs every ${esc(sc ? sc.x.pos : '')} in your league's ESPN player pool · 25% trend: last-3 average vs his season PPG · 20% beat rate: share of the last 3 games at or above ESPN's season projection per game · 10% availability (healthy 100, questionable 70, doubtful 35, out/IR 0). Missing pieces are dropped and the rest re-weighted.`
     : `<b>How it's scored (0-100):</b> last 3 completed games weighted 50/30/20 toward the most recent. Each game = 70% result (W 1, T ½, L 0) + 30% margin of victory (capped at about two scores for the sport)${'; scaled by opponent win% when ESPN lists it'}. Then a streak bonus of ±2.5 per game in the current streak (max ±10).${e.k === 'p' ? ' No fantasy points for this player, so this is his team\'s score.' : ''}`;
-  return `<div class="sx-hd">${e.k === 'p' && e.logo ? `<img src="${esc(e.logo)}" alt="" width="34" height="34" onerror="this.remove()">` : ''}<div><h2>${esc(e.name)}</h2><small>${esc(e.k === 'p' ? [e.pos, e.team, (FSPORTS[e.sp] || {}).label].filter(Boolean).join(' · ') : [(CAT[e.lg] || {}).label, d.S && d.S.rec].filter(Boolean).join(' · '))}</small></div></div>
+  return loyBadge() + `<div class="sx-hd">${e.k === 'p' && e.logo ? `<img src="${esc(e.logo)}" alt="" width="34" height="34" onerror="this.remove()">` : ''}<div><h2>${esc(e.name)}</h2><small>${esc(e.k === 'p' ? [e.pos, e.team, (FSPORTS[e.sp] || {}).label].filter(Boolean).join(' · ') : [(CAT[e.lg] || {}).label, d.S && d.S.rec].filter(Boolean).join(' · '))}</small></div></div>
   <div class="sx-grid"><div class="sx-stage" style="${esc(col)}" tabindex="0" aria-label="Spinning medallion. Hover or tap for stats; click to flip."><div class="sx-coin"><div class="sx-face sx-front">${face}</div><div class="sx-face sx-back">${back}</div></div><span class="sx-hint">Hover / tap to pause & see stats · click to flip</span></div>
-  <div class="sx-side">${sc ? `<div class="sx-pnl"><div class="sx-gauge">${sxGauge(sc.s)}<div><div class="sx-gr" style="color:${sxTier(sc.s)[3]}">${sxGrade(sc.s)}</div><div class="sx-lbl" style="color:${sxTier(sc.s)[3]}">${esc(sxLabel(sc.s))}</div>${(q => q ? `<div class="sx-quip">“${esc(q)}”</div>` : '')(sxQuip(e, sc))}<div class="sx-sub">What Have You Done For Me Lately <button class="sx-i" data-sxi aria-label="How the score works">i</button></div></div></div>
+  <div class="sx-side">${sc ? `<div class="sx-pnl"><div class="sx-gauge">${sxGauge(sc.s)}<div><div class="sx-gr" style="color:${sxTierFor(sc)[3]}">${sxGrade(sc.s)}</div><div class="sx-lbl" style="color:${sxTierFor(sc)[3]}">${esc(sxLabel(sc.s, sc))}</div>${(q => q ? `<div class="sx-quip">“${esc(q)}”</div>` : '')(sxQuip(e, sc))}<div class="sx-sub">What Have You Done For Me Lately <button class="sx-i" data-sxi aria-label="How the score works">i</button></div></div></div>
       <div class="sx-form">${form}</div><div class="sx-parts">${sc.parts.filter(p => p.v != null || p.raw).map(p => `<div><b>${p.v != null ? Math.round(p.v) : esc(p.raw)}</b><span class="sx-pk">${esc(p.k)}</span>${p.w ? `<span class="sx-pw">${p.w}% of score</span>` : ''}${p.v != null && p.raw ? `<span class="sx-pr">${esc(p.raw)}</span>` : ''}</div>`).join('')}</div>${sxBars(sc.bars, sc.ref, e.k === 't' || d.basis === 'team')}</div>`
     : `<div class="sx-pnl"><div class="sx-ld">No recent games from ESPN, so no WHYDFML score yet.</div></div>`}
     <div class="sx-pnl sx-stats">${sxStatsHTML(e, d)}</div></div></div>`;
@@ -8182,7 +8275,8 @@ function sxShell(){
 async function sxOpen(e){
   document.querySelectorAll('.sx-coach').forEach(c => c.remove()); document.querySelectorAll('.sx-ring-hl').forEach(x => x.classList.remove('sx-ring-hl')); try { lsSet('mannSpinCoach.v1', true); } catch (_) {}
   const body = sxShell(); body.innerHTML = `<div class="sx-ld">🌀 Spinning up ${esc(e.name)}…</div>`;
-  const d = await sxData(e).catch(() => ({})); if (!SX.ov || !body.isConnected) return;
+  const t0 = Date.now(), d = await sxData(e).catch(() => ({})); if (!SX.ov || !body.isConnected) return;
+  { const H = loyHeat(), w = e.k === 't' ? (H >= 4 ? 2200 : H >= 3 ? 1200 : 0) - (Date.now() - t0) : 0; if (w > 0) { body.innerHTML = `<div class="sx-ld">🌀 ${H >= 4 ? 'HALL OF FAMER SPIN. HOLD ON TO YOUR NACHOS…' : 'Spinning it extra for a season-ticket holder…'}</div>`; await new Promise(r => setTimeout(r, w)); if (!SX.ov || !body.isConnected) return; } }
   body.innerHTML = e.k === 't' ? stPanel(e, d) : sxPanel(e, d);
   const stg = body.querySelector('.sx-stage'); if (!stg) return;
   stg.addEventListener('pointerdown', ev => { if (ev.pointerType === 'touch') { stg.closest('.sx-grid').classList.add('hold'); if (!stg.classList.contains('front') && !stg.classList.contains('back')) sxSettle(stg); } });
@@ -8753,7 +8847,7 @@ function seDeal(x, i, D){
 const SE = { pick: null, D: null };
 async function seOpen(){
   const body = sxShell(); SE.pick = null;
-  const hd = `<div class="se-hd"><span class="se-ic" aria-hidden="true">😈</span><b>SCREW 'EM</b><em class="se-lbl">Suggestions only · never sent to ESPN</em></div>`;
+  const hd = `<div class="se-hd"><span class="se-ic" aria-hidden="true">😈</span><b>SCREW 'EM</b><em class="se-lbl">Suggestions only · never sent to ESPN</em></div>` + loyBadge();
   body.innerHTML = `<div class="se">${hd}<div class="mu-ld">Loading every roster in your league…</div></div>`;
   const D = await cmxTrReady(); if (!body.isConnected) return; SE.D = D;
   const box = body.querySelector('.se');
@@ -8828,12 +8922,17 @@ function stPanel(e, d){
   const S = d.S, t = d.ts; const col = e.c1 ? `--c1:${e.c1};--c2:${e.c2}` : '';
   const sub = [(CAT[e.lg] || {}).label, S && S.rec, S && S.standing].filter(Boolean).join(' · ');
   if (!t) return `<div class="sx-hd"><div><h2>${esc(e.name)}</h2><small>${esc(sub)}</small></div></div><div class="sx-pnl"><div class="sx-ld">No completed games from ESPN yet, so no spin.</div></div>`;
-  const [, ic, nm, cls] = t.T, lead = t.reasons[0] || '', joke = stSportWords(e.lg, stQuip(e, d, t));
+  const [, ic, nm, cls] = t.T, lead = t.reasons[0] || '', joke = stSportWords(e.lg, stQuip(e, d, t)), H = loyHeat();
+  const nmT = String(e.name || '').split(' ').slice(-1)[0], good = t.s >= 55, u = new Set([joke]);
+  const xtra = H < 3 ? [] : [rqPick((good ? RQ_HOT.g3 : RQ_HOT.b3).concat(H >= 4 ? (good ? RQ_HOT.g4 : RQ_HOT.b4) : []), { name: nmT }, u), H >= 4 ? rqPick(RQ_ME.rough.concat(RQ_ME.mild, RQ_HOT.pm), Object.assign(rqMe(), { name: nmT }), u) || rqPick(good ? RQ_HOT.g4 : RQ_HOT.b4, { name: nmT }, u) : ''].filter(Boolean);
+  const brk = H < 3 ? '' : (() => { const P = t.parts, W = [['Form, last 5', P.form, .35], ['Win %', P.wp, .25], ['Margin trend', P.diff, .2], ['Quality wins', P.qual, .2]].filter(x => x[1] != null), tw = W.reduce((a, x) => a + x[2], 0), f1 = n => (Math.round(n * 10) / 10).toFixed(1), sg = n => (n > 0 ? '+' : n < 0 ? '−' : '±') + Math.abs(n);
+    const base = W.reduce((a, x) => a + x[1] * x[2] / tw, 0);
+    return `<div class="st-brk"><b>${H >= 4 ? 'THE FULL DAMN BREAKDOWN' : 'Score breakdown'}</b>${W.map(x => `<div><span>${esc(x[0])} <i>${x[1]} × ${Math.round(100 * x[2] / tw)}%</i></span><em>${f1(x[1] * x[2] / tw)}</em></div>`).join('')}<div class="sum"><span>Base</span><em>${f1(base)}</em></div>${P.streak ? `<div><span>Streak ${esc(t.streak)}</span><em>${sg(P.streak)}</em></div>` : ''}${P.inj ? `<div><span>Key players out</span><em>${sg(P.inj)}</em></div>` : ''}${P.nxAdj ? `<div><span>Next-game line</span><em>${sg(P.nxAdj)}</em></div>` : ''}<div class="sum tot"><span>Score</span><em>${t.s}/100</em></div></div>`; })();
   const p = t.parts, chip = (v, l) => v == null ? '' : `<div><b>${esc(v)}</b><i>${esc(l)}</i></div>`;
-  return `<div class="st ${cls}" style="${esc(col)}">
+  return loyBadge() + `<div class="st ${cls}" style="${esc(col)}">
     <div class="st-hd">${e.logo ? `<img class="st-logo" src="${esc(e.logo)}" alt="" onerror="this.remove()">` : ''}<div><h2>${esc(e.name)}</h2><small>${esc(sub)}</small></div><span class="st-sc" title="Fan-commitment score (0-100)"><b>${t.s}</b><i>/100</i></span></div>
     <div class="st-tier" role="status"><span class="st-ic" aria-hidden="true">${ic}</span><span class="st-nm">${esc(nm)}</span></div>
-    <p class="st-joke">${esc(lead ? lead + '. ' : '')}${esc(joke)}</p>
+    <p class="st-joke">${esc(lead ? lead + '. ' : '')}${esc(joke)}</p>${xtra.map(q => `<p class="st-joke st-joke2">${esc(q)}</p>`).join('')}${brk}
     <ul class="st-why">${t.reasons.map(r => `<li>${esc(r)}</li>`).join('')}</ul>
     <div class="st-ladder" aria-label="Fan-commitment ladder">${ST_TIERS.map(x => `<span class="${x === t.T ? 'on ' + x[3] : ''}" title="${esc(x[2])}${x[0] >= 0 ? ' (' + x[0] + '+)' : ''}">${x[1]}</span>`).join('')}</div>
     <div class="sx-pnl st-pnl">${sxBars(t.bars, null, true)}<div class="sx-kv">${chip(t.streak, 'Streak')}${chip(p.form, 'Form (last 5)')}${chip(p.wp != null ? p.wp + '%' : null, 'Win %')}${chip(p.diff, 'Margin trend')}${chip(p.qual, 'Quality wins')}${t.outs.length ? chip(t.outs.length, 'Key players out') : ''}</div>
@@ -9304,6 +9403,8 @@ const WATCH = {
     [/^(hbo\s*)?max$/i, 'max'],
     [/^nfl\+$/i, 'nflplus'],
     [/^(abc|cbs|nbc|fox|the cw|cw|cw network|espn|espn2|espnu|espnews|espn\/abc|fs1|fs2|fox sports 1|cbssn|cbs sports net(work)?|acc ?n|acc network|secn|sec network|btn|big ten network|nfl net(work)?|nhl net(work)?|mlb net(work)?|nba tv|tnt|tbs|trutv|usa net(work)?|nbcsn|golf chnl|golf channel|universo|telemundo|tele|univision|unimas|fox deportes|tudn)$/i, 'yttv'],
+    // Oct 22: regional / local channels YouTube TV carries (where known); local broadcast call signs like 'KDFW 4' are local network affiliates
+    [/^(nbc sports (philadelphia|phil|bay area|ba|california|ca|boston|chicago)|nbcs ?(ba|ca|phil|bos|chi)|nesn|msg|msgsn|msg sportsnet|sny|[kw][a-z]{2,3}(-tv)?( \d{1,2})?)$/i, 'yttv'],
   ],
 };
 
@@ -10332,7 +10433,33 @@ const GX = { prev: {}, hit: {} };   // prev scores per lg:gameId:abbr (in memory
 const gxSport = lg => String((CAT[lg] || {}).path || '').split('/');
 
 
-const gxBadge = g => { try { return g && Array.isArray(g.teams) && GA.badge && gxClose(g) ? '<span class="gx-close gx-in" title="Close game late">🔥 CLOSE</span>' : ''; } catch (_) { return ''; } };   // close-outline: pill lives inside the status area
+/* ===== Oct 22 💦 Sweat-o-Meter: 0-100 from the real margin vs the sport's scoring scale + time left (+ ESPN win prob near 50% when given) ===== */
+function swFrac(g){ const [sp, lgp] = gxSport(g.lg), per = +g.period || 0, t = String(g.clock || '') + ' ' + String(g.detail || ''), mm = t.match(/(\d+):(\d+)/), left = mm ? +mm[1] + +mm[2] / 60 : null;
+  const reg = (n, L) => per > n ? 1 : ((Math.max(1, per) - 1) * L + (left != null ? L - Math.min(L, left) : L / 2)) / (n * L);
+  if (sp === 'football') return reg(4, /college/.test(lgp) ? 15 : 15);
+  if (sp === 'basketball') return /college/.test(lgp) && !/women/.test(lgp) ? reg(2, 20) : reg(4, lgp === 'wnba' || /women/.test(lgp) ? 10 : 12);
+  if (sp === 'hockey') return reg(3, 20);
+  if (sp === 'soccer') { const min = parseInt(String(g.clock || g.detail || '').replace(/[^\d]/g, '')) || ((Math.max(1, per) - 1) * 45 + 20); return Math.min(1, min / 90); }
+  if (sp === 'baseball') return Math.min(1, Math.max(0, (per - 0.5) / 9));
+  return null; }
+function swCalc(g, wp){ try { if (!g || g.state !== 'in' || !g.teams || g.teams.length !== 2) return null; const A = parseFloat(g.teams[0].score), B = parseFloat(g.teams[1].score); if (isNaN(A) || isNaN(B)) return null;
+  const sc = SX_SCALE[gxSport(g.lg)[0]] || 10, f0 = swFrac(g); if (f0 == null) return null; const f = Math.max(0, Math.min(1, f0)), tw = 0.3 + 0.7 * f * f, close = Math.max(0, 1 - Math.abs(A - B) / (sc * 1.2));
+  let s = 100 * close * tw; if (wp != null && !isNaN(wp)) { const w = wp > 1 ? wp / 100 : wp; s = 0.6 * s + 0.4 * 100 * (1 - Math.abs(w - 0.5) * 2) * tw; } if (f > 0.85) s *= 1.1;
+  return Math.round(Math.max(0, Math.min(100, s))); } catch (_) { return null; } }
+function swLabel(s){ let h = 1; try { h = loyHeat(); } catch (_) {} return s >= 85 ? ['🧖', 'Full Sauna'] : s >= 65 ? (h >= 4 ? ['🐊', 'Swamp Ass'] : h >= 3 ? ['🌊', 'Soaked'] : ['🌊', 'Drenched']) : s >= 45 ? ['💦', 'Sweaty'] : s >= 25 ? ['💧', 'Damp'] : ['🌵', 'Dry']; }
+function swHTML(s, big, note){ if (s == null) return ''; const [e, l] = swLabel(s), c = s >= 85 ? '#ff4d4f' : s >= 65 ? '#ff922b' : s >= 45 ? '#ffc21a' : s >= 25 ? '#74c0fc' : '#8d9bb8';
+  return `<div class="sw${big ? ' sw-big' : ''}" title="Sweat-o-Meter ${s}/100: how late and how tight it is" style="--swc:${c}"><span class="sw-k">💦${big ? ' Sweat-o-Meter' : ''}</span><span class="sw-bar" aria-hidden="true"><i style="width:${s}%"></i></span><b>${s}</b><em>${e} ${esc(l)}${note ? ` · ${esc(note)}` : ''}</em></div>`; }
+function swGame(g){ return gxClose(g) ? swHTML(swCalc(g, g.sit && g.sit.wp)) : ''; }
+function swFantasy(D){ try { const { me, op } = D; if (!me || !op || me.proj == null || op.proj == null) return '';
+  const S = SLOTS.nfl, st = t => (t.ps || []).filter(p => !S.bench.includes(p.sid) && !S.ir.includes(p.sid)), all = st(me).concat(st(op)); if (!all.length) return '';
+  const stt = p => { try { const n = playerNow(p); return n ? n.state : ''; } catch (_) { return ''; } }, done = all.reduce((a, p) => { const x = stt(p); return a + (x === 'post' ? 1 : x === 'in' ? 0.5 : !x && p.pts && p.pts.act != null ? 0.75 : 0); }, 0), left = all.length - done, myLeft = st(me).filter(p => { const x = stt(p); return x ? x !== 'post' : !(p.pts && p.pts.act != null); }).length;
+  const f = 1 - left / all.length; if (f <= 0) return '';   // nobody has played yet: no sweat to measure
+  const close = Math.max(0, 1 - Math.abs(me.proj - op.proj) / 30), s = Math.round(Math.max(0, Math.min(100, 100 * close * (0.3 + 0.7 * f * f) * (f > 0.85 ? 1.1 : 1))));
+  return swHTML(s, true, `${myLeft} of yours left to play`); } catch (_) { return ''; } }
+const GX_LBL = ['🔥 NECK & NECK', '😬 NAIL-BITER', '🟨 ALL SQUARE', '🫣 DON\'T LOOK', '☕ GRIPPER'], GX_LBL_R = ['🍑 BUTT-CLENCHER', '😱 CARDIAC', '🧻 SQUEAKY BUM TIME'];
+function gxLabel(g){ let h = 0; const k = String((g && g.lg) || '') + ':' + String((g && g.id) || ''); for (let i = 0; i < k.length; i++) h = (h * 31 + k.charCodeAt(i)) >>> 0;   // stable per game id: no flicker on refresh
+  let heat = 1; try { heat = typeof loyHeat === 'function' ? loyHeat() : 1; } catch (_) {} const P = heat >= 4 ? GX_LBL.concat(GX_LBL_R) : GX_LBL; return h % 10 < 4 ? '💦 SWEATY SCORE' : P[Math.floor(h / 10) % P.length]; }   // Sweaty Score ~40% at every level
+const gxBadge = g => { try { return g && Array.isArray(g.teams) && GA.badge && gxClose(g) ? `<span class="gx-close gx-in" title="Close game late">${esc(gxLabel(g))}</span>` : ''; } catch (_) { return ''; } };   // close-outline: pill lives inside the status area
 // Oct 17: game alerts. Live / close games flash the score box's border (no ripple, no inward motion).
 // One settings group (Sports & settings → Game alerts). Defaults match the old ring: 3 flashes live, 5 when close.
 const GA_KEY = 'mannGameAlerts.v1', GA_DEF = { on: true, live: 3, close: 5, badge: true }, GA_LIVE = [1, 3, 5], GA_CLOSE = [3, 5, 8];
@@ -11860,6 +11987,7 @@ function ltRender(){
   const bs = D.sit; if (bs && live && kind === 'baseball') { if (bs.balls != null && bs.strikes != null) si.push(`<b>${esc(bs.balls)}-${esc(bs.strikes)}</b> count`); if (bs.outs != null) si.push(`<b>${esc(bs.outs)}</b> out${bs.outs == 1 ? '' : 's'}`);
     const on = [bs.onFirst && '1st', bs.onSecond && '2nd', bs.onThird && '3rd'].filter(Boolean); si.push(on.length ? 'On ' + on.join(', ') : 'Bases empty'); }
   if (si.length) h += `<div class="lt-sit">${si.join('<span class="lt-sep">·</span>')}</div>`;
+  if (live) { const G0 = LT.g || {}, sw = swCalc({ lg, state: 'in', period: G0.period, clock: G0.clock, detail: D.det || G0.detail, teams: D.T.map(t => ({ score: t.sc })) }, D.wp && D.wp.length ? D.wp[D.wp.length - 1] : null); if (sw != null) h += swHTML(sw, true); }
   const n = Math.max(A.ls.length, H.ls.length);
   if (n) { const lab = i => kind === 'hockey' ? (i < 3 ? String(i + 1) : i === 3 ? 'OT' : 'SO') : kind === 'football' || kind === 'basketball' ? (i < 4 ? 'Q' + (i + 1) : 'OT') : String(i + 1);
     h += `<div class="lt-ls">${psTable([{ h: '' }, ...Array.from({ length: n }, (_, i) => ({ h: lab(i) })), { h: 'T' }], [A, H].map(t => `<tr><th>${esc(t.ab)}</th>${Array.from({ length: n }, (_, i) => `<td>${esc(t.ls[i] ?? '')}</td>`).join('')}<td><b>${esc(t.sc)}</b></td></tr>`), 'lt-lst')}</div>`; }
@@ -11880,7 +12008,7 @@ function ltRender(){
   const fz = ltFantasy(lg, D);
   if (fz.length) sec.push(psSec('🎮 Your fantasy players', `<ul class="lt-fz">${fz.map(({ p, act, proj }) => `<li>${p.headshot ? `<img src="${esc(p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : ''}<span><b>${esc(p.name)}</b><i>${esc([p.pos, p.team].filter(Boolean).join(' · '))}</i></span><em>${act != null ? `<b>${esc(r1(act))}</b> pts` : ''}${proj != null ? `<small>proj ${esc(r1(proj))}</small>` : ''}</em></li>`).join('')}</ul>`, fz.some(x => x.act != null) ? 'live fantasy points · your ESPN league' : 'in this game'));
   const link = D.link || g.link || g.box || '';
-  h += `<div class="ps-bd">${sec.join('')}<div class="lt-foot"><span>${live ? 'Live · refreshes every 25s while open' : 'Final'} · updated ${esc(timeET(new Date(D.t)))}</span>${link ? `<a class="ps-espn" href="${esc(link)}" target="_blank" rel="noopener">ESPN Gamecast ↗</a>` : ''}</div></div>`;
+  h += `<div class="ps-bd">${sec.join('')}<div class="lt-foot"><span>${live ? 'Live · refreshes every 25s while open' : 'Final'} · updated ${esc(timeET(new Date(D.t)))}</span>${live ? yttvPill(Object.assign({}, LT.g || {}, { state: 'in' })) : ''}${link ? `<a class="ps-espn" href="${esc(link)}" target="_blank" rel="noopener">ESPN Gamecast ↗</a>` : ''}</div></div>`;
   box.innerHTML = X + `<div class="lt">${h}</div>`; box.scrollTop = y; }
 async function ltLoad(){
   if (LT.busy || !LT.k) return; LT.busy = true; const k = LT.k, [lg, id] = k.split(':'); let ok = false;
@@ -11905,6 +12033,7 @@ addEventListener('click', e => {
   const t = e.target && e.target.closest ? e.target : null; if (!t) return;
   if (LT.el && !LT.el.hidden && (t === LT.el || LT.el.contains(t))) { if (t === LT.el || t.closest('[data-ltx]')) { e.preventDefault(); e.stopPropagation(); ltClose(); } return; }
   if (t.closest('.ps-ov,.modal')) return;
+  if (t.closest('#ticker') && typeof TK !== 'undefined' && Object.values(TK.tracks).some(r => r.suppress)) { e.preventDefault(); e.stopPropagation(); return; }   // ticker-links: a swipe is never a tap
   let k = ''; const tk = t.closest('.tk-game[data-ltk]');
   if (tk) k = tk.dataset.ltk;
   else { if (t.closest(TC_HIT) || t.closest('a,button,input,select,textarea,label,summary,[data-star],.gm-d,.sx-b,.hl-btn,video,.rd-chip')) return;
@@ -11978,6 +12107,15 @@ addEventListener('click', e => { const t = e.target && e.target.closest ? e.targ
   const tk = t.closest('#ticker'); if (tk && Object.values(TK.tracks).some(r => r.suppress)) { e.preventDefault(); e.stopPropagation(); return; }
   const b = t.closest('[data-tktc]'); if (!b) return; const [lg, id, abbr] = b.dataset.tktc.split('|'); if (!lg || !abbr) return;
   e.preventDefault(); e.stopPropagation(); try { tcOpen({ lg, id, abbr, name: b.dataset.tkn, logo: b.dataset.tkl, rec: b.dataset.tkr }); } catch (err) { console.warn('team card', err); } }, true);
+
+// ticker-links: an upcoming / final game on the ticker opens in-site (final -> the tracker's final box, upcoming -> the favorite's or home team's card); ctrl/cmd-click keeps the ESPN link
+addEventListener('click', e => { const t = e.target && e.target.closest ? e.target : null; if (!t) return; const a = t.closest('#ticker .tk-game[data-tkg]'); if (!a) return;
+  if (Object.values(TK.tracks).some(r => r.suppress)) { e.preventDefault(); e.stopPropagation(); return; }
+  if (e.button > 0 || e.ctrlKey || e.metaKey || e.shiftKey) return;
+  const k = a.dataset.tkg, g = (() => { try { return ltGame(k) || gmdFind(k); } catch (_) { return null; } })(); if (!g) return;
+  if (g.state === 'in' || g.state === 'post') { e.preventDefault(); e.stopPropagation(); ltOpen(k); return; }
+  const [x, h] = g.teams || [], tm = [h, x].find(z => z && isFav(g.lg, z.abbr)) || h || x; if (!tm || !tm.abbr) return;
+  e.preventDefault(); e.stopPropagation(); try { tcOpen({ lg: g.lg, id: tm.id, abbr: tm.abbr, name: tm.name, logo: tm.logo, rec: tm.record }); } catch (err) { console.warn('team card', err); } }, true);
 
 /* in-site game details: tapping empty space on a full game card expands it in place (Box score ↗ / Gamecast ↗ links stay in the footer) */
 const GMD = { open: new Set(), d: {}, busy: new Set(), g: {}, ft: {} };   // g: favorite-schedule games by key · ft: favorite team key -> open game key
