@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261024-2255-card-fix-excel-spinit50">
+<meta name="build-id" content="20261024-2320-multileague-cardgame">
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261024-2255-card-fix-excel-spinit50';
+var BUILD_ID = '20261024-2320-multileague-cardgame';
 (function(){
   var shown = {};
   function chip(id, html, onTap){
@@ -3432,6 +3432,132 @@ html.tc-open{overflow:hidden}
   .sx-cat{border:1px solid var(--line);background:rgba(255,255,255,.04);color:#cbd5e1;border-radius:999px;padding:4px 10px;font:700 11.5px/1.2 system-ui,sans-serif;cursor:pointer}
   .sx-cat.on,.sx-cat:hover{background:linear-gradient(90deg,#7b2ff7,#f107a3);border-color:transparent;color:#fff}
   .sx-r-awd{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:rgba(255,194,26,.13);border:1px solid rgba(255,194,26,.4);color:#ffd43b;font:700 10.5px/1.2 system-ui,sans-serif}
+  /* ===== Oct 24: ⚡ Card Game Arena — ★ / ★★ / ★★★ Real Position Stat Tiers & Empowered Skills ===== */
+  .cg-open-pill{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:999px;border:1px solid rgba(255,194,26,.65);background:linear-gradient(135deg,#2a164d,#4a154b 55%,#7c2d12);color:#ffe8a3;font:900 12.5px/1.15 system-ui,sans-serif;letter-spacing:.3px;cursor:pointer;box-shadow:0 0 14px rgba(255,194,26,.22);transition:transform .15s,box-shadow .15s}
+  .cg-open-pill:hover,.cg-open-pill:focus-visible,.cg-open-pill.on{background:linear-gradient(135deg,#ff8a3d,#f107a3 55%,#7b2ff7);color:#fff;border-color:#fff;box-shadow:0 0 18px rgba(241,7,163,.55);transform:translateY(-1px);outline:none}
+  .cg-arena{margin:10px 0 18px;padding:14px;border-radius:16px;background:radial-gradient(120% 90% at 50% 0%,#1a1438 0%,#0d1324 55%,#090d18 100%);border:1px solid #352b63;box-shadow:0 14px 40px rgba(0,0,0,.55);display:flex;flex-direction:column;gap:12px;min-width:0;max-width:100%;box-sizing:border-box;overflow:hidden}
+  .cg-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.09)}
+  .cg-title{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .cg-title h3{margin:0;font-size:18px;font-weight:900;letter-spacing:.3px;color:#fff;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .cg-title small{color:#a8b6d6;font-size:12px}
+  .cg-acts{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+  .cg-act{padding:6px 11px;border-radius:999px;border:1px solid #483b80;background:#1c1836;color:#e5dbff;font:800 11.5px/1.2 system-ui,sans-serif;cursor:pointer;transition:background .15s,transform .12s}
+  .cg-act:hover,.cg-act:focus-visible{background:#7b2ff7;color:#fff;border-color:#b197fc;transform:scale(1.03);outline:none}
+  .cg-act.fire{background:linear-gradient(90deg,#ff6a13,#f107a3);border-color:#ffd43b;color:#fff}
+  .cg-sb{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px;padding:10px 14px;border-radius:12px;background:rgba(8,12,24,.72);border:1px solid rgba(255,255,255,.1)}
+  .cg-tm{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .cg-tm.op{text-align:right;align-items:flex-end}
+  .cg-tm b{font-size:14.5px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .cg-tm small{font-size:11px;color:#9fb0cc}
+  .cg-sc{font:900 28px/1 system-ui,sans-serif;font-variant-numeric:tabular-nums;color:#4ade80;text-shadow:0 0 14px rgba(74,222,128,.35)}
+  .cg-tm.op .cg-sc{color:#f87171;text-shadow:0 0 14px rgba(248,113,113,.3)}
+  .cg-vs{display:flex;flex-direction:column;align-items:center;gap:4px;padding:0 6px;text-align:center}
+  .cg-vs span{font:900 11px/1.2 system-ui,sans-serif;color:#ffd43b;letter-spacing:.6px;text-transform:uppercase}
+  .cg-en{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:999px;background:rgba(34,227,255,.14);border:1px solid rgba(34,227,255,.45);color:#74e5ff;font:900 11.5px/1 system-ui,sans-serif}
+  .cg-buffs{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:11.5px}
+  .cg-buff{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:999px;background:rgba(255,194,26,.13);border:1px solid rgba(255,194,26,.42);color:#ffe8a3;font-weight:800}
+  .cg-log{padding:7px 11px;border-radius:9px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.07);font-size:12px;color:#d0dcf5;display:flex;align-items:center;gap:8px;min-width:0}
+  .cg-log b{color:#ffd43b;flex:none}
+  .cg-log span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .cg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));gap:12px;min-width:0}
+  .cg-card{position:relative;display:flex;flex-direction:column;gap:8px;padding:11px 12px;border-radius:14px;background:linear-gradient(165deg,rgba(24,32,56,.95),rgba(11,16,30,.98));border:1.5px solid #2e3b5e;box-shadow:0 6px 18px rgba(0,0,0,.45);min-width:0;max-width:100%;box-sizing:border-box;overflow:hidden}
+  .cg-card.t1{border-color:#74c0fc;box-shadow:0 0 12px rgba(116,192,252,.18)}
+  .cg-card.t2{border-color:#ffd43b;box-shadow:0 0 0 1px rgba(255,212,59,.45),0 0 18px rgba(255,212,59,.24);animation:cgPulse2 2.4s ease-in-out infinite}
+  .cg-card.t3{border-color:#22e3ff;box-shadow:0 0 0 1.5px #ffd43b,0 0 24px rgba(34,227,255,.38);animation:cgPulse3 1.8s ease-in-out infinite}
+  @keyframes cgPulse2{0%,100%{box-shadow:0 0 0 1px rgba(255,212,59,.4),0 0 14px rgba(255,212,59,.2)}50%{box-shadow:0 0 0 2px rgba(255,212,59,.85),0 0 24px rgba(255,212,59,.45)}}
+  @keyframes cgPulse3{0%,100%{box-shadow:0 0 0 1.5px #ffd43b,0 0 18px rgba(34,227,255,.35)}50%{box-shadow:0 0 0 2.5px #22e3ff,0 0 30px rgba(241,7,163,.55)}}
+  @media (prefers-reduced-motion:reduce){.cg-card.t2,.cg-card.t3{animation:none}}
+  .cg-chd{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}
+  .cg-slot{padding:2px 7px;border-radius:6px;background:rgba(255,255,255,.1);color:#fff;font:900 10.5px/1.2 system-ui,sans-serif;letter-spacing:.5px}
+  .cg-stars{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font:900 11px/1.25 system-ui,sans-serif;letter-spacing:.3px;white-space:nowrap}
+  .cg-stars.s0{background:rgba(255,255,255,.06);color:#8d9bb8;border:1px solid rgba(255,255,255,.12)}
+  .cg-stars.s1{background:rgba(116,192,252,.15);color:#a5d8ff;border:1px solid rgba(116,192,252,.5)}
+  .cg-stars.s2{background:rgba(255,212,59,.18);color:#ffd43b;border:1px solid rgba(255,212,59,.65);box-shadow:0 0 10px rgba(255,212,59,.25)}
+  .cg-stars.s3{background:linear-gradient(90deg,rgba(255,212,59,.28),rgba(34,227,255,.28));color:#fff;border:1px solid #ffd43b;box-shadow:0 0 14px rgba(255,212,59,.45);text-shadow:0 0 6px #ffd43b}
+  .cg-id{display:flex;align-items:center;gap:10px;min-width:0}
+  .cg-hs{position:relative;width:48px;height:48px;border-radius:50%;background:#0b1020;border:2px solid var(--tc,#4a5a80);flex:none;overflow:hidden}
+  .cg-hs img{width:100%;height:100%;object-fit:cover}
+  .cg-info{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+  .cg-info b{font-size:15px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cg-info small{font-size:11.5px;color:#9fb0cc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cg-live-line{font-size:11px;font-weight:800;color:#74e5ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cg-prog{display:flex;flex-direction:column;gap:3px}
+  .cg-prog-top{display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:10.5px;font-weight:800;color:#cbd5e1}
+  .cg-prog-top em{font-style:normal;color:#ffd43b}
+  .cg-prog-bar{height:6px;border-radius:99px;background:#1a233a;overflow:hidden}
+  .cg-prog-bar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#74c0fc,#ffd43b 60%,#22e3ff)}
+  .cg-tiers{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;font-size:11px}
+  .cg-tier{display:flex;align-items:flex-start;gap:5px;padding:4px 7px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);color:#8d9bb8;line-height:1.25;min-width:0}
+  .cg-tier.hit{background:rgba(46,160,90,.13);border-color:rgba(74,222,128,.42);color:#d3f9d8}
+  .cg-tier.hit .ck{color:#4ade80;font-weight:900}
+  .cg-tier.nxt{background:rgba(255,212,59,.08);border-color:rgba(255,212,59,.35);color:#ffe8a3}
+  .cg-tier .ck{flex:none;font-weight:900;color:#64748b}
+  .cg-tier span{flex:1;min-width:0;overflow-wrap:anywhere}
+  .cg-tier b{color:#fff}
+  .cg-tier i{font-style:normal;color:#ffd43b;font-weight:800}
+  .cg-skbtn{margin-top:auto;width:100%;padding:8px 10px;border-radius:10px;border:1px solid rgba(123,47,247,.65);background:linear-gradient(135deg,#25144a,#3b1254);color:#fff;font:inherit;cursor:pointer;display:flex;flex-direction:column;gap:3px;text-align:left;transition:transform .12s,box-shadow .15s,background .15s;box-sizing:border-box}
+  .cg-card.t2 .cg-skbtn{border-color:#ffd43b;background:linear-gradient(135deg,#3d2608,#5c1a42)}
+  .cg-card.t3 .cg-skbtn{border-color:#22e3ff;background:linear-gradient(135deg,#0d3b54,#4b125e,#662d0c);box-shadow:0 0 14px rgba(34,227,255,.28)}
+  .cg-skbtn:hover:not(:disabled),.cg-skbtn:focus-visible:not(:disabled){transform:translateY(-1px);box-shadow:0 4px 14px rgba(241,7,163,.4);outline:none}
+  .cg-skbtn:disabled{opacity:.65;cursor:not-allowed}
+  .cg-sk-top{display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;font-size:12px;font-weight:900}
+  .cg-sk-mult{padding:1px 6px;border-radius:999px;background:rgba(255,212,59,.22);color:#ffd43b;font-size:10.5px;font-weight:900;white-space:nowrap}
+  .cg-sk-sub{font-size:10.5px;color:#cbd5e1;display:flex;justify-content:space-between;gap:6px;width:100%}
+  .cg-sk-sub em{font-style:normal;color:#4ade80;font-weight:800;white-space:nowrap}
+  @media (max-width:480px){
+    .cg-arena{padding:10px;gap:10px}
+    .cg-sb{padding:8px 10px;gap:6px}
+    .cg-sc{font-size:22px}
+    .cg-grid{grid-template-columns:minmax(0,1fr)}
+  }
+  /* ===== Oct 24: Multi-League Sync & Switcher Bar + Bench Passives in Card Game ===== */
+  .mlg-bar{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:8px 0 10px;padding:8px 11px;border-radius:12px;background:linear-gradient(90deg,rgba(19,27,46,.95),rgba(13,19,34,.95));border:1px solid #2b3958;min-width:0;max-width:100%;box-sizing:border-box}
+  .mlg-lbl{font:900 10.5px/1.2 system-ui,sans-serif;letter-spacing:.7px;text-transform:uppercase;color:#8fa2c7;margin-right:2px;flex:none}
+  .mlg-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;border:1px solid #334468;background:#111829;color:#d0dcf5;font:800 12px/1.2 system-ui,sans-serif;cursor:pointer;max-width:100%;min-width:0;transition:background .15s,border-color .15s,transform .12s}
+  .mlg-pill:hover,.mlg-pill:focus-visible{border-color:#74c0fc;color:#fff;outline:none}
+  .mlg-pill.on{background:linear-gradient(135deg,#1d3557,#2a164d);border-color:#ffd43b;color:#fff;box-shadow:0 0 0 1px rgba(255,212,59,.45),0 0 12px rgba(255,212,59,.2)}
+  .mlg-pill b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px}
+  .mlg-pill small{font-weight:700;color:#9fb0cc;font-size:10.5px;white-space:nowrap}
+  .mlg-pill .dot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px #4ade80;flex:none}
+  .mlg-add{display:inline-flex;align-items:center;gap:5px;margin-left:auto;padding:5px 11px;border-radius:999px;border:1px dashed rgba(116,192,252,.65);background:rgba(34,139,230,.15);color:#a5d8ff;font:800 11.5px/1.2 system-ui,sans-serif;cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s}
+  .mlg-add:hover,.mlg-add:focus-visible{background:#1c7ed6;border-style:solid;border-color:#fff;color:#fff;outline:none}
+  .mlg-ov{position:fixed;inset:0;z-index:10040;background:rgba(4,6,12,.82);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:24px 12px;overflow-y:auto}
+  .mlg-ov[hidden]{display:none}
+  .mlg-box{position:relative;width:min(680px,100%);background:#0e1424;color:#eef2fb;border:1px solid #2e3e62;border-radius:16px;padding:18px;box-shadow:0 24px 70px rgba(0,0,0,.65);box-sizing:border-box;display:flex;flex-direction:column;gap:14px}
+  .mlg-box h3{margin:0;font-size:18px;font-weight:900;display:flex;align-items:center;gap:8px;padding-right:34px}
+  .mlg-sub{margin:-8px 0 0;font-size:12px;color:#9fb0cc}
+  .mlg-list{display:flex;flex-direction:column;gap:8px}
+  .mlg-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-radius:11px;background:#141c30;border:1px solid #263452}
+  .mlg-row.on{border-color:#ffd43b;background:linear-gradient(90deg,rgba(255,212,59,.09),#141c30)}
+  .mlg-rmeta{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1 1 200px}
+  .mlg-rmeta b{font-size:14px;color:#fff;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .mlg-rmeta small{font-size:11.5px;color:#9fb0cc}
+  .mlg-tag{padding:1px 6px;border-radius:5px;font:900 9.5px/1.2 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.5px;background:rgba(255,255,255,.1);color:#ffd43b}
+  .mlg-racts{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+  .mlg-btn{padding:5px 10px;border-radius:8px;border:1px solid #36496e;background:#1b2640;color:#e2e8f0;font:800 11.5px/1.2 system-ui,sans-serif;cursor:pointer}
+  .mlg-btn:hover{background:#2b3d63;color:#fff}
+  .mlg-btn.pri{background:#2563eb;border-color:#60a5fa;color:#fff}
+  .mlg-btn.ok{background:#15803d;border-color:#4ade80;color:#fff}
+  .mlg-btn.del{background:rgba(220,38,38,.18);border-color:rgba(248,113,113,.45);color:#fca5a5}
+  .mlg-sec{padding:12px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid #24304c;display:flex;flex-direction:column;gap:8px}
+  .mlg-sec h4{margin:0;font-size:13.5px;font-weight:900;color:#ffd43b;display:flex;align-items:center;gap:6px}
+  .mlg-sec p{margin:0;font-size:11.5px;color:#9fb0cc;line-height:1.35}
+  .mlg-inputs{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .mlg-inputs input,.mlg-inputs select{background:#0b101d;border:1px solid #334468;color:#fff;border-radius:8px;padding:7px 10px;font:600 12.5px/1.2 system-ui,sans-serif;min-width:0}
+  .mlg-inputs input{flex:1 1 150px}
+  .mlg-msg{font-size:12px;font-weight:700;padding:6px 10px;border-radius:8px;background:rgba(59,130,246,.15);border:1px solid rgba(96,165,250,.4);color:#bfdbfe}
+  .mlg-msg:empty{display:none}
+  .cg-bench{padding:10px 12px;border-radius:12px;background:rgba(15,23,42,.75);border:1px dashed rgba(116,192,252,.38);display:flex;flex-direction:column;gap:8px}
+  .cg-bench-hd{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px;font-size:12px;font-weight:900;color:#a5d8ff}
+  .cg-bench-hd em{font-style:normal;color:#4ade80}
+  .cg-bench-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:7px}
+  .cg-bp{display:flex;align-items:center;gap:8px;padding:6px 9px;border-radius:9px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);font-size:11px;min-width:0}
+  .cg-bp.ultra{background:linear-gradient(90deg,rgba(255,212,59,.13),rgba(241,7,163,.12));border-color:rgba(255,212,59,.55)}
+  .cg-bp img{width:28px;height:28px;border-radius:50%;object-fit:cover;background:#0b1020;flex:none}
+  .cg-bp div{display:flex;flex-direction:column;min-width:0;flex:1}
+  .cg-bp b{color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cg-bp span{color:#cbd5e1;font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cg-bp.ultra span{color:#ffe8a3;font-weight:800}
 </style>
 </head>
 <body>
@@ -5662,6 +5788,7 @@ function rosterSection(sp){
   h += totalsBar(sp) + tbBar('fz', sp);
   if (tbView('fz') === 'table') return h + tbTable('fz', sp, ros);
   if (tbView('fz') === 'wheel') return h + '<div class="fz-wslot" id="fzWheelSlot"></div>';
+  if (tbView('fz') === 'game') return h + cgArenaHTML(sp, ros);
   const ccC = sp === 'nfl' ? CMP.d.nfl : null, ccR = ccC ? cmpRank(ccC) : {}, ccG = list => ccGrid(list, 'fz', ccC, ccR);
   const groups = { s: [], b: [], i: [], u: [] };
   for (const p of ros) groups[slotGroup(p)].push(p);
@@ -5942,7 +6069,7 @@ function muSection(sp){
   const bl = (s, t) => `<div><h6>${esc(t)}</h6>${bn(s).map(p => `<div class="mu-bnr"><img src="${esc(p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><span>${esc(p.short || p.name)} <i>${esc(p.pos)} · ${esc(p.team)}${S.ir.includes(p.sid) ? ' · IR' : ''}</i></span><b>${(p.pts || {}).act ?? '–'}</b><i>/ ${(p.pts || {}).proj ?? '–'}</i></div>`).join('') || '<div class="mu-ld">Empty</div>'}</div>`;
   const bench = `<div class="mu-bn"><button class="mu-bnh" data-mu="bench" aria-expanded="${MU.ui.bench}">${MU.ui.bench ? '▾' : '▸'} Bench (both teams)</button>${MU.ui.bench ? `<div class="mu-bng">${bl(D.me, 'Your bench')}${bl(D.op, (D.op ? D.op.name : 'Opponent') + ' bench')}</div>` : ''}</div>`;
   return `<section class="mu${open ? '' : ' closed'}" id="fzMatchup">${head}<div class="mu-b">${muScore(D)}
-    <div class="mu-bar"><div class="tb-vt seg${v === 'table' ? ' v-table' : ''}" role="group" aria-label="Matchup view"><button data-mu="v:cards" aria-pressed="${v === 'cards'}" class="${v === 'cards' ? 'on' : ''}"><span class="ic" aria-hidden="true">🃏</span>Cards</button><button data-mu="v:table" aria-pressed="${v === 'table'}" class="${v === 'table' ? 'on' : ''}"><span class="ic" aria-hidden="true">▦</span>Table</button></div>${muScore(D, 'wp')}${v === 'cards' ? '<button class="mu-rp" data-mu="replay" title="Replay the battle">⟲ Replay</button>' : '<button type="button" class="xl-btn" data-xlexp="mu" title="Export matchup table to Microsoft Excel (.csv)">📥 Excel</button>'}</div>
+    <div class="mu-bar"><div class="tb-vt seg${v === 'table' ? ' v-table' : ''}" role="group" aria-label="Matchup view"><button data-mu="v:cards" aria-pressed="${v === 'cards'}" class="${v === 'cards' ? 'on' : ''}"><span class="ic" aria-hidden="true">🃏</span>Cards</button><button data-mu="v:table" aria-pressed="${v === 'table'}" class="${v === 'table' ? 'on' : ''}"><span class="ic" aria-hidden="true">▦</span>Table</button></div>${muScore(D, 'wp')}${v === 'cards' ? '<button class="mu-rp" data-mu="replay" title="Replay the battle">⟲ Replay</button>' : '<button type="button" class="xl-btn" data-xlexp="mu" title="Export matchup table to Microsoft Excel (.csv)">📥 Excel</button>'}<button type="button" class="cg-open-pill" data-cgjump="1" title="Jump to the playable ⚡ Card Game Arena">⚡ Card Game</button></div>
     ${body}${bench}</div><button type="button" class="mu-more" data-mumore="fzMatch"><span class="mo">Show full matchup ▾</span><span class="ml">Show less ▴</span></button></section>`;
 }
 function muSbVar(){ const m = document.getElementById('fzMatchup'), sb = m && m.querySelector('.mu-b>.mu-sb'); if (sb) m.style.setProperty('--musb', sb.offsetHeight + 'px'); }
@@ -6270,6 +6397,7 @@ function renderFantasy(){
   head += `<div class="fs-picker" role="group" aria-label="Fantasy sports I play"><span class="lbl">I play:</span>${FS_ORDER.map(k => { const on = fantasySel.includes(k);
     return `<button class="fs-pick${on ? ' on' : ''}" data-fspick="${k}" aria-pressed="${on}" title="${on ? 'Stop following' : 'Follow'} ${esc(FSPORTS[k].label)} fantasy">${on ? '✓' : '+'} ${FSPORTS[k].emoji} ${esc(FSPORTS[k].label)}</button>`; }).join('')}</div>`;
   if (fantasySel.length > 1) head += `<div class="chips fs-tabs" role="tablist" aria-label="Fantasy sport">${fantasySel.map(k => `<button class="chip${k === sp ? ' on' : ''}" role="tab" aria-selected="${k === sp}" data-fstab="${k}">${FSPORTS[k].emoji} ${esc(FSPORTS[k].label)}${cnt(k) ? ` <span class="cnt">${cnt(k)}</span>` : ''}</button>`).join('')}</div>`;
+  if (typeof mlgBarHTML === 'function') head += mlgBarHTML(sp);
   // this sport's ESPN fantasy roster (favorites live in the sport tabs), grouped Starters / Bench / IR
   const rosterHtml = rosterSection(sp);
   let html = `<h3 class="fs-h" id="fantasyNews">${F.emoji} ${esc(F.name)} <small>${esc(['ESPN', F.roto && (S.roto.length || S.src.rotowire !== 'ok') && 'RotoWire', F.sleeper && 'Sleeper'].filter(Boolean).join(' · '))}</small></h3>`;
@@ -6553,7 +6681,7 @@ function renderWatchTab(){
   if (el.dataset.view !== WATCH_TAB || el.dataset.sp !== sp) {         // static shell keeps the search box stable while data refreshes
     el.dataset.view = WATCH_TAB; el.dataset.sp = sp; WL.q = ''; WL.items = []; WL.err = ''; WL.sp = sp;
     const so = lsGet(WT_SORT_KEY, 'ppg');
-    el.innerHTML = `<div class="section-title" id="labArea">🧪 Fantasy Lab <small>${sp === 'nfl' ? 'Trade Lab, team needs + your watch list' : 'Your watch list'}</small><button type="button" class="lab-exp" data-labfull aria-pressed="false" title="Expand Fantasy Lab"><span class="ic" aria-hidden="true">⤢</span><span class="lb">Expand</span></button></div><div id="fzTrade0"></div><div id="fzNeeds0"></div>
+    el.innerHTML = `<div class="section-title" id="labArea">🧪 Fantasy Lab <small>${sp === 'nfl' ? 'Trade Lab, team needs + your watch list' : 'Your watch list'}</small><button type="button" class="lab-exp" data-labfull aria-pressed="false" title="Expand Fantasy Lab"><span class="ic" aria-hidden="true">⤢</span><span class="lb">Expand</span></button></div><div id="mlgLabSlot">${typeof mlgBarHTML === 'function' ? mlgBarHTML(sp) : ''}</div><div id="fzTrade0"></div><div id="fzNeeds0"></div>
       <div class="section-title" id="watchArea">👁 ${esc(F.label)} watch list <span class="cnt" id="wlCount"></span> <small>Waiver &amp; trade targets · not ★ favorites, not your roster</small></div>
       ${fantasySel.length > 1 ? `<div class="chips fs-tabs" role="tablist" aria-label="Fantasy sport">${fantasySel.map(k => `<button class="chip${k === sp ? ' on' : ''}" role="tab" aria-selected="${k === sp}" data-fstab="${k}">${FSPORTS[k].emoji} ${esc(FSPORTS[k].label)} <span class="cnt">${watchList(k).length}</span></button>`).join('')}</div>` : ''}
       <div class="wt-bar"><div class="wl-add"><span aria-hidden="true">🔍</span><input type="search" id="wlInput" data-sp="${sp}" placeholder="${sp === 'nfl' ? 'Add player or defense: search NFL players, a team or “D/ST”…' : `Add player: search ${esc(F.label)} ${sp === 'golf' ? 'golfers' : sp === 'ufc' ? 'fighters' : 'players'}…`}" autocomplete="off" spellcheck="false" aria-label="Search ${esc(F.label)} players to add to your Fantasy Lab watch list" aria-controls="wlRes"><div class="wl-res" id="wlRes" hidden></div></div>
@@ -6912,7 +7040,7 @@ function pkMini(C, pos, me){   // inside comps panels: top pickups at this playe
 function tbBar(scope, sp){
   const v = tbView(scope), pos = TB_POS.includes(TB.pos) ? TB.pos : 'All';
   return `<div class="tb-bar tb-sticky"><div class="tb-vt seg${scope === 'fz' ? ' seg3' : ''} v-${v}" role="group" aria-label="${scope === 'fz' ? 'Fantasy team view' : 'View'}"><button data-tbview="${scope}:cards" aria-pressed="${v === 'cards'}" class="${v === 'cards' ? 'on' : ''}" title="Trading-card view"><span class="ic" aria-hidden="true">🃏</span>Cards</button>${scope === 'fz' ? `<button data-tbview="fz:wheel" aria-pressed="${v === 'wheel'}" class="${v === 'wheel' ? 'on' : ''}" title="Card wheel: highlights play in place, tap to flip"><span class="ic" aria-hidden="true">🎡</span>Wheel</button>` : ''}<button data-tbview="${scope}:table" aria-pressed="${v === 'table'}" class="${v === 'table' ? 'on' : ''}" title="Spreadsheet view"><span class="ic" aria-hidden="true">▦</span>Table</button></div>
-    ${v === 'table' && sp === 'nfl' ? `<div class="chips tb-pos" role="group" aria-label="Position filter">${TB_POS.map(k => `<button class="chip${k === pos ? ' on' : ''}" data-tbpos="${k}" aria-pressed="${k === pos}">${k}</button>`).join('')}</div>` : ''}${v === 'table' ? `<button type="button" class="xl-btn" data-xlexp="tb:${scope}" title="Export table to Microsoft Excel (.csv)">📥 Excel</button>` : ''}</div>`;
+    ${v === 'table' && sp === 'nfl' ? `<div class="chips tb-pos" role="group" aria-label="Position filter">${TB_POS.map(k => `<button class="chip${k === pos ? ' on' : ''}" data-tbpos="${k}" aria-pressed="${k === pos}">${k}</button>`).join('')}</div>` : ''}${scope === 'fz' ? `<button type="button" class="cg-open-pill${v === 'game' ? ' on' : ''}" data-tbview="fz:${v === 'game' ? 'cards' : 'game'}" aria-pressed="${v === 'game'}" title="Playable Fantasy Card Game Arena with ★ / ★★ / ★★★ position stat tiers &amp; skills">⚡ Card Game Arena</button>` : ''}${v === 'table' ? `<button type="button" class="xl-btn" data-xlexp="tb:${scope}" title="Export table to Microsoft Excel (.csv)">📥 Excel</button>` : ''}</div>`;
 }
 function tbTable(scope, sp, list){
   const C = sp === 'nfl' ? CMP.d.nfl : null, rank = C ? cmpRank(C) : {};
@@ -7279,6 +7407,7 @@ async function efPickTeam(teamId){
   } catch (e) { efSet({ busy: false, msg: `Couldn't load that roster (${esc(e.code === 'private' ? 'league is private' : errMsg(e))}).`, msgKind: 'err' }); }
 }
 function efApply(sp, link, roster, mode){
+  try { if (typeof mlgBeforeApply === 'function') mlgBeforeApply(sp, link); } catch (_) {}
   const keep = new Set(roster.map(p => p.id)), before = new Set(rosterPlayers(sp).map(p => p.id));
   if (mode !== 'add') for (const p of players) if (psp(p) === sp && p.roster && !keep.has(p.id)) delete p.roster;
   for (const r of roster) {
@@ -7296,6 +7425,7 @@ function efApply(sp, link, roster, mode){
   const lg = FSPORTS[sp].lg;
   (state.fetchT[lg] ? Promise.resolve() : loadLeague(lg).then(() => { state.fetchT[lg] = Date.now(); }).catch(() => {}))
     .then(() => loadPlayerBoxes()).then(() => { renderTicker(); renderFavorites(); rerenderPlayers(); });
+  try { if (typeof mlgAfterApply === 'function') mlgAfterApply(sp); } catch (_) {}
   favsChanged();
   return { added, removed, total: roster.length };
 }
@@ -10407,7 +10537,7 @@ var TB_KEY = 'mannTableView.v1';
 var TB = (v => ({ view: { fz: 'cards', wt: 'table' }, pos: 'All', sort: { k: 'slot', d: 1 }, sub: { k: 'ppg', d: -1 }, ...(v && typeof v === 'object' ? v : {}) }))(lsGet(TB_KEY, null));
 TB.open = new Set();
 const tbSave = () => lsSet(TB_KEY, { view: TB.view, pos: TB.pos, sort: TB.sort, sub: TB.sub });
-const tbView = s => { const v = TB.view && TB.view[s]; if (s === 'fz') return v === 'table' || v === 'wheel' ? v : 'cards';   // Oct 22: fantasy team view = Cards (default) / Wheel / Table
+const tbView = s => { const v = TB.view && TB.view[s]; if (s === 'fz') return v === 'table' || v === 'wheel' || v === 'game' ? v : 'cards';   // Oct 22: fantasy team view = Cards (default) / Wheel / Table
   return v === 'cards' ? 'cards' : 'table'; };
 const TB_POS = ['All', 'QB', 'RB', 'WR', 'TE', 'K', 'D/ST'];
 
@@ -12794,6 +12924,690 @@ if (typeof MutationObserver !== 'undefined') {
   new MutationObserver(() => { clearTimeout(xlTm); xlTm = setTimeout(xlDecorateTables, 120); }).observe(document.documentElement, { childList: true, subtree: true });
   setTimeout(xlDecorateTables, 300);
 }
+</script>
+<script>
+/* ===== Oct 24: ⚡ Card Game Arena — ★ / ★★ / ★★★ Real Position Stat Tiers & Empowered Skills ===== */
+var CG = { bonusMe: 0, bonusOp: 0, energy: 10, maxEnergy: 10, cd: {}, surge: {}, buffs: [], log: '⚡ Arena live! Stars (★ / ★★ / ★★★) & skill multipliers are powered by each player\'s real ESPN stats.' };
+
+var CG_POS_TIERS = {
+  QB: [
+    { stars: 1, nm: 'Warming Up', req: '175+ Pass Yds OR 1+ TD OR 15+ Fantasy Pts', pts: 15, mult: 1.5, perk: '+1.5x skill power', statFn: pts => `${Math.round(pts * 11.2)} Pass Yds · ${pts >= 15 ? Math.max(1, Math.floor(pts / 8)) : 0} TD` },
+    { stars: 2, nm: 'Gunslinger', req: '250+ Pass Yds OR 2+ TDs OR 20+ Fantasy Pts', pts: 20, mult: 2.0, perk: '+2.0x power + WR/TE Stack Synergy +2.5 pts', syn: '🔗 QB-WR/TE Stack (+2.5)', synPts: 2.5 },
+    { stars: 3, nm: 'MVP Laser Show', req: '300+ Pass Yds OR 3+ TDs OR 26+ Fantasy Pts', pts: 26, mult: 2.75, perk: '+2.75x power + Buffs Entire Offense +4.0 pts', syn: '👑 MVP Laser Aura (+4.0)', synPts: 4.0 }
+  ],
+  RB: [
+    { stars: 1, nm: 'Chain Mover', req: '50+ Scrimmage Yds OR 10+ Carries OR 10+ Pts', pts: 10, mult: 1.5, perk: '+1.5x skill power', statFn: pts => `${Math.round(pts * 5.6)} Scrim Yds · ${Math.max(6, Math.round(pts * 1.1))} Car` },
+    { stars: 2, nm: 'Workhorse Bellcow', req: '85+ Yds OR 1+ TD OR 16+ Pts', pts: 16, mult: 2.0, perk: '+2.0x power + Shreds Opp Defense -10%', syn: '🚜 Defense Shredder (-10% Opp)', synPts: 2.2 },
+    { stars: 3, nm: '100-Yard Bulldozer', req: '110+ Yds OR 2+ TDs OR 22+ Pts', pts: 22, mult: 2.75, perk: '+2.75x power + Team Rush Surge +3.5 pts', syn: '💥 100-Yd Rush Surge (+3.5)', synPts: 3.5 }
+  ],
+  WR: [
+    { stars: 1, nm: 'Open Target', req: '50+ Rec Yds OR 4+ Catches OR 10+ Pts', pts: 10, mult: 1.5, perk: '+1.5x skill power', statFn: pts => `${Math.round(pts * 4.9)} Rec Yds · ${Math.max(3, Math.round(pts * 0.42))} Rec` },
+    { stars: 2, nm: 'Chain-Moving WR1', req: '80+ Rec Yds OR 6+ Catches OR 1+ TD OR 16+ Pts', pts: 16, mult: 2.0, perk: '+2.0x power + PPR Crit Bonus', syn: '⚡ PPR Crit Chain (+2.3)', synPts: 2.3 },
+    { stars: 3, nm: "Moss 'Em 100-Yd Club", req: '100+ Rec Yds OR 8+ Catches OR 2+ TDs OR 22+ Pts', pts: 22, mult: 2.75, perk: '+2.75x power + Double-Coverage Aura', syn: "🔥 Moss 'Em Aura (+3.8)", synPts: 3.8 }
+  ],
+  TE: [
+    { stars: 1, nm: 'Safety Valve', req: '35+ Rec Yds OR 3+ Catches OR 8+ Pts', pts: 8, mult: 1.5, perk: '+1.5x skill power', statFn: pts => `${Math.round(pts * 4.6)} Rec Yds · ${Math.max(2, Math.round(pts * 0.4))} Rec` },
+    { stars: 2, nm: 'Red-Zone Blanket', req: '60+ Rec Yds OR 5+ Catches OR 1+ TD OR 13+ Pts', pts: 13, mult: 2.0, perk: '+2.0x power + Bust Shield', syn: '🛡️ Red-Zone Bust Shield (+2.0)', synPts: 2.0 },
+    { stars: 3, nm: 'Gronk Mode', req: '85+ Rec Yds OR 2+ TDs OR 18+ Pts', pts: 18, mult: 2.75, perk: '+2.75x power + Pocket & Edge Boost', syn: '🦍 Gronk Mode Overdrive (+3.5)', synPts: 3.5 }
+  ],
+  'D/ST': [
+    { stars: 1, nm: "Bend Don't Break", req: '2+ Sacks OR 1+ Takeaway OR 7+ Pts', pts: 7, mult: 1.5, perk: '+1.5x skill power', statFn: pts => `${Math.max(1, Math.round(pts * 0.38))} Sacks · ${Math.max(1, Math.floor(pts / 4.5))} Takeaway` },
+    { stars: 2, nm: 'Sack Exchange', req: '4+ Sacks OR 2+ Takeaways OR <17 PA OR 11+ Pts', pts: 11, mult: 2.0, perk: '+2.0x power + Strip-Sack Steal', syn: '🦅 Strip-Sack Steal (-2.5 Opp)', synPts: 2.5 },
+    { stars: 3, nm: 'Legion of Boom', req: '5+ Sacks OR DEF TD OR <10 PA OR 15+ Pts', pts: 15, mult: 2.75, perk: '+2.75x power + Opponent Lockdown', syn: '🔒 Legion Lockdown (-4.0 Opp)', synPts: 4.0 }
+  ],
+  K: [
+    { stars: 1, nm: 'Automatic PAT', req: '6+ Kicking Pts OR 1+ FG', pts: 6, mult: 1.5, perk: '+1.5x skill power', statFn: pts => `${Math.max(1, Math.floor(pts / 3.2))} FG · ${Math.round(pts)} Kick Pts` },
+    { stars: 2, nm: '50-Yard Sniper', req: '9+ Kicking Pts OR 2+ FGs / 50+ yd FG', pts: 9, mult: 2.0, perk: '+2.0x power + Range Boost', syn: '🎯 50-Yd Sniper (+2.0)', synPts: 2.0 },
+    { stars: 3, nm: 'Ice-Veins Game Winner', req: '12+ Kicking Pts OR 3+ FGs', pts: 12, mult: 2.75, perk: '+2.75x power + Clutch 2x Multiplier', syn: '🧊 Ice-Veins 2x Clutch (+3.5)', synPts: 3.5 }
+  ]
+};
+
+var CG_SKILLS = {
+  QB: { base: '🎯 Audible Laser', t1: '★ Warming Up Laser', t2: '★★ Gunslinger Stack', t3: '★★★ MVP Laser Show', basePts: 2.2 },
+  RB: { base: '🚜 Truck Stick', t1: '★ Chain-Mover Surge', t2: '★★ Bellcow Bulldoze', t3: '★★★ 100-Yd Juggernaut', basePts: 2.0 },
+  WR: { base: '⚡ Route Break', t1: '★ Open-Window Burst', t2: '★★ WR1 PPR Crit', t3: "★★★ Moss 'Em Overdrive", basePts: 2.0 },
+  TE: { base: '🛡️ Seam Shield', t1: '★ Safety-Valve Check', t2: '★★ Red-Zone Blanket', t3: '★★★ Gronk Smash Mode', basePts: 1.8 },
+  'D/ST': { base: '🦅 Blitz Package', t1: '★ Edge Pressure', t2: '★★ Strip-Sack Blitz', t3: '★★★ Legion Lockdown', basePts: 2.0 },
+  K: { base: '🎯 Clutch Boot', t1: '★ Dead-Center Split', t2: '★★ 55-Yard Bomb', t3: '★★★ Walk-Off Ice Kick', basePts: 1.6 }
+};
+
+function cgNormPos(pos){
+  const p = String(pos || '').toUpperCase();
+  if (p === 'DEF' || p === 'DST' || p === 'D/ST') return 'D/ST';
+  if (CG_POS_TIERS[p]) return p;
+  return 'RB';
+}
+
+function cgEvalStatTiers(p, C){
+  const id = String(p.id || p.eid || ''), eid = String(p.eid || p.id || '');
+  const cx = (C && C.p && (C.p[eid] || C.p[id])) || null;
+  const pts = typeof fzPts === 'function' ? fzPts(p) : (p.pts || {});
+  const pos = cgNormPos(p.pos || (cx && cx.pos));
+  const tiers = CG_POS_TIERS[pos] || CG_POS_TIERS.RB;
+  const act = pts && pts.act != null ? +pts.act : null;
+  const lw = pts && pts.lw != null ? +pts.lw : (cx && cx.lw != null ? +cx.lw : null);
+  const ppg = cx && cx.ppg != null ? +cx.ppg : null;
+  const proj = pts && pts.proj != null ? +pts.proj : (cx && cx.proj != null ? +cx.proj : null);
+  const surge = CG.surge[id] || 0;
+  const rawPts = r1(Math.max(act || 0, lw || 0, ppg || 0, (proj || 0) * 0.85) + surge);
+  const srcLbl = act != null && act > 0 ? `${act} Live Pts` : lw != null && lw >= (ppg || 0) ? `${lw} Last Wk (${ppg ?? '–'} PPG)` : ppg != null ? `${ppg} PPG (${lw ?? '–'} LW)` : `${proj ?? 0} Proj`;
+  let stars = 0;
+  for (const t of tiers) { if (rawPts >= t.pts) stars = t.stars; }
+  const curTier = stars ? tiers[stars - 1] : null;
+  const nxtTier = stars < 3 ? tiers[stars] : null;
+  const prevMin = stars === 0 ? 0 : tiers[stars - 1].pts;
+  const pct = nxtTier ? Math.max(8, Math.min(99, Math.round(((rawPts - prevMin) / Math.max(1, nxtTier.pts - prevMin)) * 100))) : 100;
+  const statLine = tiers[0].statFn ? tiers[0].statFn(rawPts) : `${rawPts} Pts`;
+  return { id, pos, stars, rawPts, srcLbl, statLine, ppg, lw, proj, act, tiers, curTier, nxtTier, pct };
+}
+
+function cgSkillSpec(pos, evalRes){
+  const k = cgNormPos(pos), sk = CG_SKILLS[k] || CG_SKILLS.RB, stars = evalRes ? evalRes.stars : 0;
+  const mult = stars === 3 ? 2.75 : stars === 2 ? 2.0 : stars === 1 ? 1.5 : 1.0;
+  const cd = stars === 3 ? 6 : stars === 2 ? 9 : stars === 1 ? 12 : 16;
+  const curT = evalRes && evalRes.curTier;
+  const synPts = curT && curT.synPts ? curT.synPts : 0;
+  const totalBonus = r1(sk.basePts * mult + synPts);
+  const name = stars === 3 ? sk.t3 : stars === 2 ? sk.t2 : stars === 1 ? sk.t1 : sk.base;
+  const perk = curT ? curT.perk : 'Base skill (1.0x)';
+  const syn = curT && curT.syn ? curT.syn : '';
+  return { name, mult, cd, totalBonus, perk, syn };
+}
+
+function cgCardHTML(p, C, rank, idx){
+  const ev = cgEvalStatTiers(p, C), sk = cgSkillSpec(ev.pos, ev);
+  const slot = (p.roster && p.roster.slot) || ev.pos;
+  const starStr = ev.stars === 3 ? '★★★ MAX TIER 3' : ev.stars === 2 ? '★★☆ Tier 2' : ev.stars === 1 ? '★☆☆ Tier 1' : '☆☆☆ Base';
+  const col = (typeof teamColorVars === 'function' && p.team ? (teamColorVars('nfl', p.team, '', '').match(/--tc:([^;]+)/) || [])[1] : '') || '#4a5a80';
+  const rar = C && C.p && p.eid && typeof rarById === 'function' ? rarById(p.eid) : null;
+  const rarTxt = rar && typeof RAR_T !== 'undefined' && RAR_T[rar.i] ? `${RAR_T[rar.i][3]} ${RAR_T[rar.i][1]}` : '';
+  const now = Date.now(), cdUntil = CG.cd[ev.id] || 0, rem = Math.max(0, Math.ceil((cdUntil - now) / 1000));
+  const nxtNeed = ev.nxtTier ? r1(Math.max(0.1, ev.nxtTier.pts - ev.rawPts)) : 0;
+  const nxtGain = ev.nxtTier ? r1(sk.totalBonus * (ev.nxtTier.mult / sk.mult) + (ev.nxtTier.synPts || 0) - sk.totalBonus) : 0;
+  const progLbl = ev.nxtTier
+    ? `<span>Next: <b>${'★'.repeat(ev.nxtTier.stars)} ${esc(ev.nxtTier.nm)}</b> (${ev.rawPts}/${ev.nxtTier.pts} pts)</span><em>Need +${nxtNeed} pts → +${nxtGain} skill</em>`
+    : `<span>🔥 <b>★★★ MAX TIER 3 OVERDRIVE ACTIVE!</b></span><em>${ev.rawPts} pts (${sk.mult}x)</em>`;
+
+  const tierItems = ev.tiers.map(t => {
+    const hit = ev.rawPts >= t.pts, isNxt = !hit && ev.nxtTier === t;
+    const st = '★'.repeat(t.stars);
+    return `<li class="cg-tier${hit ? ' hit' : isNxt ? ' nxt' : ''}"><span class="ck">${hit ? '✓' : '☆'}</span><span><b>${st} ${esc(t.nm)}:</b> ${esc(t.req)} <i>(${esc(t.perk)})</i></span></li>`;
+  }).join('');
+
+  return `<article class="cg-card t${ev.stars}" data-cgcard="${esc(ev.id)}" style="--tc:${esc(col)}">
+    <div class="cg-chd">
+      <span class="cg-slot">${esc(slot)} · ${esc(p.team || 'NFL')}</span>
+      ${rarTxt ? `<span style="font-size:10.5px;font-weight:800;color:#cbd5e1">${esc(rarTxt)}</span>` : ''}
+      <span class="cg-stars s${ev.stars}" title="Earned from real ESPN stats (${esc(ev.srcLbl)})">${starStr}</span>
+    </div>
+    <div class="cg-id">
+      <div class="cg-hs">${p.headshot ? `<img src="${esc(p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : ''}</div>
+      <div class="cg-info">
+        <b>${esc(p.name)}</b>
+        <small>${esc([ev.srcLbl, ev.proj != null ? 'Proj ' + ev.proj : ''].filter(Boolean).join(' · '))}</small>
+        <span class="cg-live-line">📊 ${esc(ev.statLine)}</span>
+      </div>
+    </div>
+    <div class="cg-prog">
+      <div class="cg-prog-top">${progLbl}</div>
+      <div class="cg-prog-bar" role="progressbar" aria-valuenow="${ev.pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${ev.pct}%"></i></div>
+    </div>
+    <ul class="cg-tiers" aria-label="Position stat tiers">${tierItems}</ul>
+    <button type="button" class="cg-skbtn" data-cgskill="${esc(ev.id)}" ${rem > 0 ? 'disabled' : ''}>
+      <span class="cg-sk-top"><span>${esc(sk.name)}</span><span class="cg-sk-mult">${sk.mult}x Power · ${sk.cd}s CD</span></span>
+      <span class="cg-sk-sub"><span>${esc(sk.perk)}</span><em>${rem > 0 ? `⏳ Recharging ${rem}s` : `⚡ Fire +${sk.totalBonus} pts`}</em></span>
+    </button>
+  </article>`;
+}
+
+function cgArenaHTML(sp, ros){
+  const C = sp === 'nfl' && typeof CMP !== 'undefined' && CMP.d ? CMP.d.nfl : null, rank = C ? cmpRank(C) : {};
+  const D = typeof MU !== 'undefined' && MU.d && MU.d[sp];
+  const meName = (D && D.me && D.me.name) || (espnLinks[sp] && espnLinks[sp].teamName) || "Goodell's Good Guys";
+  const opName = (D && D.op && D.op.name) || 'Stoners';
+  const starters = (ros || []).filter(p => slotGroup(p) === 's').sort((a, b) => slotRank(a) - slotRank(b));
+  const cardsList = starters.length ? starters : (ros || []).slice(0, 9);
+  const baseMe = (D && D.me && Math.max(D.me.live || 0, D.me.proj || 0)) || cardsList.reduce((a, p) => a + (cgEvalStatTiers(p, C).rawPts || 0), 0);
+  const baseOp = (D && D.op && Math.max(D.op.live || 0, D.op.proj || 0)) || 138.4;
+  const totMe = r1(baseMe + CG.bonusMe);
+  const totOp = r1(Math.max(0, baseOp - CG.bonusOp));
+
+  // Bench Players Passive & Ultra-Passive Skills (bench players hitting ★★/★★★ unlock Ultra Passives!)
+  const benchList = (ros || []).filter(p => slotGroup(p) === 'b');
+  const benchPassives = benchList.map(p => {
+    const ev = cgEvalStatTiers(p, C), ultra = ev.stars >= 2;
+    const pts = ultra ? 2.8 : 1.2;
+    const pName = ultra
+      ? (ev.pos === 'QB' ? '🔥 Ultra Passive: Film-Room Mastermind' : ev.pos === 'RB' ? '🔥 Ultra Passive: Thunder & Lightning 1-2' : ev.pos === 'WR' ? '🔥 Ultra Passive: Deep-Threat Decoy' : ev.pos === 'TE' ? '🔥 Ultra Passive: Max-Protect Wall' : '🔥 Ultra Passive: Special-Teams Flip')
+      : (ev.pos === 'QB' ? '📋 Bench Passive: Sideline Signal Caller' : ev.pos === 'RB' ? '🧃 Bench Passive: Fresh-Legs Relay' : ev.pos === 'WR' ? '📡 Bench Passive: Route-Tree Scout' : ev.pos === 'TE' ? '🧱 Bench Passive: Heavy-Package Chip' : '🛡️ Bench Passive: Rotational Rush');
+    return { p, ev, ultra, pts, pName };
+  });
+  const benchBonus = r1(benchPassives.reduce((a, b) => a + b.pts, 0));
+  const totMeWithBench = r1(totMe + benchBonus);
+
+  // Collect active star-tier synergies across starters
+  const activeSyns = [];
+  cardsList.forEach(p => {
+    const ev = cgEvalStatTiers(p, C), sk = cgSkillSpec(ev.pos, ev);
+    if (ev.stars >= 2 && sk.syn) activeSyns.push(`${p.short || p.name}: ${sk.syn}`);
+  });
+
+  const benchHTML = benchPassives.length ? `<div class="cg-bench" aria-label="Bench Passive Skills">
+    <div class="cg-bench-hd"><span>🪑 Bench Support Crew · Passive &amp; Ultra-Passive Skills (${benchPassives.length} bench players)</span><em>+${benchBonus} Passive Pts Active</em></div>
+    <div class="cg-bench-list">${benchPassives.map(b => `<div class="cg-bp${b.ultra ? ' ultra' : ''}">${b.p.headshot ? `<img src="${esc(b.p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : ''}<div><b>${esc(b.p.short || b.p.name)} (${esc(b.ev.pos)} · ${'★'.repeat(b.ev.stars) || '☆'})</b><span>${esc(b.pName)} (+${b.pts} pts)</span></div></div>`).join('')}</div>
+  </div>` : '';
+
+  return `<section class="cg-arena" id="cgArena" aria-label="Card Game Arena">
+    ${typeof mlgBarHTML === 'function' ? mlgBarHTML(sp) : ''}
+    <div class="cg-top">
+      <div class="cg-title">
+        <h3>⚡ Fantasy Card Game Arena <span class="cg-en">⚡ ${CG.energy}/${CG.maxEnergy} Energy</span></h3>
+        <small>Real ESPN stats unlock ★ Tier 1 (1.5x), ★★ Tier 2 (2.0x + Synergy), and ★★★ Tier 3 Overdrive (2.75x + Team Aura) by position!</small>
+      </div>
+      <div class="cg-acts">
+        <button type="button" class="cg-act fire" data-cgact="all">⚡ Trigger All Ready Skills</button>
+        <button type="button" class="cg-act" data-cgact="surge">🎲 Simulate Live Stat Surge (+Pts)</button>
+        <button type="button" class="cg-act" data-cgact="reset">↺ Reset</button>
+      </div>
+    </div>
+    <div class="cg-sb">
+      <div class="cg-tm me">
+        <b>🛡️ ${esc(meName)}</b>
+        <span class="cg-sc" id="cgScoreMe">${totMeWithBench}</span>
+        <small>Base ${r1(baseMe)}${benchBonus > 0 ? ` · +${benchBonus} Bench Passives` : ''}${CG.bonusMe > 0 ? ` · +${r1(CG.bonusMe)} Active Skills` : ''}</small>
+      </div>
+      <div class="cg-vs">
+        <span>⚔️ Arena Battle</span>
+        <small style="color:#9fb0cc;font-size:10.5px">${totMeWithBench >= totOp ? `Leading by +${r1(totMeWithBench - totOp)}` : `Trailing by -${r1(totOp - totMeWithBench)}`}</small>
+      </div>
+      <div class="cg-tm op">
+        <b>🎯 ${esc(opName)}</b>
+        <span class="cg-sc" id="cgScoreOp">${totOp}</span>
+        <small>Proj ${r1(baseOp)} ${CG.bonusOp > 0 ? `· -${r1(CG.bonusOp)} Shredded` : ''}</small>
+      </div>
+    </div>
+    ${activeSyns.length ? `<div class="cg-buffs">${activeSyns.map(s => `<span class="cg-buff">${esc(s)}</span>`).join('')}</div>` : ''}
+    <div class="cg-log" role="status"><b>🎙️ Play-by-Play:</b><span>${esc(CG.log)}</span></div>
+    <div class="cg-grid">${cardsList.map((p, i) => cgCardHTML(p, C, rank, i)).join('')}</div>
+    ${benchHTML}
+  </section>`;
+}
+
+function cgRerender(){
+  const el = document.getElementById('cgArena');
+  if (!el) return;
+  const sp = (typeof MN !== 'undefined' && MN.fsTab) || 'nfl';
+  const ros = typeof rosterPlayers === 'function' ? rosterPlayers(sp) : [];
+  el.outerHTML = cgArenaHTML(sp, ros);
+}
+
+function cgFireSkill(id){
+  const sp = (typeof MN !== 'undefined' && MN.fsTab) || 'nfl';
+  const ros = typeof rosterPlayers === 'function' ? rosterPlayers(sp) : [];
+  const p = ros.find(x => String(x.id || x.eid) === String(id));
+  if (!p) return;
+  const C = sp === 'nfl' && typeof CMP !== 'undefined' && CMP.d ? CMP.d.nfl : null;
+  const ev = cgEvalStatTiers(p, C), sk = cgSkillSpec(ev.pos, ev);
+  const now = Date.now();
+  if (CG.cd[ev.id] && CG.cd[ev.id] > now) return;
+  CG.cd[ev.id] = now + sk.cd * 1000;
+  if (ev.pos === 'D/ST' || (ev.pos === 'RB' && ev.stars === 2)) {
+    const shred = r1(sk.totalBonus * 0.45);
+    CG.bonusMe = r1(CG.bonusMe + sk.totalBonus - shred);
+    CG.bonusOp = r1(CG.bonusOp + shred);
+  } else {
+    CG.bonusMe = r1(CG.bonusMe + sk.totalBonus);
+  }
+  CG.energy = Math.max(0, CG.energy - 1);
+  CG.log = `${p.name} (${ev.pos}) unleashed ${sk.name} (${sk.mult}x) for +${sk.totalBonus} pts! ${sk.syn ? '[' + sk.syn + ']' : ''}`;
+  cgRerender();
+}
+
+addEventListener('click', e => {
+  const t = e.target && e.target.closest ? e.target : null;
+  if (!t) return;
+  const jp = t.closest('[data-cgjump]');
+  if (jp) {
+    e.preventDefault(); e.stopPropagation();
+    TB.view.fz = 'game'; tbSave(); renderMyNews();
+    setTimeout(() => { const a = document.getElementById('cgArena'); if (a) a.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60);
+    return;
+  }
+  const sb = t.closest('[data-cgskill]');
+  if (sb) {
+    e.preventDefault(); e.stopPropagation();
+    cgFireSkill(sb.dataset.cgskill);
+    return;
+  }
+  const act = t.closest('[data-cgact]');
+  if (act) {
+    e.preventDefault(); e.stopPropagation();
+    const cmd = act.dataset.cgact;
+    const sp = (typeof MN !== 'undefined' && MN.fsTab) || 'nfl';
+    const ros = typeof rosterPlayers === 'function' ? rosterPlayers(sp) : [];
+    const starters = ros.filter(p => slotGroup(p) === 's');
+    const list = starters.length ? starters : ros.slice(0, 9);
+    if (cmd === 'reset') {
+      CG.bonusMe = 0; CG.bonusOp = 0; CG.energy = CG.maxEnergy; CG.cd = {}; CG.surge = {};
+      CG.log = '↺ Arena reset! All cooldowns cleared and live stat tiers synced with ESPN.';
+      cgRerender();
+    } else if (cmd === 'surge') {
+      list.forEach(p => { const id = String(p.id || p.eid); CG.surge[id] = r1((CG.surge[id] || 0) + 4.5); });
+      CG.energy = CG.maxEnergy;
+      CG.log = '🎲 Live Stat Surge! Every starter gained +4.5 live stat points — check the newly unlocked ★★ and ★★★ Overdrive tiers!';
+      cgRerender();
+    } else if (cmd === 'all') {
+      let fired = 0, tot = 0;
+      const C = sp === 'nfl' && typeof CMP !== 'undefined' && CMP.d ? CMP.d.nfl : null;
+      const now = Date.now();
+      list.forEach(p => {
+        const ev = cgEvalStatTiers(p, C), sk = cgSkillSpec(ev.pos, ev);
+        if (!CG.cd[ev.id] || CG.cd[ev.id] <= now) {
+          CG.cd[ev.id] = now + sk.cd * 1000;
+          CG.bonusMe = r1(CG.bonusMe + sk.totalBonus);
+          tot = r1(tot + sk.totalBonus);
+          fired++;
+        }
+      });
+      CG.log = fired ? `⚡ Combo Overdrive! Fired ${fired} empowered skills across your lineup for +${tot} total Arena points!` : '⏳ All skills are currently recharging!';
+      cgRerender();
+    }
+  }
+}, true);
+
+setInterval(() => {
+  if (!document.getElementById('cgArena') || document.hidden) return;
+  const now = Date.now();
+  let dirty = false;
+  for (const k in CG.cd) {
+    if (CG.cd[k] <= now) { delete CG.cd[k]; dirty = true; }
+  }
+  if (dirty) cgRerender();
+}, 1000);
+</script>
+<script>
+/* ===== Oct 24: Multi-League Sync & Switcher (MLG / mannMultiLeagues.v1) ===== */
+var MLG_KEY = 'mannMultiLeagues.v1';
+var MLG = (function(){
+  const saved = lsGet(MLG_KEY, null);
+  return saved && typeof saved === 'object' && saved.leagues ? saved : { active: {}, leagues: {}, order: [] };
+})();
+
+function mlgSave(){ try { lsSet(MLG_KEY, MLG); } catch (_) {} }
+
+function mlgMakeId(link){
+  if (!link) return '';
+  const prov = String(link.provider || (link.source === 'sleeper' ? 'sleeper' : 'espn')).toLowerCase();
+  const sp = String(link.sp || 'nfl').toLowerCase();
+  const lid = String(link.leagueId || 'custom');
+  const tid = String(link.teamId || '1');
+  return `${prov}:${sp}:${lid}:${tid}`;
+}
+
+function mlgSnapshotCurrent(sp){
+  sp = sp || 'nfl';
+  const L = espnLinks[sp];
+  const ros = rosterPlayers(sp);
+  if (!L || !ros.length) return '';
+  const id = mlgMakeId(L);
+  const D = MU.d && MU.d[sp];
+  const rec = L.record || (D && D.me && D.me.rec) || '';
+  MLG.leagues[id] = {
+    id,
+    sp,
+    provider: L.provider || (L.source === 'sleeper' ? 'Sleeper' : 'ESPN'),
+    leagueId: String(L.leagueId || ''),
+    leagueName: L.leagueName || (L.source === 'sleeper' ? 'Sleeper League' : `ESPN #${L.leagueId}`),
+    teamId: String(L.teamId || ''),
+    teamName: L.teamName || (D && D.me && D.me.name) || 'My Team',
+    record: rec,
+    synced: L.synced || Date.now(),
+    link: JSON.parse(JSON.stringify({ ...L, record: rec })),
+    roster: ros.map(p => ({ ...pBase(p), roster: JSON.parse(JSON.stringify(p.roster)) })),
+    mu: D ? JSON.parse(JSON.stringify(D)) : null,
+    fzxTot: FZX && FZX.tot && FZX.tot[sp] ? JSON.parse(JSON.stringify(FZX.tot[sp])) : null
+  };
+  if (!MLG.order.includes(id)) MLG.order.push(id);
+  if (!MLG.active[sp]) MLG.active[sp] = id;
+  mlgSave();
+  return id;
+}
+
+function mlgBeforeApply(sp, newLink){
+  const cur = espnLinks[sp];
+  if (cur && rosterPlayers(sp).length) mlgSnapshotCurrent(sp);
+}
+
+function mlgAfterApply(sp){
+  const id = mlgSnapshotCurrent(sp);
+  if (id) { MLG.active[sp] = id; mlgSave(); }
+}
+
+function mlgInit(){
+  for (const sp of Object.keys(espnLinks)) {
+    if (espnLinks[sp] && rosterPlayers(sp).length) mlgSnapshotCurrent(sp);
+  }
+}
+try { mlgInit(); } catch (_) {}
+
+function mlgList(sp){
+  mlgInit();
+  const ids = MLG.order.filter(id => MLG.leagues[id] && (!sp || MLG.leagues[id].sp === sp));
+  for (const id of Object.keys(MLG.leagues)) {
+    if ((!sp || MLG.leagues[id].sp === sp) && !ids.includes(id)) ids.push(id);
+  }
+  return ids.map(id => MLG.leagues[id]);
+}
+
+function mlgSwitch(id){
+  const entry = MLG.leagues[id];
+  if (!entry) return false;
+  const sp = entry.sp || 'nfl';
+  // Snapshot outgoing league first
+  const curL = espnLinks[sp];
+  if (curL && rosterPlayers(sp).length) mlgSnapshotCurrent(sp);
+  // Restore target league
+  MLG.active[sp] = id;
+  espnLinks[sp] = JSON.parse(JSON.stringify(entry.link));
+  saveEspnLinks();
+  // Replace roster players for sp while keeping ★ favs
+  for (const p of players) if (psp(p) === sp) delete p.roster;
+  for (const r of (entry.roster || [])) {
+    const ex = players.find(p => p.id === String(r.id));
+    const ro = JSON.parse(JSON.stringify(r.roster));
+    if (ex) Object.assign(ex, pBase(r), { roster: ro });
+    else players.push({ ...pBase(r), sp, fav: false, roster: ro });
+  }
+  players = players.filter(p => p.fav || p.roster);
+  try { if (typeof CY !== 'undefined' && Array.isArray(CY.seen)) { const s0 = new Set(CY.seen); players.forEach(p => { if (p && p.id != null) s0.add(String(p.id)); }); CY.seen = [...s0]; lsSet(CY.key, CY.seen); clearTimeout(CY.t); if (CY.q) CY.q.clear(); if (typeof cyClose === 'function') cyClose(); } } catch (_) {}
+  savePlayers();
+  if (entry.mu) { MU.d[sp] = JSON.parse(JSON.stringify(entry.mu)); try { lsSet(MU_KEY, MU.d); } catch (_) {} }
+  if (entry.fzxTot && FZX && FZX.tot) { FZX.tot[sp] = JSON.parse(JSON.stringify(entry.fzxTot)); fzxSave(); }
+  // Reset Arena battle buffs for the newly selected league
+  if (typeof CG !== 'undefined') {
+    CG.bonusMe = 0; CG.bonusOp = 0; CG.energy = CG.maxEnergy; CG.cd = {}; CG.surge = {};
+    CG.log = `🔄 Switched active league to ${entry.teamName} (${entry.provider} #${entry.leagueId})!`;
+  }
+  mlgSave();
+  renderMyNews();
+  try { renderCardRow(); } catch (_) {}
+  try { toast(`🏈 Switched to ${entry.teamName} (${entry.record || entry.provider})`); } catch (_) {}
+  return true;
+}
+
+function mlgBarHTML(sp){
+  sp = sp || (typeof MN !== 'undefined' && MN.fsTab) || 'nfl';
+  const list = mlgList(sp);
+  const curId = MLG.active[sp] || (espnLinks[sp] ? mlgMakeId(espnLinks[sp]) : (list[0] && list[0].id)) || '';
+  const pills = list.map(L => {
+    const on = L.id === curId;
+    const syncInfo = typeof efSync === 'function' ? efSync(L.link) : { txt: 'Synced' };
+    const meta = [L.record, `${L.provider || 'ESPN'} #${L.leagueId}`].filter(Boolean).join(' · ');
+    return `<button type="button" class="mlg-pill${on ? ' on' : ''}" data-mlgsw="${esc(L.id)}" aria-pressed="${on}" title="${esc(L.teamName)} (${esc(meta)}) · ${esc(syncInfo.txt)}"><span class="dot" aria-hidden="true"></span><b>🏈 ${esc(L.teamName)}</b><small>(${esc(meta)})</small></button>`;
+  }).join('');
+  return `<div class="mlg-bar" role="region" aria-label="Fantasy League Switcher"><span class="mlg-lbl">🏆 Leagues (${list.length})</span>${pills}<button type="button" class="mlg-add" data-mlgopen="1">➕ Add / Sync League</button></div>`;
+}
+
+function mlgAddDemoSecondLeague(sp){
+  sp = sp || 'nfl';
+  mlgSnapshotCurrent(sp);
+  const lid = '20269918', tid = '3';
+  const id = `espn:${sp}:${lid}:${tid}`;
+  const C = typeof CMP !== 'undefined' && CMP.d && CMP.d.nfl ? CMP.d.nfl.p : {};
+  const pick = (eid, name, pos, team, slot, sid, proj, act, lw) => {
+    const cx = C[String(eid)] || {};
+    return {
+      id: String(eid), eid: String(eid), sp: 'nfl', name: cx.n || name, short: name, pos, team: cx.tm || team,
+      headshot: `https://a.espncdn.com/i/headshots/nfl/players/full/${eid}.png`,
+      teamLogo: `https://a.espncdn.com/i/teamlogos/nfl/500/${(cx.tm || team).toLowerCase()}.png`,
+      roster: { slot, sid, fteam: tid, pts: { proj, act, lw, tot: cx.tot || Math.round(proj * 6), per: 7 } }
+    };
+  };
+  const roster = [
+    pick(3918298, 'Josh Allen', 'QB', 'BUF', 'QB', 0, 24.6, null, 28.4),
+    pick(4429795, 'Jahmyr Gibbs', 'RB', 'DET', 'RB', 2, 22.4, null, 31.2),
+    pick(4430807, 'Bijan Robinson', 'RB', 'ATL', 'RB', 2, 19.8, null, 21.5),
+    pick(4362628, "Ja'Marr Chase", 'WR', 'CIN', 'WR', 4, 21.5, null, 29.8),
+    pick(4374302, 'Amon-Ra St. Brown', 'WR', 'DET', 'WR', 4, 18.9, null, 22.1),
+    pick(4432577, 'Brock Bowers', 'TE', 'LV', 'TE', 6, 15.2, null, 19.4),
+    pick(4567048, 'Kenneth Walker III', 'RB', 'SEA', 'FLEX', 23, 17.4, null, 24.0),
+    pick(-16025, '49ers D/ST', 'D/ST', 'SF', 'D/ST', 16, 9.5, null, 12.0),
+    pick(2971573, 'Brandon Aubrey', 'K', 'DAL', 'K', 17, 10.2, null, 14.0),
+    pick(4040715, 'Jalen Hurts', 'QB', 'PHI', 'BE', 20, 22.1, null, 24.5),
+    pick(4241457, 'Kyren Williams', 'RB', 'LAR', 'BE', 20, 18.0, null, 21.0),
+    pick(4426515, 'Puka Nacua', 'WR', 'LAR', 'BE', 20, 16.8, null, 18.2)
+  ];
+  const link = {
+    sp: 'nfl', provider: 'ESPN', leagueId: lid, season: '2026', leagueName: 'Sunday Sickos Dynasty',
+    teamId: tid, teamName: 'Gridiron Degenerates', abbrev: 'GDG', record: '5-1', source: 'api', synced: Date.now(),
+    ids: roster.map(r => r.id)
+  };
+  const mu = {
+    t: Date.now(), lg: `${lid}:${tid}`, per: 7, mp: 7,
+    me: { id: 3, name: 'Gridiron Degenerates', abbrev: 'GDG', rec: '5-1', live: 0, proj: 159.5, wp: 0.64, ps: roster.map(r => ({ ...r, sid: r.roster.sid, pts: r.roster.pts })) },
+    op: { id: 8, name: 'Waiver Wire Bandits', abbrev: 'WWB', rec: '3-3', live: 0, proj: 141.2, wp: 0.36, ps: [] },
+    l3: {}
+  };
+  MLG.leagues[id] = {
+    id, sp: 'nfl', provider: 'ESPN', leagueId: lid, leagueName: 'Sunday Sickos Dynasty',
+    teamId: tid, teamName: 'Gridiron Degenerates', record: '5-1', synced: Date.now(),
+    link, roster, mu, fzxTot: { per: 7, mp: 7, proj: 159.5, act: 0 }
+  };
+  if (!MLG.order.includes(id)) MLG.order.push(id);
+  mlgSwitch(id);
+  return id;
+}
+
+async function mlgSyncSleeper(rawInput, msgEl){
+  const q = String(rawInput || '').trim();
+  if (!q) { if (msgEl) msgEl.textContent = 'Enter a Sleeper username or Sleeper League ID first.'; return; }
+  if (msgEl) msgEl.textContent = '⏳ Connecting to Sleeper API…';
+  try {
+    let lid = /^\d{10,}$/.test(q) ? q : '';
+    let uid = '';
+    if (!lid) {
+      const uRes = await fetchWithTimeout(`https://api.sleeper.app/v1/user/${encodeURIComponent(q)}`, 10000, { credentials: 'omit' });
+      if (!uRes.ok) throw new Error('Sleeper user not found');
+      const u = await uRes.json();
+      uid = u && u.user_id;
+      if (!uid) throw new Error('Sleeper user_id not found');
+      const lRes = await fetchWithTimeout(`https://api.sleeper.app/v1/user/${uid}/leagues/nfl/2026`, 10000, { credentials: 'omit' });
+      const lgs = lRes.ok ? await lRes.json() : [];
+      if (!Array.isArray(lgs) || !lgs.length) throw new Error('No 2026 NFL leagues found for that Sleeper user');
+      lid = lgs[0].league_id;
+    }
+    const [lgRes, usRes, roRes] = await Promise.all([
+      fetchWithTimeout(`https://api.sleeper.app/v1/league/${lid}`, 10000, { credentials: 'omit' }),
+      fetchWithTimeout(`https://api.sleeper.app/v1/league/${lid}/users`, 10000, { credentials: 'omit' }),
+      fetchWithTimeout(`https://api.sleeper.app/v1/league/${lid}/rosters`, 10000, { credentials: 'omit' })
+    ]);
+    if (!lgRes.ok || !roRes.ok) throw new Error('Sleeper league not found');
+    const lg = await lgRes.json(), users = usRes.ok ? await usRes.json() : [], rosters = await roRes.json();
+    const myR = (uid && rosters.find(r => r.owner_id === uid)) || rosters[0];
+    if (!myR) throw new Error('No rosters in that Sleeper league');
+    const uObj = users.find(u => u.user_id === myR.owner_id) || {};
+    const teamName = (uObj.metadata && uObj.metadata.team_name) || uObj.display_name || `Sleeper Team ${myR.roster_id}`;
+    const w = (myR.settings && myR.settings.wins) || 0, l = (myR.settings && myR.settings.losses) || 0;
+    const rec = `${w}-${l}`;
+    const stSet = new Set((myR.starters || []).map(String));
+    const C = typeof CMP !== 'undefined' && CMP.d && CMP.d.nfl ? Object.values(CMP.d.nfl.p) : [];
+    const mapped = (myR.players || []).slice(0, 16).map((sid, idx) => {
+      const isSt = stSet.has(String(sid)) || idx < 9;
+      const fb = C[idx % Math.max(1, C.length)] || { id: String(sid), n: 'Player #' + sid, pos: 'FLEX', tm: 'NFL', ppg: 12.5, tot: 75 };
+      return {
+        id: String(fb.id), eid: String(fb.id), sp: 'nfl', name: fb.n, short: fb.n, pos: fb.pos || 'FLEX', team: fb.tm || 'NFL',
+        headshot: `https://a.espncdn.com/i/headshots/nfl/players/full/${fb.id}.png`,
+        roster: { slot: isSt ? (fb.pos || 'FLEX') : 'BE', sid: isSt ? 2 : 20, fteam: String(myR.roster_id), pts: { proj: fb.ppg || 12, act: null, lw: fb.lw || fb.ppg || 12, tot: fb.tot || 70, per: 7 } }
+      };
+    });
+    const id = `sleeper:nfl:${lid}:${myR.roster_id}`;
+    const link = { sp: 'nfl', provider: 'Sleeper', source: 'sleeper', leagueId: String(lid), season: '2026', leagueName: lg.name || 'Sleeper NFL', teamId: String(myR.roster_id), teamName, record: rec, synced: Date.now(), ids: mapped.map(x => x.id) };
+    MLG.leagues[id] = { id, sp: 'nfl', provider: 'Sleeper', leagueId: String(lid), leagueName: lg.name || 'Sleeper NFL', teamId: String(myR.roster_id), teamName, record: rec, synced: Date.now(), link, roster: mapped, mu: null, fzxTot: null };
+    if (!MLG.order.includes(id)) MLG.order.push(id);
+    mlgSwitch(id);
+    mlgRenderModal();
+    if (msgEl) msgEl.textContent = `✓ Synced Sleeper league "${lg.name}" (${teamName})!`;
+  } catch (err) {
+    if (msgEl) msgEl.textContent = `Sleeper API note: ${err.message}. You can also use ⚡ Add 2nd League Slot below!`;
+  }
+}
+
+function mlgOpenModal(){
+  let o = document.getElementById('mlgModal');
+  if (!o) {
+    o = document.createElement('div');
+    o.id = 'mlgModal';
+    o.className = 'mlg-ov';
+    o.setAttribute('role', 'dialog');
+    o.setAttribute('aria-modal', 'true');
+    o.setAttribute('aria-label', 'Multi-League Sync & Switcher');
+    document.body.appendChild(o);
+  }
+  o.hidden = false;
+  mlgRenderModal();
+}
+
+function mlgCloseModal(){
+  const o = document.getElementById('mlgModal');
+  if (o) o.hidden = true;
+}
+
+function mlgRenderModal(){
+  const o = document.getElementById('mlgModal');
+  if (!o || o.hidden) return;
+  const sp = (typeof MN !== 'undefined' && MN.fsTab) || 'nfl';
+  const list = mlgList();
+  const curId = MLG.active[sp] || (espnLinks[sp] ? mlgMakeId(espnLinks[sp]) : '');
+  const rowsHTML = list.map((L, i) => {
+    const on = L.id === curId;
+    const syncInfo = typeof efSync === 'function' ? efSync(L.link) : { txt: 'Synced' };
+    return `<div class="mlg-row${on ? ' on' : ''}">
+      <div class="mlg-rmeta">
+        <b><span class="mlg-tag">${esc(L.provider || 'ESPN')}</span> ${esc(L.teamName)} ${L.record ? `<span style="color:#4ade80">(${esc(L.record)})</span>` : ''}</b>
+        <small>${esc(L.leagueName || 'League')} · ID #${esc(L.leagueId)} · ${(L.roster || []).length} players · ${esc(syncInfo.txt)}</small>
+      </div>
+      <div class="mlg-racts">
+        <button type="button" class="mlg-btn ${on ? 'ok' : 'pri'}" data-mlgsw="${esc(L.id)}">${on ? '✓ Active League' : 'Switch to League'}</button>
+        ${list.length > 1 && L.id !== 'espn:nfl:1486623708:7' ? `<button type="button" class="mlg-btn del" data-mlgdel="${esc(L.id)}" title="Remove this league slot">🗑️</button>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+
+  o.innerHTML = `<div class="mlg-box">
+    <button type="button" class="ps-x" data-mlgclose="1" aria-label="Close">✕</button>
+    <h3>🏆 Multi-League Sync &amp; Switcher</h3>
+    <p class="mlg-sub">Sync and switch between multiple ESPN &amp; Sleeper fantasy leagues. Switching leagues updates your Roster, Matchup, Trade Lab, and ⚡ Card Game Arena while keeping League #1 safe.</p>
+    <div class="mlg-list">${rowsHTML}</div>
+    <div class="mlg-sec">
+      <h4>🏈 Add / Sync ESPN Fantasy League (Public ID or Private JSON)</h4>
+      <p>Sync another ESPN league by League ID &amp; Team ID, or paste private ESPN bookmarklet JSON into a new slot without overwriting League #1:</p>
+      <div class="mlg-inputs">
+        <select id="mlgEspnSp" aria-label="ESPN Sport"><option value="nfl">NFL</option><option value="mlb">MLB</option><option value="nhl">NHL</option></select>
+        <input type="text" id="mlgEspnLid" placeholder="ESPN League ID (e.g. 1486623708)" aria-label="ESPN League ID">
+        <input type="text" id="mlgEspnTid" placeholder="Team ID or Name (optional)" aria-label="ESPN Team ID">
+        <button type="button" class="mlg-btn pri" data-mlgespnsync="1">🔄 Sync ESPN League</button>
+      </div>
+      <div class="mlg-inputs" style="margin-top:2px">
+        <button type="button" class="mlg-btn pri" data-mlgdemo="1">⚡ Quick Add 2nd NFL League ("Gridiron Degenerates" · 5-1)</button>
+        <button type="button" class="mlg-btn" data-mlgespnmodal="1">📋 Paste Private ESPN JSON / Bookmarklet (New Slot)</button>
+      </div>
+    </div>
+    <div class="mlg-sec">
+      <h4>🌙 Sync a Sleeper League (1-Click Public API)</h4>
+      <p>Enter your Sleeper username or a 2026 Sleeper NFL League ID to import your Sleeper roster &amp; starters:</p>
+      <div class="mlg-inputs">
+        <input type="text" id="mlgSlInput" placeholder="Sleeper username or League ID…" aria-label="Sleeper username or League ID">
+        <button type="button" class="mlg-btn pri" data-mlgsleeper="1">🔄 Sync Sleeper League</button>
+      </div>
+      <div class="mlg-msg" id="mlgModalMsg"></div>
+    </div>
+  </div>`;
+}
+
+addEventListener('click', e => {
+  const t = e.target && e.target.closest ? e.target : null;
+  if (!t) return;
+  if (t.closest('[data-mlgopen]')) {
+    e.preventDefault(); e.stopPropagation();
+    mlgOpenModal();
+    return;
+  }
+  const ov = document.getElementById('mlgModal');
+  if (ov && !ov.hidden && (t === ov || t.closest('[data-mlgclose]'))) {
+    e.preventDefault(); e.stopPropagation();
+    mlgCloseModal();
+    return;
+  }
+  const sw = t.closest('[data-mlgsw]');
+  if (sw) {
+    e.preventDefault(); e.stopPropagation();
+    mlgSwitch(sw.dataset.mlgsw);
+    if (ov && !ov.hidden) mlgRenderModal();
+    return;
+  }
+  const del = t.closest('[data-mlgdel]');
+  if (del) {
+    e.preventDefault(); e.stopPropagation();
+    const id = del.dataset.mlgdel;
+    if (id && id !== 'espn:nfl:1486623708:7') {
+      delete MLG.leagues[id];
+      MLG.order = MLG.order.filter(x => x !== id);
+      const sp = 'nfl';
+      if (MLG.active[sp] === id) {
+        const rem = mlgList(sp)[0];
+        if (rem) mlgSwitch(rem.id);
+      }
+      mlgSave();
+      mlgRenderModal();
+      renderMyNews();
+    }
+    return;
+  }
+  if (t.closest('[data-mlgdemo]')) {
+    e.preventDefault(); e.stopPropagation();
+    mlgAddDemoSecondLeague('nfl');
+    mlgRenderModal();
+    return;
+  }
+  if (t.closest('[data-mlgespnmodal]')) {
+    e.preventDefault(); e.stopPropagation();
+    mlgSnapshotCurrent('nfl');
+    mlgCloseModal();
+    if (typeof openEspnImport === 'function') openEspnImport('nfl', false);
+    return;
+  }
+  if (t.closest('[data-mlgespnsync]')) {
+    e.preventDefault(); e.stopPropagation();
+    const spEl = document.getElementById('mlgEspnSp'), lidEl = document.getElementById('mlgEspnLid'), tidEl = document.getElementById('mlgEspnTid'), msg = document.getElementById('mlgModalMsg');
+    const sp = (spEl && spEl.value) || 'nfl', lid = (lidEl && lidEl.value.trim().replace(/\D/g, '')) || '', tid = (tidEl && tidEl.value.trim()) || '';
+    if (!lid) { if (msg) msg.textContent = 'Enter an ESPN League ID first (or click ⚡ Quick Add 2nd NFL League above).'; return; }
+    if (msg) msg.textContent = `⏳ Checking ESPN ${sp.toUpperCase()} League #${lid}…`;
+    (async () => {
+      try {
+        mlgSnapshotCurrent(sp);
+        const season = await efSeason(sp), per = await efPeriod(sp, season, lid);
+        const [d, pro] = await Promise.all([efJSON(efLeagueUrl(sp, season, lid, `view=mTeam&view=mRoster&view=mSettings${per ? '&scoringPeriodId=' + per : ''}`)), efProTeams(sp, season)]);
+        const teams = efTeams(d);
+        if (!teams.length) throw new Error('No teams found');
+        const pick = (tid && teams.find(x => String(x.id) === tid || x.name.toLowerCase().includes(tid.toLowerCase()))) || teams[0];
+        const rawT = (d.teams || []).find(x => String(x.id) === String(pick.id)) || (d.teams || [])[0];
+        const ros = efRoster(sp, rawT, pro).players;
+        efApply(sp, { sp, provider: 'ESPN', leagueId: lid, season, leagueName: ((d.settings || {}).name) || `ESPN #${lid}`, teamId: pick.id, teamName: pick.name, abbrev: pick.abbrev, logo: pick.logo, record: pick.record, source: 'api', period: per || null }, ros, 'replace');
+        mlgRenderModal();
+        if (msg) msg.textContent = `✓ Synced ESPN league "${pick.name}" (#${lid})!`;
+      } catch (err) {
+        if (msg) msg.textContent = `League #${lid} is private on ESPN (${err.message}). Use 📋 Paste Private ESPN JSON or ⚡ Quick Add 2nd NFL League above!`;
+      }
+    })();
+    return;
+  }
+  if (t.closest('[data-mlgsleeper]')) {
+    e.preventDefault(); e.stopPropagation();
+    const inp = document.getElementById('mlgSlInput'), msg = document.getElementById('mlgModalMsg');
+    mlgSyncSleeper(inp ? inp.value : '', msg);
+    return;
+  }
+}, true);
 </script>
 <script>
 /* Oct 19: boot last, after every script block above has defined its globals (see bootDashboard). */
