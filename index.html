@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261024-1600-top5-rows">
+<meta name="build-id" content="20261024-2010-score-pop-left">
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261024-1600-top5-rows';
+var BUILD_ID = '20261024-2010-score-pop-left';
 (function(){
   var shown = {};
   function chip(id, html, onTap){
@@ -1111,18 +1111,21 @@ var LVP = {}, LVROW = {}, LVF = new Set();   // live-card state declared up fron
   @keyframes gxGlow{0%,100%{box-shadow:0 0 0 1px #ff3b47,0 0 10px rgba(255,59,71,.35)}50%{box-shadow:0 0 0 2px #ff8a1f,0 0 26px rgba(255,138,31,.7)}}
   @keyframes gxGlowIn{0%,100%{box-shadow:inset 0 0 0 2px #ff3b47,inset 0 0 10px rgba(255,59,71,.3)}50%{box-shadow:inset 0 0 0 2px #ff8a1f,inset 0 0 22px rgba(255,138,31,.6)}}
   @keyframes gxBadge{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-  .gx-sc{position:relative;display:inline-block}
-  .gx-pop{animation:gxPop 1.1s cubic-bezier(.2,1.6,.4,1) 3;color:#fff;text-shadow:0 0 10px var(--sc,#ffd34d),0 0 20px var(--sc,#ffd34d)}
-  @keyframes gxPop{0%{transform:scale(1)}25%{transform:scale(1.55)}60%{transform:scale(.95)}100%{transform:scale(1)}}
-  .gx-dot::after{content:"";position:absolute;top:2px;right:-7px;width:7px;height:7px;border-radius:50%;background:var(--sc,#ffd34d);box-shadow:0 0 6px var(--sc,#ffd34d)}
+  .gx-sc{position:relative;display:inline-flex;align-items:center;justify-content:flex-end;gap:5px;vertical-align:middle}
+  .gx-num{display:inline-block}
+  .gx-pop .gx-num{animation:gxPop 1.1s cubic-bezier(.2,1.6,.4,1) 3;color:#fff;text-shadow:0 0 10px var(--sc,#ffd34d),0 0 20px var(--sc,#ffd34d)}
+  @keyframes gxPop{0%{transform:scale(1)}25%{transform:scale(1.35)}60%{transform:scale(.95)}100%{transform:scale(1)}}
+  .gx-dot::after{content:"";position:absolute;top:2px;right:-6px;width:6px;height:6px;border-radius:50%;background:var(--sc,#ffd34d);box-shadow:0 0 6px var(--sc,#ffd34d)}
   .tk-game .gx-dot::after{width:.22em;height:.22em;right:-.25em;top:.1em}
-  .gx-burst{position:absolute;left:50%;top:50%;z-index:5;pointer-events:none;white-space:nowrap;font-weight:900;font-style:italic;font-size:13px;letter-spacing:.5px;color:#1b1b1b;background:linear-gradient(90deg,#ffd34d,#ff9a1f);padding:2px 8px;border-radius:6px;box-shadow:0 0 14px var(--sc,#ffd34d);transform:translate(-50%,-50%);animation:gxBurst 8s ease-out forwards}
-  .tk-game .gx-burst{font-size:.42em}
-  @keyframes gxBurst{0%{opacity:0;transform:translate(-50%,-50%) scale(.3) rotate(-8deg)}6%{opacity:1;transform:translate(-50%,-150%) scale(1.25) rotate(-4deg)}12%{transform:translate(-50%,-140%) scale(1) rotate(-4deg)}85%{opacity:1;transform:translate(-50%,-140%) scale(1) rotate(-4deg)}100%{opacity:0;transform:translate(-50%,-170%) scale(.9) rotate(-4deg)}}
+  .gx-burst{position:static;display:inline-flex;align-items:center;flex:none;pointer-events:none;white-space:nowrap;font-weight:900;font-style:italic;font-size:11px;line-height:1.15;letter-spacing:.4px;color:#1b1b1b;background:linear-gradient(90deg,#ffd34d,#ff9a1f);padding:1px 6px;border-radius:5px;box-shadow:0 0 10px var(--sc,#ffd34d);animation:gxBurst 8s ease-out forwards}
+  .gr-t .gx-burst{font-size:10.5px;padding:1px 5px}
+  .tk-game .gx-burst{font-size:.46em;padding:1px 5px;border-radius:4px}
+  .ft-sc .gx-burst,.fv-sc .gx-burst{font-size:10.5px;padding:1px 5px}
+  @keyframes gxBurst{0%{opacity:0;transform:scale(.4)}6%{opacity:1;transform:scale(1.12)}12%{transform:scale(1)}85%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.92)}}
   @media (prefers-reduced-motion:reduce){
-    .gx-close,.card.gx-cl,.tk-game.gx-cl,.gx-pop{animation:none}
+    .gx-close,.card.gx-cl,.tk-game.gx-cl,.gx-pop .gx-num{animation:none}
     .card.gx-cl{box-shadow:0 0 0 2px #ff8a1f,0 0 16px rgba(255,138,31,.5)}
-    .gx-burst{animation:none;transform:translate(-50%,-140%) rotate(-4deg)}
+    .gx-burst{animation:none;transform:none}
   }
   /* ---- 👁 Watch tab ---- */
   .wl-link{display:inline-block;margin:6px 0 12px;font-weight:700}
@@ -4446,7 +4449,7 @@ function ftSlot(kind, g, x, extra){
     return `<div class="ft-slot last clickable"${link}><span class="ft-lbl">Last</span><span class="ft-main"><span class="ft-res ${r.toLowerCase()}">${r}</span><span class="ft-sc">${esc(g.me.score)}–${esc(g.opp.score)}</span>${ftOpp(g)}</span><span class="ft-side"><span>${esc(dayLabelET(g.date))}</span>${goA('Box score ↗')}</span></div>`;
   }
   const w = watchChips(g.nets, g.lg, { compact: true, max: 1 });
-  if (kind === 'live') return `<div class="ft-slot live clickable${gxBadge(g) ? ' gx-cl' : ''}"${link}><span class="ft-lbl"><span class="dotl"></span>Live</span><span class="ft-main"><span class="ft-sc big">${esc(g.me.score || '0')}–${esc(g.opp.score || '0')}</span>${ftOpp(g)}</span><span class="ft-side"><span class="ft-clock">${esc(g.detail || 'In progress')}</span>${gxBadge(g)}${yttvPill(g)}${w.html || (g.nets[0] ? `<span>${esc(g.nets[0])}</span>` : '')}${goA('Gamecast ↗')}</span></div>`;
+  if (kind === 'live') return `<div class="ft-slot live clickable${gxBadge(g) ? ' gx-cl' : ''}"${link}><span class="ft-lbl"><span class="dotl"></span>Live</span><span class="ft-main"><span class="ft-sc big">${gxScore(g, g.me, g.me.score || '0')}–${gxScore(g, g.opp, g.opp.score || '0')}</span>${ftOpp(g)}</span><span class="ft-side"><span class="ft-clock">${esc(g.detail || 'In progress')}</span>${gxBadge(g)}${yttvPill(g)}${w.html || (g.nets[0] ? `<span>${esc(g.nets[0])}</span>` : '')}${goA('Gamecast ↗')}</span></div>`;
   return `<div class="ft-slot next clickable"${link}><span class="ft-lbl">Next</span><span class="ft-main">${ftOpp(g)}${(o => o ? `<i class="fv-orec">(${esc(o)})</i>` : '')(x ? fvOppRec(x.lg, g) : '')}${extra ? `<span class="ft-tag">${esc(extra)}</span>` : ''}</span><span class="ft-side"><span>${esc(ftWhen(g))}</span>${w.html || (g.nets.length ? `<span class="ft-net">${esc(g.nets.slice(0, 2).join(', '))}</span>` : '')}${goA('Preview ↗')}</span></div>`;
 }
 function toggleFx(k){ FX.has(k) ? FX.delete(k) : FX.add(k); lsSet(FX_KEY, [...FX]); }
@@ -4454,7 +4457,7 @@ function ftLine(x, name, logo, color, g){
   const ha = gm => gm.me.homeAway === 'home' ? 'vs' : '@', opp = gm => esc(gm.opp.abbr || gm.opp.short || 'TBD');
   const f = FT[x.key] || {}, tm = f.team || {}, info = MN.teamInfo[x.key] || {}, S = fvStats(x);
   let st, rd = '';
-  if (g.live) { st = `<span class="badge-live">LIVE</span><b class="fv-sc">${esc(g.live.me.score || '0')}–${esc(g.live.opp.score || '0')}</b><span>${ha(g.live)} ${opp(g.live)}${gmPossIcon(g.live, g.live.opp)}</span>${g.live.detail ? `<span class="fv-clk">${esc(g.live.detail)}</span>` : ''}${gxBadge(g.live)}${yttvPill(g.live)}`; rd = rdChips(g.live, true); }
+  if (g.live) { st = `<span class="badge-live">LIVE</span><b class="fv-sc">${gxScore(g.live, g.live.me, g.live.me.score || '0')}–${gxScore(g.live, g.live.opp, g.live.opp.score || '0')}</b><span>${ha(g.live)} ${opp(g.live)}${gmPossIcon(g.live, g.live.opp)}</span>${g.live.detail ? `<span class="fv-clk">${esc(g.live.detail)}</span>` : ''}${gxBadge(g.live)}${yttvPill(g.live)}`; rd = rdChips(g.live, true); }
   else if (g.last && rdEligible(g.last)) {
     const ms = Number(g.last.me.score), os = Number(g.last.opp.score), r = g.last.me.winner ? 'W' : g.last.opp.winner ? 'L' : ms > os ? 'W' : ms < os ? 'L' : 'T';
     st = `<b>Final ${r} ${esc(g.last.me.score)}–${esc(g.last.opp.score)}</b><span>${ha(g.last)} ${opp(g.last)}</span>`; rd = rdChips(g.last, true);
@@ -7570,12 +7573,12 @@ function gaSync(){
   box.classList.toggle('ga-off', !GA.on);
 }
 function gxScore(g, t, txt){
-  const h = GX.hit[g.lg + ':' + g.id + ':' + t.abbr]; if (!h) return esc(txt);
+  const h = g && t && GX.hit[g.lg + ':' + g.id + ':' + t.abbr]; if (!h) return esc(txt);
   const age = (Date.now() - h.t) / 1e3; if (age > 120) return esc(txt);
   const [sp] = gxSport(g.lg), col = (teamColorVars(g.lg, t.abbr, '', '').match(/--tc:([^;]+)/) || [])[1] || '#ffd34d';
-  const word = sp === 'football' ? (h.d >= 6 && h.d <= 8 ? 'TD!' : h.d === 3 ? 'FG!' : 'SCORE!') : (sp === 'hockey' || sp === 'soccer') ? 'GOAL!' : sp === 'basketball' ? '+' + h.d : sp === 'baseball' ? (h.d > 1 ? h.d + ' RUNS!' : 'RUN!') : 'SCORE!';
+  const word = sp === 'football' ? (h.d >= 6 && h.d <= 8 ? 'TD!' : h.d === 3 ? 'FG!' : h.d === 2 ? 'SAFETY!' : 'SCORE!') : (sp === 'hockey' || sp === 'soccer') ? 'GOAL!' : sp === 'basketball' ? '+' + h.d : sp === 'baseball' ? (h.d > 1 ? h.d + ' RUNS!' : 'RUN!') : 'SCORE!';
   const fresh = age < 8, d = `animation-delay:-${age.toFixed(1)}s`, hot = GA.on && age < 60 && !fresh;
-  return `<span class="gx-sc gx-dot${fresh ? ' gx-pop' : ''}${hot ? ' gx-hot' : ''}" style="--sc:${esc(col)};${fresh ? esc(d) : ''}${hot ? `--hotn:${Math.max(1, Math.ceil((60 - age) / 1.2))};` : ''}" title="${esc(t.abbr)} scored ${Math.round(age / 60) ? Math.round(age / 60) + ' min' : 'just now'} ago">${esc(txt)}${fresh ? `<span class="gx-burst" style="${esc(d)}">${esc(word)}</span>` : ''}</span>`;
+  return `<span class="gx-sc gx-dot${fresh ? ' gx-pop' : ''}${hot ? ' gx-hot' : ''}" style="--sc:${esc(col)};${fresh ? esc(d) : ''}${hot ? `--hotn:${Math.max(1, Math.ceil((60 - age) / 1.2))};` : ''}" title="${esc(t.abbr)} scored ${Math.round(age / 60) ? Math.round(age / 60) + ' min' : 'just now'} ago">${fresh ? `<span class="gx-burst" style="${esc(d)}">${esc(word)}</span>` : ''}<span class="gx-num">${esc(txt)}</span></span>`;
 }
 function artScore(a, im, id, name, sp){
   if (sp && sp !== 'nfl') {   // non-NFL: game/action photos only (ESPN 'Media'/'header' types), no press / casual / portrait shots, full name in the caption
