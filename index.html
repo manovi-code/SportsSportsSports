@@ -6,11 +6,11 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261024-2010-score-pop-left">
+<meta name="build-id" content="20261024-2235-reddit-teamlines-excel">
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261024-2010-score-pop-left';
+var BUILD_ID = '20261024-2235-reddit-teamlines-excel';
 (function(){
   var shown = {};
   function chip(id, html, onTap){
@@ -3404,6 +3404,36 @@ html.tc-open{overflow:hidden}
   .lt-more{display:inline-flex;align-items:center;justify-content:center;gap:5px;width:100%;margin-top:6px;padding:7px 12px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:#9fb0cc;font:700 12px/1.2 system-ui,sans-serif;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
   .lt-more:hover,.lt-more:focus-visible{background:var(--panel2);color:#fff;border-color:#3a4a6b;outline:none}
   .gm-more{padding:5px 10px;font-size:11.5px;margin-top:5px}
+  /* Oct 24 reddit-teamlines: full readable team names on their own lines + separate compact linescore strip + always-available Reddit thread pills */
+  .gr{display:flex;flex-direction:column;align-items:stretch;gap:5px}
+  .gr-st{width:100%;max-width:none!important;display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:6px;text-align:left;padding:0 0 2px}
+  .gr-st .gx-close.gx-in{margin-left:auto;align-self:center}
+  .gr-tms{width:100%;min-width:0;display:flex;flex-direction:column;gap:5px}
+  .gr-t{display:flex;align-items:center;gap:6px;min-width:0;width:100%}
+  .gr-t b{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .gr-ab,.gr-nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .gr-t em{margin-left:auto;padding-left:8px;flex:none}
+  .lt-top-pills{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px;margin-top:2px}
+  .lt-top-pills .rd-row{margin:0}
+  .gr-lsw{display:none}
+  @media (min-width:601px){
+    .gr-lsw{display:block;width:100%;padding-top:3px;border-top:1px dashed rgba(255,255,255,.07)}
+    .gr-lst{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:11.5px;color:#a7b2c8}
+    .gr-lst th{font-size:9.5px;font-weight:800;color:#7e8ba6;text-align:center;padding:0 3px 1px}
+    .gr-lst th:first-child,.gr-lst td.ab{text-align:left;width:54px;font-weight:800;color:#cbd5e1;padding-left:0}
+    .gr-lst td{text-align:center;padding:1px 3px}
+    .gr-lst td.tot{font-weight:900;color:#fff;width:30px;text-align:right;padding-right:0}
+  }
+  .gr-pills{display:flex;flex-wrap:wrap;align-items:center;gap:6px;width:100%;padding-top:2px}
+  .gr-pills .rd-chip,.lt-fbtns .rd-chip,.gm-drd .rd-chip{padding:2px 8px;font-size:11px;text-decoration:none}
+  .lt-fbtns{display:inline-flex;flex-wrap:wrap;align-items:center;gap:8px}
+  .gm-dh{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+  /* Oct 24 excel-export: one-click 📥 Excel (.csv with UTF-8 BOM) for all tables & Spin-it rankings */
+  .xl-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;border:1px solid rgba(46,160,90,.55);background:rgba(20,83,45,.45);color:#86efac;font:800 11.5px/1.2 system-ui,sans-serif;letter-spacing:.2px;cursor:pointer;white-space:nowrap;flex:none;transition:background .15s,border-color .15s,color .15s}
+  .xl-btn:hover,.xl-btn:focus-visible{background:#166534;border-color:#4ade80;color:#fff;outline:none}
+  .xl-btn.xl-ok{background:#15803d;border-color:#86efac;color:#fff}
+  .xl-bar{display:flex;justify-content:flex-end;align-items:center;margin:2px 0 4px}
+  .xl-bar .xl-btn{padding:2px 8px;font-size:10.5px}
 </style>
 </head>
 <body>
@@ -3993,13 +4023,16 @@ function rdChips(g, mini){
   let html = '';
   if (RD.mode === 'json') {
     rdWant(sub);
-    const c = RD.cache[sub]; if (!c || !c.posts) return '';
-    const m = rdMatch(g, c.posts);
-    for (const k of ['game', 'post']) if (m[k] && (k === 'post' || g.state === 'in' || !m.post))
-      html += `<a class="rd-chip" href="${esc(m[k].url)}" target="_blank" rel="noopener" title="r/${esc(sub)}: ${esc(m[k].title)}">${ico}${lbl(k)}${mini ? '' : ` <span class="rd-sub">r/${esc(sub)}</span>`}</a>`;
-  } else {
+    const c = RD.cache[sub];
+    if (c && c.posts) {
+      const m = rdMatch(g, c.posts);
+      for (const k of ['game', 'post']) if (m[k] && (k === 'post' || g.state === 'in' || !m.post))
+        html += `<a class="rd-chip" href="${esc(m[k].url)}" target="_blank" rel="noopener" title="r/${esc(sub)}: ${esc(m[k].title)}">${ico}${lbl(k)}${mini ? '' : ` <span class="rd-sub">r/${esc(sub)}</span>`}</a>`;
+    }
+  }
+  if (!html) {
     const k = g.state === 'in' ? 'game' : 'post', phrase = ph[k === 'post' ? 1 : 0];
-    html = `<a class="rd-chip srch" href="${esc(rdSearchUrl(sub, phrase, g))}" target="_blank" rel="noopener" title="Search r/${esc(sub)} for the ${esc(phrase.toLowerCase())} (opens Reddit search)">${ico}${mini ? lbl(k) + ' 🔎' : `${lbl(k)} <span class="rd-sub">search r/${esc(sub)}</span>`}</a>`;
+    html = `<a class="rd-chip srch" href="${esc(rdSearchUrl(sub, phrase, g))}" target="_blank" rel="noopener" title="r/${esc(sub)} ${esc(phrase.toLowerCase())} on Reddit">${ico}${mini ? `r/${esc(sub)}` : `${lbl(k)} <span class="rd-sub">r/${esc(sub)}</span>`}</a>`;
   }
   return html ? (mini ? html : `<div class="rd-row">${html}</div>`) : '';
 }
@@ -4449,7 +4482,7 @@ function ftSlot(kind, g, x, extra){
     return `<div class="ft-slot last clickable"${link}><span class="ft-lbl">Last</span><span class="ft-main"><span class="ft-res ${r.toLowerCase()}">${r}</span><span class="ft-sc">${esc(g.me.score)}–${esc(g.opp.score)}</span>${ftOpp(g)}</span><span class="ft-side"><span>${esc(dayLabelET(g.date))}</span>${goA('Box score ↗')}</span></div>`;
   }
   const w = watchChips(g.nets, g.lg, { compact: true, max: 1 });
-  if (kind === 'live') return `<div class="ft-slot live clickable${gxBadge(g) ? ' gx-cl' : ''}"${link}><span class="ft-lbl"><span class="dotl"></span>Live</span><span class="ft-main"><span class="ft-sc big">${gxScore(g, g.me, g.me.score || '0')}–${gxScore(g, g.opp, g.opp.score || '0')}</span>${ftOpp(g)}</span><span class="ft-side"><span class="ft-clock">${esc(g.detail || 'In progress')}</span>${gxBadge(g)}${yttvPill(g)}${w.html || (g.nets[0] ? `<span>${esc(g.nets[0])}</span>` : '')}${goA('Gamecast ↗')}</span></div>`;
+  if (kind === 'live') return `<div class="ft-slot live clickable${gxBadge(g) ? ' gx-cl' : ''}"${link}><span class="ft-lbl"><span class="dotl"></span>Live</span><span class="ft-main"><span class="ft-sc big">${gxScore(g, g.me, g.me.score || '0')}–${gxScore(g, g.opp, g.opp.score || '0')}</span>${ftOpp(g)}</span><span class="ft-side"><span class="ft-clock">${esc(g.detail || 'In progress')}</span>${gxBadge(g)}${yttvPill(g)}${rdChips(g, true)}${w.html || (g.nets[0] ? `<span>${esc(g.nets[0])}</span>` : '')}${goA('Gamecast ↗')}</span></div>`;
   return `<div class="ft-slot next clickable"${link}><span class="ft-lbl">Next</span><span class="ft-main">${ftOpp(g)}${(o => o ? `<i class="fv-orec">(${esc(o)})</i>` : '')(x ? fvOppRec(x.lg, g) : '')}${extra ? `<span class="ft-tag">${esc(extra)}</span>` : ''}</span><span class="ft-side"><span>${esc(ftWhen(g))}</span>${w.html || (g.nets.length ? `<span class="ft-net">${esc(g.nets.slice(0, 2).join(', '))}</span>` : '')}${goA('Preview ↗')}</span></div>`;
 }
 function toggleFx(k){ FX.has(k) ? FX.delete(k) : FX.add(k); lsSet(FX_KEY, [...FX]); }
@@ -4635,17 +4668,22 @@ function grDet(g){   // extra ESPN detail lines; every part hides itself when ES
   const m = meta.length ? `<span class="gr-meta">${meta.join(' · ')}</span>` : '';
   return m || ld || hl ? `<span class="gr-det">${m}${ld ? `<span class="gr-lds">${ld}</span>` : ''}${hl}</span>` : '';
 }
+function grLsTable(g, nls){
+  if (!nls) return '';
+  const hd = `<tr><th></th>${Array.from({ length: nls }, (_, i) => `<th>${grLsLbl(g.lg, i)}</th>`).join('')}<th>T</th></tr>`;
+  const rows = g.teams.map(t => `<tr><td class="ab">${esc(t.abbr || t.short)}</td>${t.ls.map(v => `<td>${esc(v)}</td>`).join('')}<td class="tot">${esc(t.score)}</td></tr>`).join('');
+  return `<div class="gr-lsw" aria-hidden="true"><table class="gr-lst"><thead>${hd}</thead><tbody>${rows}</tbody></table></div>`;
+}
 function grRow(g){
   const k = g.lg + ':' + g.id, live = g.state === 'in', post = g.state === 'post', pre = g.state === 'pre';
-  const win = post ? g.teams.find(t => t.winner) || null : null, nls = grLsOK(g);
-  const ls = t => nls ? `<span class="gr-ls">${t.ls.map(v => `<s>${esc(v)}</s>`).join('')}</span>` : '';
-  const tm = t => { const lose = win && t !== win; return `<span class="gr-t${t === win ? ' w' : ''}${lose ? ' l' : ''}${isFav(g.lg, t.abbr) ? ' fav' : ''}"${t.id ? ` data-tct="${esc(g.lg)}|${esc(t.id)}|${esc(t.abbr || '')}" data-tcn="${esc(t.name || t.short || '')}"` : ''}>${t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy">` : '<i class="gr-nl"></i>'}${t.rank ? `<small>${esc(t.rank)}</small>` : ''}<b><span class="gr-ab">${esc(t.abbr || t.short)}</span><span class="gr-nm">${esc(t.short || t.abbr)}</span></b>${gmPossIcon(g, t)}${t.record ? `<i class="gr-rec">${esc(t.record)}</i>` : ''}${ls(t)}<em>${pre ? '' : live ? gxScore(g, t, t.score) : esc(t.score)}</em></span>`; };
-  const lh = nls ? `<span class="gr-t gr-lh" aria-hidden="true"><span class="gr-ls">${Array.from({ length: nls }, (_, i) => `<s>${grLsLbl(g.lg, i)}</s>`).join('')}</span><em></em></span>` : '';
-  const st = live ? `<span class="gr-live">LIVE</span><span>${esc(g.detail || '')}</span>${gxBadge(g)}${yttvPill(g)}`
+  const win = post ? g.teams.find(t => t.winner) || null : null, nls = grLsOK(g), rd = rdChips(g, true), yt = yttvPill(g);
+  const tm = t => { const lose = win && t !== win; return `<span class="gr-t${t === win ? ' w' : ''}${lose ? ' l' : ''}${isFav(g.lg, t.abbr) ? ' fav' : ''}"${t.id ? ` data-tct="${esc(g.lg)}|${esc(t.id)}|${esc(t.abbr || '')}" data-tcn="${esc(t.name || t.short || '')}"` : ''}>${t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy">` : '<i class="gr-nl"></i>'}${t.rank ? `<small>${esc(t.rank)}</small>` : ''}<b><span class="gr-ab">${esc(t.short || t.name || t.abbr)}</span><span class="gr-nm">${esc(t.short || t.name || t.abbr)}</span></b>${gmPossIcon(g, t)}${t.record ? `<i class="gr-rec">${esc(t.record)}</i>` : ''}<em>${pre ? '' : live ? gxScore(g, t, t.score) : esc(t.score)}</em></span>`; };
+  const st = live ? `<span class="gr-live">LIVE</span><span>${esc(g.detail || '')}</span>${gxBadge(g)}`
     : pre ? `<span class="gr-tm">${esc(timeET(g.date))}</span>${g.tv ? `<span class="gr-tv">${esc(g.tv)}</span>` : ''}${g.odds && g.odds.det ? `<span class="gr-od">${esc(g.odds.det)}</span>` : ''}`
     : `${upTag(g)}<span>${esc(/^final/i.test(g.detail || '') ? g.detail : 'Final' + (g.detail ? ' · ' + g.detail : ''))}</span>`;
+  const pills = (yt || rd) ? `<span class="gr-pills">${yt}${rd}</span>` : '';
   if (GRX.has(k)) return `<div class="gr-x"><button type="button" class="gr-col" data-grx="${esc(k)}" aria-expanded="true">▴ Collapse</button>${card(g)}</div>`;
-  return `<div class="gr${live ? ' live' : ''}${pre ? ' pre' : ''}${gxClose(g) ? ' gx-cl' : ''}" role="button" tabindex="0" data-grx="${esc(k)}" aria-expanded="false" title="Tap for the full game card">${live ? gxRings(g) : ''}<span class="gr-tms">${lh}${g.teams.map(tm).join('')}</span><span class="gr-st">${st}</span>${grDet(g)}${live ? swGame(g) : ''}</div>`;
+  return `<div class="gr${live ? ' live' : ''}${pre ? ' pre' : ''}${gxClose(g) ? ' gx-cl' : ''}" role="button" tabindex="0" data-grx="${esc(k)}" aria-expanded="false" title="Tap for the full game card">${live ? gxRings(g) : ''}<span class="gr-st">${st}</span><span class="gr-tms">${g.teams.map(tm).join('')}</span>${grLsTable(g, nls)}${pills}${grDet(g)}${live ? swGame(g) : ''}</div>`;
 }
 function nuWant(lg){
   const L = CAT[lg], n = NU[lg]; if (n && (n.busy || Date.now() - n.t < 30 * 60e3)) return n;
@@ -5910,7 +5948,7 @@ function muSection(sp){
   const bl = (s, t) => `<div><h6>${esc(t)}</h6>${bn(s).map(p => `<div class="mu-bnr"><img src="${esc(p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><span>${esc(p.short || p.name)} <i>${esc(p.pos)} · ${esc(p.team)}${S.ir.includes(p.sid) ? ' · IR' : ''}</i></span><b>${(p.pts || {}).act ?? '–'}</b><i>/ ${(p.pts || {}).proj ?? '–'}</i></div>`).join('') || '<div class="mu-ld">Empty</div>'}</div>`;
   const bench = `<div class="mu-bn"><button class="mu-bnh" data-mu="bench" aria-expanded="${MU.ui.bench}">${MU.ui.bench ? '▾' : '▸'} Bench (both teams)</button>${MU.ui.bench ? `<div class="mu-bng">${bl(D.me, 'Your bench')}${bl(D.op, (D.op ? D.op.name : 'Opponent') + ' bench')}</div>` : ''}</div>`;
   return `<section class="mu${open ? '' : ' closed'}" id="fzMatchup">${head}<div class="mu-b">${muScore(D)}
-    <div class="mu-bar"><div class="tb-vt seg${v === 'table' ? ' v-table' : ''}" role="group" aria-label="Matchup view"><button data-mu="v:cards" aria-pressed="${v === 'cards'}" class="${v === 'cards' ? 'on' : ''}"><span class="ic" aria-hidden="true">🃏</span>Cards</button><button data-mu="v:table" aria-pressed="${v === 'table'}" class="${v === 'table' ? 'on' : ''}"><span class="ic" aria-hidden="true">▦</span>Table</button></div>${muScore(D, 'wp')}${v === 'cards' ? '<button class="mu-rp" data-mu="replay" title="Replay the battle">⟲ Replay</button>' : ''}</div>
+    <div class="mu-bar"><div class="tb-vt seg${v === 'table' ? ' v-table' : ''}" role="group" aria-label="Matchup view"><button data-mu="v:cards" aria-pressed="${v === 'cards'}" class="${v === 'cards' ? 'on' : ''}"><span class="ic" aria-hidden="true">🃏</span>Cards</button><button data-mu="v:table" aria-pressed="${v === 'table'}" class="${v === 'table' ? 'on' : ''}"><span class="ic" aria-hidden="true">▦</span>Table</button></div>${muScore(D, 'wp')}${v === 'cards' ? '<button class="mu-rp" data-mu="replay" title="Replay the battle">⟲ Replay</button>' : '<button type="button" class="xl-btn" data-xlexp="mu" title="Export matchup table to Microsoft Excel (.csv)">📥 Excel</button>'}</div>
     ${body}${bench}</div><button type="button" class="mu-more" data-mumore="fzMatch"><span class="mo">Show full matchup ▾</span><span class="ml">Show less ▴</span></button></section>`;
 }
 function muSbVar(){ const m = document.getElementById('fzMatchup'), sb = m && m.querySelector('.mu-b>.mu-sb'); if (sb) m.style.setProperty('--musb', sb.offsetHeight + 'px'); }
@@ -6880,7 +6918,7 @@ function pkMini(C, pos, me){   // inside comps panels: top pickups at this playe
 function tbBar(scope, sp){
   const v = tbView(scope), pos = TB_POS.includes(TB.pos) ? TB.pos : 'All';
   return `<div class="tb-bar tb-sticky"><div class="tb-vt seg${scope === 'fz' ? ' seg3' : ''} v-${v}" role="group" aria-label="${scope === 'fz' ? 'Fantasy team view' : 'View'}"><button data-tbview="${scope}:cards" aria-pressed="${v === 'cards'}" class="${v === 'cards' ? 'on' : ''}" title="Trading-card view"><span class="ic" aria-hidden="true">🃏</span>Cards</button>${scope === 'fz' ? `<button data-tbview="fz:wheel" aria-pressed="${v === 'wheel'}" class="${v === 'wheel' ? 'on' : ''}" title="Card wheel: highlights play in place, tap to flip"><span class="ic" aria-hidden="true">🎡</span>Wheel</button>` : ''}<button data-tbview="${scope}:table" aria-pressed="${v === 'table'}" class="${v === 'table' ? 'on' : ''}" title="Spreadsheet view"><span class="ic" aria-hidden="true">▦</span>Table</button></div>
-    ${v === 'table' && sp === 'nfl' ? `<div class="chips tb-pos" role="group" aria-label="Position filter">${TB_POS.map(k => `<button class="chip${k === pos ? ' on' : ''}" data-tbpos="${k}" aria-pressed="${k === pos}">${k}</button>`).join('')}</div>` : ''}</div>`;
+    ${v === 'table' && sp === 'nfl' ? `<div class="chips tb-pos" role="group" aria-label="Position filter">${TB_POS.map(k => `<button class="chip${k === pos ? ' on' : ''}" data-tbpos="${k}" aria-pressed="${k === pos}">${k}</button>`).join('')}</div>` : ''}${v === 'table' ? `<button type="button" class="xl-btn" data-xlexp="tb:${scope}" title="Export table to Microsoft Excel (.csv)">📥 Excel</button>` : ''}</div>`;
 }
 function tbTable(scope, sp, list){
   const C = sp === 'nfl' ? CMP.d.nfl : null, rank = C ? cmpRank(C) : {};
@@ -8205,7 +8243,7 @@ var LOY_LV = [null, ['Rookie', '🐣'], ['Regular', '🍺'], ['Season Ticket Hol
 function loyLevel(){ const o = LOY || {}; return o.visits >= 60 || o.days >= 30 ? 4 : o.visits >= 20 || o.days >= 7 ? 3 : o.visits >= 5 ? 2 : 1; }
 function loyHeat(){ let m = 'auto'; try { m = JSON.parse(localStorage.getItem(RL_KEY) || '"auto"'); } catch (_) {} return m === 'mild' ? 1 : m === 'savage' ? 4 : loyLevel(); }
 function loyBadge(){ const L = LOY_LV[loyLevel()]; let m = 'auto'; try { m = JSON.parse(localStorage.getItem(RL_KEY) || '"auto"'); } catch (_) {}
-  return `<div class="loy"><span class="loy-b" title="Counted on this device only (localStorage). Nothing is sent anywhere.">${L[1]} ${esc(L[0])} · ${LOY.visits} visit${LOY.visits === 1 ? '' : 's'}</span><label class="loy-s">Roast <select data-loysel aria-label="Roast level">${[['auto', 'Auto'], ['mild', 'Mild'], ['savage', 'Savage']].map(([v, l]) => `<option value="${v}"${m === v ? ' selected' : ''}>${l}</option>`).join('')}</select></label></div>`; }
+  return `<div class="loy"><span class="loy-b" title="Counted on this device only (localStorage). Nothing is sent anywhere.">${L[1]} ${esc(L[0])} · ${LOY.visits} visit${LOY.visits === 1 ? '' : 's'}</span><label class="loy-s">Roast <select data-loysel aria-label="Roast level">${[['auto', 'Auto'], ['mild', 'Mild'], ['savage', 'Savage']].map(([v, l]) => `<option value="${v}"${m === v ? ' selected' : ''}>${l}</option>`).join('')}</select></label><button type="button" class="xl-btn" data-xlexp="spinit" title="Export Spin-it rankings to Microsoft Excel (.csv)">📥 Excel</button></div>`; }
 document.addEventListener('change', e => { const s = e.target && e.target.closest && e.target.closest('[data-loysel]'); if (!s) return; try { localStorage.setItem(RL_KEY, JSON.stringify(s.value)); } catch (_) {}
   document.querySelectorAll('[data-loysel]').forEach(x => { x.value = s.value; }); try { if (typeof renderFantasy === 'function' && state.tab !== 'nhl') {} } catch (_) {} });
 // your own league/fan data for personal lines; every slot is blank when the data isn't there (blank slot = the line is skipped)
@@ -8399,7 +8437,7 @@ function sxSettle(stg, face){ const coin = stg.querySelector('.sx-coin'); if (!c
 function sxResume(stg){ const coin = stg.querySelector('.sx-coin'); if (!coin) return; const tg = (+stg.dataset.ang || 0) % 360;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return; coin.style.transition = 'none'; coin.style.transform = ''; coin.style.animation = `sxSpin 5.5s linear ${(-tg / 360 * 5.5).toFixed(2)}s infinite`; }
 function sxSearchOpen(){
-  const body = sxShell(); body.innerHTML = `<button type="button" class="se-go" data-sescrew><span class="ic" aria-hidden="true">🌀</span><span><b>😈 SCREW 'EM</b><i>Find the most desperate team and the lopsided deal they'd take</i></span></button><div class="sx-srch"><input type="search" placeholder="Spin anything: player or team…" aria-label="Spin-it search"></div><div class="sx-res"></div>`;
+  const body = sxShell(); body.innerHTML = `<button type="button" class="se-go" data-sescrew><span class="ic" aria-hidden="true">🌀</span><span><b>😈 SCREW 'EM</b><i>Find the most desperate team and the lopsided deal they'd take</i></span></button><div class="sx-srch" style="display:flex;gap:8px;align-items:center"><input type="search" style="flex:1" placeholder="Spin anything: player or team…" aria-label="Spin-it search"><button type="button" class="xl-btn" data-xlexp="spinit" title="Export Spin-it rankings to Microsoft Excel (.csv)">📥 Excel</button></div><div class="sx-res"></div>`;
   const inp = body.querySelector('input'), res = body.querySelector('.sx-res'); inp.focus();
   const run = () => { const q = inp.value.trim().toLowerCase(); const out = [];
     sxAllPlayers().forEach(p => { if (!q || p.name.toLowerCase().includes(q)) out.push(sxPlayer(p.id, psp(p))); });
@@ -12138,7 +12176,9 @@ function ltRender(){
   const hasP = t => live && possId && (String(t.id) === possId || String(t.ab || '').toUpperCase() === possId.toUpperCase());
   const tm = t => `<div class="lt-t">${t.logo ? `<img src="${esc(t.logo)}" alt="">` : ''}<b>${esc(t.sh || t.ab)}${hasP(t) ? ` <span class="gm-poss lt-poss" title="${esc((t.sh || t.ab) + ' has possession')}" aria-label="${esc((t.sh || t.ab) + ' has possession')}">${gmSportIcon(lg)}</span>` : ''}</b>${t.rec ? `<i>${esc(t.rec)}</i>` : ''}</div>`;
   const win = D.state === 'post' ? (+A.sc > +H.sc ? A : +H.sc > +A.sc ? H : null) : null;
-  let h = `<div class="lt-sb${live ? ' is-live' : ''}">${tm(A)}<div class="lt-mid"><div class="lt-scs"><span class="lt-sc${win && win !== A ? ' l' : ''}">${esc(A.sc || '0')}</span><span class="lt-dash">–</span><span class="lt-sc${win && win !== H ? ' l' : ''}">${esc(H.sc || '0')}</span></div><span class="lt-st${live ? '' : ' post'}">${live ? '<i class="lt-dot"></i>' : ''}${esc(D.det || (live ? 'Live' : ''))}</span></div>${tm(H)}</div>`;
+  const ltTopRd = rdChips(Object.assign({}, LT.g || {}, { lg, state: D.state || (live ? 'in' : 'post'), date: (LT.g && LT.g.date) || new Date(D.t), teams: D.T.map(t => ({ abbr: t.ab, short: t.sh, name: t.sh || t.ab })) }), false);
+  const ltTopYt = live ? yttvPill(Object.assign({}, LT.g || {}, { state: 'in' })) : '';
+  let h = `<div class="lt-sb${live ? ' is-live' : ''}">${tm(A)}<div class="lt-mid"><div class="lt-scs"><span class="lt-sc${win && win !== A ? ' l' : ''}">${esc(A.sc || '0')}</span><span class="lt-dash">–</span><span class="lt-sc${win && win !== H ? ' l' : ''}">${esc(H.sc || '0')}</span></div><span class="lt-st${live ? '' : ' post'}">${live ? '<i class="lt-dot"></i>' : ''}${esc(D.det || (live ? 'Live' : ''))}</span>${ltTopRd || ltTopYt ? `<div class="lt-top-pills">${ltTopYt}${ltTopRd}</div>` : ''}</div>${tm(H)}</div>`;
   if (live && kind === 'football') h += ltFieldHTML(lg, A, H, sit);
   const si = [];
   const bs = D.sit; if (bs && live && kind === 'baseball') { if (bs.balls != null && bs.strikes != null) si.push(`<b>${esc(bs.balls)}-${esc(bs.strikes)}</b> count`); if (bs.outs != null) si.push(`<b>${esc(bs.outs)}</b> out${bs.outs == 1 ? '' : 's'}`);
@@ -12167,7 +12207,8 @@ function ltRender(){
   const fz = ltFantasy(lg, D);
   if (fz.length) sec.push(psSec('🎮 Your fantasy players', `<ul class="lt-fz">${fz.map(({ p, act, proj }) => `<li>${p.headshot ? `<img src="${esc(p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : ''}<span><b>${esc(p.name)}</b><i>${esc([p.pos, p.team].filter(Boolean).join(' · '))}</i></span><em>${act != null ? `<b>${esc(r1(act))}</b> pts` : ''}${proj != null ? `<small>proj ${esc(r1(proj))}</small>` : ''}</em></li>`).join('')}</ul>`, fz.some(x => x.act != null) ? 'live fantasy points · your ESPN league' : 'in this game'));
   const link = D.link || g.link || g.box || '';
-  h += `<div class="ps-bd">${sec.join('')}<div class="lt-foot"><span>${live ? 'Live · refreshes every 25s while open' : 'Final'} · updated ${esc(timeET(new Date(D.t)))}</span>${live ? yttvPill(Object.assign({}, LT.g || {}, { state: 'in' })) : ''}${link ? `<a class="ps-espn" href="${esc(link)}" target="_blank" rel="noopener">ESPN Gamecast ↗</a>` : ''}</div></div>`;
+  const ltRd = rdChips(Object.assign({}, LT.g || {}, { lg, state: D.state || (live ? 'in' : 'post'), date: (LT.g && LT.g.date) || new Date(D.t), teams: D.T.map(t => ({ abbr: t.ab, short: t.sh, name: t.sh || t.ab })) }), true);
+  h += `<div class="ps-bd">${sec.join('')}<div class="lt-foot"><span>${live ? 'Live · refreshes every 25s while open' : 'Final'} · updated ${esc(timeET(new Date(D.t)))}</span><span class="lt-fbtns">${live ? yttvPill(Object.assign({}, LT.g || {}, { state: 'in' })) : ''}${ltRd}${link ? `<a class="ps-espn" href="${esc(link)}" target="_blank" rel="noopener">ESPN Gamecast ↗</a>` : ''}</span></div></div>`;
   box.innerHTML = X + `<div class="lt">${h}</div>`; box.scrollTop = y; }
 async function ltLoad(){
   if (LT.busy || !LT.k) return; LT.busy = true; const k = LT.k, [lg, id] = k.split(':'); let ok = false;
@@ -12311,7 +12352,8 @@ function gmdHTML(g){ const k = g.lg + ':' + g.id, D = GMD.d[k]; if (!D) { gmdLoa
     h += `<div class="gm-ds"><h6>Latest scoring</h6><ol class="gm-dp">${spS.map(p => `<li><b>${esc(p.ab)}</b> ${esc(trunc(p.t, 120))}<i>${p.per ? 'P' + esc(p.per) : ''}${p.clk ? ' ' + esc(p.clk) : ''}${p.sc ? ' · ' + esc(p.sc) : ''}</i></li>`).join('')}</ol>${spM > 0 ? `<button type="button" class="lt-more gm-more" data-gmmore="${esc(k)}" aria-expanded="${gx}">${gx ? 'Show less ▴' : `Show ${spM} more scoring play${spM === 1 ? '' : 's'} ▾`}</button>` : ''}</div>`; }
   const meta = [D.odds && g.state === 'pre' ? '📈 ' + D.odds : '', D.venue ? '🏟 ' + D.venue : '', D.att ? '👥 ' + D.att.toLocaleString() : '', D.wx ? '🌤 ' + D.wx : ''].filter(Boolean);
   if (meta.length) h += `<div class="gm-dm">${meta.map(esc).join('<br>')}</div>`;
-  return (h || '<div class="gm-dl">No extra details from ESPN yet.</div>') + `<div class="gm-dh">Tap empty space on the card to collapse</div>`; }
+  const gRd = rdChips(g, true);
+  return (h || '<div class="gm-dl">No extra details from ESPN yet.</div>') + `<div class="gm-dh">${gRd ? `<span class="gm-drd">${gRd}</span>` : ''}<span>Tap empty space on the card to collapse</span></div>`; }
 addEventListener('click', e => { const b = e.target && e.target.closest ? e.target.closest('[data-gmmore]') : null; if (!b) return; e.preventDefault(); e.stopPropagation(); const k = b.dataset.gmmore, g = gmdFind(k); GMD.spExp.has(k) ? GMD.spExp.delete(k) : GMD.spExp.add(k); if (g) document.querySelectorAll(`.card.gm[data-gmd="${CSS.escape(k)}"] > .gm-d, .ft-card > .gm-d[data-gk="${CSS.escape(k)}"]`).forEach(el => { el.innerHTML = gmdHTML(g); }); }, true);
 // Oct 22: the Fantasy wheel re-attaches after the roster re-renders (its Wheel view slot is rebuilt)
 (() => { const f = renderFantasy; renderFantasy = function(){ const r = f.apply(this, arguments); try { if (tbView('fz') === 'wheel' && !(window.PCW && PCW.closest('#fzWheelSlot'))) renderCardRow(); } catch (_) {} return r; }; })();
@@ -12326,6 +12368,126 @@ function msMid(r, sh){   // Oct 22: the matchup row's centre plate — points vs
     <div class="vs-sc"><b class="${m > 0 ? 'w' : m < 0 ? 'l' : ''}">${f(va)}</b><i>vs</i><b class="${m < 0 ? 'w' : m > 0 ? 'l' : ''}">${f(vb)}</b></div>
     ${m != null ? `<span class="dl ${res}" title="${mode === 'proj' ? 'Projected' : mode === 'final' ? 'Final' : 'Live'} margin"><em class="ar">${m > 0 ? '◀' : m < 0 ? '▶' : ''}</em>${m ? (m > 0 ? '+' : '−') + esc(Math.abs(m)) : 'even'}</span><span class="vs-w ${res}">${word}</span>` : ''}
     <span class="ms-st">${mode === 'proj' ? 'Projected' : mode === 'live' ? 'Live' : 'Final'}</span>${sh != null ? `<span class="ms-sh" title="Share of this slot's projected points: you ${sh}% · them ${100 - sh}%"><i style="width:${sh}%"></i></span>` : ''}<span class="mu-boom" aria-hidden="true"></span></div>`; }
+</script>
+<script>
+/* ===== Oct 24: One-click 📥 Excel export (.csv with UTF-8 BOM + RFC 4180 quoting) for all tables & Spin-it rankings ===== */
+function xlSlug(s){ return String(s || 'table').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 48) || 'table'; }
+function xlCell(v){ const s = String(v == null ? '' : v).replace(/\s+/g, ' ').trim(); return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }
+function xlDownload(rows, baseName, btn){
+  if (!rows || !rows.length) { try { toast('Nothing to export yet'); } catch (_) {} return; }
+  const csv = '\uFEFF' + rows.map(r => r.map(xlCell).join(',')).join('\r\n');
+  const dt = typeof ymdET === 'function' ? ymdET(new Date()) : new Date().toISOString().slice(0, 10);
+  const fn = `${xlSlug(baseName)}-${dt}.csv`;
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const u = URL.createObjectURL(blob), a = document.createElement('a');
+  a.href = u; a.download = fn; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(u), 2000);
+  if (btn) {
+    const orig = btn.dataset.xlorig || btn.innerHTML; btn.dataset.xlorig = orig;
+    btn.classList.add('xl-ok'); btn.textContent = '✓ Exported';
+    clearTimeout(btn._xlt); btn._xlt = setTimeout(() => { btn.classList.remove('xl-ok'); btn.innerHTML = orig; }, 1800);
+  }
+  try { toast('📥 Exported ' + fn); } catch (_) {}
+}
+function xlFromTable(tbl){
+  const rows = [];
+  for (const tr of tbl.querySelectorAll('tr')) {
+    if (tr.classList.contains('tb-sub-row')) continue;
+    const cells = [...tr.children].filter(c => c.tagName === 'TH' || c.tagName === 'TD');
+    if (!cells.length) continue;
+    if (cells.length === 1 && (cells[0].colSpan || 1) > 2) continue;
+    rows.push(cells.map(c => {
+      const clone = c.cloneNode(true);
+      clone.querySelectorAll('button,svg,script,style,.tb-chv').forEach(x => x.remove());
+      return clone.textContent.replace(/[▲▼]/g, '').replace(/\s+/g, ' ').trim();
+    }));
+  }
+  return rows;
+}
+function xlTableName(tbl){
+  if (tbl.classList.contains('tb')) {
+    const D = typeof MU !== 'undefined' && MU.d && MU.d.nfl;
+    const w = tbl.closest('.tb-wrap');
+    if (w && w.dataset.tbid === 'fz' && D && D.me && D.me.name) return D.me.name + '-table';
+    if (w && w.dataset.tbid === 'wt') return 'watchlist-table';
+    if (tbl.classList.contains('pk-tb')) return 'pickup-targets';
+  }
+  if (tbl.classList.contains('mu-tb')) return 'fantasy-matchup-table';
+  const sec = tbl.closest('.ps-sec, section, .gm-ds, .sx-pnl, .card, .ps-box');
+  if (sec) { const h = sec.querySelector('h2, h3, h4, h5, h6, .fzc-sh'); if (h) return h.textContent; }
+  return 'sports-table';
+}
+async function xlExportSpinIt(btn){
+  const rows = [['Rank', 'Name', 'Type', 'Sport / Pos / Team', 'WHYDFML Score', 'Tier', 'Record / Stats', 'Roast / Comment']];
+  const items = [];
+  try {
+    if (SX.ov) {
+      const curH2 = SX.ov.querySelector('.sx-hd h2, .st-hd h2');
+      if (curH2) {
+        const scEl = SX.ov.querySelector('.st-sc b, .sx-gauge .gt'), tierEl = SX.ov.querySelector('.st-nm, .sx-lbl'), subEl = SX.ov.querySelector('.sx-hd small, .st-hd small'), jokeEl = SX.ov.querySelector('.st-joke, .sx-quip');
+        items.push({ name: curH2.textContent.trim(), type: SX.ov.querySelector('.st') ? 'Team' : 'Player', meta: subEl ? subEl.textContent.trim() : '', score: scEl ? +scEl.textContent.trim() || 0 : 0, tier: tierEl ? tierEl.textContent.trim() : '', stats: subEl ? subEl.textContent.trim() : '', roast: jokeEl ? jokeEl.textContent.replace(/^[“"]|[”"]$/g, '').trim() : '' });
+      }
+    }
+    const pls = typeof sxAllPlayers === 'function' ? sxAllPlayers() : [];
+    for (const p of pls) {
+      if (items.some(x => x.name === p.name)) continue;
+      const e = sxPlayer(p.id, psp(p)), sc = sxPlayerScore(e);
+      if (!sc) continue;
+      const tier = sxLabel(sc.s, sc), q = sxQuip(e, sc), x = sc.x || {};
+      const st = [x.ppg != null ? x.ppg + ' PPG' : '', x.tot != null ? x.tot + ' pts' : ''].filter(Boolean).join(' · ');
+      items.push({ name: e.name, type: 'Player', meta: [e.pos, e.team, (FSPORTS[e.sp] || {}).label].filter(Boolean).join(' · '), score: sc.s, tier, stats: st, roast: q || '' });
+    }
+    for (const s of (typeof starList === 'function' ? starList() : [])) {
+      const t = sxTeam(s.lg, s.abbr); if (!t || items.some(x => x.name === t.name)) continue;
+      const ck = 't:' + s.lg + ':' + (t.id || t.abbr || t.tid), cd = SX.cache && SX.cache[ck] && SX.cache[ck].d;
+      const ts = cd && cd.ts, sc = (ts && ts.s) ?? (cd && cd.sc && cd.sc.s);
+      const info = (typeof MN !== 'undefined' && MN.teamInfo && MN.teamInfo[s.key]) || {};
+      items.push({ name: t.name, type: 'Team', meta: [(CAT[s.lg] || {}).label, s.abbr].filter(Boolean).join(' · '), score: sc != null ? sc : 50, tier: ts && ts.T ? ts.T[2] : (sc != null ? sxLabel(sc) : 'Ranked'), stats: info.record || '', roast: ts && ts.reasons ? ts.reasons.join('; ') : '' });
+    }
+  } catch (_) {}
+  items.sort((a, b) => (b.score || 0) - (a.score || 0));
+  items.forEach((it, i) => rows.push([i + 1, it.name, it.type, it.meta, it.score, it.tier, it.stats, it.roast]));
+  xlDownload(rows, 'spin-it-rankings', btn);
+}
+function xlDecorateTables(){
+  document.querySelectorAll('table').forEach(tbl => {
+    if (tbl.dataset.xlok || tbl.classList.contains('gr-lst')) return;
+    tbl.dataset.xlok = '1';
+    if (tbl.closest('.tb-wrap') && tbl.closest('section, #fzSection, #wtSection, main')?.querySelector('.tb-bar [data-xlexp]')) return;
+    if (tbl.classList.contains('mu-tb') && tbl.closest('#fzMatchup')?.querySelector('.mu-bar [data-xlexp]')) return;
+    const bar = document.createElement('div'); bar.className = 'xl-bar';
+    bar.innerHTML = `<button type="button" class="xl-btn" data-xltbl="1" title="Export this table to Microsoft Excel (.csv)">📥 Excel</button>`;
+    const wrap = tbl.closest('.tb-wrap, .ps-tw, .mu-tbw, .lb-wrap, .nd-wrap, .tr-tw') || tbl;
+    if (wrap.parentNode) wrap.parentNode.insertBefore(bar, wrap);
+  });
+}
+addEventListener('click', e => {
+  const b = e.target && e.target.closest ? e.target.closest('[data-xlexp], [data-xltbl]') : null;
+  if (!b) return;
+  e.preventDefault(); e.stopPropagation();
+  if (b.dataset.xltbl) {
+    const bar = b.closest('.xl-bar'), next = bar && bar.nextElementSibling;
+    const tbl = (next && (next.tagName === 'TABLE' ? next : next.querySelector('table'))) || b.closest('section, .ps-sec, .gm-ds')?.querySelector('table');
+    if (tbl) xlDownload(xlFromTable(tbl), xlTableName(tbl), b);
+    return;
+  }
+  const k = b.dataset.xlexp;
+  if (k === 'spinit') { xlExportSpinIt(b); return; }
+  if (k && k.startsWith('tb:')) {
+    const sc = k.split(':')[1], w = document.querySelector(`.tb-wrap[data-tbid="${sc}"] table`) || document.querySelector('table.tb');
+    if (w) xlDownload(xlFromTable(w), xlTableName(w), b);
+    return;
+  }
+  if (k === 'mu') {
+    const w = document.querySelector('#fzMatchup table.mu-tb');
+    if (w) xlDownload(xlFromTable(w), 'fantasy-matchup-table', b);
+  }
+}, true);
+if (typeof MutationObserver !== 'undefined') {
+  let xlTm = 0;
+  new MutationObserver(() => { clearTimeout(xlTm); xlTm = setTimeout(xlDecorateTables, 120); }).observe(document.documentElement, { childList: true, subtree: true });
+  setTimeout(xlDecorateTables, 300);
+}
 </script>
 <script>
 /* Oct 19: boot last, after every script block above has defined its globals (see bootDashboard). */
