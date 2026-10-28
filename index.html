@@ -6,11 +6,15 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261026-1425-remove-cardgame">
+<meta name="build-id" content="20261028-favs-section-signin-ready">
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261026-1425-remove-cardgame';
+var BUILD_ID = '20261028-favs-section-signin-ready';
+var FIREBASE_CONFIG = { apiKey: "AIzaSyDVX8Nz5Cpm3cdEdfYKDi9iKZ3eEuEsVlY", authDomain: "sportssportssports-d2cfc.firebaseapp.com", projectId: "sportssportssports-d2cfc",
+  storageBucket: "sportssportssports-d2cfc.firebasestorage.app", messagingSenderId: "566191759512", appId: "1:566191759512:web:3b5e44b2547505bf4f70ed" };
+/* ^ Oct 28: optional sign-in + sync. Set to null to turn it off completely (no SDK load, no button). Web config keys are public by design; access is locked by firestore.rules. */
+
 (function(){
   var shown = {};
   function chip(id, html, onTap){
@@ -3469,6 +3473,65 @@ html.tc-open{overflow:hidden}
   .mlg-inputs input{flex:1 1 150px}
   .mlg-msg{font-size:12px;font-weight:700;padding:6px 10px;border-radius:8px;background:rgba(59,130,246,.15);border:1px solid rgba(96,165,250,.4);color:#bfdbfe}
   .mlg-msg:empty{display:none}
+  /* ===== Oct 28: ⭐ Favorite Players section + header jump button + account chip / sign-in sheet ===== */
+  .fp-jump{flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;height:38px;padding:0 11px;border-radius:12px;border:1px solid #5a4a1c;background:linear-gradient(180deg,#2a2412,#1c1810);color:var(--gold);font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap}
+  .fp-jump:hover,.fp-jump:focus-visible{border-color:var(--gold);background:#33290f}
+  .fp-jump b{min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--gold);color:#111;font-size:11px;line-height:18px;text-align:center}
+  .fp-jump b[hidden]{display:none}
+  .topstack.compact .fp-jump{height:32px;padding:0 9px}
+  @media (max-width:420px),(min-width:601px) and (max-width:1599px){.fp-jump .fp-jl{display:none}.fp-jump{padding:0 9px}}
+  @media (min-width:601px) and (max-width:1599px){.acct-in .ai-l{display:none}.acct-in{padding-left:10px;padding-right:10px}}
+  .fp-sec{border-radius:14px;transition:box-shadow .3s}
+  .fp-sec:focus{outline:none}
+  .fp-sec.fp-flash{box-shadow:0 0 0 2px var(--gold),0 0 22px rgba(255,200,61,.35)}
+  .fp-title{margin-top:14px}
+  .fp-title .fp-add{margin-left:auto;font-size:13px}
+  .fp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+  .fp-it{position:relative;display:flex;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .fp-it.live{border-color:rgba(255,59,71,.6);box-shadow:inset 3px 0 0 var(--live)}
+  .fp-main{flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:11px;padding:10px 40px 10px 11px;background:none;border:0;color:inherit;text-align:left;font:inherit;cursor:pointer}
+  .fp-main:hover{background:rgba(255,255,255,.03)}
+  .fp-ph{position:relative;flex:0 0 auto;width:54px;height:54px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .fp-ph i{font-style:normal;font-weight:800;color:var(--muted);font-size:16px}
+  .fp-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top}
+  .fp-tx{min-width:0;display:flex;flex-direction:column;gap:2px}
+  .fp-nm{font-size:15px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .fp-meta{font-size:12px;color:var(--muted);font-weight:700}
+  .fp-meta em{font-style:normal}
+  .fp-st,.fp-ln{font-size:12.5px;color:#cdd6e8;overflow-wrap:anywhere}
+  .fp-ln{color:var(--muted)}
+  .fp-live{color:var(--live);font-weight:900}
+  .fp-fin{color:var(--muted);font-weight:800}
+  .fp-pts{font-size:12px;color:var(--muted)}
+  .fp-pts b{color:var(--gold);font-size:14px}
+  .fp-un{position:absolute;top:6px;right:6px;width:30px;height:30px;border-radius:8px;border:1px solid transparent;background:none;color:var(--gold);font-size:18px;cursor:pointer;line-height:1}
+  .fp-un:hover,.fp-un:focus-visible{border-color:var(--line);background:var(--panel2)}
+  @media (max-width:600px){.fp-grid{grid-template-columns:1fr}.fp-ph{width:46px;height:46px}}
+  .acct{display:inline-flex;align-items:center}
+  .acct[hidden]{display:none}
+  .acct-in{white-space:nowrap}
+  .acct-chip{position:relative;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:0;cursor:pointer;overflow:hidden;display:inline-flex;align-items:center;justify-content:center}
+  .acct-chip img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .acct-chip .ac-i{font-weight:900;font-size:15px}
+  .acct-chip .ac-dot{position:absolute;right:1px;bottom:1px;width:10px;height:10px;border-radius:50%;border:2px solid var(--bg);background:var(--ok)}
+  .acct-chip .ac-dot.busy{background:var(--gold)}.acct-chip .ac-dot.err{background:var(--live)}
+  .acct-menu{position:fixed;z-index:60;width:min(280px,calc(100vw - 16px));background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;box-shadow:0 14px 40px rgba(0,0,0,.6);display:flex;flex-direction:column;gap:8px;font-size:13px}
+  .acct-menu[hidden]{display:none}
+  .am-who{display:flex;flex-direction:column;min-width:0}.am-who span{color:var(--muted);overflow:hidden;text-overflow:ellipsis}
+  .am-st,.am-note{color:var(--muted)}.am-note{font-size:11.5px}
+  .sy-box{width:min(420px,100%);padding:18px}
+  .sy-hd{display:flex;align-items:center;justify-content:space-between}.sy-hd h2{margin:0;font-size:19px}
+  .sy-x{background:none;border:0;color:var(--muted);font-size:18px;cursor:pointer;padding:6px}
+  .sy-sub{color:var(--muted);font-size:13px;margin:8px 0 14px}
+  .sy-google{width:100%;display:flex;align-items:center;justify-content:center;gap:9px;padding:11px;background:#fff;color:#1f1f1f;border-color:#fff}
+  .sy-google .g{font-weight:900;color:#4285f4}
+  .sy-or{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px;margin:14px 0}.sy-or::before,.sy-or::after{content:"";flex:1;height:1px;background:var(--line)}
+  .sy-form{display:flex;flex-direction:column;gap:10px}
+  .sy-form label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);font-weight:700}
+  .sy-form input{font-size:16px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text)}
+  .sy-row{display:flex;gap:8px;flex-wrap:wrap}.sy-row .btn{flex:1 1 auto}.sy-pri{background:var(--accent);border-color:var(--accent);color:#111}
+  .sy-links{justify-content:space-between}
+  .sy-msg{min-height:18px;margin-top:10px;font-size:13px;color:#bfdbfe}.sy-msg.bad{color:#ff9aa2}
 </style>
 </head>
 <body>
@@ -3482,9 +3545,10 @@ html.tc-open{overflow:hidden}
 </div>
 
 <header>
-  <div class="brand"><div class="fav-wheel" id="favWheel" title="Teams"><button class="fw-arr l" data-fw="-1" aria-label="Scroll teams left" tabindex="-1" hidden>‹</button><div class="fav-logos fw-track" id="favLogos" role="list" aria-label="Favorite teams"></div><button class="fw-arr r" data-fw="1" aria-label="Scroll teams right" tabindex="-1" hidden>›</button></div><div class="fav-wheel pl-wheel" id="plWheel" hidden><button class="fw-arr l" data-fw="-1" aria-label="Scroll players left" tabindex="-1" hidden>‹</button><div class="fav-logos fw-track" id="plLogos" role="list" aria-label="Favorite and fantasy players"></div><button class="fw-arr r" data-fw="1" aria-label="Scroll players right" tabindex="-1" hidden>›</button></div><button class="fav-gear" id="favGear" data-open-favs title="Manage favorites" aria-label="Manage favorites" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button><button class="btn csearch" data-focus-search="" aria-label="Search">🔍</button><h1 id="dashTitle" tabindex="0" role="button" aria-label="Dashboard name. Click to rename." title="Click to rename">Mann's <span>Sports</span><em class="h1-x"> Dashboard</em></h1></div>
+  <div class="brand"><div class="fav-wheel" id="favWheel" title="Teams"><button class="fw-arr l" data-fw="-1" aria-label="Scroll teams left" tabindex="-1" hidden>‹</button><div class="fav-logos fw-track" id="favLogos" role="list" aria-label="Favorite teams"></div><button class="fw-arr r" data-fw="1" aria-label="Scroll teams right" tabindex="-1" hidden>›</button></div><div class="fav-wheel pl-wheel" id="plWheel" hidden><button class="fw-arr l" data-fw="-1" aria-label="Scroll players left" tabindex="-1" hidden>‹</button><div class="fav-logos fw-track" id="plLogos" role="list" aria-label="Favorite and fantasy players"></div><button class="fw-arr r" data-fw="1" aria-label="Scroll players right" tabindex="-1" hidden>›</button></div><button type="button" class="fp-jump" id="fpJump" data-fpjump title="Jump to your Favorite Players" aria-label="Jump to Favorite Players">⭐<span class="fp-jl">Players</span><b id="fpJumpN" hidden></b></button><button class="fav-gear" id="favGear" data-open-favs title="Manage favorites" aria-label="Manage favorites" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button><button class="btn csearch" data-focus-search="" aria-label="Search">🔍</button><h1 id="dashTitle" tabindex="0" role="button" aria-label="Dashboard name. Click to rename." title="Click to rename">Mann's <span>Sports</span><em class="h1-x"> Dashboard</em></h1></div>
   <div class="usearch hd-search" data-usearch data-usfav><span class="ico">🔍</span><input type="search" placeholder="Search any team or player: stats, ☆ to favorite" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-label="Search teams and players"><kbd>/</kbd><div class="us-results" role="listbox" hidden></div></div>
   <div class="meta">
+    <span class="acct" id="acctSlot" hidden></span>
     <button class="btn" id="favsBtn" title="Manage favorite teams and players">★ Favorites <span id="favCount"></span></button>
     <button class="btn" id="sportsBtn" title="Choose which sports to follow">⚙ Sports</button>
     <button class="btn" id="tickerNewsBtn" title="Show team and player news in the ticker">📰 Ticker news</button>
@@ -7761,7 +7825,7 @@ function pcPlace(){   // Oct 22: on Fantasy the wheel lives inside the roster's 
 function renderCardRow(){
   const wrap = pcPlace(); if (!wrap) return;
   const pls = cardRowPlayers(), fz = state.tab === FANTASY_TAB;
-  wrap.hidden = !pls.length || (fz && !wrap.classList.contains('in-slot')); if (wrap.hidden) return;   // cards only on My News (favorites) + Fantasy (roster + watch list)
+  wrap.hidden = !pls.length || !wrap.classList.contains('in-slot');   /* Oct 28: header card row retired; My News uses the ⭐ Favorite Players section, Fantasy keeps its Wheel view */ if (wrap.hidden) return;   // cards only on My News (favorites) + Fantasy (roster + watch list)
   const row = document.getElementById('pcRow'), btn = document.getElementById('pcToggle'), pcHidden = !!pcHM[pcTab()];
   const nW = pls.filter(x => x.mk === 'w').length;
   document.getElementById('pcTitleTxt').textContent = fz ? `🃏 Fantasy cards · ${FSPORTS[MN.fsTab].label}` : '🃏 My Players';
@@ -13213,6 +13277,330 @@ addEventListener('click', e => {
     return;
   }
 }, true);
+</script>
+<script>
+/* ===== Oct 28: ⭐ Favorite Players section at the top of My News (replaces the header player-card row there).
+   Only ★ starred players show here; fantasy roster players stay in Fantasy (a starred player who is also rostered gets a small 🎮 mark).
+   The Fantasy tab's Wheel view still uses #pcWrap, so that view is unchanged. ===== */
+function fpList(){ return (players || []).filter(p => p && p.fav); }
+function fpNow(p){ try { return playerNow(p, true); } catch (_) { return null; } }
+function fpNum(v){ if (v == null || v === '') return null; const n = +v; return isFinite(n) ? n : null; }
+function fpPts(p, now){
+  const live = now && (now.state === 'in' || now.state === 'post');
+  let pts = null; try { pts = p.roster ? fzPts(p) : null; } catch (_) {}
+  if (pts) {
+    const a = fpNum(pts.act); if (live && a != null) return { v: r1(a), l: now.state === 'in' ? 'fantasy pts (live)' : 'fantasy pts' };
+    const lw = fpNum(pts.lw); if (lw != null) return { v: r1(lw), l: 'fantasy pts last wk' };
+  }
+  try { if (psp(p) === 'nfl' && CMP.d && CMP.d.nfl && CMP.d.nfl.p) { const cx = cmpMe(CMP.d.nfl, p);
+    if (cx) { const lw = fpNum(cx.lw); if (lw != null) return { v: r1(lw), l: 'fantasy pts last wk' }; const pg = fpNum(cx.ppg); if (pg != null) return { v: r1(pg), l: 'fantasy pts / game' }; } } } catch (_) {}
+  return null;
+}
+function fpStatus(now){
+  if (!now || !now.head) return '';
+  const d = now.date ? new Date(now.date) : null, ok = d && !isNaN(d);
+  if (now.state === 'in') return `<span class="fp-live">● LIVE</span> ${esc(now.head)}${now.detail ? ' · ' + esc(now.detail) : ''}`;
+  if (now.state === 'pre') return `${esc(now.head)}${ok ? ' · ' + esc(dayLabelET(d) + ' ' + timeET(d)) : ''}`;
+  if (now.state === 'post') return `<span class="fp-fin">Final</span> ${esc(now.head)}`;
+  return esc(now.head);
+}
+function fpCard(x){
+  const p = x.p, now = x.now, pts = fpPts(p, now), st = fpStatus(now), ln = now && now.state !== 'pre' && now.line ? now.line : '';
+  const meta = [p.team && p.team !== 'FA' ? p.team : '', p.pos || ''].filter(Boolean).join(' · ');
+  const ini = String(p.name || '?').split(/\s+/).map(w => w[0] || '').join('').slice(0, 2).toUpperCase();
+  return `<div class="fp-it${now && now.state === 'in' ? ' live' : ''}" role="listitem">` +
+    `<button type="button" class="fp-main"${psAttr(p)} title="Full stats for ${esc(p.name)}" aria-label="${esc(p.name)}: open full stats">` +
+      `<span class="fp-ph"><i aria-hidden="true">${esc(ini)}</i>${p.headshot ? `<img src="${esc(p.headshot)}" alt="" loading="lazy" draggable="false" onerror="this.remove()">` : ''}</span>` +
+      `<span class="fp-tx"><b class="fp-nm">${esc(p.name)}</b>${meta ? `<span class="fp-meta">${esc(meta)}${p.roster ? ' <em title="Also on your fantasy roster">🎮</em>' : ''}</span>` : ''}` +
+      `${st ? `<span class="fp-st">${st}</span>` : ''}${ln ? `<span class="fp-ln">${esc(ln)}</span>` : ''}${pts ? `<span class="fp-pts"><b>${esc(String(pts.v))}</b> ${esc(pts.l)}</span>` : ''}</span>` +
+    `</button>` +
+    `<button type="button" class="fp-un" data-fpunfav="${esc(p.id)}" title="Remove ${esc(p.name)} from favorites" aria-label="Remove ${esc(p.name)} from favorite players">★</button></div>`;
+}
+function fpSorted(){
+  const rk = n => !n ? 3 : n.state === 'in' ? 0 : n.state === 'pre' ? 1 : n.state === 'post' ? 2 : 3;
+  return fpList().map(p => ({ p, now: fpNow(p) })).sort((a, b) => rk(a.now) - rk(b.now) || (a.now && b.now && a.now.state === 'pre' ? (+new Date(a.now.date) || 0) - (+new Date(b.now.date) || 0) : 0));
+}
+function renderFavPlayersSection(){
+  const g = document.getElementById('games'); if (!g || state.tab !== 'mynews' || g.dataset.view !== 'mynews') return;
+  let el = document.getElementById('fpSection');
+  if (!el) { el = document.createElement('section'); el.id = 'fpSection'; el.className = 'fp-sec'; el.tabIndex = -1; el.setAttribute('aria-labelledby', 'fpTitle'); }
+  if (g.firstElementChild !== el) g.insertBefore(el, g.firstChild);
+  const list = fpSorted(), n = list.length;
+  const html = `<div class="section-title fp-title" id="fpTitle">⭐ Favorite Players <small>${n ? n + ' starred' : ''}</small><button class="linkbtn fp-add" data-focus-search="">＋ Add players</button></div>` +
+    (n ? `<div class="fp-grid n${Math.min(n, 4)}" role="list" aria-label="Favorite players">${list.map(fpCard).join('')}</div>`
+       : `<div class="cta-row fp-empty"><span>No favorite players yet. Search any player and tap ☆ to pin them here with today's game and fantasy points.</span><button class="linkbtn" data-focus-search="">🔍 Find players</button></div>`);
+  if (el.dataset.sig !== html) { el.innerHTML = html; el.dataset.sig = html; }
+  fpJumpUpdate();
+}
+function fpJumpUpdate(){ const b = document.getElementById('fpJumpN'); if (!b) return; const n = fpList().length; b.textContent = n ? String(n) : ''; b.hidden = !n;
+  const j = document.getElementById('fpJump'); if (j) j.setAttribute('aria-label', `Jump to Favorite Players${n ? ' (' + n + ')' : ''}`); }
+function fpJump(){
+  const go = () => { const el = document.getElementById('fpSection'); if (!el) return;
+    el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    try { el.focus({ preventScroll: true }); } catch (_) {}
+    setTimeout(() => { const r = el.getBoundingClientRect(); if (r.top < 0 || r.top > innerHeight * .6) el.scrollIntoView({ block: 'start' }); }, 900);   // re-render or slow smooth-scroll moved it: snap
+    el.classList.remove('fp-flash'); void el.offsetWidth; el.classList.add('fp-flash'); setTimeout(() => el.classList.remove('fp-flash'), 1400); };
+  if (state.tab !== 'mynews') { const t = document.querySelector('.tab[data-tab="mynews"]'); if (t) t.click(); requestAnimationFrame(() => requestAnimationFrame(go)); }
+  else { renderFavPlayersSection(); go(); }
+}
+(() => { const f = renderMyNews; renderMyNews = function(){ const r = f.apply(this, arguments); try { renderFavPlayersSection(); } catch (e) { console.warn('favorite players', e); } return r; }; })();
+(() => { const f = renderHeaderLogos; renderHeaderLogos = function(){ const r = f.apply(this, arguments); try { fpJumpUpdate(); } catch (_) {} return r; }; })();
+document.addEventListener('click', e => {
+  const t = e.target && e.target.closest ? e.target : null; if (!t) return;
+  if (t.closest('[data-fpjump]')) { e.preventDefault(); fpJump(); return; }
+  const u = t.closest('[data-fpunfav]');
+  if (u) { e.preventDefault(); const id = u.dataset.fpunfav, p = players.find(x => x.id === id); removePlayer(id); toast(`☆ ${p ? p.name : 'Player'} removed from favorites`); }
+});
+try { fpJumpUpdate(); } catch (_) {}
+</script>
+<script>
+/* ===== Oct 28: optional sign-in + cross-device sync (Firebase Auth + Firestore, free Spark plan).
+   OFF unless FIREBASE_CONFIG (top of the page) is set: then nothing loads, no button shows, and the page runs on localStorage exactly as before.
+   When on: the Firebase SDK loads lazily from gstatic after first paint; synced keys live at users/{uid}.keys (raw localStorage strings, '.' → '~').
+   First sign-in on a device merges (favorites, teams, watch list, hidden cards are unioned; prefs: cloud wins, local fills anything the cloud lacks,
+   and an empty cloud doc takes the whole local copy). After that the cloud is the source of truth: onSnapshot live updates, debounced writes.
+   Signing out keeps the local copy. Device-only keys (visit counters, seen-trackers, caches, API keys) never leave the device. ===== */
+const SY_STATE_KEY = 'mannSync.v1', SY_EMAIL_KEY = 'mannSyncEmail.v1', SY_FB_VER = '10.14.1';
+const SY_UNION = { 'mannSportsStars.v1': 'set', 'mannFavPlayers.v2': 'ids', 'mannFantasyWatch.v1': 'idmap', 'mannHiddenCards.v1': 'set', 'mannHiddenCards.v1.m': 'obj', 'mannFavMeta.v1': 'obj', 'mannTeamIds.v1': 'obj' };
+const SY_PREFS = ['mannSportsSelected.v1', 'mannFantasySports.v1', 'mannTabOrder.v1', 'mannTickerNews', 'mannTickerSpeed.v1', 'mannTicker2Row.v1', 'mannTickerSize.v1', 'mannTickerPos.v1',
+  'mannTableView.v1', 'mannMultiLeagues.v1', 'mannEspnLeagues.v1', 'mannFantasyRoster.v1', 'mannTradeLab.v1', 'mannGameAlerts.v1', 'mannGameFilter.v1', 'mannFavMin.v1', 'mannFavExpanded.v1',
+  'mannRedditMode.v1', 'mannRoastLvl.v1', 'mannCellySound.v1', 'mannHoverSnd.v1', 'mannHoverHL.v2', 'mannSpinBadges.v1', 'mannDashName.v1', 'mannWatchSort.v1', 'mannCompsPos.v1',
+  'mannCompsOpen.v1', 'mannPickPos.v1', 'mannRosterGroups.v1', 'mannPlayerCardsHidden.v1', 'mannWheelDrift.v1', 'mannImportNudgeOff.v1', 'mannMatchupUI.v1', 'mannProfile.v1'];
+const SY_KEYS = [...Object.keys(SY_UNION), ...SY_PREFS];
+const SY_HOT = new Set(Object.keys(SY_UNION));            // applied live; any other synced key asks for a reload
+const SY_MAXV = 300000;                                   // per-value cap (Firestore docs max out at 1 MiB)
+const SY = { cloud: {}, api: null, user: null, uid: null, ready: false, dirty: new Set(), inflight: new Set(), t: 0, unsub: null, quiet: 0, hooked: false, status: 'off', err: '', skipped: [],
+  dev: (() => { try { let d = sessionStorage.getItem('mannSyncDev'); if (!d) { d = Math.random().toString(36).slice(2, 10); sessionStorage.setItem('mannSyncDev', d); } return d; } catch (_) { return 'x'; } })() };
+window.SY = SY;
+const syEnc = k => String(k).replace(/\./g, '~'), syDec = k => String(k).replace(/~/g, '.');
+function syOn(){ return !!(typeof FIREBASE_CONFIG !== 'undefined' && FIREBASE_CONFIG && typeof FIREBASE_CONFIG === 'object' && FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.projectId); }
+function syParse(s){ if (s == null) return undefined; try { return JSON.parse(s); } catch (_) { return undefined; } }
+function syMerge(kind, loc, cl){   // both raw strings; returns the merged raw string
+  const a = syParse(loc), b = syParse(cl);
+  if (a == null) return cl; if (b == null) return loc;
+  if (kind === 'set') return Array.isArray(a) && Array.isArray(b) ? JSON.stringify([...new Set([...b, ...a])]) : loc;
+  if (kind === 'ids') { if (!Array.isArray(a) || !Array.isArray(b)) return loc;
+    const m = new Map(); for (const x of b) if (x && x.id != null) m.set(String(x.id), x); for (const x of a) if (x && x.id != null) m.set(String(x.id), x);
+    return JSON.stringify([...m.values()]); }
+  if (kind === 'idmap') { if (typeof a !== 'object' || typeof b !== 'object' || Array.isArray(a) || Array.isArray(b)) return loc;
+    const o = {}; for (const sp of new Set([...Object.keys(b), ...Object.keys(a)])) o[sp] = JSON.parse(syMerge('ids', JSON.stringify(Array.isArray(a[sp]) ? a[sp] : []), JSON.stringify(Array.isArray(b[sp]) ? b[sp] : [])));
+    return JSON.stringify(o); }
+  if (kind === 'obj') return typeof a === 'object' && typeof b === 'object' && !Array.isArray(a) && !Array.isArray(b) ? JSON.stringify({ ...b, ...a }) : loc;
+  return loc;
+}
+function syLocal(){ const o = {}; for (const k of SY_KEYS) { let v = null; try { v = localStorage.getItem(k); } catch (_) {} if (v != null) o[k] = v; } return o; }
+function syDecode(data){ const o = {}; const ks = data && data.keys && typeof data.keys === 'object' ? data.keys : null; if (!ks) return o;
+  for (const e in ks) { const k = syDec(e); if (SY_KEYS.includes(k) && typeof ks[e] === 'string') o[k] = ks[e]; } return o; }
+function syWriteLocal(k, v){ SY.quiet++; try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (_) {} finally { SY.quiet--; } }
+function syPick(map){ const o = {}; for (const k in map) { const v = map[k]; if (v != null && v.length > SY_MAXV) { if (!SY.skipped.includes(k)) SY.skipped.push(k); console.info('sync: skipped (too big)', k, v.length); continue; } o[k] = v; } return o; }
+/* first sign-in on this device (or after a sign-out): merge local + cloud */
+async function syMigrate(uid, ck){
+  const loc = syLocal(), out = {}, empty = !Object.keys(ck).length;
+  for (const k of SY_KEYS) { const l = loc[k], c = ck[k];
+    out[k] = SY_UNION[k] ? (l == null ? c : c == null ? l : syMerge(SY_UNION[k], l, c)) : (empty ? l : c != null ? c : l); }
+  const changed = [], up = {};
+  for (const k of SY_KEYS) { if (out[k] == null) continue; if (out[k] !== loc[k]) { syWriteLocal(k, out[k]); changed.push(k); } if (out[k] !== ck[k]) up[k] = out[k]; }
+  const u = syPick(up); if (Object.keys(u).length) await SY.api.put(uid, u);
+  SY.cloud = { ...ck, ...u };
+  lsSet(SY_STATE_KEY, { uid, t: Date.now() });
+  return changed;
+}
+/* already linked on this device: cloud is the source of truth; local-only keys (and anything edited before the session restored) go up */
+async function sySteady(uid, ck){
+  const loc = syLocal(), changed = [], up = {};
+  for (const k of SY_KEYS) { const l = loc[k], c = ck[k];
+    if (SY.dirty.has(k)) { if (l !== c) up[k] = l; continue; }
+    if (c != null && c !== l) { syWriteLocal(k, c); changed.push(k); }
+    else if (c == null && l != null) up[k] = l; }
+  SY.dirty.clear();
+  const u = syPick(up); if (Object.keys(u).length) await SY.api.put(uid, u);
+  SY.cloud = { ...ck, ...u };
+  return changed;
+}
+function syOnSnap(snap){
+  if (!SY.ready || !SY.uid) return;
+  if (snap && snap.metadata && snap.metadata.hasPendingWrites) return;   // our own write echo
+  const ck = syDecode(snap && snap.exists() ? snap.data() : null), changed = [];
+  SY.cloud = { ...ck };
+  for (const k in ck) { if (SY.dirty.has(k) || SY.inflight.has(k)) continue; let cur = null; try { cur = localStorage.getItem(k); } catch (_) {} if (ck[k] !== cur) { syWriteLocal(k, ck[k]); changed.push(k); } }
+  if (changed.length) syApply(changed, 'remote');
+}
+function sySeedSeen(){   // a roster arriving by sync is not a "new card" moment
+  try { const ros = lsGet(ROSTER_KEY, []) || [], ml = lsGet('mannMultiLeagues.v1', null), ids = new Set((lsGet('mannCellySeen.v1', []) || []).map(String));
+    ros.forEach(p => p && p.id != null && ids.add(String(p.id)));
+    if (ml && typeof ml === 'object') JSON.stringify(ml).replace(/"id":"([^"]+)"/g, (_, id) => { ids.add(id); return ''; });
+    lsSet('mannCellySeen.v1', [...ids]); if (typeof CY !== 'undefined') CY.seen = [...ids]; } catch (_) {}
+}
+function syApply(changed, why){
+  const hot = changed.filter(k => SY_HOT.has(k)), cold = changed.filter(k => !SY_HOT.has(k));
+  if (hot.length) {
+    try {
+      if (hot.some(k => /Stars|FavMeta|TeamIds/.test(k))) { stars = loadStars(); MN.teamIds = lsGet(TEAMIDS_KEY, {}) || {}; const fm = lsGet(FAVMETA_KEY, {}) || {}; Object.keys(favMeta).forEach(k => { delete favMeta[k]; }); Object.assign(favMeta, fm); }
+      if (hot.includes('mannFavPlayers.v2')) { const before = new Set(players.filter(p => p.fav).map(p => p.id)); players = loadPlayerLists();
+        const add = players.filter(p => p.fav && !before.has(p.id));
+        if (add.length) Promise.all(add.map(p => loadPlayerOverview(p).catch(() => {}))).then(() => loadPlayerBoxes()).then(() => { try { rerenderPlayers(); renderFavorites(); } catch (_) {} }).catch(() => {}); }
+      if (hot.includes('mannFantasyWatch.v1')) watchStore = lsGet(WATCH_KEY, {}) || {};
+      if (hot.some(k => k.startsWith('mannHiddenCards'))) { HX.s = new Set(lsGet(HX_KEY, []) || []); HX.meta = lsGet(HX_KEY + '.m', {}) || {}; hxCss(); }
+      favsChanged();
+    } catch (e) { console.warn('sync apply', e); }
+  }
+  if (cold.length) {
+    if (cold.some(k => /Roster|MultiLeagues|EspnLeagues/.test(k))) sySeedSeen();
+    let once = false; try { once = !sessionStorage.getItem('mannSyncReloaded'); if (once && why === 'signin') sessionStorage.setItem('mannSyncReloaded', '1'); } catch (_) {}
+    if (why === 'signin' && once) { toast('Signed in · loading your synced settings…'); setTimeout(() => location.reload(), 700); }
+    else if (typeof sysChip === 'function') sysChip('sync', 'Settings synced from your other device · <b>Tap to apply</b>', () => location.reload());
+  }
+  syRenderAcct();
+}
+function syTouched(k){
+  if (SY.quiet || !SY.api || !SY_KEYS.includes(k)) return;
+  SY.dirty.add(k); if (!SY.ready || !SY.uid) return;
+  clearTimeout(SY.t); SY.t = setTimeout(syFlush, 1500);
+}
+async function syFlush(){
+  clearTimeout(SY.t); if (!SY.ready || !SY.uid || !SY.dirty.size) return;
+  const ks = [...SY.dirty]; SY.dirty.clear(); ks.forEach(k => SY.inflight.add(k));
+  const up = {}; for (const k of ks) { let v = null; try { v = localStorage.getItem(k); } catch (_) {} if (v !== (SY.cloud[k] ?? null)) up[k] = v; }   // unchanged vs cloud: no write
+  if (!Object.keys(up).length) { ks.forEach(k => SY.inflight.delete(k)); return; }
+  SY.status = 'saving'; syRenderAcct();
+  try { const u = syPick(up); await SY.api.put(SY.uid, u); Object.assign(SY.cloud, u); SY.status = 'ok'; SY.err = ''; }
+  catch (e) { ks.forEach(k => SY.dirty.add(k)); SY.status = 'err'; SY.err = (e && (e.code || e.message)) || 'error'; clearTimeout(SY.t); SY.t = setTimeout(syFlush, 30000); }
+  finally { ks.forEach(k => SY.inflight.delete(k)); syRenderAcct(); }
+}
+function syHook(){
+  if (SY.hooked) return; SY.hooked = true;
+  const tgt = window.__LS_BROKEN ? window.localStorage : Storage.prototype, set = tgt.setItem, rem = tgt.removeItem;
+  tgt.setItem = function(k, v){ const r = set.apply(this, arguments); if (this === window.localStorage) syTouched(String(k)); return r; };
+  tgt.removeItem = function(k){ const r = rem.apply(this, arguments); if (this === window.localStorage) syTouched(String(k)); return r; };
+  addEventListener('pagehide', () => { if (SY.dirty.size) syFlush(); });
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && SY.dirty.size) syFlush(); });
+}
+async function syModules(){
+  if (window.__FB_TEST_MODULES) return window.__FB_TEST_MODULES;   // test harness hook (mocked Firebase)
+  const B = `https://www.gstatic.com/firebasejs/${SY_FB_VER}/`;
+  const [app, auth, fs] = await Promise.all(['firebase-app.js', 'firebase-auth.js', 'firebase-firestore.js'].map(f => import(B + f)));
+  return { app, auth, fs };
+}
+async function syLoad(){
+  const M = await syModules(), app = M.app.initializeApp(FIREBASE_CONFIG), auth = M.auth.getAuth(app), db = M.fs.getFirestore(app), ref = uid => M.fs.doc(db, 'users', uid);
+  return { M, auth,
+    onAuth: cb => M.auth.onAuthStateChanged(auth, cb),
+    google: async () => { const pr = new M.auth.GoogleAuthProvider(); pr.setCustomParameters && pr.setCustomParameters({ prompt: 'select_account' });
+      try { return await M.auth.signInWithPopup(auth, pr); }
+      catch (e) { if (/popup-blocked|operation-not-supported-in-this-environment/.test((e && e.code) || '')) return M.auth.signInWithRedirect(auth, pr); throw e; } },
+    emailPw: (email, pw, create) => create ? M.auth.createUserWithEmailAndPassword(auth, email, pw) : M.auth.signInWithEmailAndPassword(auth, email, pw),
+    sendLink: email => M.auth.sendSignInLinkToEmail(auth, email, { url: location.origin + location.pathname, handleCodeInApp: true }),
+    isLink: () => { try { return M.auth.isSignInWithEmailLink(auth, location.href); } catch (_) { return false; } },
+    finishLink: email => M.auth.signInWithEmailLink(auth, email, location.href),
+    resetPw: email => M.auth.sendPasswordResetEmail(auth, email),
+    signOut: () => M.auth.signOut(auth),
+    get: async uid => { const s = await M.fs.getDoc(ref(uid)); return s.exists() ? s.data() : null; },
+    put: (uid, map) => { const o = {}; for (const k in map) o[syEnc(k)] = map[k] == null ? M.fs.deleteField() : map[k];
+      return M.fs.setDoc(ref(uid), { v: 1, keys: o, updatedAt: M.fs.serverTimestamp(), device: SY.dev }, { merge: true }); },
+    watch: (uid, cb, err) => M.fs.onSnapshot(ref(uid), cb, err) };
+}
+async function syOnUser(user){
+  SY.user = user || null; if (SY.unsub) { try { SY.unsub(); } catch (_) {} SY.unsub = null; }
+  SY.ready = false; SY.uid = null;
+  if (!user) { SY.status = 'out'; syRenderAcct(); return; }   // signed out: the local copy stays as it is
+  SY.uid = user.uid; SY.status = 'saving'; syRenderAcct();
+  try {
+    const st = lsGet(SY_STATE_KEY, {}) || {}, ck = syDecode(await SY.api.get(user.uid));
+    const changed = st.uid === user.uid ? await sySteady(user.uid, ck) : await syMigrate(user.uid, ck);
+    if (SY.uid !== user.uid) return;   // signed out meanwhile
+    SY.ready = true; SY.status = 'ok';
+    SY.unsub = SY.api.watch(user.uid, syOnSnap, e => { SY.status = 'err'; SY.err = (e && (e.code || e.message)) || 'error'; syRenderAcct(); });
+    if (changed.length) syApply(changed, 'signin');
+    if (SY.dirty.size) syFlush();
+  } catch (e) { SY.status = 'err'; SY.err = (e && (e.code || e.message)) || 'error'; console.info('sync', e); }
+  syRenderAcct();
+}
+async function syBoot(){
+  if (!syOn() || SY.api || SY.booting) return; SY.booting = true;
+  try { SY.api = await syLoad(); }
+  catch (e) { SY.api = null; SY.status = 'off'; console.info('sync: Firebase unavailable, staying local', e && e.message); syRenderAcct(); return; }
+  syHook(); SY.status = 'out';
+  try { if (SY.api.isLink()) { let em = ''; try { em = localStorage.getItem(SY_EMAIL_KEY) || ''; } catch (_) {}
+      if (!em) em = (prompt('Confirm the email you used for the sign-in link') || '').trim();
+      if (em) { await SY.api.finishLink(em); try { localStorage.removeItem(SY_EMAIL_KEY); } catch (_) {} }
+      try { history.replaceState(null, '', location.pathname); } catch (_) {} } } catch (e) { console.info('sync link', e); }
+  try { SY.api.onAuth(u => { syOnUser(u); }); } catch (e) { console.info('sync auth', e); }
+  syRenderAcct();
+}
+async function sySignOut(){ try { await syFlush(); } catch (_) {} try { localStorage.removeItem(SY_STATE_KEY); sessionStorage.removeItem('mannSyncReloaded'); } catch (_) {}
+  try { await SY.api.signOut(); } catch (_) {} syMenu(false); toast('Signed out · your favorites and settings stay on this device'); }
+/* ---- header account chip + sign-in sheet ---- */
+function syRenderAcct(){
+  const el = document.getElementById('acctSlot'); if (!el) return;
+  if (!syOn() || !SY.api) { el.hidden = true; if (el.innerHTML) el.innerHTML = ''; el.dataset.sig = ''; return; }   // no config / SDK failed: nothing shows
+  el.hidden = false;
+  const u = SY.user;
+  let html;
+  if (!u) html = `<button type="button" class="btn acct-in" data-syin title="Sign in to sync favorites and settings across your devices" aria-label="Sign in to sync">👤<span class="ai-l"> Sign in</span></button>`;
+  else { const nm = u.displayName || u.email || 'Signed in', ini = esc((nm.trim()[0] || '?').toUpperCase()), dot = SY.status === 'err' ? 'err' : SY.status === 'saving' ? 'busy' : 'ok';
+    html = `<button type="button" class="acct-chip" data-syacct aria-haspopup="true" aria-expanded="false" title="${esc(nm)} · ${dot === 'ok' ? 'synced' : dot === 'busy' ? 'syncing…' : 'sync paused'}">${u.photoURL ? `<img src="${esc(u.photoURL)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}<span class="ac-i">${ini}</span><i class="ac-dot ${dot}"></i></button>`; }
+  if (el.dataset.sig !== html) { el.innerHTML = html; el.dataset.sig = html; }
+  const m = document.getElementById('acctMenu'); if (m && !m.hidden) syMenu(true);
+}
+function syMenu(open){
+  let m = document.getElementById('acctMenu');
+  if (!open) { if (m) m.hidden = true; const b = document.querySelector('[data-syacct]'); if (b) b.setAttribute('aria-expanded', 'false'); return; }
+  if (!m) { m = document.createElement('div'); m.id = 'acctMenu'; m.className = 'acct-menu'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-label', 'Account'); document.body.appendChild(m); }
+  const u = SY.user || {}, st = SY.status === 'err' ? `⚠️ Sync paused (${esc(SY.err)}) · your changes are saved on this device` : SY.status === 'saving' ? '⏳ Syncing…' : '✅ Favorites & settings synced';
+  m.innerHTML = `<div class="am-who"><b>${esc(u.displayName || 'Signed in')}</b>${u.email ? `<span>${esc(u.email)}</span>` : ''}</div><div class="am-st">${st}</div>
+    <button type="button" class="btn am-out" data-syout>Sign out</button><div class="am-note">Signing out keeps everything on this device.</div>`;
+  const b = document.querySelector('[data-syacct]'); if (b) { b.setAttribute('aria-expanded', 'true'); const r = b.getBoundingClientRect();
+    m.style.top = Math.round(r.bottom + 6) + 'px'; m.style.right = Math.max(8, Math.round(innerWidth - r.right)) + 'px'; }
+  m.hidden = false;
+}
+function sySheet(open){
+  let d = document.getElementById('syModal');
+  if (!open) { if (d) d.hidden = true; return; }
+  if (!d) { d = document.createElement('div'); d.className = 'modal sy-modal'; d.id = 'syModal'; d.hidden = true;
+    d.innerHTML = `<div class="modal-box sy-box" role="dialog" aria-modal="true" aria-labelledby="syTitle">
+      <div class="sy-hd"><h2 id="syTitle">Sign in to sync</h2><button type="button" class="sy-x" data-syclose aria-label="Close">✕</button></div>
+      <p class="sy-sub">Optional. Keeps your favorite teams & players, fantasy watch list, hidden cards and settings in step across your phone, iPad and computer.</p>
+      <button type="button" class="btn sy-google" data-sygoogle><span class="g">G</span> Continue with Google</button>
+      <div class="sy-or"><span>or use email</span></div>
+      <form class="sy-form" data-syform novalidate>
+        <label>Email<input type="email" name="email" autocomplete="email" required></label>
+        <label>Password<input type="password" name="pw" autocomplete="current-password" minlength="6"></label>
+        <div class="sy-row"><button type="submit" class="btn sy-pri" data-symode="in">Sign in</button><button type="submit" class="btn" data-symode="new">Create account</button></div>
+        <div class="sy-row sy-links"><button type="button" class="linkbtn" data-syreset>Forgot password?</button></div>
+      </form>
+      <div class="sy-msg" role="status" aria-live="polite"></div></div>`;
+    document.body.appendChild(d); }
+  d.querySelector('.sy-msg').textContent = ''; d.hidden = false; setTimeout(() => { const i = d.querySelector('[data-sygoogle]'); if (i) i.focus(); }, 30);
+}
+function syMsg(t, bad){ const m = document.querySelector('#syModal .sy-msg'); if (m) { m.textContent = t; m.classList.toggle('bad', !!bad); } }
+function syErrText(e){ const c = (e && e.code) || '';
+  return /invalid-credential|wrong-password|user-not-found/.test(c) ? 'Email or password didn’t match. New here? Tap Create account.' : /email-already-in-use/.test(c) ? 'That email already has an account: tap Sign in.'
+    : /weak-password/.test(c) ? 'Use at least 6 characters for the password.' : /invalid-email/.test(c) ? 'That email doesn’t look right.' : /popup-closed|cancelled-popup/.test(c) ? 'Sign-in window closed.'
+    : /unauthorized-domain/.test(c) ? 'This site isn’t on the Firebase authorized-domains list yet.' : /operation-not-allowed/.test(c) ? 'That sign-in method isn’t turned on in Firebase yet.'
+    : /network/.test(c) ? 'No connection. Try again in a moment.' : 'Couldn’t sign in' + (c ? ' (' + c + ')' : '') + '.'; }
+document.addEventListener('click', async e => {
+  const t = e.target && e.target.closest ? e.target : null; if (!t) return;
+  if (t.closest('[data-syin]')) { e.preventDefault(); sySheet(true); return; }
+  if (t.closest('[data-syacct]')) { e.preventDefault(); const m = document.getElementById('acctMenu'); syMenu(!m || m.hidden); return; }
+  if (t.closest('[data-syout]')) { e.preventDefault(); sySignOut(); return; }
+  const mm = document.getElementById('acctMenu'); if (mm && !mm.hidden && !t.closest('#acctMenu')) syMenu(false);
+  if (t.closest('[data-syclose]') || t.id === 'syModal') { e.preventDefault(); sySheet(false); return; }
+  if (!SY.api) return;
+  if (t.closest('[data-sygoogle]')) { e.preventDefault(); syMsg('Opening Google…'); try { await SY.api.google(); sySheet(false); toast('Signed in · syncing your favorites'); } catch (er) { syMsg(syErrText(er), true); } return; }
+  const f = t.closest('[data-syform]'), em = f ? (f.email.value || '').trim() : '';
+  if (t.closest('[data-sylink]')) { e.preventDefault(); if (!em) { syMsg('Type your email first.', true); return; }
+    try { await SY.api.sendLink(em); try { localStorage.setItem(SY_EMAIL_KEY, em); } catch (_) {} syMsg('Link sent. Open it on this device to finish signing in.'); } catch (er) { syMsg(syErrText(er), true); } return; }
+  if (t.closest('[data-syreset]')) { e.preventDefault(); if (!em) { syMsg('Type your email first.', true); return; }
+    try { await SY.api.resetPw(em); syMsg('Password reset email sent.'); } catch (er) { syMsg(syErrText(er), true); } return; }
+  const sb = t.closest('[data-symode]'); if (sb && f) { e.preventDefault(); if (!em || !f.pw.value) { syMsg('Enter your email and a password.', true); return; }
+    syMsg(sb.dataset.symode === 'new' ? 'Creating your account…' : 'Signing in…');
+    try { await SY.api.emailPw(em, f.pw.value, sb.dataset.symode === 'new'); sySheet(false); toast('Signed in · syncing your favorites'); } catch (er) { syMsg(syErrText(er), true); } }
+});
+document.addEventListener('submit', e => { if (e.target && e.target.matches && e.target.matches('[data-syform]')) e.preventDefault(); });
+addEventListener('keydown', e => { if (e.key !== 'Escape') return; const d = document.getElementById('syModal'); if (d && !d.hidden) { sySheet(false); return; } syMenu(false); });
+/* lazy start: after first paint, when the browser is idle; does nothing when FIREBASE_CONFIG is null */
+if (syOn()) { const go = () => { const r = window.requestIdleCallback || (f => setTimeout(f, 1200)); r(() => syBoot(), { timeout: 4000 }); };
+  if (document.readyState === 'complete') go(); else addEventListener('load', go, { once: true }); }
 </script>
 <script>
 /* Oct 19: boot last, after every script block above has defined its globals (see bootDashboard). */
