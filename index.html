@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261029-1300-matchup-swirl-fix">
+<meta name="build-id" content="20261029-1520-roast-tonedown">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,7 +18,7 @@
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261029-1300-matchup-swirl-fix';
+var BUILD_ID = '20261029-1520-roast-tonedown';
 var FIREBASE_CONFIG = { apiKey: "AIzaSyDVX8Nz5Cpm3cdEdfYKDi9iKZ3eEuEsVlY", authDomain: "sportssportssports-d2cfc.firebaseapp.com", projectId: "sportssportssports-d2cfc",
   storageBucket: "sportssportssports-d2cfc.firebasestorage.app", messagingSenderId: "566191759512", appId: "1:566191759512:web:3b5e44b2547505bf4f70ed" };
 /* ^ Oct 28: optional sign-in + sync. Set to null to turn it off completely (no SDK load, no button). Web config keys are public by design; access is locked by firestore.rules. */
@@ -3373,8 +3373,6 @@ html.tc-open{overflow:hidden}
   @container mub (min-width:761px){.mu-rows .ms{grid-template-columns:minmax(0,1fr) 124px minmax(0,1fr)}}
   @container mub (min-width:561px) and (max-width:760px){.mu-rows .ms{grid-template-columns:minmax(0,1fr) 106px minmax(0,1fr)}.vs-sc{flex-direction:row;gap:5px}.vs-sc b{font-size:20px}.ms-vs .dl{font-size:15px!important}.vs-w{font-size:9.5px}}
 
-  /* Oct 22 roast */
-  .rq-roast{margin:6px 0 0;padding:6px 9px;border-left:3px solid #ffc21a;background:rgba(255,194,26,.08);border-radius:0 8px 8px 0;font-size:13px;line-height:1.4;font-weight:600;font-style:italic;color:#ffe8a3;white-space:normal;overflow-wrap:anywhere;max-width:100%;box-sizing:border-box}
   .sx-gauge>div{min-width:0}.sx-quip{margin-top:6px;font-size:14px;line-height:1.4;font-style:italic;font-weight:600;color:#ffe8a3;white-space:normal;overflow-wrap:anywhere}
   .sx-lbl{overflow-wrap:anywhere}
   /* ticker-links: tappable items get a subtle underline on hover-capable screens and a focus ring (no layout change) */
@@ -3383,7 +3381,6 @@ html.tc-open{overflow:hidden}
   /* Oct 22 loyalty */
   .loy{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:0 0 8px;font-size:12px;color:#b8c2d6}
   .loy-b{padding:2px 9px;border-radius:999px;background:rgba(255,194,26,.12);border:1px solid rgba(255,194,26,.45);color:#ffe8a3;font-weight:800;white-space:nowrap}
-  .loy-s select{margin-left:4px;font:inherit;background:#141a2b;color:#e6ecf8;border:1px solid #33405c;border-radius:6px;padding:1px 4px}
   .st-joke2{font-size:14px;margin-top:-4px;color:#ffd8a8;overflow-wrap:anywhere}
   .st-brk{margin:4px 0 12px;padding:10px 12px;border-radius:12px;background:#0f1424;border:1px solid #2a3450;font-size:13px}
   .st-brk>b{display:block;margin-bottom:6px;letter-spacing:.5px;color:#ffe8a3}
@@ -3540,7 +3537,7 @@ html.tc-open{overflow:hidden}
   .sy-row{display:flex;gap:8px;flex-wrap:wrap}.sy-row .btn{flex:1 1 auto}.sy-pri{background:var(--accent);border-color:var(--accent);color:#111}
   .sy-links{justify-content:space-between}
   .sy-msg{min-height:18px;margin-top:10px;font-size:13px;color:#bfdbfe}.sy-msg.bad{color:#ff9aa2}
-  /* ===== Oct 28 (evening): ★ Favorite Teams top section, 🎮 Fantasy Favorites quick-link in all views, & massive roast expansion ===== */
+  /* ===== Oct 28 (evening): ★ Favorite Teams top section, 🎮 Fantasy Favorites quick-link in all views ===== */
   .brand .fav-wheel{display:none!important}
   .fp-jump.ft-jump{border-color:#6b4e16;background:linear-gradient(180deg,#2c2210,#1a150b);color:#ffd452}
   .fp-jump.fz-jump{border-color:#2d4f85;background:linear-gradient(180deg,#162844,#101b2e);color:#7cc4ff}
@@ -3558,17 +3555,6 @@ html.tc-open{overflow:hidden}
   .qv-pill.fz:hover{border-color:#7cc4ff}
   .qv-pill b{padding:0 5px;border-radius:999px;background:rgba(255,200,61,.18);color:var(--gold);font-size:11px}
   .qv-pill.fz b{background:rgba(88,180,255,.2);color:#8fd0ff}
-  .qv-roast{flex:1 1 260px;min-width:0;display:flex;align-items:center;gap:8px;margin-left:auto;padding:4px 9px;border-radius:8px;background:rgba(255,194,26,.08);border-left:3px solid #ffc21a;color:#ffe8a3;font-size:12.5px;font-style:italic;font-weight:600}
-  .qv-roast span{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
-  .qv-rbtn{flex:0 0 auto;padding:3px 8px;border-radius:6px;border:1px solid rgba(255,194,26,.4);background:rgba(255,194,26,.12);color:#ffd86b;font-size:11.5px;font-weight:800;font-style:normal;cursor:pointer;white-space:nowrap}
-  .qv-rbtn:hover{background:rgba(255,194,26,.24)}
-  .sec-roast{display:flex;align-items:center;gap:8px;margin:0 0 10px;padding:7px 11px;border-radius:10px;background:rgba(255,194,26,.08);border:1px solid rgba(255,194,26,.25);border-left:3px solid #ffc21a;color:#ffe8a3;font-size:13px;font-weight:600;font-style:italic}
-  .sec-roast span{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
-  .ft-roast,.fp-roast{margin-top:3px;padding:3px 7px;border-radius:6px;background:rgba(255,194,26,.07);border-left:2px solid #ffc21a;color:#ffe596;font-size:11.5px;font-style:italic;font-weight:600;line-height:1.35;overflow-wrap:anywhere}
-  .ft-card .ft-roast{margin:4px 10px 6px}
-  .fl-line .ft-roast{grid-column:1/-1;margin:2px 0 0}
-  .mu-roast{display:flex;align-items:center;gap:8px;margin:8px 0 4px;padding:7px 11px;border-radius:10px;background:rgba(255,194,26,.09);border:1px solid rgba(255,194,26,.28);border-left:3px solid #ffc21a;color:#ffe8a3;font-size:13px;font-weight:600;font-style:italic}
-  .mu-roast span{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
   .fzp-box{width:min(760px,100%);max-height:86vh;display:flex;flex-direction:column;padding:16px}
   .fzp-hd{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding-bottom:10px;border-bottom:1px solid var(--line)}
   .fzp-hd h2{margin:0;font-size:18px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -3587,7 +3573,7 @@ html.tc-open{overflow:hidden}
   .fzp-tx small{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .fzp-pts{flex:0 0 auto;text-align:right;font-size:11px;color:var(--muted)}
   .fzp-pts b{display:block;font-size:13.5px;color:var(--gold)}
-  @media (max-width:600px){.qv-lbl{display:none}.qv-roast{flex-basis:100%;margin-left:0}.fzp-grid{grid-template-columns:1fr}}
+  @media (max-width:600px){.qv-lbl{display:none}.fzp-grid{grid-template-columns:1fr}}
   /* ===== Oct 28: Make expanded Favorite Team cards (.ft-card.gmd-on and .ft-grid.fx-big .ft-card) WAY bigger on desktop ===== */
   @media (min-width:900px){
     .ft-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
@@ -3617,7 +3603,6 @@ html.tc-open{overflow:hidden}
     :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .fv-orec{font-size:13.5px}
     :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-mid{grid-column:1/-1;padding:6px 4px}
     :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .rd-chip{font-size:13px;padding:6px 12px}
-    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-roast{margin:4px 20px 8px;padding:7px 12px;font-size:13.5px}
     :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card)>.gm-d{margin:4px 20px 18px;padding:16px 22px;border-radius:12px;gap:14px;font-size:15px}
     :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card)>.gm-d h6{font-size:13px;letter-spacing:1px;margin:0 0 8px;color:var(--gold)}
     :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card)>.gm-d .gm-dt thead th{font-size:15px;font-weight:900;color:var(--text);padding:6px 10px}
@@ -3780,7 +3765,7 @@ html.tc-open{overflow:hidden}
   body.light-assault .subbar{background:#ffccf9!important;color:#220033!important;border-bottom:2px dotted #ff00aa}
   body.light-assault .ticker{background:linear-gradient(90deg,#ffea00,#ff66cc,#00ffaa)!important;color:#110022!important;border-bottom:4px dashed #ff0055!important}
   body.light-assault .ticker a,body.light-assault .ticker span,body.light-assault .ticker b{color:#110022!important;text-shadow:1px 1px 0 #fff}
-  body.light-assault .ft-card,body.light-assault .fp-it,body.light-assault .card,body.light-assault .gr,body.light-assault .mu,body.light-assault .news,body.light-assault .qv-bar,body.light-assault .flab-spbar,body.light-assault .sec-roast,body.light-assault .mu-roast{
+  body.light-assault .ft-card,body.light-assault .fp-it,body.light-assault .card,body.light-assault .gr,body.light-assault .mu,body.light-assault .news,body.light-assault .qv-bar,body.light-assault .flab-spbar{
     background:linear-gradient(135deg,#ffffff 0%,#fff9b0 55%,#ffd6f6 100%)!important;
     border:3px dashed #ff00aa!important;
     color:#140028!important;
@@ -3795,9 +3780,9 @@ html.tc-open{overflow:hidden}
     background:#ffe600!important;color:#1a0033!important;border:2px solid #ff00aa!important;font-family:inherit!important;box-shadow:2px 2px 0 #00d9ff
   }
   body.light-assault .tab.active{background:#ff00aa!important;color:#fffb00!important}
-  body.light-assault b,body.light-assault h1,body.light-assault h2,body.light-assault h3,body.light-assault .section-title,body.light-assault .ft-roast,body.light-assault .fp-roast,body.light-assault .qv-roast{color:#1a0033!important}
+  body.light-assault b,body.light-assault h1,body.light-assault h2,body.light-assault h3,body.light-assault .section-title{color:#1a0033!important}
 
-  /* ===== Oct 28 (22:10): Fix header .brand / .usearch / .meta overlap across all viewports + top roast banner clearance ===== */
+  /* ===== Oct 28 (22:10): Fix header .brand / .usearch / .meta overlap across all viewports + top banner clearance ===== */
   header{max-width:1760px!important;padding:12px 18px 8px!important;gap:10px 12px!important;align-items:center}
   header .brand{display:flex;align-items:center;gap:6px!important;min-width:0}
   header .brand>*{flex:0 0 auto}
@@ -3848,7 +3833,7 @@ html.tc-open{overflow:hidden}
     header>.meta{flex:1 1 100%!important;justify-content:flex-start!important;flex-wrap:wrap!important}
     header>.usearch.hd-search{order:3!important;flex:1 1 100%!important;min-width:0!important;max-width:none!important}
   }
-  /* Prevent sticky header / sticky tabs from ever clipping the top of #favSection, #qvBarWrap, #fpSection, or .sec-roast */
+  /* Prevent sticky header / sticky tabs from ever clipping the top of #favSection, #qvBarWrap or #fpSection */
   .subbar{padding-top:6px;padding-bottom:6px}
   #favSection{margin-top:10px;padding-top:4px;scroll-margin-top:calc(var(--stack-h,90px) + 16px)!important}
   #favSection>.section-title{margin-top:8px!important}
@@ -3856,7 +3841,6 @@ html.tc-open{overflow:hidden}
   #qvBarWrap{padding-top:4px;scroll-margin-top:calc(var(--stack-h,70px) + var(--tabs-h,52px) + 10px)!important}
   .qv-bar{margin:4px 0 14px!important}
   #fpSection{scroll-margin-top:calc(var(--stack-h,70px) + var(--tabs-h,52px) + 10px)!important}
-  .sec-roast,.qv-roast,.mu-roast{position:relative;z-index:1}
 
   /* Oct 29: a .sx-b must always be the containing block of its own sheen. With position:static its ::after (absolute, inset:0,
      border-radius:50%, white gradient) stretched over the whole .ms-sd card = the big white oval. */
@@ -3864,6 +3848,8 @@ html.tc-open{overflow:hidden}
   .sx-b{overflow:hidden!important;contain:paint}
   .mu-rows .ms-n{display:flex;align-items:center;gap:4px;min-width:0}
   .mu-rows .ms-n .sx-b+.sx-b{display:none!important}
+  /* Oct 29: Spin-it header row (visits · Spin again · Excel) never runs under the ✕ close button */
+  .sx-box .loy{padding-right:44px}
 </style>
 </head>
 <body>
@@ -6642,10 +6628,10 @@ function trSection(sp){
       ${give.length !== get.length ? `<div class="tb-foot">${give.length > get.length ? esc(op.name) + ' would need to drop ' + (give.length - get.length) : 'You would need to drop ' + (get.length - give.length)} bench player${Math.abs(give.length - get.length) > 1 ? 's' : ''} to make room.</div>` : ''}</details></div>`;
   } else res = `<div class="mu-ld">${!op ? 'Pick a team, then tap who you give and who you want.' : 'Tap one or two players on each side.'}</div>`;
   const tg = x => { const s = x.tags.filter(t => t[0] === 'sh' || t[0] === 'bl'); return (s.length ? s : x.tags.slice(0, 1)); };
-  const sugH = !sug ? '<div class="mu-ld">Finding 2-player deals that help both teams…</div>' : sug.length ? sug.map((x, i) => { const t = D.teams.find(z => z.id === x.op), g = x.give.map(id => trPl(D, id)), r = x.get.map(id => trPl(D, id)); if (i === 0) rqDeal.u = new Set();
+  const sugH = !sug ? '<div class="mu-ld">Finding 2-player deals that help both teams…</div>' : sug.length ? sug.map((x, i) => { const t = D.teams.find(z => z.id === x.op), g = x.give.map(id => trPl(D, id)), r = x.get.map(id => trPl(D, id));
       return `<div class="te-card"><div class="te-main" role="button" tabindex="0" data-tr="${sk}${i}" title="Load into the trade builder"><div class="te-with">#${i + 1} · with <b>${esc(t.name)}</b>${tg(x).map(([c, l]) => ` <em class="tg ${c}">${esc(l)}</em>`).join('')}</div>
         <div class="te-sw"><div class="te-side"><h6>You give</h6>${g.map(pp).join('')}</div><div class="te-x" aria-hidden="true">⇄</div><div class="te-side"><h6>You get</h6>${r.map(pp).join('')}</div></div>
-        <p class="te-why">${esc(x.easy)}</p>${rqHTML(rqDeal(g, r, { opp: t && t.name, dMe: x.dMe, dOp: x.dOp }, rqDeal.u))}${x.fit && x.fit.length ? `<div class="te-fit">${x.fit.map(([c, l]) => `<span class="${c}">${esc(l)}</span>`).join('')}</div>` : ''}${bar(x.dMe, x.dOp)}</div>
+        <p class="te-why">${esc(x.easy)}</p>${x.fit && x.fit.length ? `<div class="te-fit">${x.fit.map(([c, l]) => `<span class="${c}">${esc(l)}</span>`).join('')}</div>` : ''}${bar(x.dMe, x.dOp)}</div>
         <details class="te-det"><summary>Details</summary><div class="tr-mx"><span>ROS swing <b class="${x.ros > 0 ? 'up' : 'dn'}">${sg(x.ros)}</b></span>${x.po != null ? `<span>Playoffs wk ${esc(D.poW[0])}–${esc(D.poW[D.poW.length - 1])} <b>${sg(x.po)}</b> you · <b>${sg(x.poOp)}</b> them</span>` : ''}<span>Confidence <b class="tr-cf ${esc(x.conf)}">${esc(x.conf)}</b></span></div>
         <small class="tr-why">${esc(x.why)}</small>${x.tags.length ? `<span class="tr-tags">${x.tags.map(([c, l]) => `<em class="tg ${c}">${esc(l)}</em>`).join('')}</span>` : ''}</details></div>`; }).join('')
     : `<div class="mu-ld te-none">${FL.team || FL.pos ? `No ${big ? '2-player deal' : '1-for-1 trade'}${fTeam ? ' with ' + esc(fTeam.name) : ''}${FL.pos ? ' that gets you a ' + esc(FL.pos) : ''} helps both teams right now. <button class="linkbtn" data-tr="fclear">Clear filters</button>` : big ? 'No 2-player deal helps both teams enough right now (each side needs +3/wk and it has to beat the 1-for-1s).' : 'No 1-for-1 trade helps both teams right now. Try <button class="linkbtn" data-tr="mode:2">2-player deals</button>.'}</div>`;
@@ -8583,85 +8569,51 @@ async function sxSchedule(t){
   SX.sch[k] = { t: Date.now(), v }; return v;
 }
 function sxRecent(wk){ const l = (wk || []).slice(-3).reverse(); if (!l.length) return null; let s = 0, w = 0; l.forEach((v, i) => { s += v * SX_W[i]; w += SX_W[i]; }); return s / w; }
-/* ===== Oct 22 roast: trade trash-talk + Spin-it tiers (templates only, real deal/score data, no API calls) ===== */
+/* ===== Spin-it write-up helpers (templates only, real score data, no API calls). Oct 29: roasts live only on the Spin-it cards. ===== */
 function rqFill(t, v){ return t.replace(/\{(\w+)\}/g, (_, k) => k[0] === '_' ? '' : v[k] != null && v[k] !== '' ? String(v[k]) : ''); }   // {_flag} slots gate a line and print nothing
 function rqPick(pool, v, used){ const ok = pool.filter(t => !(used && used.has(t)) && (t.match(/\{(\w+)\}/g) || []).every(k => { const x = v[k.slice(1, -1)]; return x != null && x !== ''; }));
   const L = ok.length ? ok : pool.filter(t => (t.match(/\{(\w+)\}/g) || []).every(k => v[k.slice(1, -1)] != null && v[k.slice(1, -1)] !== '')); if (!L.length) return '';
   const t = L[Math.floor(Math.random() * L.length)]; if (used) used.add(t); return rqFill(t, v); }
 const rqLast = n => { const s = String(n || '').replace(/\s+(Jr\.?|Sr\.?|II|III|IV)$/i, '').trim(); return /D\/ST$/i.test(s) ? s : s.split(' ').slice(-1)[0] || s; };
-function rqTrade(){ return rqTrade.c || (rqTrade.c = {
-  you: ["{opp} is about to accept this and their league-mates are going to stage an intervention.", "Sending {g1} for {r1} is grand larceny with extra steps.", "If {opp} says yes, frame the screenshot. This fleece belongs in a museum.",
-    "You {me}/wk, them {them}. This isn't a trade, it's a mugging with a handshake.", "{opp} is the guy who buys the timeshare for the free breakfast. Send it.", "Pitch it fast and keep eye contact. {r1} is coming home.",
-    "This one has 'commissioner veto vote' written all over it. Worth it.", "{g1} for {r1}? Somewhere a group chat is typing 'LMAOOO' in all caps.", "Send it at 2 a.m., when {opp}'s judgment is at its weakest.",
-    "{opp} drafted with a magazine from 2019. Respect the opportunity.", "{opp} gets {g1} and a life lesson. You get {r1} and bragging rights.", "Lowball? No. This is a subterranean ball. Fire it off."],
-  them: ["You'd be handing {opp} a gift basket. With a bow. And a card that says 'sorry.'", "{opp} called. They want to thank you in their championship speech.", "Sending {g1} for {r1} is how you end up doing the last-place punishment.",
-    "This helps {opp} more than you. Generous. Suspiciously generous.", "You {me}, them {them}. Charity is great, just not in a money league.", "The only thing you'd get here is the 'worst trade of the year' trophy.",
-    "Accepting this is like paying for {opp}'s dinner and then they eat yours too."],
-  both: ["A win-win trade in fantasy? Somebody alert the league historians.", "Both lineups go up. Disgustingly wholesome. Do it anyway.", "{opp} gets better, you get better, and nobody has to start a kicker at flex. Peace in our time.",
-    "The rare trade where nobody gets roasted… until Sunday.", "Fair deal. The group chat will be furious there's nothing to make fun of.", "{g1} for {r1}: the fantasy version of splitting the check evenly. Mature. Boring. Effective.",
-    "Two teams helping each other? Get this energy out of my league.", "Healthy, balanced, mutually beneficial. Gross. Send it."],
-  any: ["{g1} has been giving you {gptsLo} a week like he's on a budget. Ship him.", "{r1} at {rpts} a game is exactly the upgrade your {rpos} spot has been begging for.", "Your {rpos} slot has been a crime scene. {r1} is the detective.",
-    "{g1} is a fine {gpos}. 'Fine' doesn't win money leagues.", "Send {give}. Receive {get}. Receive respect. Receive the group chat's hatred.", "Trade offer drafted. Smugness loaded. Hit send.",
-    "Not saying it's a heist, but park the getaway car close.", "{g1} is about to be someone else's problem. Beautiful.", "Pitch it like a timeshare: 'Limited-time offer, {opp}.'",
-    "Getting {r1} is the fantasy version of finding twenty bucks in last year's jeans.", "{g1} has the vibe of a guy who drops 25 the week you bench him. Get out while you can.", "Trust the process. The process is fleecing {opp}.",
-    "Your {gpos} depth is a junk drawer. Time to clean it out.", "{opp} sees '{g1}' and remembers one highlight from 2022. Let them.", "Ship {g1} before the next 4-point dud makes him untradeable.",
-    "{r1} brings {rptsHi} pts a game. {g1} brings {gptsLo} and a pep talk.", "This trade has more upside than your entire draft-day strategy.", "Swap {g1} for {r1} and act like you weren't thinking about it for three days.",
-    "{opp} will either say yes or 'lol no' in under nine seconds. Either way, content.", "Every great dynasty started with somebody getting fleeced.", "Send it with a 'just trying to help you out, bro.' Classic.",
-    "If {opp} counters, they're scared. If they accept, they're cooked.", "{rpos} upgrade incoming. Your next opponent just felt a chill.", "{g1} to {opp}: it's not you, it's your {gptsLo} points a game.",
-    "Somebody at {opp}'s house is about to ask 'why are you yelling at your phone?'", "Sports-bar hot take, but with actual math behind it.", "Send the offer first, the trash talk second. Order matters.",
-    "Pull the trigger, then mute the group chat for 48 hours.", "{r1} will look great in your lineup and even better in your screenshot.", "{opp} is one bad Sunday away from saying yes to literally anything.",
-    "{g1} has been riding your bench like it's a lazy river.", "This trade slaps harder than a wet towel in a locker room."],
-  ginj: ["Selling {ginj} while he's {ginjs}? Used-car-lot energy. Respect.", "{ginj} is {ginjs}. Move him before the hamstring becomes a group-chat meme.", "Trading away {ginj} ({ginjs}) and calling it 'roster balance.' Sneaky."],
-  rinj: ["Taking on {rinj} while he's {rinjs}? Bold. Bring snacks to the injury report.", "{rinj} is {rinjs}, so the price tag says 'clearance rack.' Shop accordingly."],
-  dire: ["{opp} is {rec}. Desperate people make beautiful decisions.", "A {rec} team will accept anything that smells like hope. Bottle it.", "Desperation {dm}/100. They'd trade grandma's lasagna recipe for a flex upgrade.",
-    "{opp} at {rec} is scrolling trade offers in the shower. Strike now.", "{rec} and spiraling. You're not a vulture, you're a 'strategic partner.'", "They're {rec}. This isn't trading, it's grief counseling with a return policy."] }); }
-const rqSg = n => n == null || isNaN(n) ? '' : (n > 0 ? '+' : '') + (Math.round(n * 10) / 10);
-// a: give players, b: get players, o: { opp, dMe, dOp, rec, dm }
-function rqDeal(a, b, o, used){ try {
-  a = (a || []).filter(Boolean); b = (b || []).filter(Boolean); if (!a.length || !b.length) return '';
-  const P = rqTrade(), ns = L => L.map(p => rqLast(p.name)).join(' + '), pts = p => p && p.v != null && !isNaN(p.v) ? (Math.round(p.v * 10) / 10).toFixed(1) : '';
-  const gi = a.find(p => p.inj), ri = b.find(p => p.inj), lc = s => String(s || '').toLowerCase().replace(/_/g, ' ');
-  const v = { opp: o.opp || 'They', g1: rqLast(a[0].name), r1: rqLast(b[0].name), give: ns(a), get: ns(b), gpos: a[0].pos, rpos: b[0].pos, gpts: pts(a[0]), rpts: pts(b[0]), gptsLo: a[0].v != null && b[0].v != null && a[0].v < b[0].v ? pts(a[0]) : '', rptsHi: a[0].v != null && b[0].v != null && b[0].v > a[0].v ? pts(b[0]) : '',
-    me: rqSg(o.dMe), them: rqSg(o.dOp), ginj: gi ? rqLast(gi.name) : '', ginjs: gi ? lc(gi.inj) : '', rinj: ri ? rqLast(ri.name) : '', rinjs: ri ? lc(ri.inj) : '', rec: o.rec || '', dm: o.dm != null ? o.dm : '' };
-  const side = o.dMe > 0 && o.dOp > 0 && Math.abs(o.dMe - o.dOp) < 2 ? 'both' : o.dMe > o.dOp ? 'you' : 'them';
-  const H = loyHeat(), M = rqMe(); Object.assign(v, M);
-  const sm = a.concat(b).map(p => [p, rqGames(p)]).find(([, n]) => n != null && n <= 2);
-  if (sm) { v.sm = rqLast(sm[0].name); v.smn = sm[1] + (sm[1] === 1 ? ' game' : ' games'); return rqPick([...new Set(RQ_SMALL.trade.concat(P.both))], v, used); }
-  let pool = P[side].concat(P.any);
-  const me = RQ_ME.mild.concat(H >= 3 ? RQ_ME.rough : []); pool = pool.concat(me, H >= 2 ? me : []);
-  if (H >= 3) pool = pool.concat(RQ_HOT.t3, RQ_HOT.t3); if (H >= 4) pool = pool.concat(RQ_HOT.t4, RQ_HOT.t4, RQ_HOT.t4);
-  if (gi) pool = pool.concat(P.ginj, P.ginj); if (ri) pool = pool.concat(P.rinj); const rw = String(v.rec).match(/^(\d+)-(\d+)/); if (rw && +rw[1] < +rw[2]) pool = pool.concat(P.dire.filter(t => !t.includes('{dm}')), P.dire.filter(t => !t.includes('{dm}'))); if (o.dm != null && o.dm >= 50) pool = pool.concat(P.dire.filter(t => t.includes('{dm}')));
-  return rqPick([...new Set(pool)], v, used);
-} catch (_) { return ''; } }
-const rqHTML = s => s ? `<p class="rq-roast"><span aria-hidden="true">🎤</span> ${esc(s)}</p>` : '';
-/* Spin-it tiers: 12 from elite to dumpster fire; score math unchanged */
+/* Spin-it tiers: 12 from elite to dumpster fire; score math unchanged. Oct 29: toned down to good-natured ribbing (no profanity, nothing personal). */
 const SX_TIERS = [
-  [95, 'Certified Cheat Code', '🎮', '#22e3ff', ["{name} is putting up {stat}. Somebody check for a Game Genie.", "{name} isn't playing the game, {name} is speedrunning it.", "Report {name} to the league office. {stat}?!", "{stat}. The other team should be allowed to file a complaint.", "Up, up, down, down, left, right… {name}.", "{name} unlocked god mode and refuses to give it back.", "The developers call this 'unintended behavior.' We call it {name}."]],
-  [88, 'Final Boss', '👑', '#c29bff', ["{name} is the level you rage-quit on.", "{stat}. Opponents need three continues and a prayer.", "{name} has a health bar the size of a city block.", "Everyone else is grinding side quests. {name} is the final boss.", "{name} walks in and the music changes.", "Beat {name}? Cool. There's a second phase."]],
-  [80, 'Main Character Energy', '🎬', '#51cf66', ["{name} is the protagonist and everyone else is an NPC.", "{stat}. Cue the montage music.", "{name} is getting the slow-motion walkout treatment this week.", "Somebody cut the hype video. {name} is cooking.", "Plot armor: equipped. {name}: unbothered.", "{name} has hit the trailer-moment part of the season."]],
-  [72, 'Dad Strength', '💪', '#8ce99a', ["{name} doesn't lift. {name} carries every grocery bag in one trip.", "{stat}. Not flashy. Gets the job done. Fixes the sink.", "{name} has old-guy-at-the-Y strength. Do not challenge.", "Quietly reliable, like a tape measure clipped to a belt.", "{name} just grilled 40 burgers without breaking a sweat.", "{stat}. No highlight reel, just results and a firm handshake."]],
-  [64, 'Solid Citizen', '🧑‍💼', '#c0eb75', ["{name} pays taxes on time and returns the shopping cart.", "{stat}. The fantasy equivalent of a sensible sedan.", "Nothing to see here, just {name} doing a respectable job.", "{name} will never make the highlight show but always shows up.", "{name} is the reason the group project gets a B+.", "Dependable. Like a Costco rotisserie chicken."]],
-  [56, 'Microwave Burrito', '🌯', '#ffd43b', ["{name} is hot on the edges and frozen in the middle.", "{stat}. Some bites are great. Some will hurt you.", "{name}: occasionally delicious, frequently regrettable.", "One good bite of {name} a week, then lava, then ice.", "{name} needs another 30 seconds and a stir.", "{stat}. Edible. Technically."]],
-  [48, 'Participation Trophy', '🏅', '#ffc078', ["{name} showed up. That's… something. Here's a ribbon.", "{stat}. Orange slices at halftime, everybody.", "{name} is why they stopped keeping score at youth soccer.", "Great effort, {name}! said nobody in a money league.", "{name}'s family is proud. The rest of us have notes.", "{stat}. Everybody gets a trophy. Nobody gets a ring."]],
-  [40, 'Mid-Life Crisis', '🏎️', '#ffa94d', ["{name} just bought a convertible. It's not helping.", "{stat}. Remember when {name} was good? {name} does. Constantly.", "{name} is out here reliving 2019 and the stats aren't cooperating.", "{name} signed up for a half-marathon and pulled up at mile two.", "Somebody tell {name} the new haircut isn't fixing this.", "{stat}. The glory days are in the rear-view mirror of the sports car."]],
-  [32, 'Waiver Wire Ghost', '👻', '#ff922b', ["{name} is technically rostered. Spiritually, unclaimed.", "{stat}. Haunting your lineup, not helping it.", "You can see right through {name}. Nothing there.", "{name} has the box-score presence of a Wi-Fi password nobody remembers.", "Drop {name} and nobody notices for weeks. Including {name}.", "{name}'s paranormal activity: disappearing every game day."]],
-  [24, 'Witness Protection', '🕶️', '#ff6b6b', ["{name} has a new identity, and it's 'invisible.'", "{stat}. The FBI couldn't find {name} in a box score.", "Last seen: a while ago. If found, please return {name} to the lineup.", "{name} is in the program. New name, new town, zero production.", "Milk carton alert: have you seen {name}?", "{name} is so hidden the scouting report is a blank page."]],
-  [12, 'Group Chat Punchline', '🤡', '#fa5252', ["{name} is the meme of the week. The group chat thanks you.", "{stat}. Screenshotted, captioned and forwarded to everybody.", "{name} has been reduced to a reaction GIF.", "Every time {name} plays, someone in the chat types 'LMAO.'", "{name} is the reason the league has a last-place punishment.", "{stat}. Somewhere a rival just made this a profile pic."]],
-  [0, 'Dumpster Fire', '🗑️🔥', '#ff2d2d', ["{name} isn't a fantasy asset. {name} is a hazmat situation.", "{stat}. Call the fire department. Call two.", "{name} looks like it was assembled from spare parts in the dark.", "If {name} were a stock, trading would be halted.", "Roast marshmallows over {name}. At least someone gets value.", "{stat}. That's not a slump, that's a lifestyle.", "{name} is on fire, and not the good kind."]]];
+  [95, 'Certified Cheat Code', '🎮', '#22e3ff', ["{name} is putting up {stat}. Somebody check for a Game Genie.", "{name} isn't playing the game, {name} is speedrunning it.", "{stat}. The other team would like to see the rulebook, please.", "Up, up, down, down, left, right… {name}.", "{name} unlocked god mode and politely declined to give it back.", "The developers call this 'unintended behavior.' We call it {name}.",
+    "{name} is playing on rookie difficulty while everyone else is on legendary.", "{stat}. Opposing coaches are taking notes and quietly sighing.", "{name} maxed out every attribute and then found a secret 100th point.", "Somewhere a video-game rating committee is giving {name} a 99 and an apology."]],
+  [88, 'Final Boss', '👑', '#c29bff', ["{name} is the level everybody gets stuck on.", "{stat}. Opponents need three continues and a good snack break.", "{name} has a health bar the size of a city block.", "Everyone else is grinding side quests. {name} is the final boss.", "{name} walks in and the music changes.", "Beat {name}? Cool. There's a second phase.",
+    "{name} has a dramatic entrance theme and the stats to back it up.", "{stat}. Defenses bring double coverage and a backup plan.", "{name} doesn't have weaknesses, just slightly less-strong strengths.", "The boss-fight choir is warming up whenever {name} touches the ball."]],
+  [80, 'Main Character Energy', '🎬', '#51cf66', ["{name} is the protagonist this week and the script knows it.", "{stat}. Cue the montage music.", "{name} is getting the slow-motion walkout treatment this week.", "Somebody cut the hype video. {name} is cooking.", "Plot armor: equipped. {name}: unbothered.", "{name} has hit the trailer-moment part of the season.",
+    "{stat}. The highlight crew is running out of adjectives.", "{name} is the reason the camera keeps cutting back to the same player.", "{name} has that 'sequel is better than the original' energy.", "If this season gets a movie, {name} is on the poster."]],
+  [72, 'Dad Strength', '💪', '#8ce99a', ["{name} doesn't lift. {name} carries every grocery bag in one trip.", "{stat}. Not flashy. Gets the job done. Fixes the sink.", "{name} has old-guy-at-the-Y strength. Do not challenge.", "Quietly reliable, like a tape measure clipped to a belt.", "{name} just grilled 40 burgers without breaking a sweat.", "{stat}. No highlight reel, just results and a firm handshake.",
+    "{name} backs the boat trailer in on the first try. Every time.", "{stat}. The cast-iron skillet of your lineup: heavy, seasoned, dependable.", "{name} wears sensible shoes and still beats the flashy guys.", "You never brag about {name}, and you never regret {name} either."]],
+  [64, 'Solid Citizen', '🧑‍💼', '#c0eb75', ["{name} pays taxes on time and returns the shopping cart.", "{stat}. The fantasy equivalent of a sensible sedan.", "Nothing to see here, just {name} doing a respectable job.", "{name} will never make the highlight show but always shows up.", "{name} is the reason the group project gets a B+.", "Dependable. Like a Costco rotisserie chicken.",
+    "{stat}. A firm handshake and an excellent credit score.", "{name} clocks in, does the work, and is home for dinner.", "{name} won't win your week alone, and won't sink it either.", "If 'pretty good, actually' were a stat, {name} would lead the league."]],
+  [56, 'Microwave Burrito', '🌯', '#ffd43b', ["{name} is hot on the edges and frozen in the middle.", "{stat}. Some bites are great. Some need another minute.", "{name}: occasionally delicious, occasionally still thawing.", "One great bite of {name} a week, then you wait for the rest to heat up.", "{name} needs another 30 seconds and a stir.", "{stat}. Edible. Technically.",
+    "{name} is a coin flip that occasionally lands on its edge.", "{stat}. Some weeks a feast, some weeks a snack.", "Starting {name} is like guessing the Wi-Fi password: sometimes you nail it.", "{name} is too good to drop and too mysterious to fully trust."]],
+  [48, 'Participation Trophy', '🏅', '#ffc078', ["{name} showed up. That counts for something. Here's a ribbon.", "{stat}. Orange slices at halftime, everybody.", "{name} brought great energy and an even better attitude.", "Great effort, {name}! The fantasy points are still on their way.", "{name}'s family is proud. The box score is still thinking it over.", "{stat}. Everybody gets a trophy. Rings are sold separately.",
+    "{name} ran hard, stayed positive and got some great cardio in.", "{stat}. Solid hustle, gentle box score.", "{name} is the teammate who always brings snacks. Valuable in its own way.", "{name} is warming up for something big. Probably. Hopefully."]],
+  [40, 'Mid-Life Crisis', '🏎️', '#ffa94d', ["{name} just bought a convertible. Still figuring out how the top goes down.", "{stat}. Remember when {name} was great? {name} sure does.", "{name} is out here reliving 2019 and the stats are being polite about it.", "{name} signed up for a half-marathon and is pacing himself. Heavily.", "{name} got a new haircut. The stats are waiting to see if it helps.", "{stat}. The glory days are in the rear-view mirror of the sports car.",
+    "{name} is running on name recognition and good vibes right now.", "{stat}. Classic rock is great, but the setlist needs some new hits.", "{name} is one big game away from a very happy comeback story.", "Somebody get {name} a fresh playlist and a good stretch."]],
+  [32, 'Waiver Wire Ghost', '👻', '#ff922b', ["{name} is technically rostered. Spiritually, still looking for parking.", "{stat}. Haunting your lineup in a mostly friendly way.", "You can see right through {name} lately.", "{name} has the box-score presence of a Wi-Fi password nobody remembers.", "{name} is playing hide-and-seek, and winning.", "{name}'s paranormal activity: disappearing every game day.",
+    "{stat}. Casper called. He wants his quiet afternoon back.", "{name} left the faintest footprint on the game film.", "{name} is doing stealth missions out there. Very stealthy.", "If you squint, you can see {name} doing great work 30 yards from the ball."]],
+  [24, 'Witness Protection', '🕶️', '#ff6b6b', ["{name} has a new identity, and it's 'very low-key.'", "{stat}. Detectives are still searching the box score for {name}.", "Last seen: a while ago. If found, please return {name} to the lineup.", "{name} is in the program. New name, new town, quiet stat line.", "Milk carton alert: have you seen {name}?", "{name} is so hidden the scouting report is a blank page.",
+    "{stat}. The broadcast crew forgot {name} was active. Twice.", "{name} has fewer touches than the referee this month.", "Sherlock Holmes and Scooby-Doo are both on the {name} case.", "{name} is keeping a very low profile. Even for a fantasy player."]],
+  [12, 'Group Chat Punchline', '🤡', '#fa5252', ["{name} is the meme of the week. The group chat says thank you.", "{stat}. Screenshotted, captioned and lovingly forwarded.", "{name} has been reduced to a reaction GIF. A cute one.", "Every time {name} plays, someone in the chat types 'lol.'", "{name} is why the league has a last-place trophy. It's very shiny.", "{stat}. Somewhere a rival just made this a profile pic.",
+    "{name} is a comedy routine wearing cleats.", "{stat}. Performance art, not football. The critics are divided.", "{name} gave everyone something to talk about on Monday.", "{name} is the plot twist nobody ordered."]],
+  [0, 'Dumpster Fire', '🗑️🔥', '#ff2d2d', ["{name} isn't a fantasy asset right now. {name} is a fixer-upper.", "{stat}. Call the fire department. Ask for the friendly one.", "{name} looks like it was assembled from spare parts in the dark.", "If {name} were a stock, trading would be paused for a snack break.", "Roast marshmallows over {name}. At least someone gets a treat.", "{stat}. That's not a slump, that's a long weekend.", "{name} is on fire, and not the good kind.",
+    "{stat}. Murphy's Law put on a helmet and called itself {name}.", "{name} is a rebuild project. Bring a toolbox and patience.", "Even garbage time politely passed on {name} this week."]]];
 function sxTier(s){ return SX_TIERS.find(t => s >= t[0]) || SX_TIERS[SX_TIERS.length - 1]; }
-function sxQuip(e, sc){ try { if (!sc) return ''; const T = sxTierFor(sc), small = sxSmall(sc), H = small ? 1 : loyHeat(), name = e.k === 'p' ? rqLast(e.name) : (e.short || e.nick || String(e.name || '').split(' ').slice(-1)[0]);
+function sxQuip(e, sc){ try { if (!sc) return ''; const T = sxTierFor(sc), name = e.k === 'p' ? rqLast(e.name) : (e.short || e.nick || String(e.name || '').split(' ').slice(-1)[0]);
   let stat = '';
   if (sc.x && sc.x.wk && sc.x.wk.length) { const l = sc.x.wk.slice(-3); stat = (l.reduce((a, b) => a + b, 0) / l.length).toFixed(1) + ' pts a game lately'; }
   else if (sc.parts && sc.parts[0] && sc.parts[0].raw) stat = sc.parts[0].raw.trim().split(/\s+/).join('-') + ' over the last ' + sc.parts[0].raw.trim().split(/\s+/).length;
   if (stat) stat = stat[0].toUpperCase() + stat.slice(1);
   const gp = sc.x && sc.x.wk ? sc.x.wk.length + (sc.x.wk.length === 1 ? ' game' : ' games') : '';
-  const v = Object.assign({ name, stat, gp }, small ? {} : { visits: LOY.visits, today: LOY.today > 1 ? LOY.today : '' }), u = new Set(sxQuip.last ? [sxQuip.last] : []), good = sc.s >= 56;
-  let pool = T[4].slice(); if (!small) { if (H >= 2) pool = pool.concat(RQ_HOT.pm); if (H >= 3) pool = pool.concat(good ? RQ_HOT.g3 : RQ_HOT.b3, good ? RQ_HOT.g3 : RQ_HOT.b3); if (H >= 4) pool = pool.concat(good ? RQ_HOT.g4 : RQ_HOT.b4, good ? RQ_HOT.g4 : RQ_HOT.b4); }
-  if (!stat) pool = pool.filter(t => !t.includes('{stat}'));
+  const v = { name, stat, gp }, u = new Set(sxQuip.last ? [sxQuip.last] : []);
+  let pool = T[4].slice(); if (!stat) pool = pool.filter(t => !t.includes('{stat}'));
   const q = spinPick50(pool, v, u) || rqPick(pool, v, u); sxQuip.last = [...u].pop();
   return q.replace(/(^|\. )([a-z])/g, (m, a, b) => a + b.toUpperCase()); } catch (_) { return ''; } }
-/* ===== Oct 22 loyalty + personal roasts: local-only visit history (localStorage on this device, never sent anywhere) ===== */
-var LOY_KEY = 'mannLoyalty.v1', RL_KEY = 'mannRoastLvl.v1';
+/* ===== Oct 22 loyalty: local-only visit history (localStorage on this device, never sent anywhere) ===== */
+var LOY_KEY = 'mannLoyalty.v1';
 var LOY = (function(){ let o = null; try { o = JSON.parse(localStorage.getItem(LOY_KEY) || 'null'); } catch (_) {}
   const now = Date.now(), day = new Date().toLocaleDateString('en-CA');
   if (!o || !o.first) { let old = false; try { old = ['mannSportsStars.v1', 'mannFavPlayers.v2', 'mannFantasyWatch.v1', 'mannProfile.v1', 'mannFantasyRoster.v1', 'mannTabOrder.v1', 'mannSportsSelected.v1'].some(k => localStorage.getItem(k) != null); } catch (_) {}
@@ -8673,46 +8625,12 @@ var LOY = (function(){ let o = null; try { o = JSON.parse(localStorage.getItem(L
   return o; })();
 var LOY_LV = [null, ['Rookie', '🐣'], ['Regular', '🍺'], ['Season Ticket Holder', '🏟️'], ['Hall of Famer', '🏆']];
 function loyLevel(){ const o = LOY || {}; return o.visits >= 60 || o.days >= 30 ? 4 : o.visits >= 20 || o.days >= 7 ? 3 : o.visits >= 5 ? 2 : 1; }
-function loyHeat(){ let m = 'auto'; try { m = JSON.parse(localStorage.getItem(RL_KEY) || '"auto"'); } catch (_) {} return m === 'mild' ? 1 : m === 'savage' ? 4 : loyLevel(); }
-function loyBadge(){ const L = LOY_LV[loyLevel()]; let m = 'auto'; try { m = JSON.parse(localStorage.getItem(RL_KEY) || '"auto"'); } catch (_) {}
-  return `<div class="loy"><span class="loy-b" title="Counted on this device only (localStorage). Nothing is sent anywhere.">${L[1]} ${esc(L[0])} · ${LOY.visits} visit${LOY.visits === 1 ? '' : 's'}</span><label class="loy-s">Roast <select data-loysel aria-label="Roast level">${[['auto', 'Auto'], ['mild', 'Mild'], ['savage', 'Savage']].map(([v, l]) => `<option value="${v}"${m === v ? ' selected' : ''}>${l}</option>`).join('')}</select></label><button type="button" class="sx-respin" data-sxrespin="1" title="Spin a fresh non-repeating rating write-up">🔄 Spin again</button><button type="button" class="xl-btn" data-xlexp="spinit" title="Export Spin-it rankings to Microsoft Excel (.csv)">📥 Excel</button></div>`; }
-document.addEventListener('change', e => { const s = e.target && e.target.closest && e.target.closest('[data-loysel]'); if (!s) return; try { localStorage.setItem(RL_KEY, JSON.stringify(s.value)); } catch (_) {}
-  document.querySelectorAll('[data-loysel]').forEach(x => { x.value = s.value; }); try { if (typeof renderFantasy === 'function' && state.tab !== 'nhl') {} } catch (_) {} });
-// your own league/fan data for personal lines; every slot is blank when the data isn't there (blank slot = the line is skipped)
-function rqMe(){ const v = { visits: LOY.visits, today: LOY.today > 1 ? LOY.today : '' };
-  try { const D = MU.d && MU.d.nfl; if (D && !D.none && D.me) { const me = D.me, op = D.op || {}, lv = (me.live || 0) + (op.live || 0) > 0;
-      v.team = me.name || ''; v.myrec = me.rec || ''; v.mopp = op.name || ''; if (lv) { v.myS = r1(me.live || 0); v.opS = r1(op.live || 0); v._down = (op.live || 0) > (me.live || 0) ? 'y' : ''; }
-      const S = SLOTS.nfl, act = p => p && p.pts && p.pts.act != null ? p.pts.act : null, bench = (me.ps || []).filter(p => S.bench.includes(p.sid) && act(p) != null), st = (me.ps || []).filter(p => !S.bench.includes(p.sid) && !S.ir.includes(p.sid) && act(p) != null);
-      const went = p => { try { const n = playerNow(p); return n ? n.state === 'post' || n.state === 'in' : !!(p.pts && p.pts.act != null); } catch (_) { return false; } };
-      let best = null; bench.forEach(b => st.forEach(s => { if (s.pos && s.pos === b.pos && went(b) && went(s) && act(b) - act(s) >= 4 && (!best || act(b) - act(s) > best[2])) best = [b, s, act(b) - act(s)]; }));
-      if (best) { v.benchP = rqLast(best[0].name); v.startP = rqLast(best[1].name); v.bPts = r1(act(best[0])); v.sPts = r1(act(best[1])); }
-      const st2 = st.filter(went).sort((a, b) => act(a) - act(b))[0]; if (st2 && act(st2) < 6) v.dud = rqLast(st2.name); } } catch (_) {}
-  try { const fav = [...stars].map(k => [k, MN.teamInfo[k] || {}]).filter(([, i]) => i.record && i.name); const f = fav.find(([, i]) => { const m = String(i.record).match(/^(\d+)-(\d+)/); return m && +m[1] < +m[2]; }) || fav[0];
-    if (f) { v.fav = String(f[1].name).split(' ').slice(-1)[0]; v.favRec = String(f[1].record).split(',')[0]; const m = v.favRec.match(/^(\d+)-(\d+)/); v._favBad = m && +m[1] < +m[2] ? 'y' : ''; } } catch (_) {}
-  return v; }
-var RQ_ME = {
-  mild: ["{visits} visits to this site and {team} is still {myrec}. Maybe try watching the games.", "{team} at {myrec}. This might be the first smart move you've made since the draft.", "You benched {benchP} ({bPts}) to start {startP} ({sPts}). Coach of the year, everybody.",
-    "{mopp} is up {opS}-{myS} on you{_down} this week. A trade won't fix that by Sunday, but it's a start.", "Checked this site {today} times today and {fav} are still {favRec}{_favBad}. Refresh harder.", "{team}: great name. {myrec} record. Pick one to be proud of.",
-    "{visits} visits and you're still starting {dud}? Bold. Stupid, but bold.", "Your {fav} are {favRec}, your fantasy team is {myrec}. Rough week to be you."],
-  rough: ["{visits} visits and still starting {dud}?! The site's tired of watching you do this.", "{benchP} dropped {bPts} on YOUR BENCH while {startP} gave you {sPts}. Turn in your clipboard.", "{team} is {myrec} and you're on this site for the {visits}th time. Touch grass, then make this trade.",
-    "{fav} are {favRec}{_favBad} and so is your decision-making. Fix one of them today.", "Checked the site {today} times today. {fav} still {favRec}{_favBad}. The scoreboard doesn't care how often you look.", "{mopp} is beating you {opS}-{myS}{_down}. Your group chat has already started the eulogy."] };
-var RQ_HOT = {
-  t3: ["OH MY GOODNESS! {opp} JUST GOT POSTERIZED BY A TRADE OFFER!", "Boom goes the dynamite! {r1} to your squad, {g1} to the shadow realm!", "This trade has more juice than a pregame Gatorade bucket. SEND IT, BRO!", "Coach says leave it all on the field. Leave {g1} on {opp}'s field.",
-    "Protein shake, lineup upgrade, chest bump. That's the {r1} lifestyle.", "Somebody get {opp} a helmet, they're about to take a big hit!", "FROM DOWNTOWN! You just drained a trade from half court!", "{g1} out, {r1} in. LINE CHANGE, BABY! Fresh legs!",
-    "This trade does two-a-days. Your old roster takes naps.", "WHAT A MOVE! The crowd at {opp}'s place goes SILENT!", "Ice in the veins, brain in the protein shaker. Pull the trigger.", "You've been benching like a meathead and lifting nothing. Lift THIS trade."],
-  t4: ["Hell yes. {opp} is about to get their ass handed to them by a trade offer.", "Damn, this deal is filthy. Send it before {opp} wakes up.", "{g1} for {r1}? That's daylight robbery and I'm the damn getaway driver.", "Holy sh*t, {opp} might actually say yes. Hit send. NOW.",
-    "{opp}'s lineup is a hot damn mess. Be the hero they don't deserve.", "This trade is so lopsided the field is tilted. Who gives a damn? Send it.", "Kick their ass in the trade market, then kick it again on Sunday.", "Hall of Famer move: fleece {opp}, talk sh*t, repeat.",
-    "If {opp} turns this down, they're dumber than a bag of footballs.", "Fuck it. Send it. Legends don't ask permission.", "Hell of a deal. {r1} rides in, {g1} rides the bus home.", "Damn near criminal. Fantasy criminal. The best kind."],
-  g3: ["{name} IS ON FIRE! NBA JAM ON FIRE!", "BANG! {name} with the triple-double of vibes!", "Gatorade bath for {name}! Somebody dump the cooler!", "{name} is cooking with gas and the stadium smells like wings!", "BIG-TIME PLAYERS MAKE BIG-TIME PLAYS! {name}!", "Put {name} on the Jumbotron! The kiss cam can wait!"],
-  b3: ["{name} just got cut from the practice squad of life!", "FUMBLE! {name} put the ball on the turf AGAIN!", "{name} is running routes like a lost golden retriever!", "Somebody check {name}'s helmet, it might be on backwards!", "{name} couldn't hit water if they fell out of a boat!", "Ladies and gentlemen, the {name} show has been CANCELED!"],
-  g4: ["Holy sh*t, {name} is a damn cheat code.", "{name} is kicking ass and taking names. Mostly yours.", "Hell yeah, {name}. Absolute unit.", "{name} is playing like the rent's due. Damn.", "{name} went full beast mode. Somebody call animal control, hell.", "Fuck it, {name} is the GOAT this week."],
-  b4: ["{name} is a hot damn mess.", "{name} is playing like ass. Professional-grade ass.", "What the hell is {name} doing out there? Interpretive dance?", "{name} stinks worse than a hockey bag in August. Damn.", "Sh*t, {name}. Even the mascot played better.", "{name} has been dog sh*t. Respectfully. Not respectfully."],
-  pm: ["{visits} visits and you're still spinning {name}? Let it go.", "Spun {name} again? Visit #{visits}. You need a hobby. A second one.", "Checked this site {today} times today and {name} still hasn't changed. Neither have you."] };
+function loyBadge(){ const L = LOY_LV[loyLevel()];
+  return `<div class="loy"><span class="loy-b" title="Counted on this device only (localStorage). Nothing is sent anywhere.">${L[1]} ${esc(L[0])} · ${LOY.visits} visit${LOY.visits === 1 ? '' : 's'}</span><button type="button" class="sx-respin" data-sxrespin="1" title="Spin a fresh non-repeating rating write-up">🔄 Spin again</button><button type="button" class="xl-btn" data-xlexp="spinit" title="Export Spin-it rankings to Microsoft Excel (.csv)">📥 Excel</button></div>`; }
 var RQ_SMALL = {
   tier: [null, 'Small Sample Size', '🔬', '#74c0fc', ["Only {gp} of data on {name}. The jury's still out, and the jury went for snacks.", "{name} has {gp} on the résumé. That's a trailer, not a movie.", "Rookie Wall Pending: ask about {name} again in three weeks.", "Small sample size alert. Don't panic, don't brag.",
-    "{name} is still in the preseason of our opinion.", "{stat}. Cute. Come back with more games.", "Too early to roast {name}. We're sharpening the knives for later.", "{name}: TBD. Like your draft grades."]],
-  trade: ["{sm} has {smn} of stats. Jury's still out, so don't pay for hype.", "Small sample alert: {sm} is a mystery box. Could be a TV, could be socks.", "Trading on {smn} of {sm}? That's speed-dating, not scouting.", "{sm} has the résumé of a rookie card still in the wrapper. Handle gently.", "Rookie Wall Pending on {sm}. Ask again in three weeks."] };
-function rqGames(p){ try { const C = CMP.d && CMP.d.nfl; if (!C || !p) return null; const x = C.p[String(p.id)] || (typeof peid === 'function' ? C.p[String(peid(p))] : null) || (p.eid ? C.p[String(p.eid)] : null); return x && x.wk ? x.wk.length : null; } catch (_) { return null; } }
+    "{name} is still in the preseason of our opinion.", "{stat}. Cute. Come back with more games.", "Too early to judge {name}. We're saving our best material for later.", "{name}: TBD. Like everyone's draft grades.",
+    "{name} has {gp} of tape. Hold the Hall of Fame jacket fitting for a minute.", "Could be a league-winner, could be a one-week wonder. {name} is a mystery box."]] };
 function sxSmall(sc){ return !!(sc && sc.x && sc.x.wk && sc.x.wk.length <= 2); }
 function sxTierFor(sc){ return sxSmall(sc) ? RQ_SMALL.tier : sxTier(sc.s); }
 function sxLabel(s, sc){ const t = sc ? sxTierFor(sc) : sxTier(s); return t[2] + ' ' + t[1]; }
@@ -8850,118 +8768,187 @@ function spinPick50(pool, v, u){
 }
 var SX_PL_CAT_LINES = {
   cheat: [
-    "{name} ({stat}) is violating the Geneva Convention of fantasy sports. Opponents are filing a class-action lawsuit.",
-    "At {stat}, {name} isn't even reading the playbook anymore—just pressing turbo and laughing at the defense.",
-    "{name} is dropping {stat} like it's a rookie-mode Madden franchise. Unplug the controller.",
-    "Start {name}, pour a drink, and don't even check the app until Tuesday. {stat} is automatic."
+    "{name} ({stat}) is playing a different, easier sport than everyone else.",
+    "At {stat}, {name} isn't reading the playbook anymore, just pressing turbo.",
+    "{name} is dropping {stat} like it's rookie-mode Madden. Somebody hand the other team a second controller.",
+    "Start {name}, relax, and check back Tuesday. {stat} is practically automatic.",
+    "{name} ({stat}) is a GameShark code in a jersey.",
+    "The rest of the league is playing for second place while {name} ({stat}) is in your lineup.",
+    "{name} ({stat}) is so automatic the scoreboard pre-loads the points.",
+    "Lock {name} ({stat}) into the lineup in permanent marker."
   ],
   heater: [
-    "{name} is on a heater so violent ({stat}) the fire marshal just cordoned off the locker room.",
-    "Last three weeks? {name} has been possessed by the ghost of prime Wilt Chamberlain ({stat}). Ride the wave till the wheels fall off.",
-    "Do not touch {name}, do not trade {name}, do not even make eye contact—{stat} is pure molten lava right now.",
-    "Somebody check {name}'s pregame meal because this recent heater ({stat}) belongs in a medical journal."
+    "{name} is on a heater ({stat}) and the fire marshal is just watching in awe.",
+    "Last three weeks, {name} ({stat}) has been unstoppable. Ride the wave.",
+    "Do not touch {name}, do not trade {name}. {stat} is pure molten lava right now.",
+    "Somebody check {name}'s pregame meal. Whatever it is ({stat}), keep it coming.",
+    "{name} ({stat}) is hotter than metal bleachers in August.",
+    "The last three weeks of {name} ({stat}) belong in a museum.",
+    "Opposing defenses are bringing fire extinguishers for {name} ({stat}).",
+    "Ride {name}'s heater ({stat}) like a jet ski until the season ends."
   ],
   boom: [
-    "{name} ({stat}) is a human slot machine: either 30 points and a victory lap or 2.4 points and a trip to the blue medical tent.",
-    "Starting {name} requires a cardiologist on speed dial and a backup plan for Sunday night.",
-    "{name} has two modes: Hall of Fame highlight reel or 'Wait, did he even get on the plane?' Zero middle ground.",
-    "The {name} experience ({stat}) is 50% lottery ticket, 50% emotional terrorism."
+    "{name} ({stat}) is a human slot machine: jackpot or 'insert another coin.'",
+    "Starting {name} is a thrill ride. Keep your hands inside the vehicle.",
+    "{name} has two modes: highlight reel or 'wait, was he out there?' Zero middle ground.",
+    "The {name} experience ({stat}) is 50% lottery ticket, 50% suspense movie.",
+    "{name} ({stat}) either wins your week by halftime or keeps you guessing until Monday.",
+    "The {name} weekly chart ({stat}) looks like a seismograph at a rock concert.",
+    "{name} ({stat}): an 80-yard bomb or three hours of light jogging. Exciting either way.",
+    "Keep the antacids next to the remote when {name} ({stat}) is in your flex."
   ],
   inj: [
-    "{name} has spent more time on the injury report than the team trainer. {stat} when upright, a medical mystery otherwise.",
-    "Death, taxes, and {name} popping up with a mid-week 'did not practice' designation.",
-    "{name}'s hamstring has its own parking spot at the facility. Handle with bubble wrap.",
-    "Every time {name} hits the turf, an entire fantasy league holds its breath for forty-five seconds."
+    "{name} knows the team trainer better than his own teammates. {stat} when upright.",
+    "Death, taxes, and {name} popping up with a mid-week 'limited in practice.'",
+    "{name}'s hamstring has its own reserved parking spot. Handle with bubble wrap.",
+    "Every time {name} stays down for a second, an entire fantasy league holds its breath.",
+    "{name} ({stat}) has platinum status at the blue medical tent.",
+    "Wednesday DNP, Thursday limited, Friday game-time decision: the {name} weekly symphony.",
+    "{name} ({stat}) is a sports car that spends a lot of time at the mechanic.",
+    "Get well soon, {name}. Your fantasy managers sent a card."
   ],
   scam: [
-    "{name} ({stat}) is the undisputed king of turning six-yard dump-offs into a full-PPR paycheck.",
-    "Zero flash, zero vertical routes, 100% pure PPR checkdown larceny. {name} is gaming the system.",
-    "Defenses let {name} catch four-yard curls all afternoon and your fantasy scoreboard just keeps ringing the register ({stat}).",
-    "{name} is running a legal Ponzi scheme on PPR scoring rules ({stat}) and we respect the hustle."
+    "{name} ({stat}) is the undisputed king of turning six-yard dump-offs into a PPR paycheck.",
+    "Zero flash, zero deep routes, 100% PPR checkdown magic. {name} found a loophole.",
+    "Defenses let {name} catch four-yard curls all afternoon and the register keeps ringing ({stat}).",
+    "{name} ({stat}) has cracked the PPR scoring code and we respect the hustle.",
+    "Seven catches, nineteen yards, plenty of points. {name} ({stat}) is a PPR wizard.",
+    "Full-PPR leagues should build {name} ({stat}) a small statue.",
+    "{name} ({stat}) turns 3rd-and-long checkdowns into a steady fantasy income.",
+    "{name} ({stat}): proof that yards are optional when the catches keep coming."
   ],
   thief: [
-    "{name} ({stat}) is committing grand larceny on fantasy rosters across America. High ownership, zero production.",
-    "You drafted {name} for the name brand and got the gas-station knockoff ({stat}).",
-    "{name} is out there doing 60 minutes of light jogging ({stat}) while holding your starting lineup hostage.",
-    "At {stat}, {name}'s best highlight this month is walking off the bus in a nice suit."
+    "{name} ({stat}) has big-name energy and small-print production right now.",
+    "You drafted {name} for the brand name and got the store brand ({stat}). Still tastes fine.",
+    "{name} is out there doing 60 minutes of light jogging ({stat}) in a very nice uniform.",
+    "At {stat}, {name}'s best highlight this month was the walk in from the team bus. Great suit, though.",
+    "{name} ({stat}) is rostered on reputation. The reputation is doing a lot of work.",
+    "{name} ({stat}) has first-round name value and waiver-wire output. For now.",
+    "The sunk-cost feeling is real with {name} ({stat}). Hang in there.",
+    "{name} ({stat}) is holding a lineup spot on vibes. Good vibes, at least."
   ],
   cardio: [
-    "{name} is getting 10,000 steps a game and contributing {stat}. Elite Fitbit numbers, tragic box score.",
-    "Nobody runs wind sprints in a clean jersey quite like {name} ({stat}). Just out there getting fresh air.",
-    "{name} is basically a paid spectator with a really good view of the huddle ({stat}).",
-    "Iffantasy leagues awarded points for polite blocking and cardio, {name} ({stat}) would be a first-ballot Hall of Famer."
+    "{name} is getting 10,000 steps a game and contributing {stat}. Elite Fitbit numbers.",
+    "Nobody runs wind sprints in a clean jersey quite like {name} ({stat}).",
+    "{name} has a fantastic view of the huddle ({stat}).",
+    "If fantasy leagues awarded points for polite blocking and cardio, {name} ({stat}) would be first-ballot.",
+    "{name} ({stat}) is closing every ring on the smartwatch.",
+    "Fifty snaps, spotless jersey, {stat}. {name} enjoyed the stadium breeze.",
+    "{name} ({stat}) is the world's most dedicated decoy.",
+    "Put a pedometer on {name} ({stat}). That stat is definitely going up."
   ],
   freezer: [
-    "{name}'s production ({stat}) has dropped faster than a lawn chair off a tailgate truck.",
-    "Put {name} on an ice floe—this cold streak ({stat}) has reached sub-zero Arctic temperatures.",
-    "{name} hasn't beaten projection since the weather was warm ({stat}). Sound the alarm.",
-    "The box score says {name} played ({stat}), but eyewitnesses remain unconvinced."
+    "{name}'s production ({stat}) has cooled off faster than a tailgate burger in November.",
+    "{name} is in a chilly stretch ({stat}). Bring a blanket and some patience.",
+    "{name} hasn't beaten projection since the weather was warm ({stat}). Spring is coming.",
+    "The box score says {name} played ({stat}). Eyewitnesses are still confirming.",
+    "{name} ({stat}) is colder than a Green Bay parking lot in January.",
+    "Somebody defrost {name} ({stat}). The microwave has a setting for this.",
+    "{name} ({stat}) is hiding in the back of the freezer behind the frozen peas.",
+    "Even the penguins think {name}'s recent stretch ({stat}) is a bit chilly."
   ],
   terror: [
-    "{name} ({stat}) is a certified Fantasy Terrorist. Starting him is an act of self-sabotage.",
-    "Put {name} in your lineup if you enjoy apologizing to your own reflection at 4:15 PM ({stat}).",
-    "{name} isn't just losing your matchup ({stat}), he's lowering your credit score by association.",
-    "The Geneva Conventions specifically prohibit forcing a fantasy manager to start {name} ({stat})."
+    "{name} ({stat}) is a certified Lineup Saboteur. Very sneaky about it, too.",
+    "Put {name} in your lineup if you enjoy suspense ({stat}).",
+    "{name} ({stat}) might secretly be working for your opponent. Investigation pending.",
+    "Starting {name} ({stat}) is a bold strategy. Let's see if it pays off.",
+    "{name} ({stat}) is on a very long scouting trip. Of the bench.",
+    "Every click of 'Start' on {name} ({stat}) is an act of pure optimism.",
+    "{name} ({stat}) is a double agent with an excellent cover story.",
+    "{name} ({stat}) has turned your flex spot into a mystery novel."
   ],
   lunch: [
     "{name} ({stat}) shows up with a hard hat, a dented thermos, and a guaranteed double-digit floor.",
-    "Not sexy, not trending on TikTok, just {name} quietly clocking in for {stat} while flashier picks bust.",
-    "{name} is the Honda Accord of your roster ({stat}): 200,000 miles, starts in the snow, never lets you down.",
-    "While everyone else chases waiver mirages, {name} ({stat}) just keeps paying the bills."
+    "Not flashy, not trending, just {name} quietly clocking in for {stat} while flashier picks bust.",
+    "{name} is the Honda Accord of your roster ({stat}): 200,000 miles, starts in the snow.",
+    "While everyone else chases waiver mirages, {name} ({stat}) just keeps paying the bills.",
+    "{name} ({stat}) packs a bologna sandwich, tapes his ankles, and delivers like clockwork.",
+    "When the stars bust, {name} ({stat}) is the one keeping the lights on.",
+    "{name} ({stat}) never makes the top-10 plays and never lays an egg.",
+    "Blue-collar {stat} from {name}: honest pay for honest work."
   ]
 };
 var ST_BUFFOON_LINES = {
   wagon: [
-    "{name} ({rec}) is a certified wagon right now. Clear the parade route and grease the light poles.",
-    "At {rec} on a {streak} heater, {name} isn't just beating teams—they're making opposing coaches update their résumés.",
-    "Book the flights, buy the obnoxious championship merch, and talk Reckless: {name} ({rec}) is the real deal.",
-    "{name} ({rec}) is rolling through the schedule like a snowplow downhill with no brakes."
+    "{name} ({rec}) is a certified wagon right now. Clear the parade route.",
+    "At {rec} on a {streak} run, {name} has opposing coaches rewatching film at 2 a.m.",
+    "Book the flights and buy the championship merch: {name} ({rec}) is the real deal.",
+    "{name} ({rec}) is rolling through the schedule like a snowplow downhill.",
+    "{name} ({rec}, {streak}) is playing chess while everyone else is playing checkers.",
+    "{name} ({rec}) fans have earned their swagger at the office water cooler.",
+    "Start planning the parade day off. {name} ({rec}) is on a roll."
   ],
   shootout: [
-    "{name} ({rec}) plays every game like the defense is optional and the scoreboard operator gets paid by the digit.",
-    "Champagne offense, warm-tap-water defense. Every {name} game looks like a track meet at a carnival.",
-    "Watching {name} ({rec}) is three hours of fireworks followed by praying the opposing kicker misses at the buzzer.",
-    "The {name} defensive coordinator is just drawing smiley faces on the whiteboard while the offense drops bombs."
+    "{name} ({rec}) plays every game like the scoreboard operator gets paid by the digit.",
+    "Champagne offense, sparkling-water defense. Every {name} game is a track meet.",
+    "Watching {name} ({rec}) is three hours of fireworks and a nervous final drive.",
+    "{name} ({rec}) games have more points than a pinball machine.",
+    "First team to 45 wins! {name} ({rec}) treats defense as a friendly suggestion.",
+    "Every {name} ({rec}) broadcast needs a bigger scoreboard.",
+    "Offense: A+. Defense: 'still working on it.' ({name}, {rec})"
   ],
   cardiac: [
-    "{name} ({rec}) refuses to play a normal game. Every fourth quarter is a medical emergency for the fanbase.",
-    "Rooting for {name} ({rec}) ages you seven dog years per weekend. Sponsored by antacids and bad decisions.",
-    "{name} could play a local high school JV squad and it would still come down to a final-possession sweat.",
-    "The {name} playbook has 400 pages and all of them end with 'make the fans clench until 0:00.'"
+    "{name} ({rec}) refuses to play a normal game. Every fourth quarter is an adventure.",
+    "Rooting for {name} ({rec}) ages you seven dog years per weekend. Worth it.",
+    "{name} could play a JV squad and it would still come down to the final possession.",
+    "The {name} playbook has 400 pages and every one ends with 'make it close.'",
+    "Why win comfortably when {name} ({rec}) can win on the final play?",
+    "Watching {name} ({rec}) comes with a free stress ball.",
+    "Two-minute warning + {name} ({rec}) = guaranteed living-room chaos."
   ],
   fraud: [
-    "🚨 FRAUD WATCH: {name} is {rec} on paper, but the point differential smells like three kids in a trench coat.",
-    "{name} ({rec}) is the nicest-looking house on the block built entirely out of cardboard and lucky bounces.",
-    "Don't let the {rec} record fool you—{name} has been escaping with duct tape, mirrors, and opposing turnovers.",
-    "{name} at {rec} is a mirage in the desert. Wait until they play somebody with a pulse."
+    "Pretender alert: {name} is {rec} on paper, but the point differential has questions.",
+    "{name} ({rec}) is a very nice-looking house with a few lucky bounces in the foundation.",
+    "Don't let the {rec} record fool you. {name} has been winning with duct tape and charm.",
+    "{name} at {rec} is a mirage until they beat somebody really good.",
+    "{name} ({rec}) has a shiny record and a schedule full of cupcakes.",
+    "Scratch the surface of {name}'s {rec} and you'll find a lot of close calls.",
+    "Everyone's waiting to see {name} ({rec}) against a real contender."
   ],
   clown: [
-    "Beep beep! Pull up the tiny car—{name} ({rec}, {streak}) is running a full-scale three-ring circus.",
-    "{name} ({rec}) isn't a sports franchise right now, it's a weekly comedy sketch with a multibillion-dollar stadium.",
-    "At {rec} ({streak}), the {name} game plan appears to be 'wing it and blame the refs.'",
-    "Even the stadium pigeons are flying out of {name}'s venue at halftime ({rec}). Pure buffoonery."
+    "Beep beep! Pull up the tiny car: {name} ({rec}, {streak}) is running a full three-ring circus.",
+    "{name} ({rec}) is a weekly comedy sketch with a very expensive stadium.",
+    "At {rec} ({streak}), the {name} game plan appears to be 'wing it.'",
+    "Even the stadium pigeons are leaving {name} games early ({rec}).",
+    "Play the Benny Hill theme over the {name} ({rec}) highlights. It syncs perfectly.",
+    "{name} ({rec}) is a sitcom that somehow got a sports contract.",
+    "Even the mascot looks a little confused at {name} ({rec}) games right now."
   ],
   tank: [
-    " Salute the Tank Commander! {name} ({rec}) is already scouting college sophomores and measuring draft-lottery ping-pong balls.",
-    "At {rec}, {name} isn't losing—they're 'strategically positioning for future organizational flexibility.'",
-    "{name} ({rec}) tickets should come with a free medium soda and a written apology from ownership.",
-    "The best player on {name} ({rec}) right now is next year's first-round draft pick."
+    "Salute the Tank Commander! {name} ({rec}) is already scouting next year's draft class.",
+    "At {rec}, {name} isn't losing, they're 'building for the future.'",
+    "{name} ({rec}) tickets should come with a free soda and a warm hug.",
+    "The best player on {name} ({rec}) right now might be next year's first-round pick.",
+    "{name} ({rec}) isn't rebuilding, they're pouring a brand-new foundation.",
+    "{name} ({rec}) fans have become amateur college scouts. Fun hobby!",
+    "Lower-bowl seats for {name} ({rec}) currently cost two hot dogs and a handshake."
   ],
   coach: [
-    "The seat under {name}'s coaching staff ({rec}, {streak}) is hotter than a cast-iron skillet in July.",
-    "After {streak} ({rec}), postgame press conferences at {name} sound like hostage videos.",
-    "Local radio callers in {name}'s market ({rec}) have already fired the coordinator nine times since breakfast.",
-    "{name} ({rec}, {streak}) is one more ugly third quarter away from an 'interim head coach' press release."
+    "The seat under {name}'s coaching staff ({rec}, {streak}) is getting a little toasty.",
+    "After {streak} ({rec}), the {name} postgame pressers are very short.",
+    "Local radio callers in {name}'s market ({rec}) have some suggestions for the coordinator.",
+    "{name} ({rec}, {streak}) is one rough third quarter from a very awkward press conference.",
+    "{name} ({rec}) is saving timeouts like family heirlooms.",
+    "Sports talk radio in {name}'s city ({rec}, {streak}) is extremely caffeinated right now.",
+    "{name} ({rec}, {streak}) could use a fresh whiteboard and a new marker."
   ],
   mash: [
-    "{name} ({rec}) doesn't need a game plan, they need a triage tent and a priest.",
-    "Half the {name} starting lineup is in bubble wrap ({rec}) and the backup's backup is taking first-team reps.",
-    "The {name} strength and conditioning staff is currently #1 on the fanbase's most-wanted list ({rec})."
+    "{name} ({rec}) doesn't need a game plan, they need a bigger training room.",
+    "Half the {name} lineup is in bubble wrap ({rec}) and the backup's backup is taking reps.",
+    "The {name} ({rec}) locker room has more ice packs than a ski lodge.",
+    "{name} ({rec}) might hold open tryouts in the parking lot on Friday.",
+    "Send a fruit basket to the {name} ({rec}) athletic trainers. They've earned it.",
+    "Every week {name} ({rec}) loses another starter to a mysterious tweak.",
+    "{name} ({rec}) is fielding a lineup out of pure determination."
   ],
   sicko: [
-    "{name} ({rec}, {streak}) makes zero sense to Vegas, analytics, or God. Pure Sickos Committee cinema.",
-    "Beat a contender on Saturday, lose to a directional school on Tuesday—that's the {name} ({rec}) guarantee.",
-    "Betting on or against {name} ({rec}) should require a psychological waiver."
+    "{name} ({rec}, {streak}) makes zero sense to Vegas or the analytics nerds. Pure Sickos Committee cinema.",
+    "Beat a contender Saturday, lose to an underdog Tuesday: that's the {name} ({rec}) guarantee.",
+    "Predicting {name} ({rec}) games should come with a disclaimer.",
+    "Punts, bounces, chaos: {name} ({rec}) is appointment television for the chaos-curious.",
+    "Nobody knows what {name} ({rec}, {streak}) will do next, including {name}.",
+    "{name} ({rec}) games set the sport back a few years and we can't look away.",
+    "Yes… YES! {name} ({rec}) is peak weird-sports entertainment."
   ]
 };
 function sxPlayerAward(e, sc){
@@ -8972,7 +8959,7 @@ function sxPlayerAward(e, sc){
   if (inj && !/^(ACTIVE|HEALTHY|NORMAL)$/.test(inj)) return { id: 'inj', ic: '🚑', nm: 'Questionable Since Birth', k: 'inj' };
   if (s >= 86) return { id: 'cheat', ic: '👑', nm: 'Certified Cheat Code', k: 'cheat' };
   const tr = (sc.parts.find(p => /Trend/i.test(p.k)) || {}).v;
-  if (tr != null && tr >= 72 && s >= 68) return { id: 'heater', ic: '🔥', nm: 'Heater From Hell', k: 'heater' };
+  if (tr != null && tr >= 72 && s >= 68) return { id: 'heater', ic: '🔥', nm: 'Heater From Heck', k: 'heater' };
   if (wk.length >= 3) {
     const m = wk.reduce((a, b) => a + b, 0) / wk.length;
     const sd = Math.sqrt(wk.reduce((a, b) => a + (b - m) ** 2, 0) / wk.length);
@@ -8981,7 +8968,7 @@ function sxPlayerAward(e, sc){
   if ((e.pos === 'RB' || e.pos === 'WR' || e.pos === 'TE') && s >= 64 && s < 86 && (x.ppg || 0) >= 11) return { id: 'scam', ic: '🎯', nm: 'PPR Scam Artist', k: 'scam' };
   if (s >= 62) return { id: 'lunch', ic: '💪', nm: 'Lunch Pail Legend', k: 'lunch' };
   if (tr != null && tr <= 34) return { id: 'freezer', ic: '🧊', nm: 'Absolute Freezer Burn', k: 'freezer' };
-  if (s < 28) return { id: 'terror', ic: '🤡', nm: 'Fantasy Terrorist', k: 'terror' };
+  if (s < 28) return { id: 'terror', ic: '🤡', nm: 'Lineup Saboteur', k: 'terror' };
   if (s < 44 && (x.own || 0) >= 55) return { id: 'thief', ic: '💼', nm: 'Contract Thief (Lineup Hostage)', k: 'thief' };
   return { id: 'cardio', ic: '👻', nm: 'Cardio King (Just Running Out There)', k: 'cardio' };
 }
@@ -9046,7 +9033,6 @@ async function sxOpen(e, isRespin){
   document.querySelectorAll('.sx-coach').forEach(c => c.remove()); document.querySelectorAll('.sx-ring-hl').forEach(x => x.classList.remove('sx-ring-hl')); try { lsSet('mannSpinCoach.v1', true); } catch (_) {}
   const body = sxShell(); body.innerHTML = `<div class="sx-ld">🌀 Spinning up ${esc(e.name)}…</div>`;
   const t0 = Date.now(), d = await sxData(e).catch(() => ({})); if (!SX.ov || !body.isConnected) return;
-  { const H = loyHeat(), w = (!isRespin && e.k === 't') ? (H >= 4 ? 2200 : H >= 3 ? 1200 : 0) - (Date.now() - t0) : 0; if (w > 0) { body.innerHTML = `<div class="sx-ld">🌀 ${H >= 4 ? 'HALL OF FAMER SPIN. HOLD ON TO YOUR NACHOS…' : 'Spinning it extra for a season-ticket holder…'}</div>`; await new Promise(r => setTimeout(r, w)); if (!SX.ov || !body.isConnected) return; } }
   body.innerHTML = e.k === 't' ? stPanel(e, d) : sxPanel(e, d);
   const stg = body.querySelector('.sx-stage'); if (!stg) return;
   stg.addEventListener('pointerdown', ev => { if (ev.pointerType === 'touch') { stg.closest('.sx-grid').classList.add('hold'); if (!stg.classList.contains('front') && !stg.classList.contains('back')) sxSettle(stg); } });
@@ -9640,7 +9626,7 @@ function seDeal(x, i, D){
     ${x.d.why.length ? `<ul class="se-why">${x.d.why.slice(0, 3).map(w => `<li>${esc(w)}</li>`).join('')}</ul>` : ''}
     <div class="te-sw se-sw"><div class="te-side"><h6>You give</h6>${x.give.map(q => cmxPP(q, D)).join('')}</div><div class="te-x" aria-hidden="true">⇄</div><div class="te-side"><h6>You get</h6>${x.get.map(q => cmxPP(q, D)).join('')}</div></div>
     <div class="cmx-gain"><span class="${R.dMe > 0 ? 'up' : 'dn'}">You <b>${cmxSg(R.dMe)}</b>/wk ROS</span>${x.nxt != null ? `<span class="${x.nxt > 0 ? 'up' : 'dn'}">Them <b>${cmxSg(x.nxt)}</b> next week</span>` : ''}<span class="${R.dOp > 0 ? 'up' : 'dn'}">Them <b>${cmxSg(R.dOp)}</b>/wk ROS</span></div>
-    <p class="te-why">${esc(pitch)}</p>${(() => { if (i === 0 || !seDeal.u) seDeal.u = new Set(); return rqHTML(rqDeal(x.give, x.get, { opp: t.name, dMe: R.dMe, dOp: x.nxt != null ? x.nxt : R.dOp, rec, dm }, seDeal.u)); })()}${x.note ? `<p class="se-note">⚠️ ${esc(x.note)}</p>` : ''}</div>`;
+    <p class="te-why">${esc(pitch)}</p>${x.note ? `<p class="se-note">⚠️ ${esc(x.note)}</p>` : ''}</div>`;
 }
 const SE = { pick: null, D: null };
 async function seOpen(){
@@ -9720,18 +9706,16 @@ function stPanel(e, d){
   const S = d.S, t = d.ts; const col = e.c1 ? `--c1:${e.c1};--c2:${e.c2}` : '';
   const sub = [(CAT[e.lg] || {}).label, S && S.rec, S && S.standing].filter(Boolean).join(' · ');
   if (!t) return `<div class="sx-hd"><div><h2>${esc(e.name)}</h2><small>${esc(sub)}</small></div></div><div class="sx-pnl"><div class="sx-ld">No completed games from ESPN yet, so no spin.</div></div>`;
-  const [, ic, nm, cls] = t.T, lead = t.reasons[0] || '', joke = stSportWords(e.lg, stQuip(e, d, t)), H = loyHeat();
-  const nmT = String(e.name || '').split(' ').slice(-1)[0], good = t.s >= 55, u = new Set([joke]);
-  const xtra = H < 3 ? [] : [rqPick((good ? RQ_HOT.g3 : RQ_HOT.b3).concat(H >= 4 ? (good ? RQ_HOT.g4 : RQ_HOT.b4) : []), { name: nmT }, u), H >= 4 ? rqPick(RQ_ME.rough.concat(RQ_ME.mild, RQ_HOT.pm), Object.assign(rqMe(), { name: nmT }), u) || rqPick(good ? RQ_HOT.g4 : RQ_HOT.b4, { name: nmT }, u) : ''].filter(Boolean);
-  const brk = H < 3 ? '' : (() => { const P = t.parts, W = [['Form, last 5', P.form, .35], ['Win %', P.wp, .25], ['Margin trend', P.diff, .2], ['Quality wins', P.qual, .2]].filter(x => x[1] != null), tw = W.reduce((a, x) => a + x[2], 0), f1 = n => (Math.round(n * 10) / 10).toFixed(1), sg = n => (n > 0 ? '+' : n < 0 ? '−' : '±') + Math.abs(n);
+  const [, ic, nm, cls] = t.T, lead = t.reasons[0] || '', joke = stSportWords(e.lg, stQuip(e, d, t));
+  const brk = (() => { const P = t.parts, W = [['Form, last 5', P.form, .35], ['Win %', P.wp, .25], ['Margin trend', P.diff, .2], ['Quality wins', P.qual, .2]].filter(x => x[1] != null), tw = W.reduce((a, x) => a + x[2], 0), f1 = n => (Math.round(n * 10) / 10).toFixed(1), sg = n => (n > 0 ? '+' : n < 0 ? '−' : '±') + Math.abs(n);
     const base = W.reduce((a, x) => a + x[1] * x[2] / tw, 0);
-    return `<div class="st-brk"><b>${H >= 4 ? 'THE FULL DAMN BREAKDOWN' : 'Score breakdown'}</b>${W.map(x => `<div><span>${esc(x[0])} <i>${x[1]} × ${Math.round(100 * x[2] / tw)}%</i></span><em>${f1(x[1] * x[2] / tw)}</em></div>`).join('')}<div class="sum"><span>Base</span><em>${f1(base)}</em></div>${P.streak ? `<div><span>Streak ${esc(t.streak)}</span><em>${sg(P.streak)}</em></div>` : ''}${P.inj ? `<div><span>Key players out</span><em>${sg(P.inj)}</em></div>` : ''}${P.nxAdj ? `<div><span>Next-game line</span><em>${sg(P.nxAdj)}</em></div>` : ''}<div class="sum tot"><span>Score</span><em>${t.s}/100</em></div></div>`; })();
+    return `<div class="st-brk"><b>Score breakdown</b>${W.map(x => `<div><span>${esc(x[0])} <i>${x[1]} × ${Math.round(100 * x[2] / tw)}%</i></span><em>${f1(x[1] * x[2] / tw)}</em></div>`).join('')}<div class="sum"><span>Base</span><em>${f1(base)}</em></div>${P.streak ? `<div><span>Streak ${esc(t.streak)}</span><em>${sg(P.streak)}</em></div>` : ''}${P.inj ? `<div><span>Key players out</span><em>${sg(P.inj)}</em></div>` : ''}${P.nxAdj ? `<div><span>Next-game line</span><em>${sg(P.nxAdj)}</em></div>` : ''}<div class="sum tot"><span>Score</span><em>${t.s}/100</em></div></div>`; })();
   const p = t.parts, chip = (v, l) => v == null ? '' : `<div><b>${esc(v)}</b><i>${esc(l)}</i></div>`;
   return loyBadge() + `<div class="st ${cls}" style="${esc(col)}">
     <div class="st-hd">${e.logo ? `<img class="st-logo" src="${esc(e.logo)}" alt="" onerror="this.remove()">` : ''}<div><h2>${esc(e.name)}</h2><small>${esc(sub)}</small></div><span class="st-sc" title="Fan-commitment score (0-100)"><b>${t.s}</b><i>/100</i></span></div>
     <div class="st-tier" role="status"><span class="st-ic" aria-hidden="true">${ic}</span><span class="st-nm">${esc(nm)}</span></div>
     ${(aw => `<div class="sx-awd"><small>Team Buffoonery Award</small><span>${aw.ic} ${esc(aw.nm)}</span></div>`)(stTeamAward(e, d, t))}
-    <p class="st-joke">${esc(lead ? lead + '. ' : '')}${esc(stFullQuip(e, d, t))}</p>${xtra.map(q => `<p class="st-joke st-joke2">${esc(q)}</p>`).join('')}${brk}
+    <p class="st-joke">${esc(lead ? lead + '. ' : '')}${esc(stFullQuip(e, d, t))}</p>${brk}
     <ul class="st-why">${t.reasons.map(r => `<li>${esc(r)}</li>`).join('')}</ul>
     <div class="st-ladder" aria-label="Fan-commitment ladder">${ST_TIERS.map(x => `<span class="${x === t.T ? 'on ' + x[3] : ''}" title="${esc(x[2])}${x[0] >= 0 ? ' (' + x[0] + '+)' : ''}">${x[1]}</span>`).join('')}</div>
     <div class="sx-pnl st-pnl">${sxBars(t.bars, null, true)}<div class="sx-kv">${chip(t.streak, 'Streak')}${chip(p.form, 'Form (last 5)')}${chip(p.wp != null ? p.wp + '%' : null, 'Win %')}${chip(p.diff, 'Margin trend')}${chip(p.qual, 'Quality wins')}${t.outs.length ? chip(t.outs.length, 'Key players out') : ''}</div>
@@ -11245,7 +11229,7 @@ function swCalc(g, wp){ try { if (!g || g.state !== 'in' || !g.teams || g.teams.
   const sc = SX_SCALE[gxSport(g.lg)[0]] || 10, f0 = swFrac(g); if (f0 == null) return null; const f = Math.max(0, Math.min(1, f0)), tw = 0.3 + 0.7 * f * f, close = Math.max(0, 1 - Math.abs(A - B) / (sc * 1.2));
   let s = 100 * close * tw; if (wp != null && !isNaN(wp)) { const w = wp > 1 ? wp / 100 : wp; s = 0.6 * s + 0.4 * 100 * (1 - Math.abs(w - 0.5) * 2) * tw; } if (f > 0.85) s *= 1.1;
   return Math.round(Math.max(0, Math.min(100, s))); } catch (_) { return null; } }
-function swLabel(s){ let h = 1; try { h = loyHeat(); } catch (_) {} return s >= 85 ? ['🧖', 'Full Sauna'] : s >= 65 ? (h >= 4 ? ['🐊', 'Swamp Ass'] : h >= 3 ? ['🌊', 'Soaked'] : ['🌊', 'Drenched']) : s >= 45 ? ['💦', 'Sweaty'] : s >= 25 ? ['💧', 'Damp'] : ['🌵', 'Dry']; }
+function swLabel(s){ return s >= 85 ? ['🧖', 'Full Sauna'] : s >= 65 ? ['🌊', 'Drenched'] : s >= 45 ? ['💦', 'Sweaty'] : s >= 25 ? ['💧', 'Damp'] : ['🌵', 'Dry']; }
 function swHTML(s, big, note){ if (s == null) return ''; const [e, l] = swLabel(s), c = s >= 85 ? '#ff4d4f' : s >= 65 ? '#ff922b' : s >= 45 ? '#ffc21a' : s >= 25 ? '#74c0fc' : '#8d9bb8';
   return `<div class="sw${big ? ' sw-big' : ''}" title="Sweat-o-Meter ${s}/100: how late and how tight it is" style="--swc:${c}"><span class="sw-k">💦${big ? ' Sweat-o-Meter' : ''}</span><span class="sw-bar" aria-hidden="true"><i style="width:${s}%"></i></span><b>${s}</b><em>${e} ${esc(l)}${note ? ` · ${esc(note)}` : ''}</em></div>`; }
 function swGame(g){ return gxClose(g) ? swHTML(swCalc(g, g.sit && g.sit.wp)) : ''; }
@@ -11255,9 +11239,9 @@ function swFantasy(D){ try { const { me, op } = D; if (!me || !op || me.proj == 
   const f = 1 - left / all.length; if (f <= 0) return '';   // nobody has played yet: no sweat to measure
   const close = Math.max(0, 1 - Math.abs(me.proj - op.proj) / 30), s = Math.round(Math.max(0, Math.min(100, 100 * close * (0.3 + 0.7 * f * f) * (f > 0.85 ? 1.1 : 1))));
   return swHTML(s, true, `${myLeft} of yours left to play`); } catch (_) { return ''; } }
-const GX_LBL = ['🔥 NECK & NECK', '😬 NAIL-BITER', '🟨 ALL SQUARE', '🫣 DON\'T LOOK', '☕ GRIPPER'], GX_LBL_R = ['🍑 BUTT-CLENCHER', '😱 CARDIAC', '🧻 SQUEAKY BUM TIME'];
+const GX_LBL = ['🔥 NECK & NECK', '😬 NAIL-BITER', '🟨 ALL SQUARE', '🫣 DON\'T LOOK', '☕ GRIPPER'];
 function gxLabel(g){ let h = 0; const k = String((g && g.lg) || '') + ':' + String((g && g.id) || ''); for (let i = 0; i < k.length; i++) h = (h * 31 + k.charCodeAt(i)) >>> 0;   // stable per game id: no flicker on refresh
-  let heat = 1; try { heat = typeof loyHeat === 'function' ? loyHeat() : 1; } catch (_) {} const P = heat >= 4 ? GX_LBL.concat(GX_LBL_R) : GX_LBL; return h % 10 < 4 ? '💦 SWEATY SCORE' : P[Math.floor(h / 10) % P.length]; }   // Sweaty Score ~40% at every level
+  const P = GX_LBL; return h % 10 < 4 ? '💦 SWEATY SCORE' : P[Math.floor(h / 10) % P.length]; }   // Sweaty Score ~40% of the time
 const gxBadge = g => { try { return g && Array.isArray(g.teams) && GA.badge && gxClose(g) ? `<span class="gx-close gx-in" title="Close game late">${esc(gxLabel(g))}</span>` : ''; } catch (_) { return ''; } };   // close-outline: pill lives inside the status area
 // Oct 17: game alerts. Live / close games flash the score box's border (no ripple, no inward motion).
 // One settings group (Sports & settings → Game alerts). Defaults match the old ring: 3 flashes live, 5 when close.
@@ -12021,18 +12005,18 @@ var ST_TIERS = [
   [28, '📺', 'Change the channel', 'st-t8', 'There\'s a baking show on. It\'s fine. You\'re fine.'],
   [-1, '👶', 'Un-name your firstborn', 'st-t9', '"Junior" is a perfectly good name. Think about it.']];
 const stTier = s => ST_TIERS.find(t => s >= t[0]);
-/* Oct 22 roast: 6-7 re-rolled comments per team tier (real record/streak), the original joke stays in the pool */
+/* Oct 22: re-rolled comments per team tier (real record/streak), the original joke stays in the pool. Oct 29: toned down. */
 const ST_QUIPS = [
-  ["{name} at {rec}? Buy the body paint in bulk.", "A {streak} streak. Your boss already knows you're calling in sick on game day.", "{name} fans are legally required to stand the entire game now.", "You've screamed so much your group chat gets voice memos of just static.", "At {rec}, the face paint is load-bearing.", "Security has two of your photos on file now. Worth it."],
-  ["{name} are {rec}. The paint goes on, but the LinkedIn stays professional.", "{streak} and rolling. Keep the mask handy for the next work Zoom.", "Fanatic-adjacent. You own three foam fingers and deny all of them.", "You'd tattoo the logo, but only somewhere a dress shirt covers.", "{name} winning makes you text your ex. Don't.", "Half fanatic, half HR-compliant."],
-  ["{name} at {rec}: act like you've been here before.", "A {streak} run and you're already pricing playoff tickets.", "Old money energy. You clap with one hand and hold a drink with the other.", "{name} fans don't celebrate. They nod knowingly.", "{rec} and the swagger tax just went up.", "Your dad's dad was smug about {name} too. Tradition."],
-  ["{name} at {rec}. The bus is pulling out, get on.", "{streak}? Suddenly everyone at work 'always liked {name}.'", "Plenty of seats on the bandwagon. Exact change only.", "{rec} and the wagon has cupholders now.", "Your cousin who's never watched a game just posted a {name} story.", "Hop on, and act like you knew the backup's name all along."],
-  ["{name} at {rec}: hat yes, tattoo pending.", "A {streak} streak earns a hat. Not a parking-lot tailgate. Yet.", "Buy the hat. Keep the receipt.", "{name} have you at 'fitted cap, curved brim' commitment.", "Good enough to rep, not good enough to argue about online.", "{rec}. The hat goes on, the opinions stay quiet."],
-  ["{name} at {rec}: get the jersey, skip the name on the back.", "{streak}. Jersey-worthy, but buy it on sale.", "Order the jersey. If it ships slow, that's a sign.", "Respectable enough to wear in public. Mostly in the suburbs.", "The jersey says fan. The tags still on say 'returnable.'", "{rec} is a medium-size commitment. Order a medium."],
-  ["{name} at {rec}. Golf clap. Look at your phone.", "{streak} is the sports equivalent of 'that's nice, dear.'", "{name} are giving lukewarm-coffee energy.", "Clap twice, check fantasy scores, clap once more.", "{rec}. Nobody's mad. Nobody's excited. Everyone's eating nachos.", "This team is beige. Politely beige."],
-  ["{name} at {rec}? Peel off the bumper sticker slowly so no one notices.", "A {streak} skid. Park facing the wall.", "Wear the hoodie inside out until further notice.", "{name} merch is now 'loungewear only.'", "{rec}. Tell people you're 'more of a general sports fan.'", "Your car's {name} magnet just quietly fell off. Let it go."],
-  ["{name} at {rec}. Change the channel. There's a baking show on.", "{streak}. Even the announcers sound like they want to leave.", "Remote in hand, finger on 'anything else.'", "{name} are the reason streaming services have 'continue watching' for other stuff.", "{rec} and the local news is leading with the weather instead.", "Somewhere a dog show is more competitive than this."],
-  ["{name} at {rec}? 'Junior' is a perfectly good name. Think about it.", "A {streak} streak. Un-name the firstborn. Un-name the dog too.", "{name} fandom is now a support group with snacks.", "{rec}. The tickets are cheaper than parking, and still not worth it.", "Somebody check on {name} fans. Bring a casserole.", "This is a dumpster fire with a mascot."]];
+  ["{name} at {rec}? Buy the body paint in bulk.", "A {streak} streak. Your boss already suspects you'll be 'sick' on game day.", "{name} fans are legally required to stand the entire game now.", "You've cheered so much your group chat gets voice memos of just static.", "At {rec}, the face paint is load-bearing.", "Security has two of your photos on file now. Worth it.", "{name} at {rec} ({streak}) has the whole city pricing championship tattoos.", "{name} ({rec}) is playing so well even the local pessimists are smiling."],
+  ["{name} are {rec}. The paint goes on, but the LinkedIn stays professional.", "{streak} and rolling. Keep the mask handy for the next work Zoom.", "Fanatic-adjacent. You own three foam fingers and deny all of them.", "You'd tattoo the logo, but only somewhere a dress shirt covers.", "{name} winning makes you want to text everyone you know. Pace yourself.", "Half fanatic, half HR-compliant.", "{rec} and rolling: {name} merch is suddenly business casual.", "{name} ({rec}, {streak}) has you saying 'we' about a team you don't play for."],
+  ["{name} at {rec}: act like you've been here before.", "A {streak} run and you're already pricing playoff tickets.", "Old money energy. You clap with one hand and hold a drink with the other.", "{name} fans don't celebrate. They nod knowingly.", "{rec} and the swagger tax just went up.", "Your grandpa was smug about {name} too. Tradition.", "{name} at {rec}: pour something nice, this team is built for January.", "{streak} for {name} ({rec}). Act like a seasoned contender."],
+  ["{name} at {rec}. The bus is pulling out, get on.", "{streak}? Suddenly everyone at work 'always liked {name}.'", "Plenty of seats on the bandwagon. Exact change only.", "{rec} and the wagon has cupholders now.", "Your cousin who's never watched a game just posted a {name} story.", "Hop on, and act like you knew the backup's name all along.", "All aboard the {name} ({rec}) wagon. Applications are open.", "{name} ({rec}, {streak}) has fair-weather fans dusting off their hats."],
+  ["{name} at {rec}: hat yes, tattoo pending.", "A {streak} streak earns a hat. Not a parking-lot tailgate. Yet.", "Buy the hat. Keep the receipt.", "{name} have you at 'fitted cap, curved brim' commitment.", "Good enough to rep, not good enough to argue about online.", "{rec}. The hat goes on, the opinions stay quiet.", "{name} at {rec}: respectable enough to wear the cap to the grocery store.", "{streak} for {name} ({rec}). Cautious optimism is officially allowed."],
+  ["{name} at {rec}: get the jersey, skip the name on the back.", "{streak}. Jersey-worthy, but buy it on sale.", "Order the jersey. If it ships slow, that's a sign.", "Respectable enough to wear in public. Mostly in the suburbs.", "The jersey says fan. The tags still on say 'returnable.'", "{rec} is a medium-size commitment. Order a medium.", "{name} ({rec}) is hovering around .500. Keep the receipt on that jersey.", "{streak} and {rec}: {name} is a very sincere shrug emoji."],
+  ["{name} at {rec}. Golf clap. Look at your phone.", "{streak} is the sports equivalent of 'that's nice, dear.'", "{name} are giving lukewarm-coffee energy.", "Clap twice, check fantasy scores, clap once more.", "{rec}. Nobody's mad. Nobody's excited. Everyone's eating nachos.", "This team is beige. Politely beige.", "{name} at {rec}: check the score on your phone, keep your weekend plans.", "{streak} for {name} ({rec}). Pleasant background noise while you fold laundry."],
+  ["{name} at {rec}? Peel off the bumper sticker slowly so no one notices.", "A {streak} skid. Park facing the wall.", "Wear the hoodie inside out until further notice.", "{name} merch is now 'loungewear only.'", "{rec}. Tell people you're 'more of a general sports fan.'", "Your car's {name} magnet just quietly fell off. Let it go.", "{name} at {rec} ({streak}): the team flag can live in the garage for a bit.", "{rec}: tell coworkers you're 'really into the draft process.'"],
+  ["{name} at {rec}. Change the channel. There's a baking show on.", "{streak}. Even the announcers sound ready for the weekend.", "Remote in hand, finger on 'anything else.'", "{name} are the reason streaming services have a 'continue watching' row.", "{rec} and the local news is leading with the weather instead.", "Somewhere a dog show is more competitive than this.", "{name} ({rec}, {streak}) is why secondary hobbies were invented.", "At {rec}, watching {name} for three hours should earn you a merit badge."],
+  ["{name} at {rec}? 'Junior' is a perfectly good name. Think about it.", "A {streak} streak. Un-name the firstborn. Maybe the dog too.", "{name} fandom is now a support group with snacks.", "{rec}. The tickets are cheaper than parking. Still a tough sell.", "Somebody check on {name} fans. Bring a casserole.", "This is a fixer-upper with a mascot.", "{name} at {rec} ({streak}): it's a great time to get into hiking.", "{rec}: {name} fans have earned a group hug."]];
 function stQuip(e, d, t){ try { const T = t.T, i = ST_TIERS.indexOf(T), pool = (ST_QUIPS[i] || []).concat([T[4]]);
   const name = String(e.name || '').split(' ').slice(-1)[0], v = { name, rec: d.S && d.S.rec || '', streak: t.streak || '' };
   const u = new Set(stQuip.last ? [stQuip.last] : []), q = spinPick50(pool, v, u) || rqPick(pool, v, u) || T[4]; stQuip.last = [...u].pop(); return q.replace(/(^|\. )([a-z])/g, (m, a, b) => a + b.toUpperCase()); } catch (_) { return t.T[4]; } }
@@ -13157,7 +13141,7 @@ function xlTableName(tbl){
   return 'sports-table';
 }
 async function xlExportSpinIt(btn){
-  const rows = [['Rank', 'Name', 'Category', 'Sport / League', 'Position', 'Team', 'WHYDFML Score', 'Tier', 'Record / Stats', 'Roast / Comment']];
+  const rows = [['Rank', 'Name', 'Category', 'Sport / League', 'Position', 'Team', 'WHYDFML Score', 'Tier', 'Record / Stats', 'Write-up']];
   const items = [];
   try {
     if (SX.ov) {
@@ -13717,7 +13701,7 @@ const SY_STATE_KEY = 'mannSync.v1', SY_EMAIL_KEY = 'mannSyncEmail.v1', SY_FB_VER
 const SY_UNION = { 'mannSportsStars.v1': 'set', 'mannFavPlayers.v2': 'ids', 'mannFantasyWatch.v1': 'idmap', 'mannHiddenCards.v1': 'set', 'mannHiddenCards.v1.m': 'obj', 'mannFavMeta.v1': 'obj', 'mannTeamIds.v1': 'obj' };
 const SY_PREFS = ['mannSportsSelected.v1', 'mannFantasySports.v1', 'mannTabOrder.v1', 'mannTickerNews', 'mannTickerSpeed.v1', 'mannTicker2Row.v1', 'mannTickerSize.v1', 'mannTickerPos.v1',
   'mannTableView.v1', 'mannMultiLeagues.v1', 'mannEspnLeagues.v1', 'mannFantasyRoster.v1', 'mannTradeLab.v1', 'mannGameAlerts.v1', 'mannGameFilter.v1', 'mannFavMin.v1', 'mannFavExpanded.v1',
-  'mannRedditMode.v1', 'mannRoastLvl.v1', 'mannCellySound.v1', 'mannHoverSnd.v1', 'mannHoverHL.v2', 'mannSpinBadges.v1', 'mannDashName.v1', 'mannWatchSort.v1', 'mannCompsPos.v1',
+  'mannRedditMode.v1', 'mannCellySound.v1', 'mannHoverSnd.v1', 'mannHoverHL.v2', 'mannSpinBadges.v1', 'mannDashName.v1', 'mannWatchSort.v1', 'mannCompsPos.v1',
   'mannCompsOpen.v1', 'mannPickPos.v1', 'mannRosterGroups.v1', 'mannPlayerCardsHidden.v1', 'mannWheelDrift.v1', 'mannImportNudgeOff.v1', 'mannMatchupUI.v1', 'mannProfile.v1'];
 const SY_KEYS = [...Object.keys(SY_UNION), ...SY_PREFS];
 const SY_HOT = new Set(Object.keys(SY_UNION));            // applied live; any other synced key asks for a reload
@@ -13978,8 +13962,7 @@ if (syOn()) { const go = () => { const r = window.requestIdleCallback || (f => s
    2) 🎮 Fantasy Favorites persistent quick-link + quick-peek modal/drawer + in-view quick bar across ALL tabs/views,
    3) 🧪 Fantasy Lab sport switcher (NFL / NBA / MLB / NHL / Golf / UFC) + strict sport-locked Watch List search & bucket sanitizer,
    4) 📲 Full iOS / Android / Desktop PWA support (head meta tags, canvas-generated 180/192/512 PNG icons + manifest, safe-area insets, #pwaBtn install helper),
-   5) Massive 4x-5x Roast Expansion across Spin-it (150+ new player tier/pos/small-sample lines, 50+ new Player Category Award lines, 50+ new Team Buffoonery & ST_QUIPS lines),
-      Matchup & Sweat-o-Meter (60+ new roasts), Trade Lab & Watch List (60+ new roasts), and Favorite Teams & Players roasts (50+ new roasts), all tracked by sd_spin_seen_v1. ===== */
+   5) (Oct 29) Roasts now live only on the Spin-it cards, toned down to good-natured ribbing; the 50-visit no-repeat memory is sd_spin_seen_v1. ===== */
 
 /* --- 0. Ensure NBA is a first-class fantasy-capable sport in FSPORTS & FS_ORDER --- */
 (() => {
@@ -14130,589 +14113,6 @@ wlInput = function(inp){
   }, 220);
 };
 
-/* --- 5. MASSIVE ROAST EXPANSION (3x-5x across Spin-it, Matchup/Sweat, Trade Lab, and Favorites) --- */
-const ROAST_MORE_SX_TIERS = {
-  95: [
-    "{name} ({stat}) is playing on Rookie difficulty with the sliders cranked to 100. Unfair.",
-    "Opposing defensive coordinators see {name} on the film and immediately start updating LinkedIn.",
-    "{name} is dropping {stat} and treating NFL secondaries like traffic cones at a driver's ed course.",
-    "At {stat}, {name} should be taxed in two brackets and banned in three states.",
-    "{name} is hard-carrying Goodell's Good Guys like a sherpa hauling a grand piano up Everest ({stat}).",
-    "Call the league office, call Congress, call a priest—{name} ({stat}) is breaking the scoreboard.",
-    "{name} wakes up, brushes his teeth, and casually hangs {stat} before the second quarter.",
-    "Your opponent saw {name} in your lineup ({stat}) and preemptively muted the group chat.",
-    "{name} ({stat}) is what happens when a create-a-player maxes out every attribute to 99.",
-    "Starting {name} ({stat}) isn't fantasy management, it's printing counterfeit money in your basement."
-  ],
-  88: [
-    "{name} ({stat}) walks into the stadium and the boss-fight Latin choir starts singing.",
-    "Defenses throw double coverage at {name} and he still hangs {stat} on their heads.",
-    "{name} is eating opposing game plans for breakfast and asking for seconds ({stat}).",
-    "You don't 'match up' with {name} ({stat})—you just survive four quarters and count the damage.",
-    "At {stat}, {name} is the guy your opponent begs you to trade at 1:30 AM every Tuesday.",
-    "{name} ({stat}) is carrying your fantasy squad like he owns a controlling stake in the franchise.",
-    "Every time {name} touches the rock ({stat}), your win probability jumps twelve percent.",
-    "{name} is putting up {stat} with the cold-blooded efficiency of a Wall Street liquidator.",
-    "Opponents need a defensive coordinator, a safety over the top, and an exorcist for {name} ({stat}).",
-    "{name} ({stat}) is single-handedly keeping your questionable draft strategy above .500."
-  ],
-  80: [
-    "{name} ({stat}) is the main character of your Sunday and everybody else is background extras.",
-    "Camera pans to {name}, pyrotechnics go off, and boom—another {stat} in the box score.",
-    "{name} has that 'contract-year, rent-is-due, ex-is-watching' energy ({stat}).",
-    "When {name} is cooking ({stat}), even your terrible flex decisions look like 4D chess.",
-    "{name} ({stat}) is the only guy on your roster who actually read the scouting report this week.",
-    "Set {name} in your lineup ({stat}), crack a cold one, and watch the points roll in.",
-    "{name} is giving you {stat} and swagger strong enough to talk trash by 2:15 PM.",
-    "Whole offense runs through {name} right now ({stat})—ride that wave until the wheels fall off.",
-    "{name} ({stat}) is out-scoring half the first-round picks in your league without breaking a sweat.",
-    "If everyone on Goodell's Good Guys played like {name} ({stat}), you'd be undefeated."
-  ],
-  72: [
-    "{name} ({stat}) wears New Balances, mows the lawn at 7 AM, and quietly gets you double digits.",
-    "Zero drama, zero diva tweets, just {name} clocking {stat} like a union foreman.",
-    "{name} ({stat}) has thermostat-set-to-68, don't-touch-my-tools reliability.",
-    "While flashier guys drop goose eggs, {name} ({stat}) brings home the groceries in one trip.",
-    "{name} ({stat}) is the cast-iron skillet of your lineup—heavy, seasoned, and indestructible.",
-    "Not going viral on RedZone, just {name} banking {stat} while you aren't looking.",
-    "{name} ({stat}) plays like a guy who knows how to back a boat trailer in on the first try.",
-    "Solid, grumpy, dependable {stat} from {name}. The dad-bod Hall of Fame salutes him.",
-    "{name} ({stat}) is the duct tape holding your starting lineup together this month.",
-    "You never brag about starting {name}, and you never regret it either ({stat})."
-  ],
-  64: [
-    "{name} ({stat}) is a 2016 Toyota Camry: beige, uninspiring, and starts every single Sunday.",
-    "At {stat}, {name} is the human equivalent of a firm handshake and a 740 credit score.",
-    "{name} won't win your week single-handedly, and he won't torpedo it either ({stat}).",
-    "Put {name} in the flex ({stat}) when you just need somebody with a pulse and a helmet.",
-    "{name} ({stat}) is out there doing honest, middle-management football work.",
-    "Nobody buys a {name} jersey for the flash, they buy it for {stat} and zero stress.",
-    "{name} ({stat}) is the complimentary breadbasket of your fantasy lineup—fills the gap.",
-    "Respectable {stat} from {name}. Not champagne, not tap water—just a solid domestic lager.",
-    "{name} clocks in at 1:00 PM, files his {stat}, and clocks out at 4:05 PM sharp.",
-    "If 'fine, I guess' were a fantasy stat line, it would be {name} at {stat}."
-  ],
-  56: [
-    "{name} ({stat}) is gas-station sushi: might be a sneaky W, might ruin your entire Sunday.",
-    "One quarter {name} looks All-Pro, the next three he's invisible ({stat}). Classic microwave burrito.",
-    "{name} ({stat}) is a coin flip wrapped in a riddle inside a questionable offensive scheme.",
-    "Starting {name} ({stat}) feels like guessing the Wi-Fi password at an airport Chili's.",
-    "You bench {name} and he drops 22; you start him and you get {stat}. Every damn time.",
-    "{name} ({stat}) is lukewarm leftovers—edible in a bye-week pinch, depressing otherwise.",
-    "Watching {name} ({stat}) is three hours of yelling 'THROW IT TO HIM' at your television.",
-    "{name} gives you {stat} and just enough false hope to keep you from dropping him.",
-    "The {name} roller coaster ({stat}) has no seatbelt and the operator is asleep.",
-    "{name} ({stat}) is the definition of 'too good to drop, too terrifying to start.'"
-  ],
-  48: [
-    "{name} ({stat}) got his uniform dirty and ran some cardio. Here's your participation ribbon.",
-    "At {stat}, {name} contributed roughly as much to your matchup as the waterboy.",
-    "{name} ({stat}) was definitely on the field—we saw his jersey in the background of a replay.",
-    "Your lineup needed a hero and {name} showed up with {stat} and a juice box.",
-    "{name} ({stat}) is playing like a guy whose controller battery died in the second quarter.",
-    "If moral victories counted for fantasy points, {name} ({stat}) would still be losing.",
-    "{name} ({stat}) is out there running decoy routes for the actual fantasy starters.",
-    "Starting {name} ({stat}) is how you end up needing 34 points from your Monday night kicker.",
-    "{name} gave you {stat} and a masterclass in polite, non-threatening football.",
-    "Congrats to {name} on {stat} and a great afternoon of aerobic exercise."
-  ],
-  40: [
-    "{name} ({stat}) is playing like he's still recovering from a 2021 victory party.",
-    "You drafted {name} for the résumé and got {stat} and a leather jacket he can't pull off.",
-    "{name} ({stat}) is living off name recognition from three seasons ago.",
-    "Every week you start {name} ({stat}), an angel loses its wings and your opponent laughs.",
-    "{name} ({stat}) looks like he's running in wet jeans and timberlands out there.",
-    "Father Time and the defensive line are both undefeated against {name} ({stat}) right now.",
-    "{name} ({stat}) is the fantasy equivalent of buying a boat you never take out of the driveway.",
-    "Stop looking at {name}'s projected points—look at {stat} and accept reality.",
-    "{name} ({stat}) is holding your roster spot hostage based on vibes from the Obama administration.",
-    "Trade {name} ({stat}) to the guy in your league who only watches RedZone once a month."
-  ],
-  32: [
-    " paging {name} ({stat})—please report to the box score, your fantasy manager is crying.",
-    "{name} ({stat}) has gone full Danny Phantom. Zero footprint on the game film.",
-    "Put {name}'s picture on a milk carton because {stat} is a missing-persons case.",
-    "{name} ({stat}) is haunting your bench like a Victorian ghost in shoulder pads.",
-    "Even the stat-correction elves on Tuesday morning can't find any points for {name} ({stat}).",
-    "{name} ({stat}) played 45 snaps and somehow left zero DNA evidence on the play sheet.",
-    "Starting {name} ({stat}) is functionally identical to leaving the lineup slot empty.",
-    "{name} ({stat}) is doing stealth missions out there—not even his own quarterback can spot him.",
-    "If you squint at the TV, you can see {name} ({stat}) blocking 30 yards away from the ball.",
-    "{name} ({stat}) is a mirage in cleats. Waivers are calling."
-  ],
-  24: [
-    "{name} ({stat}) is in Deep Witness Protection—new name, new zip code, zero targets.",
-    "The coaching staff hid {name} ({stat}) so well the broadcast crew forgot he was active.",
-    "At {stat}, {name} is basically paying for a sideline pass with a free jersey.",
-    "{name} ({stat}) has fewer touches this month than the referee.",
-    "Did {name} ({stat}) play today, or did he just do pregame warmups and head to Applebee's?",
-    "Starting {name} ({stat}) is a cry for help that your leaguemates are ignoring.",
-    "{name} ({stat}) is allergic to the end zone and socially distancing from the football.",
-    "Sherlock Holmes, Scooby-Doo, and the FBI couldn't track down {name}'s production ({stat}).",
-    "{name} ({stat}) is a roster clogger of the highest federal classification.",
-    "Drop {name} ({stat}) into the sun and pick up literally anybody with two functioning hamstrings."
-  ],
-  12: [
-    "{name} ({stat}) just turned your Sunday into a group-chat roast session where you're the main course.",
-    "Your opponent saw {name} drop {stat} in your starting lineup and sent a laughing crying emoji.",
-    "{name} ({stat}) is performance art designed to test how much pain a fantasy manager can endure.",
-    "Starting {name} ({stat}) should automatically enroll you in the league's last-place punishment.",
-    "{name} ({stat}) is a walking, talking screenshot for the Monday morning shame report.",
-    "At {stat}, {name} was actively playing for the other fantasy team today.",
-    "You had all week to set your lineup and you still trotted out {name} for {stat}.",
-    "{name} ({stat}) is the reason fantasy apps need a 'Delete Season' button.",
-    "Even the bye-week players on your bench outscored {name}'s {stat} spiritually.",
-    "{name} ({stat}) is a comedy routine wearing cleats."
-  ],
-  0: [
-    "🚨 five-alarm dumpster fire: {name} ({stat}) just nuked your matchup from orbit.",
-    "{name} ({stat}) is a football war crime. Call The Hague and demand a stat recount.",
-    "At {stat}, {name} owes you a formal written apology and your league buy-in back.",
-    "Hazmat suits required within 50 yards of {name}'s box score ({stat}).",
-    "{name} ({stat}) played so badly your phone battery drained faster out of sheer embarrassment.",
-    "If {name} ({stat}) were a restaurant, the health inspector would weld the doors shut.",
-    "Put {name} ({stat}) on waivers at 3:01 AM so nobody even sees him leave your roster.",
-    "{name} ({stat}) is what happens when Murphy's Law puts on a football helmet.",
-    "Not even garbage time wanted anything to do with {name} ({stat}) this week.",
-    "{name} ({stat}) is a crater where your playoff hopes used to live."
-  ]
-};
-
-const ROAST_MORE_PL_CAT = {
-  cheat: [
-    "{name} ({stat}) is an IRL GameShark code—your opponent is already drafting their concession text.",
-    "Goodell's Good Guys has {name} ({stat}) and the rest of the league is playing for second place.",
-    "Every touch {name} gets ({stat}) looks like varsity playing against the seventh-grade B-team.",
-    "{name} ({stat}) is so automatic the IRS is trying to classify his touchdowns as passive income.",
-    "Lock {name} ({stat}) into your lineup in permanent Sharpie and throw away the cap.",
-    "{name} ({stat}) is a one-man stimulus package for your weekly fantasy score."
-  ],
-  heater: [
-    "{name} ({stat}) is hotter than a metal bleachers seat in August—do NOT bench this man.",
-    "Touch {name} right now ({stat}) and you'll get third-degree burns on your thumb.",
-    "{name} has been on a tear so nasty ({stat}) the league office is ordering a random 'hydration test.'",
-    "Last three weeks of {name} ({stat}) belong in the Louvre next to the Mona Lisa.",
-    "Opposing defenses are bringing fire extinguishers to the huddle for {name} ({stat}).",
-    "Ride {name}'s heater ({stat}) like a stolen jetski until the season ends."
-  ],
-  boom: [
-    "{name} ({stat}) is roulette on grass: 35 points on two catches or 1.8 points and a bruised rib.",
-    "Starting {name} ({stat}) is for degenerates who hit on 17 in Vegas and love the sweat.",
-    "{name} ({stat}) either wins your week by 1:45 PM or ruins your Sunday dinner. No in-between.",
-    "The {name} chart ({stat}) looks like a seismograph during an earthquake.",
-    "Buckle up—{name} ({stat}) is either catching an 80-yard bomb or doing cardio for three hours.",
-    "Keep the Pepto-Bismol next to the remote when {name} ({stat}) is in your flex."
-  ],
-  inj: [
-    "{name} ({stat}) has VIP platinum status in the blue medical tent.",
-    "Wednesday 'DNP', Thursday 'Limited', Friday 'Game-Time Decision'—the {name} ({stat}) weekly symphony.",
-    "{name}'s soft tissue ({stat}) is held together by athletic tape, Toradol, and fantasy prayers.",
-    "If {name} ({stat}) sneezes during warmups, 400,000 fantasy managers pull a hamstring in solidarity.",
-    "{name} ({stat}) is a Porsche that spends four days a week up on the mechanic's lift.",
-    "Never put {name} ({stat}) in a Thursday slot unless you enjoy Sunday morning panic sweats."
-  ],
-  scam: [
-    "{name} ({stat}) catches seven balls for 19 total yards and walks out with 15 PPR points like a bank robber.",
-    "Line-of-scrimmage merchant! {name} ({stat}) hasn't run past the sticks since September and still cashes checks.",
-    "Half-PPR hates him, standard leagues ignore him, full-PPR worships {name} ({stat}).",
-    "{name} ({stat}) turns 3rd-and-14 checkdowns into a steady middle-class fantasy income.",
-    "Death, taxes, and {name} ({stat}) catching four garbage-time dump-offs on the final drive.",
-    "{name} ({stat}) is proof that yards are optional when the quarterback panics."
-  ],
-  thief: [
-    "{name} ({stat}) is 85% rostered purely because nobody wants to admit they wasted a draft pick.",
-    "Sunk-cost fallacy in cleats: {name} ({stat}) is robbing your starting lineup blind.",
-    "{name} ({stat}) has first-round name value and twelfth-round waiver-wire output.",
-    "You can't drop {name} ({stat}), you can't trade him, and starting him is self-harm. Lineup hostage!",
-    "{name} ({stat}) is cashing game checks while delivering preseason punter numbers.",
-    "Free yourself from the shackles of {name} ({stat})—let him sabotage someone else's roster."
-  ],
-  cardio: [
-    "{name} ({stat}) ran 38 routes today and got the same number of targets as you did on the couch.",
-    "Elite marathon training from {name} ({stat})—shame they don't award points per mile jogged.",
-    "{name} ({stat}) is out there getting his Apple Watch rings closed and nothing else.",
-    "Fifty snaps, spotless jersey, {stat}—{name} is just enjoying the stadium breeze.",
-    "{name} ({stat}) is the world's highest-paid decoy.",
-    "Put a pedometer on {name} ({stat}) because that's the only stat going up."
-  ],
-  freezer: [
-    "{name} ({stat}) is colder than a Green Bay parking lot in January.",
-    "Somebody defrost {name} ({stat})—his box scores have been below freezing for a month.",
-    "{name} ({stat}) went from draft-day darling to the back of the freezer behind the 2023 peas.",
-    "Even penguin colonies think {name}'s recent stretch ({stat}) is a little chilly.",
-    "Bench {name} ({stat}) until the spring thaw arrives.",
-    "{name}'s ceiling lately ({stat}) is lower than a crawlspace."
-  ],
-  terror: [
-    "{name} ({stat}) is a domestic threat to Goodell's Good Guys' playoff odds.",
-    "Every time you click 'Start' on {name} ({stat}), your fantasy team's life expectancy drops.",
-    "{name} ({stat}) is a double agent sent by your opponent to sabotage your week from the inside.",
-    "Starting {name} ({stat}) is like pulling the pin on a grenade and putting it in your flex slot.",
-    "{name} ({stat}) doesn't just bust—he takes the rest of your lineup's morale down with him.",
-    "Quarantine {name} ({stat}) on the waiver wire before the contagion spreads."
-  ],
-  lunch: [
-    "{name} ({stat}) packs a bologna sandwich, tapes his ankles, and delivers 13.4 points like clockwork.",
-    "Zero flash, 100% grit—{name} ({stat}) is the backbone of a working-class fantasy squad.",
-    "When your stars bust, {name} ({stat}) is the guy keeping the lights on.",
-    "{name} ({stat}) never makes SportsCenter Top 10 and never drops a goose egg.",
-    "Blue-collar {stat} from {name}: honest pay for honest work.",
-    "{name} ({stat}) is the player you appreciate on Tuesday morning when you win by 2.1 points."
-  ],
-  small: [
-    "{name} ({stat}) has two weeks of tape—hold the Hall of Fame jacket fitting for a minute.",
-    "Tiny sample alert on {name} ({stat}): could be a league-winner, could be a one-week wonder.",
-    "We need at least three more Sundays before we decide if {name} ({stat}) is legit or a mirage.",
-    "{name} ({stat}) is still in the free-trial period of our roast algorithm."
-  ]
-};
-
-const ROAST_MORE_BUFFOON = {
-  wagon: [
-    "{name} ({rec}) is an unstoppable freight train and the rest of the division is tied to the tracks.",
-    "At {rec} ({streak}), {name} fans are already insufferable at the office water cooler—and they earned it.",
-    "{name} ({rec}) is beating teams so badly the fourth quarter is basically a preseason scrimmage.",
-    "Crown 'em! {name} ({rec}, {streak}) is playing chess while everyone else eats the pieces.",
-    "{name} ({rec}) has championship DNA and zero respect for the spread.",
-    "Start planning the parade PTO because {name} ({rec}) is on a rampage."
-  ],
-  shootout: [
-    "{name} ({rec}) games have more points than an arcade pinball machine and zero defense.",
-    "First team to 45 wins! {name} ({rec}) treats tackling like a polite suggestion.",
-    "Hammer the Over whenever {name} ({rec}) takes the field—the secondary is on vacation.",
-    "{name} ({rec}) scores at will and lets the other team do the exact same thing out of courtesy.",
-    "Every {name} ({rec}) broadcast needs a track-meet scoreboard and a pitch counter.",
-    "Offense is A+, defense is 'wait, we're allowed to cover that guy?' ({name}, {rec})."
-  ],
-  cardiac: [
-    "{name} ({rec}) is single-handedly funding every cardiologist in the metro area.",
-    "Why win comfortably when {name} ({rec}) can blow a 14-point lead and win on a walk-off prayer?",
-    "Every {name} ({rec}) game ends with palms sweating, knees weak, and a flag on the final play.",
-    "{name} ({rec}) is allergic to normal four-quarter victories—pure blood-pressure terrorism.",
-    "Watching {name} ({rec}) requires a pulse oximeter and a stress ball.",
-    "Two-minute warning + {name} ({rec}) = guaranteed chaos in the living room."
-  ],
-  fraud: [
-    "Paper tiger alert! {name} ({rec}) has a glossy record built on cupcake opponents and lucky bounces.",
-    "{name} ({rec}) is wearing a Rolex they bought out of a trunk in a strip-mall parking lot.",
-    "Scratch the surface of {name}'s {rec} record and it's duct tape, penalties, and prayer.",
-    "Everyone in the building knows {name} ({rec}) is one playoff game away from getting exposed.",
-    "{name} ({rec}) is the most fraudulent contender since a three-dollar bill.",
-    "Sell your {name} ({rec}) stock now before the schedule gets real."
-  ],
-  clown: [
-    "Honk the red nose! {name} ({rec}, {streak}) just invented a brand-new way to embarrass the city.",
-    "{name} ({rec}) is a weekly masterclass in clock mismanagement and comedy.",
-    "Put Yakety Sax over the {name} ({rec}, {streak}) highlight reel and it syncs up frame for frame.",
-    "{name} ({rec}) is making fans wear paper bags over their heads in their own living rooms.",
-    "At {rec} ({streak}), {name} is a sitcom masquerading as a professional sports team.",
-    "Even the mascot is asking for a trade out of {name} ({rec}) right now."
-  ],
-  tank: [
-    "{name} ({rec}) is driving an M1 Abrams tank straight toward the #1 overall draft pick.",
-    "At {rec}, {name} fans are watching college highlights on Saturdays with binoculars and a notepad.",
-    "{name} ({rec}) has mathematically eliminated joy from the stadium.",
-    "Lower-bowl tickets for {name} ({rec}) are currently going for two hot dogs and a handshake.",
-    "{name} ({rec}) isn't rebuilding, they're excavating a sub-basement.",
-    "Tank Commander {name} ({rec}) reports mission accomplished after another L."
-  ],
-  coach: [
-    "The seat under {name}'s head coach ({rec}, {streak}) could melt steel beams right now.",
-    "Moving vans have been spotted circling the {name} ({rec}) facility after {streak}.",
-    "{name} ({rec}) timeouts are being hoarded like family heirlooms while the clock runs out.",
-    "Sports talk radio in {name}'s city ({rec}, {streak}) is at DEFCON 1.",
-    "One more blown halftime adjustment and {name} ({rec}) is hiring a guy off the broadcast booth.",
-    "{name} ({rec}, {streak}) is playing 1994 prevent defense in a 2026 world."
-  ],
-  mash: [
-    "{name} ({rec}) is signing guys off the practice squad's practice squad just to field a lineup.",
-    "The {name} ({rec}) locker room has more crutches and walking boots than a ski lodge in February.",
-    "At this rate, {name} ({rec}) is holding open tryouts in the stadium parking lot on Friday.",
-    "Every week {name} ({rec}) loses another starter to a mysterious lower-body gremlin.",
-    "Pray for the {name} ({rec}) athletic trainers—they're working 90-hour weeks."
-  ],
-  sicko: [
-    "Yes… HA HA HA… YES! {name} ({rec}, {streak}) is peak Sickos Committee entertainment.",
-    "{name} ({rec}) plays games that set the sport back forty years and we can't stop watching.",
-    "Punts, turnovers, bizarre bounces, and chaos—{name} ({rec}) is appointment television for maniacs.",
-    "Nobody knows what {name} ({rec}, {streak}) is doing, least of all {name}.",
-    "If you bet money on a {name} ({rec}) game, call the helpline immediately."
-  ]
-};
-
-const ROAST_MORE_TRADE = {
-  you: [
-    "Sending {g1} for {r1} is highway robbery—wear a ski mask when you hit propose.",
-    "If {opp} accepts {g1} for {r1}, the league commissioner is calling an emergency UN Security Council meeting.",
-    "You gain {me}/wk and {opp} gets {g1} and a participation certificate. Ruthless.",
-    "{opp} hasn't checked their injury report since Tuesday—slip {g1} for {r1} into their inbox now.",
-    "This deal turns Goodell's Good Guys into a superteam and {opp} into a cautionary tale.",
-    "Fleecing {opp} for {r1} is so dirty you'll need to wash your phone with soap after."
-  ],
-  them: [
-    "Whoa there, Santa Claus—trading {g1} for {r1} hands {opp} the trophy on a silver platter.",
-    "Why don't you Venmo {opp} your league dues directly instead of sending {g1} for {r1}?",
-    "You {me}/wk, {opp} {them}/wk. Step away from the trade button and drink some water.",
-    "If you send {g1} for {r1}, {opp} will screenshot it and roast you in the chat until Thanksgiving.",
-    "Donating {g1} to {opp} is charitable, heartwarming, and completely insane in a competitive league."
-  ],
-  both: [
-    "You upgrade at {rpos}, {opp} plugs their hole at {gpos}—an actual adult trade in a league full of goblins.",
-    "{g1} for {r1} helps both starting lineups (+{me}/wk for you). Shake hands before somebody overthinks it.",
-    "No fleece, no collusion, just {g1} for {r1} making both rosters scarier for Sunday.",
-    "Rare win-win alert: {r1} fits Goodell's Good Guys like a glove and {opp} actually needs a {gpos}."
-  ],
-  any: [
-    "Dumping {g1} for {r1} is the roster glow-up Goodell's Good Guys has been waiting for.",
-    "Text {opp} 'hey man, looked at your roster, think this helps us both'—the oldest lie in fantasy sports.",
-    "{r1} in your {rpos} slot > {g1} burning a hole on your bench every Sunday.",
-    "Propose {give} for {get}, then casually drop a fake injury rumor about {g1}'s backup in the chat.",
-    "Deadline winners are built on bold swaps like {give} for {get}. Scared money don't make playoffs.",
-    "{opp} is one Sunday tilt away from smashing accept on {give} for {get}."
-  ]
-};
-
-/* Merge the expanded roast pools into the live Spin-it / Trade Lab structures */
-(() => {
-  try {
-    if (typeof SX_TIERS !== 'undefined') {
-      for (const tier of SX_TIERS) {
-        const extra = ROAST_MORE_SX_TIERS[tier[0]];
-        if (extra && Array.isArray(tier[4])) tier[4].push(...extra);
-      }
-    }
-    if (typeof SX_PL_CAT_LINES !== 'undefined') {
-      for (const [k, lines] of Object.entries(ROAST_MORE_PL_CAT)) {
-        SX_PL_CAT_LINES[k] = (SX_PL_CAT_LINES[k] || []).concat(lines);
-      }
-    }
-    if (typeof ST_BUFFOON_LINES !== 'undefined') {
-      for (const [k, lines] of Object.entries(ROAST_MORE_BUFFOON)) {
-        ST_BUFFOON_LINES[k] = (ST_BUFFOON_LINES[k] || []).concat(lines);
-      }
-    }
-    if (typeof ST_QUIPS !== 'undefined' && Array.isArray(ST_QUIPS)) {
-      const extraSt = [
-        ["{name} at {rec} ({streak}) has the whole city pricing championship tattoos.", "{name} ({rec}) is playing so well even the local pessimists are smiling."],
-        ["{name} ({rec}, {streak}) has you texting your ex 'we're back' at 11 PM.", "{rec} and rolling—{name} merch is suddenly formal wear."],
-        ["{name} at {rec}: pour the good bourbon, this team is built for January.", "{streak} heater for {name} ({rec})—act like a seasoned contender."],
-        ["All aboard the {name} ({rec}) wagon—bandwagon applications are open.", "{name} ({rec}, {streak}) has fair-weather fans crawling out of the woodwork."],
-        ["{name} at {rec}: respectable enough to wear the cap to the grocery store.", "{streak} for {name} ({rec})—cautious optimism is officially legal."],
-        ["{name} ({rec}) is hovering around .500 purgatory—keep the receipt on that jersey.", "{streak} and {rec}: {name} is the human embodiment of a shrug emoji."],
-        ["{name} at {rec}: check the score on your phone, don't rearrange your weekend.", "{streak} for {name} ({rec})—strictly background noise while you fold laundry."],
-        ["{name} at {rec} ({streak})—hide the team flag behind the garage.", "{rec}: tell coworkers you're 'more of a draft-pick enthusiast' than a {name} fan."],
-        ["{name} ({rec}, {streak}) is why God invented RedZone and secondary hobbies.", "At {rec}, watching {name} for three hours should count as community service."],
-        ["{name} at {rec} ({streak})—rename the dog, burn the jersey, salt the earth.", "{rec}: {name} fandom is currently covered under emotional-distress insurance."]
-      ];
-      extraSt.forEach((arr, i) => { if (ST_QUIPS[i]) ST_QUIPS[i].push(...arr); });
-    }
-    if (typeof rqTrade === 'function') {
-      const T = rqTrade();
-      for (const [k, lines] of Object.entries(ROAST_MORE_TRADE)) {
-        if (T[k]) T[k].push(...lines);
-      }
-    }
-  } catch (e) { console.warn('roast pool merge', e); }
-})();
-
-/* --- Matchup & Sweat-o-Meter Roasts (55+ lines referencing Goodell's Good Guys, opponent, margin, bench blunders) --- */
-const MU_ROAST_POOLS = {
-  leadBig: [
-    "{team} ({myrec}) is boat-racing {opp} by {mg} pts ({myS}–{opS})! Stop, stop, they're already dead!",
-    "Up {mg} on {opp} ({myS}–{opS})—start screenshotting the scoreboard for the group chat victory lap.",
-    "{team} is cooking {opp} so badly ({myS}–{opS}) ESPN should invoke the mercy rule before Monday night.",
-    "A +{mg} beatdown over {opp}! Goodell's Good Guys brought a flamethrower to a pillow fight.",
-    "Pour a drink and put your feet up—{team} is up {mg} on {opp} and cruising to the W.",
-    "{opp} checked the app, saw {team} up {mg}, and immediately closed their phone for the weekend."
-  ],
-  trailBig: [
-    "Down {mg} to {opp} ({myS}–{opS})… {team} needs a Sunday night miracle, a stat correction, and an act of God.",
-    "{opp} is taking {team} behind the woodshed ({opS}–{myS}). Don't look at the group chat until Wednesday.",
-    "Trailing {opp} by {mg}—time to pray your last starter drops a 45-burger on Monday Night Football.",
-    "Rough scene for {team} ({myrec}): down {mg} to {opp}. Have you considered blaming the schedule makers?",
-    "Down {mg} ({myS}–{opS}) against {opp}. Your starters are playing like they're in witness protection."
-  ],
-  sweat: [
-    "💦 SWEAT ALERT: {team} vs {opp} is separated by {mg} pts! Every 4-yard checkdown is a cardiac event.",
-    "Butt-clench territory! {myS} to {opS} vs {opp}—one garbage-time catch flips the whole week.",
-    "Neck and neck with {opp} ({mg} pt margin)! Do NOT blink, do NOT jinx it in the group chat.",
-    "A {mg}-point nail-biter against {opp}! Your fingernails and your blood pressure are in shambles.",
-    "This {team} vs {opp} matchup ({myS}–{opS}) is tighter than a stadium turnstile after halftime."
-  ],
-  projLead: [
-    "{team} ({myrec}) is projected to smoke {opp} by +{mg} ({myP}–{opP}). Now pray your starters actually read the script.",
-    "ESPN gives {team} a {wp}% win chance (+{mg} proj over {opp}). Don't let a last-minute tinker ruin it!",
-    "Projected {myP} to {opP} over {opp} (+{mg})—Goodell's Good Guys is the Vegas favorite this week.",
-    "{team} has {opp} out-projected by {mg} pts ({wp}% win odds). Time to talk reckless in the chat before kickoff.",
-    "Looking juicy: {team} ({myrec}) projects for {myP} vs {opp}'s {opP}. Lock the lineup and step away.",
-    "With a +{mg} projected edge over {opp}, the only person who can beat {team} this week is you overthinking the flex."
-  ],
-  projTrail: [
-    "Underdog alert: {team} ({myrec}) projects {mg} pts behind {opp} ({myP}–{opP}). Projections are for nerds anyway.",
-    "{opp} is favored {opP}–{myP} ({wp}% for {team}), which makes the upset screenshot 10x sweeter when it hits.",
-    "Down {mg} in the projections to {opp}—Goodell's Good Guys thrives in the underdog role.",
-    "ESPN says {opp} by {mg} ({opP}–{myP}). ESPN also thought half your draft class was good. Play the games!"
-  ],
-  benchOuch: [
-    "💀 COACHING MALPRACTICE: You left {benchP} ({bPts} pts) on the bench to start {startP} ({sPts} pts)!",
-    "{benchP} dropped {bPts} on your bench while {startP} gave you {sPts}. Turn in your headset immediately.",
-    "Your benchwarmer {benchP} ({bPts} pts) outscored your starter {startP} ({sPts})—pain level: immeasurable.",
-    "Look at {benchP} hanging {bPts} pts on your pine while {startP} gave you {sPts}. Fantasy self-sabotage at its finest.",
-    "If bench points counted, {benchP} ({bPts}) would have you in first place. Instead you started {startP} ({sPts}).",
-    "Starting {startP} ({sPts}) over {benchP} ({bPts}) is a fireable offense in all 32 NFL cities.",
-    "Someone call CPS on your lineup management—{benchP} ({bPts} pts) was locked in the basement while {startP} ({sPts}) stunk up the joint.",
-    "You stared at the app for 20 minutes on Sunday morning and still chose {startP} ({sPts}) over {benchP} ({bPts}). Incredible.",
-    "{benchP} ({bPts} pts) is glaring at you from the bench while {startP} ({sPts}) ruins your Sunday."
-  ],
-  extraLead: [
-    "{team} ({myrec}) is putting on a clinic against {opp} (+{mg} margin)—somebody cue the victory cigars!",
-    "Up {mg} pts on {opp}! Goodell's Good Guys is treating this week like a paid vacation.",
-    "{opp} brought a spoon to a bazooka fight against {team} ({myS}–{opS}, +{mg}).",
-    "Total domination by {team} (+{mg} over {opp})—don't forget to send a 'good effort bro' text at 4:05 PM.",
-    "{team} is up {mg} on {opp} and the fourth-quarter garbage time hasn't even started yet.",
-    "At +{mg} over {opp}, Goodell's Good Guys is scoring like an pinball machine on free play.",
-    "{opp} is getting cooked by {mg} pts—your starters woke up and chose violence today.",
-    "Victory formation for {team}! +{mg} margin over {opp} and counting."
-  ],
-  extraTrail: [
-    "Down {mg} to {opp}… {team} needs a defensive touchdown, two overtime periods, and a minor miracle.",
-    "{opp} has {team} in a blender right now (-{mg} pts). Time to pretend you 'care more about your other league.'",
-    "Trailing {opp} by {mg}—your lineup is playing like they all stayed out until 4 AM in Vegas.",
-    "Goodell's Good Guys is down {mg} to {opp}. Have you tried turning your roster off and back on again?",
-    "Down {mg} against {opp}: every time your opponent's RB touches the ball, an angel cries.",
-    "Your projected comeback against {opp} (-{mg} pts) currently requires a 50-yard TD from your tight end.",
-    "{opp} is up {mg} on {team} and talking spicy in the group chat—pray for a Monday Night bailout!",
-    "A {mg}-point hole vs {opp}. Don't panic, just quietly start scouting Week {wp} waivers."
-  ],
-  extraSweat: [
-    "💦 MAXIMUM SWEAT: {team} and {opp} are separated by {mg} pts ({myS}–{opS})! Pace the living room!",
-    "Every single yard matters in {team} vs {opp} ({mg} pt gap)—do not sit down!",
-    "Sweat-o-Meter is off the charts: {mg} pts between {team} and {opp} with the week on the line!",
-    "One reception flips {team} vs {opp} ({mg} pt margin)—pure fantasy football crack!",
-    "Your heart rate is 140 BPM watching {team} vs {opp} separated by {mg} points.",
-    "A {mg}-point razor's edge against {opp}! Stat-correction Tuesday is going to be a warzone.",
-    "Close-game alert ({mg} pts vs {opp}): even a 2-yard kneel-down at the end of the game could decide this!",
-    "Neither {team} nor {opp} deserves to lose a {mg}-point sweatfest like this (okay, {opp} does)."
-  ]
-};
-function muRoastLine(D){
-  try {
-    if (!D || D.none || !D.me || !D.op) return '';
-    const me = D.me, op = D.op, lv = (me.live || 0) + (op.live || 0) > 0;
-    const myS = r1(me.live || 0), opS = r1(op.live || 0), myP = r1(me.proj || 0), opP = r1(op.proj || 0);
-    const diff = lv ? r1(myS - opS) : r1(myP - opP), mg = Math.abs(diff);
-    let wp = me.wp != null ? Math.round(me.wp * 100) : 50;
-    const M = typeof rqMe === 'function' ? rqMe() : {};
-    const v = { team: me.name || "Goodell's Good Guys", myrec: me.rec || '4-2', opp: op.name || 'Opponent', myS, opS, myP, opP, mg, wp, benchP: M.benchP || '', startP: M.startP || '', bPts: M.bPts || '', sPts: M.sPts || '' };
-    let pool = [];
-    if (v.benchP && v.startP) pool = pool.concat(MU_ROAST_POOLS.benchOuch, MU_ROAST_POOLS.benchOuch);
-    if (lv) {
-      if (mg <= 8) pool = pool.concat(MU_ROAST_POOLS.sweat, MU_ROAST_POOLS.extraSweat);
-      else if (diff > 0) pool = pool.concat(MU_ROAST_POOLS.leadBig, MU_ROAST_POOLS.extraLead);
-      else pool = pool.concat(MU_ROAST_POOLS.trailBig, MU_ROAST_POOLS.extraTrail);
-    } else {
-      if (mg <= 4) pool = pool.concat(MU_ROAST_POOLS.sweat, MU_ROAST_POOLS.extraSweat);
-      else if (diff >= 0) pool = pool.concat(MU_ROAST_POOLS.projLead, MU_ROAST_POOLS.extraLead);
-      else pool = pool.concat(MU_ROAST_POOLS.projTrail, MU_ROAST_POOLS.extraTrail);
-    }
-    return spinPick50(pool, v, muRoastLine.u || (muRoastLine.u = new Set()));
-  } catch (_) { return ''; }
-}
-
-/* --- Favorite Teams & Favorite Players Roast Generator (55+ lines) --- */
-const FT_ROAST_POOLS = {
-  liveWin: [
-    "🔥 {name} is up {sc} on {opp} right now—try not to jinx it by bragging in the group chat before 0:00!",
-    "Look at {name} leading {opp} ({sc})! Even a blind squirrel finds a lead sometimes.",
-    "{name} ({rec}) has {opp} on the ropes ({sc})—hold onto your butts for the fourth quarter."
-  ],
-  liveLose: [
-    "😬 {name} is trailing {opp} ({sc}) live… pour a stiff one, it's happening again.",
-    "{name} ({rec}) down {sc} to {opp}—why do you let this franchise control your blood pressure?",
-    "Live pain check: {name} trailing {opp} {sc}. Time to blame the refs and the coordinator."
-  ],
-  lastWin: [
-    "👑 {name} ({rec}) just beat {opp} {sc}! Act like you've been here before (even though we have the receipts).",
-    "Victory Monday/Sunday energy: {name} topped {opp} ({sc}) and you haven't stopped smiling since.",
-    "{name} ({rec}) took down {opp} {sc}—hang the banner and talk trash till next kickoff!",
-    "A W over {opp} ({sc}) has {name} ({rec}) fans pricing playoff flights way too early."
-  ],
-  lastLose: [
-    "🤡 {name} ({rec}) took an L to {opp} ({sc}) last time out—emotional damage still pending.",
-    "Dropping {sc} to {opp}? {name} ({rec}) owes you three hours of your weekend back.",
-    "Still recovering from {name} ({rec}) losing {sc} to {opp}… therapy is cheaper than season tickets.",
-    "After {name} lost {sc} to {opp}, the local sports radio phone lines melted down.",
-    "{name} ({rec}) dropping {sc} to {opp} was a masterclass in snatching defeat from the jaws of victory.",
-    "We don't talk about {name}'s {sc} loss to {opp} in polite company anymore.",
-    "{name} ({rec}) lost {sc} to {opp} and the coaching staff is still looking for answers on the tablet.",
-    "That {sc} L to {opp} aged every {name} ({rec}) fan seven dog years."
-  ],
-  next: [
-    "👀 {name} ({rec}) has {opp} up next—get your excuses and your antacids ready now.",
-    "{name} ({rec}) vs {opp} on deck: another weekend of voluntary emotional terrorism for the fanbase.",
-    "Rooting for {name} ({rec}) with {opp} coming up is a bold lifestyle choice. Respect the loyalty.",
-    "{name} ({rec}) squares up with {opp} next—clear the couch and hide the breakables.",
-    "Next test for {name} ({rec}): {opp}. Vegas has opinions, the fanbase has anxiety.",
-    "Win or lose against {opp}, {name} ({rec}) is guaranteed to take five years off your life expectancy.",
-    "{name} ({rec}) vs {opp} incoming: time to overreact to every single injury-report tweet.",
-    "If {name} ({rec}) beats {opp}, we're buying championship merch; if they lose, fire everybody."
-  ]
-};
-function ftTeamRoast(x){
-  try {
-    const f = FT[x.key] || {}, tm = f.team || {}, info = MN.teamInfo[x.key] || {}, m = favMetaFor(x.key), g = ftGames(x);
-    const name = tm.name || info.name || m.name || x.abbr, rec = tm.record || info.record || 'this season';
-    let pool = FT_ROAST_POOLS.next, opp = 'their next opponent', sc = '';
-    if (g.live) {
-      const ms = Number(g.live.me.score || 0), os = Number(g.live.opp.score || 0);
-      opp = g.live.opp.abbr || g.live.opp.name || 'opponent'; sc = `${ms}–${os}`;
-      pool = ms >= os ? FT_ROAST_POOLS.liveWin : FT_ROAST_POOLS.liveLose;
-    } else if (g.last) {
-      const ms = Number(g.last.me.score || 0), os = Number(g.last.opp.score || 0), w = g.last.me.winner || ms > os;
-      opp = g.last.opp.abbr || g.last.opp.name || 'opponent'; sc = `${ms}–${os}`;
-      pool = w ? FT_ROAST_POOLS.lastWin : FT_ROAST_POOLS.lastLose;
-    } else if (g.next) {
-      opp = g.next.opp.abbr || g.next.opp.name || 'TBD';
-    }
-    return spinPick50(pool, { name, rec, opp, sc }, ftTeamRoast.u || (ftTeamRoast.u = new Set()));
-  } catch (_) { return ''; }
-}
-
-const FP_ROAST_POOLS = {
-  boom: [
-    "🔥 {name} ({team} {pos}) dropped {pts} pts—absolute fantasy royalty carrying your squad on his back!",
-    "At {pts} pts, {name} ({team}) is an ATM that spits out twenties every time he touches the ball.",
-    "Bow down to {name} ({pts} pts)—the best decision you've made all season.",
-    "{name} ({team} {pos}) hanging {pts} pts while your opponent cries into their nachos."
-  ],
-  solid: [
-    "💪 {name} ({team} {pos}) clocking {pts} pts—honest, blue-collar points that pay the bills.",
-    "Steady {pts} pts from {name} ({team}). Never stresses you out, always shows up.",
-    "{name} ({team} {pos}) delivering {pts} pts like a prime delivery driver."
-  ],
-  bust: [
-    "🥶 {name} ({team} {pos}) with {pts} pts… did he play or just do cardio in a clean jersey?",
-    "Paging {name} ({team})—{pts} pts is how you get demoted to the bench with a quickness.",
-    "Starred {name} ({team} {pos}) and got {pts} pts. Even the waterboy had more impact."
-  ],
-  any: [
-    "⭐ {name} ({team} {pos}) is pinned to your VIP list—time to earn that star this week!",
-    "{name} ({team} {pos}) has the talent to drop 30 or make you question everything. Buckle up.",
-    "Ride or die with {name} ({team} {pos})—starred for greatness, monitored for chaos.",
-    "{name} ({team} {pos}) is one broken tackle away from breaking the slate wide open.",
-    "Opposing defenses have {name} ({team} {pos}) circled in red Sharpie on the whiteboard.",
-    "You starred {name} ({team} {pos}) for the ceiling—now enjoy the roller coaster."
-  ]
-};
-function fpPlayerRoast(p){
-  try {
-    if (!p) return '';
-    const now = fpNow(p), ptsObj = fpPts(p, now), v = ptsObj ? Number(ptsObj.v) : null;
-    const pool = v != null ? (v >= 20 ? FP_ROAST_POOLS.boom : v >= 11 ? FP_ROAST_POOLS.solid : FP_ROAST_POOLS.bust) : FP_ROAST_POOLS.any;
-    return spinPick50(pool, { name: p.name, team: p.team || '', pos: p.pos || '', pts: v != null ? v : '' }, fpPlayerRoast.u || (fpPlayerRoast.u = new Set()));
-  } catch (_) { return ''; }
-}
-
 /* --- 1 & 2. ★ Favorite Teams top section + #ftJump + 🎮 Fantasy Favorites quick-link in ALL views --- */
 function ftJumpUpdate(){
   const n = starList().length;
@@ -14766,11 +14166,6 @@ function ftJump(){
 function qvBarHTML(){
   const tn = starList().length, pn = fpList().length, fn = fzFavCount();
   const sp = (typeof MN !== 'undefined' && MN.fsTab) || 'nfl';
-  const D = MU.d && MU.d.nfl;
-  let roast = '';
-  if (state.tab === FANTASY_TAB && D) roast = muRoastLine(D);
-  else if (starList().length) roast = ftTeamRoast(starList()[Math.floor(Math.random() * starList().length)]);
-  else if (fpList().length) roast = fpPlayerRoast(fpList()[0]);
   return `<div class="qv-bar" role="navigation" aria-label="Quick Favorites & Fantasy Links">` +
     `<span class="qv-lbl">⚡ Quick:</span>` +
     `<button type="button" class="qv-pill" data-ftjump title="Jump to ★ Favorite Teams">★ Teams${tn ? ` <b>${tn}</b>` : ''}</button>` +
@@ -14778,7 +14173,6 @@ function qvBarHTML(){
     `<button type="button" class="qv-pill fz" data-fzpeek title="Quick-peek your current Fantasy Favorites (Starters + Watch List)">🎮 Fantasy Favs${fn ? ` <b>${fn}</b>` : ''}</button>` +
     `<button type="button" class="qv-pill fz" data-fzgoto="${FANTASY_TAB}" title="Go to 🎮 Fantasy Roster & Matchup">🎮 Roster</button>` +
     `<button type="button" class="qv-pill fz" data-fzgoto="${WATCH_TAB}" title="Go to 🧪 Fantasy Lab & Watch List">🧪 Watch List (${watchList(sp).length})</button>` +
-    (roast ? `<div class="qv-roast"><span id="qvRoastTxt">🎤 ${esc(roast)}</span><button type="button" class="qv-rbtn" data-qvroast title="Deal another fresh roast">🔥 Roast me</button></div>` : '') +
   `</div>`;
 }
 function ensureQvBar(){
@@ -14808,8 +14202,6 @@ function fzPeekOpen(open){
   const bench = rosterPlayers(sp).filter(p => slotGroup(p) !== 's');
   const watched = LAB_SPORTS.flatMap(k => FSPORTS[k] ? watchList(k).map(p => ({ ...p, sp: k })) : []);
   const favPls = fpList();
-  const D = MU.d && MU.d.nfl;
-  const roast = (D && muRoastLine(D)) || (starters[0] && fpPlayerRoast(starters[0])) || '';
   const rowHTML = (p, badge) => {
     const now = fpNow(p), pts = fpPts(p, now), st = fpStatus(now);
     const Fp = FSPORTS[psp(p)] || F;
@@ -14824,7 +14216,6 @@ function fzPeekOpen(open){
       <h2><span id="fzpTitle">🎮 Current Fantasy Favorites</span> <small>${esc(L.teamName ? `${L.teamName} (${L.record || F.label})` : F.name)}</small></h2>
       <button type="button" class="sy-x" data-fzpclose aria-label="Close">✕</button>
     </div>
-    ${roast ? `<div class="mu-roast"><span>🎤 ${esc(roast)}</span><button type="button" class="qv-rbtn" data-fzproast>🔥 Another roast</button></div>` : ''}
     <div class="fzp-nav">
       <button type="button" class="btn pri" data-fzgoto="${FANTASY_TAB}">🎮 Open Full Roster &amp; Matchup →</button>
       <button type="button" class="btn" data-fzgoto="${WATCH_TAB}">🧪 Open Fantasy Lab &amp; Watch List (${watched.length}) →</button>
@@ -14845,7 +14236,7 @@ function fzPeekOpen(open){
   d.hidden = false;
 }
 
-/* Enhance renderFavorites so #favSection has the clean ★ Favorite Teams header (+ Add teams, roast banner, per-card roast) */
+/* Enhance renderFavorites so #favSection has the clean ★ Favorite Teams header (+ Add teams, Manage, Fantasy Favs) */
 (() => {
   const origFavs = renderFavorites;
   renderFavorites = function(){
@@ -14858,33 +14249,12 @@ function fzPeekOpen(open){
         const st = starList(), tTitle = el.querySelector('.section-title');
         if (tTitle) {
           const liveN = st.filter(x => ftGames(x).live).length, slim = !isMyNews();
-          const sampleRoast = st.length ? ftTeamRoast(st[0]) : '';
           tTitle.innerHTML = `★ Favorite Teams <small>${st.length} starred${liveN ? ` · <span style="color:var(--live)">${liveN} live</span>` : ''}</small>` +
             `<button class="linkbtn" style="margin-left:auto;font-size:13px" data-focus-search="">＋ Add teams</button>` +
             `<button class="linkbtn" style="font-size:13px" data-open-favs>Manage</button>` +
             `<button class="linkbtn" style="font-size:13px" data-fzpeek>🎮 Fantasy Favs (${fzFavCount()})</button>` +
             (slim ? fminBtn('teams') : '');
-          if (sampleRoast && isMyNews() && !el.querySelector('.sec-roast')) {
-            const rb = document.createElement('div');
-            rb.className = 'sec-roast';
-            rb.innerHTML = `<span id="ftSecRoastTxt">🎤 ${esc(sampleRoast)}</span><button type="button" class="qv-rbtn" data-ftsecroast>🔥 Roast my teams</button>`;
-            tTitle.after(rb);
-          }
         }
-        // Add a fresh roast line inside each full .ft-card on My News
-        el.querySelectorAll('.ft-card').forEach(card => {
-          if (card.querySelector('.ft-roast')) return;
-          const k = card.dataset.ftk, x = st.find(z => z.key === k);
-          if (!x) return;
-          const q = ftTeamRoast(x);
-          if (q) {
-            const d = document.createElement('div');
-            d.className = 'ft-roast';
-            d.textContent = '🎤 ' + q;
-            const slots = card.querySelector('.ft-slots');
-            if (slots) slots.after(d); else card.appendChild(d);
-          }
-        });
       }
       ftJumpUpdate();
       fzFavJumpUpdate();
@@ -14893,36 +14263,20 @@ function fzPeekOpen(open){
   };
 })();
 
-/* Enhance renderFavPlayersSection with per-player roast line & section roast banner */
+/* Enhance renderFavPlayersSection with the 🎮 Fantasy Favs quick link */
 (() => {
-  const origFpCard = fpCard;
-  fpCard = function(x){
-    const html = origFpCard.apply(this, arguments);
-    try {
-      const q = fpPlayerRoast(x && x.p);
-      if (!q) return html;
-      return html.replace(/<\/span><\/button><button type="button" class="fp-un"/, `<span class="fp-roast">🎤 ${esc(q)}</span></span></button><button type="button" class="fp-un"`);
-    } catch (_) { return html; }
-  };
   const origFpSec = renderFavPlayersSection;
   renderFavPlayersSection = function(){
     const r = origFpSec.apply(this, arguments);
     try {
       const el = document.getElementById('fpSection');
       if (el) {
-        const list = fpList();
         const title = el.querySelector('#fpTitle');
         if (title && !title.querySelector('[data-fzpeek]')) {
           const btn = document.createElement('button');
           btn.type = 'button'; btn.className = 'linkbtn'; btn.style.fontSize = '13px'; btn.dataset.fzpeek = '1';
           btn.textContent = `🎮 Fantasy Favs (${fzFavCount()})`;
           title.appendChild(btn);
-        }
-        if (list.length && title && !el.querySelector('.sec-roast')) {
-          const rb = document.createElement('div');
-          rb.className = 'sec-roast';
-          rb.innerHTML = `<span id="fpSecRoastTxt">🎤 ${esc(fpPlayerRoast(list[0]))}</span><button type="button" class="qv-rbtn" data-fpsecroast>🔥 Roast my players</button>`;
-          title.after(rb);
         }
       }
       ensureQvBar();
@@ -14931,18 +14285,8 @@ function fzPeekOpen(open){
   };
 })();
 
-/* Hook renderGames, renderFantasy, renderWatchTab, and muScore so quick links, sport switcher, and matchup roasts show everywhere */
+/* Hook renderGames, renderFantasy and renderWatchTab so quick links and the sport switcher show everywhere */
 (() => {
-  const origMuScore = muScore;
-  muScore = function(D, part){
-    const h = origMuScore.apply(this, arguments);
-    if (part === 'wp') return h;
-    try {
-      const q = muRoastLine(D);
-      return h + (q ? `<div class="mu-roast"><span id="muRoastTxt">🎤 ${esc(q)}</span><button type="button" class="qv-rbtn" data-muroast>🔥 Roast matchup</button></div>` : '');
-    } catch (_) { return h; }
-  };
-
   const origWatch = renderWatchTab;
   renderWatchTab = function(){
     const r = origWatch.apply(this, arguments);
@@ -14999,47 +14343,6 @@ function fzPeekOpen(open){
   };
 })();
 
-/* Add roast banner inside psRender (player modal) and tcRender (team modal) */
-(() => {
-  const origPs = psRender;
-  psRender = function(){
-    const r = origPs.apply(this, arguments);
-    try {
-      if (PS.el && PS.p) {
-        const bd = PS.el.querySelector('.ps-bd');
-        if (bd && !bd.querySelector('.sec-roast')) {
-          const q = fpPlayerRoast(PS.p);
-          if (q) {
-            const d = document.createElement('div');
-            d.className = 'sec-roast';
-            d.innerHTML = `<span>🎤 ${esc(q)}</span>`;
-            bd.prepend(d);
-          }
-        }
-      }
-    } catch (_) {}
-    return r;
-  };
-  const origTc = tcRender;
-  tcRender = function(){
-    const r = origTc.apply(this, arguments);
-    try {
-      if (TC.el && TC.T) {
-        const bd = TC.el.querySelector('.ps-bd');
-        if (bd && !bd.querySelector('.sec-roast')) {
-          const q = ftTeamRoast({ key: TC.T.lg + ':' + String(TC.T.abbr || '').toUpperCase(), lg: TC.T.lg, abbr: String(TC.T.abbr || '').toUpperCase() });
-          if (q) {
-            const d = document.createElement('div');
-            d.className = 'sec-roast';
-            d.innerHTML = `<span>🎤 ${esc(q)}</span>`;
-            bd.prepend(d);
-          }
-        }
-      }
-    } catch (_) {}
-    return r;
-  };
-})();
 
 /* Oct 29: Spin-it badges, idempotent. Every host (card, matchup side, table row, star) gets exactly ONE 🌀 no matter how often
    hxSync / the MutationObserver / muRender / renderFantasy run. The old Matchup patch moved the button off its .ms-th anchor into
@@ -15121,7 +14424,7 @@ function pwaInit(){
     const manifest = {
       name: "Mann's Sports Dashboard",
       short_name: "Mann's Sports",
-      description: "Live scores, Favorite Teams & Players, Fantasy Matchup, Trade Lab, Spin-it & savage roasts.",
+      description: "Live scores, Favorite Teams & Players, Fantasy Matchup, Trade Lab & Spin-it ratings.",
       start_url: "./",
       scope: "./",
       display: "standalone",
@@ -15206,35 +14509,6 @@ document.addEventListener('click', async e => {
   }
   const flsp = t.closest('[data-flabsp]');
   if (flsp) { e.preventDefault(); flabSwitchSport(flsp.dataset.flabsp); return; }
-  if (t.closest('[data-qvroast]')) {
-    e.preventDefault();
-    const el = document.getElementById('qvRoastTxt');
-    const D = MU.d && MU.d.nfl, st = starList(), fp = fpList();
-    const poolPick = (state.tab === FANTASY_TAB && D && muRoastLine(D)) || (st.length && ftTeamRoast(st[Math.floor(Math.random() * st.length)])) || (fp.length && fpPlayerRoast(fp[Math.floor(Math.random() * fp.length)])) || '';
-    if (el && poolPick) el.textContent = '🎤 ' + poolPick;
-    return;
-  }
-  if (t.closest('[data-ftsecroast]')) {
-    e.preventDefault();
-    const st = starList(), el = document.getElementById('ftSecRoastTxt');
-    if (el && st.length) el.textContent = '🎤 ' + ftTeamRoast(st[Math.floor(Math.random() * st.length)]);
-    return;
-  }
-  if (t.closest('[data-fpsecroast]')) {
-    e.preventDefault();
-    const fp = fpList(), el = document.getElementById('fpSecRoastTxt');
-    if (el && fp.length) el.textContent = '🎤 ' + fpPlayerRoast(fp[Math.floor(Math.random() * fp.length)]);
-    return;
-  }
-  if (t.closest('[data-muroast]')) {
-    e.preventDefault();
-    const D = MU.d && MU.d.nfl, el = document.getElementById('muRoastTxt');
-    if (el && D) el.textContent = '🎤 ' + muRoastLine(D);
-    return;
-  }
-  if (t.closest('[data-fzproast]')) {
-    e.preventDefault(); fzPeekOpen(true); return;
-  }
   if (t.closest('#pwaBtn')) {
     e.preventDefault();
     if (PWA.prompt) {
