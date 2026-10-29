@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261028-2210-header-overlap-fix">
+<meta name="build-id" content="20261029-1300-matchup-swirl-fix">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,7 +18,7 @@
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261028-2210-header-overlap-fix';
+var BUILD_ID = '20261029-1300-matchup-swirl-fix';
 var FIREBASE_CONFIG = { apiKey: "AIzaSyDVX8Nz5Cpm3cdEdfYKDi9iKZ3eEuEsVlY", authDomain: "sportssportssports-d2cfc.firebaseapp.com", projectId: "sportssportssports-d2cfc",
   storageBucket: "sportssportssports-d2cfc.firebasestorage.app", messagingSenderId: "566191759512", appId: "1:566191759512:web:3b5e44b2547505bf4f70ed" };
 /* ^ Oct 28: optional sign-in + sync. Set to null to turn it off completely (no SDK load, no button). Web config keys are public by design; access is locked by firestore.rules. */
@@ -3633,7 +3633,7 @@ html.tc-open{overflow:hidden}
   .mu-b>.mu-sb,.mu-b>.mu-bar{position:static!important;box-shadow:none!important}
   #fzMatch .mu-more{display:none!important}
   .sx-b.on-card,.pl-card>.sx-b.on-card,.fzc>.sx-b.on-card,.wt-p>.sx-b.on-card{left:6px!important;top:6px!important}
-  .mu-rows .ms-n .sx-b{position:static!important;width:20px;height:20px;font-size:11.5px;margin:0 2px;flex:0 0 20px;vertical-align:middle}
+  .mu-rows .ms-n .sx-b{position:relative!important;overflow:hidden!important;width:20px;height:20px;font-size:11.5px;margin:0 2px;flex:0 0 20px;vertical-align:middle}
   /* Mobile-first base (<=699px) for Matchup rows */
   .mu-rows.ms-list{display:flex!important;flex-direction:column;gap:8px}
   .mu-rows .ms{display:grid!important;grid-template-columns:minmax(0,1fr) 68px minmax(0,1fr)!important;gap:5px!important;align-items:stretch}
@@ -3712,6 +3712,29 @@ html.tc-open{overflow:hidden}
     .mu-rows .ms-vs .dl{font-size:17px!important;padding:4px 12px!important}
     .mu-rows .vs-w{font-size:11px!important}
     .mu-rows .ms-vs .ms-sh{width:96px!important;height:6px!important}
+  }
+  /* Oct 29: the Matchup column is only ~600px wide at 1024 (Trending sidebar next to it), so the side-by-side card layout left the
+     name 0px wide (letters stacked vertically). Size by the matchup's own width instead of the window: narrow column = stacked card. */
+  .mu-rows{container:murows / inline-size}
+  @media (min-width:700px){
+    @container murows (max-width:719px){
+      .mu-rows .ms{grid-template-columns:minmax(0,1fr) 120px minmax(0,1fr)!important;gap:8px!important}
+      .mu-rows .ms-sd,.mu-rows .ms-sd.op{flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;min-height:0!important;padding:10px!important;gap:7px!important}
+      .mu-rows .ms-th{width:60px!important;height:72px!important;align-self:flex-start!important}
+      .mu-rows .ms-sd.op .ms-th{align-self:flex-end!important}
+      .mu-rows .ms-i{flex:0 0 auto!important;gap:4px!important}
+      .mu-rows .ms-n b{font-size:16px!important;line-height:1.2!important}
+      .mu-rows .ms-sub,.mu-rows .ms-sub .ms-tm{font-size:12px!important}
+      .mu-rows .ms-gs,.mu-rows .ms-sl{font-size:12px!important}
+      .mu-rows .ms-dvw .dv{font-size:11px!important;padding:2px 8px!important}
+      .mu-rows .ms-p,.mu-rows .ms-sd.op .ms-p{flex-direction:row!important;align-items:baseline!important;min-width:0!important;gap:6px!important;margin-top:auto}
+      .mu-rows .ms-p{justify-content:flex-start!important}.mu-rows .ms-sd.op .ms-p{justify-content:flex-end!important}
+      .mu-rows .ms-p b{font-size:24px!important}
+      .mu-rows .ms-pj{font-size:13px!important}.mu-rows .ms-pj.big{font-size:19px!important;padding:3px 8px!important}
+      .mu-rows .ms-c.ms-vs{padding:8px 5px!important;gap:5px!important}
+      .mu-rows .vs-sc b{font-size:19px!important}.mu-rows .ms-vs .dl{font-size:14px!important;padding:3px 8px!important}
+      .mu-rows .ms-vs .ms-sh{width:84px!important}
+    }
   }
   /* ===== Oct 28: Fantasy Lab sport switcher & PWA standalone safe-area + install modal ===== */
   .flab-spbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:6px 0 12px;padding:8px 11px;background:var(--panel);border:1px solid var(--line);border-radius:12px}
@@ -3834,6 +3857,13 @@ html.tc-open{overflow:hidden}
   .qv-bar{margin:4px 0 14px!important}
   #fpSection{scroll-margin-top:calc(var(--stack-h,70px) + var(--tabs-h,52px) + 10px)!important}
   .sec-roast,.qv-roast,.mu-roast{position:relative;z-index:1}
+
+  /* Oct 29: a .sx-b must always be the containing block of its own sheen. With position:static its ::after (absolute, inset:0,
+     border-radius:50%, white gradient) stretched over the whole .ms-sd card = the big white oval. */
+  .sx-b:not(.on-card){position:relative!important}
+  .sx-b{overflow:hidden!important;contain:paint}
+  .mu-rows .ms-n{display:flex;align-items:center;gap:4px;min-width:0}
+  .mu-rows .ms-n .sx-b+.sx-b{display:none!important}
 </style>
 </head>
 <body>
@@ -13695,6 +13725,16 @@ const SY_MAXV = 300000;                                   // per-value cap (Fire
 const SY = { cloud: {}, api: null, user: null, uid: null, ready: false, dirty: new Set(), inflight: new Set(), t: 0, unsub: null, quiet: 0, hooked: false, status: 'off', err: '', skipped: [],
   dev: (() => { try { let d = sessionStorage.getItem('mannSyncDev'); if (!d) { d = Math.random().toString(36).slice(2, 10); sessionStorage.setItem('mannSyncDev', d); } return d; } catch (_) { return 'x'; } })() };
 window.SY = SY;
+SY.sent = {};   // Oct 29: last value this tab wrote per key, so our own write coming back is never mistaken for "your other device"
+/* Oct 29: league/roster data carries live numbers (projections, points, timestamps) that every open device refreshes from ESPN on its own.
+   Those are not settings: a difference only in them is neither pushed nor pulled, and never shows the "synced from your other device" chip. */
+const SY_DATA_KEYS = new Set(['mannFantasyRoster.v1', 'mannMultiLeagues.v1', 'mannEspnLeagues.v1', 'mannTradeLab.v1']);
+const SY_VOL_RE = /^(pts|proj|act|tot|ptot|lw|py|stats?|scores?|live|inj|injury|injStatus|news|period|record|rec|synced|pchk|chk|ts|t|at|wk|week|matchup|mu|box|boxes|standings?|rank|updated|fetched|lastSync|lastCheck|last)$|[a-z](At|Ts|Time)$/;   // live numbers + 'last checked/synced' stamps
+function syCanon(k, raw){ const v = syParse(raw); if (v === undefined) return raw == null ? '' : String(raw);
+  const vol = SY_DATA_KEYS.has(k);
+  const walk = x => Array.isArray(x) ? x.map(walk) : (x && typeof x === 'object') ? Object.keys(x).sort().reduce((o, kk) => { if (!(vol && SY_VOL_RE.test(kk))) o[kk] = walk(x[kk]); return o; }, {}) : x;
+  try { return JSON.stringify(walk(v)); } catch (_) { return String(raw); } }
+function sySame(k, a, b){ if (a === b) return true; if (a == null || b == null) return false; return syCanon(k, a) === syCanon(k, b); }
 const syEnc = k => String(k).replace(/\./g, '~'), syDec = k => String(k).replace(/~/g, '.');
 function syOn(){ return !!(typeof FIREBASE_CONFIG !== 'undefined' && FIREBASE_CONFIG && typeof FIREBASE_CONFIG === 'object' && FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.projectId); }
 function syParse(s){ if (s == null) return undefined; try { return JSON.parse(s); } catch (_) { return undefined; } }
@@ -13723,7 +13763,7 @@ async function syMigrate(uid, ck){
     out[k] = SY_UNION[k] ? (l == null ? c : c == null ? l : syMerge(SY_UNION[k], l, c)) : (empty ? l : c != null ? c : l); }
   const changed = [], up = {};
   for (const k of SY_KEYS) { if (out[k] == null) continue; if (out[k] !== loc[k]) { syWriteLocal(k, out[k]); changed.push(k); } if (out[k] !== ck[k]) up[k] = out[k]; }
-  const u = syPick(up); if (Object.keys(u).length) await SY.api.put(uid, u);
+  const u = syPick(up); if (Object.keys(u).length) { await SY.api.put(uid, u); Object.assign(SY.sent, u); }
   SY.cloud = { ...ck, ...u };
   lsSet(SY_STATE_KEY, { uid, t: Date.now() });
   return changed;
@@ -13732,20 +13772,26 @@ async function syMigrate(uid, ck){
 async function sySteady(uid, ck){
   const loc = syLocal(), changed = [], up = {};
   for (const k of SY_KEYS) { const l = loc[k], c = ck[k];
-    if (SY.dirty.has(k)) { if (l !== c) up[k] = l; continue; }
-    if (c != null && c !== l) { syWriteLocal(k, c); changed.push(k); }
+    if (SY.dirty.has(k)) { if (!sySame(k, l, c)) up[k] = l; continue; }
+    if (c != null && !sySame(k, c, l)) { syWriteLocal(k, c); changed.push(k); }
     else if (c == null && l != null) up[k] = l; }
   SY.dirty.clear();
-  const u = syPick(up); if (Object.keys(u).length) await SY.api.put(uid, u);
+  const u = syPick(up); if (Object.keys(u).length) { await SY.api.put(uid, u); Object.assign(SY.sent, u); }
   SY.cloud = { ...ck, ...u };
   return changed;
 }
 function syOnSnap(snap){
   if (!SY.ready || !SY.uid) return;
   if (snap && snap.metadata && snap.metadata.hasPendingWrites) return;   // our own write echo
-  const ck = syDecode(snap && snap.exists() ? snap.data() : null), changed = [];
+  const data = snap && snap.exists() ? snap.data() : null, ck = syDecode(data), from = data && data.device, changed = [];
   SY.cloud = { ...ck };
-  for (const k in ck) { if (SY.dirty.has(k) || SY.inflight.has(k)) continue; let cur = null; try { cur = localStorage.getItem(k); } catch (_) {} if (ck[k] !== cur) { syWriteLocal(k, ck[k]); changed.push(k); } }
+  for (const k in ck) {
+    if (SY.dirty.has(k) || SY.inflight.has(k)) continue;              // we have a newer local edit on the way up
+    if (SY.sent[k] !== undefined && ck[k] === SY.sent[k]) continue;   // our own (debounced) write coming back
+    let cur = null; try { cur = localStorage.getItem(k); } catch (_) {}
+    if (sySame(k, ck[k], cur)) continue;                               // same setting; only live numbers / key order differ
+    syWriteLocal(k, ck[k]); changed.push(k);
+  }
   if (changed.length) syApply(changed, 'remote');
 }
 function sySeedSeen(){   // a roster arriving by sync is not a "new card" moment
@@ -13756,6 +13802,7 @@ function sySeedSeen(){   // a roster arriving by sync is not a "new card" moment
 }
 function syApply(changed, why){
   const hot = changed.filter(k => SY_HOT.has(k)), cold = changed.filter(k => !SY_HOT.has(k));
+  SY.lastApplied = { why, keys: changed.slice(), at: Date.now() };   // diagnostics (visible in window.SY)
   if (hot.length) {
     try {
       if (hot.some(k => /Stars|FavMeta|TeamIds/.test(k))) { stars = loadStars(); MN.teamIds = lsGet(TEAMIDS_KEY, {}) || {}; const fm = lsGet(FAVMETA_KEY, {}) || {}; Object.keys(favMeta).forEach(k => { delete favMeta[k]; }); Object.assign(favMeta, fm); }
@@ -13783,10 +13830,10 @@ function syTouched(k){
 async function syFlush(){
   clearTimeout(SY.t); if (!SY.ready || !SY.uid || !SY.dirty.size) return;
   const ks = [...SY.dirty]; SY.dirty.clear(); ks.forEach(k => SY.inflight.add(k));
-  const up = {}; for (const k of ks) { let v = null; try { v = localStorage.getItem(k); } catch (_) {} if (v !== (SY.cloud[k] ?? null)) up[k] = v; }   // unchanged vs cloud: no write
+  const up = {}; for (const k of ks) { let v = null; try { v = localStorage.getItem(k); } catch (_) {} if (!sySame(k, v, SY.cloud[k] ?? null)) up[k] = v; }   // unchanged vs cloud: no write
   if (!Object.keys(up).length) { ks.forEach(k => SY.inflight.delete(k)); return; }
   SY.status = 'saving'; syRenderAcct();
-  try { const u = syPick(up); await SY.api.put(SY.uid, u); Object.assign(SY.cloud, u); SY.status = 'ok'; SY.err = ''; }
+  try { const u = syPick(up); await SY.api.put(SY.uid, u); Object.assign(SY.cloud, u); Object.assign(SY.sent, u); SY.status = 'ok'; SY.err = ''; }
   catch (e) { ks.forEach(k => SY.dirty.add(k)); SY.status = 'err'; SY.err = (e && (e.code || e.message)) || 'error'; clearTimeout(SY.t); SY.t = setTimeout(syFlush, 30000); }
   finally { ks.forEach(k => SY.inflight.delete(k)); syRenderAcct(); }
 }
@@ -14994,17 +15041,46 @@ function fzPeekOpen(open){
   };
 })();
 
-/* Fix sxBadges in Matchup so the Spin-it button sits neatly inside .ms-n (next to player name) instead of floating over the card border */
+/* Oct 29: Spin-it badges, idempotent. Every host (card, matchup side, table row, star) gets exactly ONE 🌀 no matter how often
+   hxSync / the MutationObserver / muRender / renderFantasy run. The old Matchup patch moved the button off its .ms-th anchor into
+   .ms-n, so the original "is the next sibling a .sx-b?" check failed and every pass added another button (10-15 per card). */
 (() => {
-  const origSxBadges = sxBadges;
+  const keepOne = (list, host) => { let k = null; list.forEach(b => { if (!k) k = b; else b.remove(); }); return k; };
   sxBadges = function(){
-    origSxBadges.apply(this, arguments);
+    if (!SXB.on) return;
     try {
+      // 1) Matchup sides: one badge, inside the name row (.ms-n), never loose on the card
       document.querySelectorAll('.mu-b .ms-sd').forEach(sd => {
-        const nm = sd.querySelector('.ms-n'), loose = sd.querySelector(':scope > .sx-b');
-        if (loose && nm) nm.appendChild(loose);
+        const host = sd.querySelector('.ms-n') || sd;
+        let b = keepOne(sd.querySelectorAll('.sx-b'));
+        if (!b) b = sxBtn();
+        if (b.parentNode !== host) host.appendChild(b);
       });
-    } catch (_) {}
+      // 2) Player cards (HX_SEL): one on-card badge as a direct child; any extra (e.g. a star-adjacent one) is dropped
+      document.querySelectorAll(HX_SEL).forEach(c => {
+        if (c.closest('.mu-b .ms-sd')) return;
+        const own = c.querySelectorAll('.sx-b'), direct = [...own].filter(b => b.parentNode === c);
+        const keep = direct[0] || null;
+        own.forEach(b => { if (b !== keep) b.remove(); });
+        if (!keep) c.appendChild(sxBtn('on-card'));
+      });
+      // 3) Table rows: one per row, before the first headshot
+      document.querySelectorAll('.tb tbody tr:not(.tb-grp)').forEach(tr => {
+        const b = keepOne(tr.querySelectorAll('.sx-b')); if (b) return;
+        const im = tr.querySelector('th img, td img'); if (im) im.before(sxBtn());
+      });
+      // 4) Star buttons elsewhere (lists, chips): one badge right before the star, only if the surrounding host has none yet
+      document.querySelectorAll('[data-star]').forEach(st => {
+        if (st.closest('.sx-menu,.ob,#favList,.mu-b .ms-sd,.tb tbody tr')) return;
+        const card = st.closest(HX_SEL); if (card) return;
+        const par = st.parentNode; if (!par) return;
+        const sib = [...par.children].filter(x => x.classList && x.classList.contains('sx-b'));
+        const pv = st.previousElementSibling;
+        if (pv && pv.classList.contains('sx-b')) { sib.forEach(b => { if (b !== pv) b.remove(); }); return; }
+        if (sib.length) { const k = sib[0]; sib.slice(1).forEach(b => b.remove()); st.before(k); return; }
+        st.before(sxBtn());
+      });
+    } catch (e) { console.warn('sxBadges', e); }
   };
 })();
 
