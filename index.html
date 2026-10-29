@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261028-2055-roasts-teamfavs-fzlink">
+<meta name="build-id" content="20261028-2210-header-overlap-fix">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,7 +18,7 @@
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261028-2055-roasts-teamfavs-fzlink';
+var BUILD_ID = '20261028-2210-header-overlap-fix';
 var FIREBASE_CONFIG = { apiKey: "AIzaSyDVX8Nz5Cpm3cdEdfYKDi9iKZ3eEuEsVlY", authDomain: "sportssportssports-d2cfc.firebaseapp.com", projectId: "sportssportssports-d2cfc",
   storageBucket: "sportssportssports-d2cfc.firebasestorage.app", messagingSenderId: "566191759512", appId: "1:566191759512:web:3b5e44b2547505bf4f70ed" };
 /* ^ Oct 28: optional sign-in + sync. Set to null to turn it off completely (no SDK load, no button). Web config keys are public by design; access is locked by firestore.rules. */
@@ -3773,6 +3773,67 @@ html.tc-open{overflow:hidden}
   }
   body.light-assault .tab.active{background:#ff00aa!important;color:#fffb00!important}
   body.light-assault b,body.light-assault h1,body.light-assault h2,body.light-assault h3,body.light-assault .section-title,body.light-assault .ft-roast,body.light-assault .fp-roast,body.light-assault .qv-roast{color:#1a0033!important}
+
+  /* ===== Oct 28 (22:10): Fix header .brand / .usearch / .meta overlap across all viewports + top roast banner clearance ===== */
+  header{max-width:1760px!important;padding:12px 18px 8px!important;gap:10px 12px!important;align-items:center}
+  header .brand{display:flex;align-items:center;gap:6px!important;min-width:0}
+  header .brand>*{flex:0 0 auto}
+  header .brand h1#dashTitle{order:-1;margin:0 4px 0 0!important;font-size:20px!important;line-height:1.15;white-space:nowrap;flex:0 0 auto!important;max-width:none!important}
+  header .fp-jump{height:32px!important;padding:0 8px!important;font-size:12px!important;gap:4px!important;border-radius:10px!important;flex:0 0 auto!important}
+  header .fp-jump b{min-width:16px;height:16px;line-height:16px;font-size:10.5px;padding:0 4px}
+  header>.meta{gap:6px!important;flex:0 0 auto!important}
+  header>.meta .btn{padding:6px 9px!important;font-size:12.5px!important;white-space:nowrap}
+  @media (min-width:601px) and (max-width:1819px){header .brand .h1-x{display:none!important}}
+  @media (min-width:601px){
+    header .brand{flex:0 0 auto!important;min-width:max-content!important}
+  }
+  @media (min-width:601px) and (max-width:1639px){
+    header .meta .ai-l{display:none!important}
+    header .meta .acct-in,header .meta #pwaBtn,header .meta #lightModeBtn{padding-left:8px!important;padding-right:8px!important}
+  }
+  @media (min-width:601px) and (max-width:859px){
+    header .fp-jump .fp-jl{display:none!important}
+  }
+  @media (min-width:860px) and (max-width:1239px){
+    header .fp-jump .fp-jl{display:inline!important}
+  }
+  @media (min-width:1240px){
+    header{flex-wrap:nowrap!important}
+    header>.usearch.hd-search{flex:1 1 260px!important;min-width:220px!important;max-width:520px!important;order:0!important}
+    header>.usearch.hd-search input{padding:10px 14px 10px 38px!important;font-size:14.5px!important}
+  }
+  @media (min-width:1240px) and (max-width:1359px){
+    header .fp-jump .fp-jl{display:none!important}
+  }
+  @media (min-width:1360px){
+    header .fp-jump .fp-jl{display:inline!important}
+  }
+  @media (min-width:601px) and (max-width:1239px){
+    header{flex-wrap:wrap!important}
+    header>.meta{margin-left:auto}
+    header>.usearch.hd-search{order:3!important;flex:1 1 100%!important;min-width:0!important;max-width:none!important;margin-top:2px}
+    header>.usearch.hd-search input{padding:10px 14px 10px 38px!important;font-size:15px!important}
+    .topstack.compact header>.usearch.hd-search{display:none!important}
+    .topstack.compact .csearch{display:inline-flex!important}
+  }
+  @media (max-width:600px){
+    header{flex-wrap:wrap!important;padding:10px 12px 6px!important;gap:8px!important}
+    header .brand{flex:1 1 100%!important;min-width:0!important;flex-wrap:wrap!important;row-gap:6px!important}
+    header .brand h1#dashTitle{order:-1!important;flex:1 1 100%!important;max-width:100%!important;font-size:19px!important}
+    header .fp-jump .fp-jl{display:inline!important}
+    @media (max-width:400px){header .fp-jump .fp-jl{display:none!important}}
+    header>.meta{flex:1 1 100%!important;justify-content:flex-start!important;flex-wrap:wrap!important}
+    header>.usearch.hd-search{order:3!important;flex:1 1 100%!important;min-width:0!important;max-width:none!important}
+  }
+  /* Prevent sticky header / sticky tabs from ever clipping the top of #favSection, #qvBarWrap, #fpSection, or .sec-roast */
+  .subbar{padding-top:6px;padding-bottom:6px}
+  #favSection{margin-top:10px;padding-top:4px;scroll-margin-top:calc(var(--stack-h,90px) + 16px)!important}
+  #favSection>.section-title{margin-top:8px!important}
+  .tabs{position:sticky;top:calc(var(--stack-h,0px) - 1px);z-index:25;background:var(--bg);margin-top:16px;margin-bottom:10px;padding:6px 0;box-shadow:0 2px 0 var(--line),0 6px 14px rgba(0,0,0,.35)}
+  #qvBarWrap{padding-top:4px;scroll-margin-top:calc(var(--stack-h,70px) + var(--tabs-h,52px) + 10px)!important}
+  .qv-bar{margin:4px 0 14px!important}
+  #fpSection{scroll-margin-top:calc(var(--stack-h,70px) + var(--tabs-h,52px) + 10px)!important}
+  .sec-roast,.qv-roast,.mu-roast{position:relative;z-index:1}
 </style>
 </head>
 <body>
@@ -13578,11 +13639,30 @@ function renderFavPlayersSection(){
 function fpJumpUpdate(){ const b = document.getElementById('fpJumpN'); if (!b) return; const n = fpList().length; b.textContent = n ? String(n) : ''; b.hidden = !n;
   const j = document.getElementById('fpJump'); if (j) j.setAttribute('aria-label', `Jump to Favorite Players${n ? ' (' + n + ')' : ''}`); }
 function fpJump(){
-  const go = () => { const el = document.getElementById('fpSection'); if (!el) return;
-    el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+  const snapToFp = () => {
+    const el = document.getElementById('fpSection'); if (!el) return;
+    const qv = document.getElementById('qvBarWrap') || el;
+    const st = document.getElementById('topstack'), tb = document.getElementById('tabs');
+    if (st && !st.classList.contains('compact')) {
+      st.classList.add('compact');
+      if (typeof syncTopStackNow === 'function') syncTopStackNow();
+    }
+    const stH = st ? st.offsetHeight : 54;
+    const tbH = tb ? tb.offsetHeight : 54;
+    const targetY = Math.max(0, Math.round(window.scrollY + qv.getBoundingClientRect().top - stH - tbH - 10));
+    window.scrollTo(0, targetY);
+    if (typeof syncTopStackNow === 'function') syncTopStackNow();
+    const tbB = tb ? tb.getBoundingClientRect().bottom : (stH + tbH);
+    const diff = qv.getBoundingClientRect().top - (tbB + 8);
+    if (Math.abs(diff) > 1) window.scrollBy(0, diff);
+  };
+  const go = () => {
+    const el = document.getElementById('fpSection'); if (!el) return;
+    snapToFp();
     try { el.focus({ preventScroll: true }); } catch (_) {}
-    setTimeout(() => { const r = el.getBoundingClientRect(); if (r.top < 0 || r.top > innerHeight * .6) el.scrollIntoView({ block: 'start' }); }, 900);   // re-render or slow smooth-scroll moved it: snap
-    el.classList.remove('fp-flash'); void el.offsetWidth; el.classList.add('fp-flash'); setTimeout(() => el.classList.remove('fp-flash'), 1400); };
+    setTimeout(() => { snapToFp(); }, 250);
+    el.classList.remove('fp-flash'); void el.offsetWidth; el.classList.add('fp-flash'); setTimeout(() => el.classList.remove('fp-flash'), 1400);
+  };
   if (state.tab !== 'mynews') { const t = document.querySelector('.tab[data-tab="mynews"]'); if (t) t.click(); requestAnimationFrame(() => requestAnimationFrame(go)); }
   else { renderFavPlayersSection(); go(); }
 }
@@ -14604,13 +14684,25 @@ function fzFavJumpUpdate(){
   const b = document.getElementById('fzFavJumpN'); if (b) { b.textContent = n ? String(n) : ''; b.hidden = !n; }
   const j = document.getElementById('fzFavJump'); if (j) j.setAttribute('aria-label', `Open Current Fantasy Favorites${n ? ' (' + n + ')' : ''}`);
 }
+function syncTopStackNow(){
+  try {
+    const st = document.getElementById('topstack'), sp = document.getElementById('topspacer'), tb = document.getElementById('tabs');
+    if (st) {
+      document.documentElement.style.setProperty('--stack-h', st.offsetHeight + 'px');
+      if (sp && !st.classList.contains('compact')) sp.style.height = st.offsetHeight + 'px';
+    }
+    if (tb) document.documentElement.style.setProperty('--tabs-h', tb.offsetHeight + 'px');
+  } catch (_) {}
+}
 function ftJump(){
   const go = () => {
     const el = document.getElementById('favSection'); if (!el) return;
     if (FMIN && FMIN.teams) { FMIN.teams = false; lsSet(FMIN_KEY, FMIN); renderFavorites(); }
-    el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    syncTopStackNow();
+    const beh = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+    window.scrollTo({ top: 0, behavior: beh });
     try { el.focus({ preventScroll: true }); } catch (_) {}
-    setTimeout(() => { const r = el.getBoundingClientRect(); if (r.top < 0 || r.top > innerHeight * .6) el.scrollIntoView({ block: 'start' }); }, 800);
+    setTimeout(() => { window.scrollTo({ top: 0, behavior: 'auto' }); syncTopStackNow(); }, 450);
     el.classList.remove('fp-flash'); void el.offsetWidth; el.classList.add('fp-flash'); setTimeout(() => el.classList.remove('fp-flash'), 1400);
   };
   if (state.tab !== 'mynews') {
