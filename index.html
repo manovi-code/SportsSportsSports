@@ -6,11 +6,19 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261028-favs-section-signin-ready">
+<meta name="build-id" content="20261028-2055-roasts-teamfavs-fzlink">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mann's Sports">
+<meta name="application-name" content="Mann's Sports">
+<meta name="theme-color" content="#0b0f19" id="pwaThemeMeta">
+<link rel="apple-touch-icon" id="pwaAppleIcon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==">
+<link rel="manifest" id="pwaManifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Mann's%20Sports%20Dashboard%22%2C%22short_name%22%3A%22Mann's%20Sports%22%2C%22display%22%3A%22standalone%22%7D">
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261028-favs-section-signin-ready';
+var BUILD_ID = '20261028-2055-roasts-teamfavs-fzlink';
 var FIREBASE_CONFIG = { apiKey: "AIzaSyDVX8Nz5Cpm3cdEdfYKDi9iKZ3eEuEsVlY", authDomain: "sportssportssports-d2cfc.firebaseapp.com", projectId: "sportssportssports-d2cfc",
   storageBucket: "sportssportssports-d2cfc.firebasestorage.app", messagingSenderId: "566191759512", appId: "1:566191759512:web:3b5e44b2547505bf4f70ed" };
 /* ^ Oct 28: optional sign-in + sync. Set to null to turn it off completely (no SDK load, no button). Web config keys are public by design; access is locked by firestore.rules. */
@@ -3532,6 +3540,239 @@ html.tc-open{overflow:hidden}
   .sy-row{display:flex;gap:8px;flex-wrap:wrap}.sy-row .btn{flex:1 1 auto}.sy-pri{background:var(--accent);border-color:var(--accent);color:#111}
   .sy-links{justify-content:space-between}
   .sy-msg{min-height:18px;margin-top:10px;font-size:13px;color:#bfdbfe}.sy-msg.bad{color:#ff9aa2}
+  /* ===== Oct 28 (evening): ★ Favorite Teams top section, 🎮 Fantasy Favorites quick-link in all views, & massive roast expansion ===== */
+  .brand .fav-wheel{display:none!important}
+  .fp-jump.ft-jump{border-color:#6b4e16;background:linear-gradient(180deg,#2c2210,#1a150b);color:#ffd452}
+  .fp-jump.fz-jump{border-color:#2d4f85;background:linear-gradient(180deg,#162844,#101b2e);color:#7cc4ff}
+  .fp-jump.fz-jump b{background:#58b4ff;color:#08111f}
+  .fp-jump.fz-jump:hover,.fp-jump.fz-jump:focus-visible{border-color:#7cc4ff;background:#1c3358}
+  @media (max-width:480px){.fp-jump .fp-jl{display:none}.fp-jump{padding:0 8px;height:34px;font-size:12.5px}}
+  .ft-sec{border-radius:14px;transition:box-shadow .3s}
+  .ft-sec:focus{outline:none}
+  .ft-sec.fp-flash{box-shadow:0 0 0 2px var(--gold),0 0 22px rgba(255,200,61,.35)}
+  .qv-bar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:8px 0 12px;padding:7px 10px;background:linear-gradient(90deg,rgba(24,32,51,.92),rgba(18,24,38,.92));border:1px solid var(--line);border-radius:12px}
+  .qv-lbl{font-size:11px;font-weight:900;letter-spacing:.7px;text-transform:uppercase;color:var(--muted);margin-right:2px}
+  .qv-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:999px;border:1px solid #334366;background:#161f33;color:var(--text);font-size:12.5px;font-weight:800;cursor:pointer;white-space:nowrap}
+  .qv-pill:hover,.qv-pill:focus-visible{border-color:var(--gold);background:#1f2b46}
+  .qv-pill.fz{border-color:#2d5284;background:#13233b;color:#9cd4ff}
+  .qv-pill.fz:hover{border-color:#7cc4ff}
+  .qv-pill b{padding:0 5px;border-radius:999px;background:rgba(255,200,61,.18);color:var(--gold);font-size:11px}
+  .qv-pill.fz b{background:rgba(88,180,255,.2);color:#8fd0ff}
+  .qv-roast{flex:1 1 260px;min-width:0;display:flex;align-items:center;gap:8px;margin-left:auto;padding:4px 9px;border-radius:8px;background:rgba(255,194,26,.08);border-left:3px solid #ffc21a;color:#ffe8a3;font-size:12.5px;font-style:italic;font-weight:600}
+  .qv-roast span{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
+  .qv-rbtn{flex:0 0 auto;padding:3px 8px;border-radius:6px;border:1px solid rgba(255,194,26,.4);background:rgba(255,194,26,.12);color:#ffd86b;font-size:11.5px;font-weight:800;font-style:normal;cursor:pointer;white-space:nowrap}
+  .qv-rbtn:hover{background:rgba(255,194,26,.24)}
+  .sec-roast{display:flex;align-items:center;gap:8px;margin:0 0 10px;padding:7px 11px;border-radius:10px;background:rgba(255,194,26,.08);border:1px solid rgba(255,194,26,.25);border-left:3px solid #ffc21a;color:#ffe8a3;font-size:13px;font-weight:600;font-style:italic}
+  .sec-roast span{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
+  .ft-roast,.fp-roast{margin-top:3px;padding:3px 7px;border-radius:6px;background:rgba(255,194,26,.07);border-left:2px solid #ffc21a;color:#ffe596;font-size:11.5px;font-style:italic;font-weight:600;line-height:1.35;overflow-wrap:anywhere}
+  .ft-card .ft-roast{margin:4px 10px 6px}
+  .fl-line .ft-roast{grid-column:1/-1;margin:2px 0 0}
+  .mu-roast{display:flex;align-items:center;gap:8px;margin:8px 0 4px;padding:7px 11px;border-radius:10px;background:rgba(255,194,26,.09);border:1px solid rgba(255,194,26,.28);border-left:3px solid #ffc21a;color:#ffe8a3;font-size:13px;font-weight:600;font-style:italic}
+  .mu-roast span{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
+  .fzp-box{width:min(760px,100%);max-height:86vh;display:flex;flex-direction:column;padding:16px}
+  .fzp-hd{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding-bottom:10px;border-bottom:1px solid var(--line)}
+  .fzp-hd h2{margin:0;font-size:18px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .fzp-hd small{font-size:12px;color:var(--muted);font-weight:700}
+  .fzp-nav{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}
+  .fzp-nav .btn{padding:6px 11px;font-size:12.5px}
+  .fzp-nav .btn.pri{background:var(--accent);border-color:var(--accent);color:#111}
+  .fzp-bd{overflow:auto;display:flex;flex-direction:column;gap:12px;padding-right:2px}
+  .fzp-sec h3{margin:0 0 7px;font-size:13px;text-transform:uppercase;letter-spacing:.7px;color:var(--gold);display:flex;align-items:center;justify-content:space-between}
+  .fzp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:8px}
+  .fzp-it{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:inherit;text-align:left;font:inherit;cursor:pointer;min-width:0}
+  .fzp-it:hover{border-color:var(--gold);background:#202b44}
+  .fzp-it img{width:40px;height:40px;border-radius:50%;object-fit:cover;background:var(--bg);flex:0 0 auto}
+  .fzp-tx{min-width:0;flex:1 1 auto;display:flex;flex-direction:column;gap:1px}
+  .fzp-tx b{font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .fzp-tx small{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .fzp-pts{flex:0 0 auto;text-align:right;font-size:11px;color:var(--muted)}
+  .fzp-pts b{display:block;font-size:13.5px;color:var(--gold)}
+  @media (max-width:600px){.qv-lbl{display:none}.qv-roast{flex-basis:100%;margin-left:0}.fzp-grid{grid-template-columns:1fr}}
+  /* ===== Oct 28: Make expanded Favorite Team cards (.ft-card.gmd-on and .ft-grid.fx-big .ft-card) WAY bigger on desktop ===== */
+  @media (min-width:900px){
+    .ft-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
+    .ft-grid.fx-big{grid-template-columns:repeat(auto-fit,minmax(min(100%,760px),1fr));gap:18px;margin-bottom:14px}
+    .ft-grid>.ft-card.gmd-on,.ft-grid.fx-big>.ft-card{grid-column:1/-1;flex-direction:column!important;border-top-width:6px;border-radius:16px;box-shadow:0 14px 38px rgba(0,0,0,.48)}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-head{flex:none!important;width:100%;padding:18px 22px;gap:18px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-logo{width:74px;height:74px;flex:0 0 74px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-lg{font-size:12.5px;letter-spacing:1.2px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-id b.ft-nm{font-size:27px;line-height:1.15}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-id>i{font-size:16px;margin-top:4px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .fv-sx{font-size:13.5px;gap:6px 8px;margin-top:8px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .fv-sx .fv-l5{gap:4px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .fv-sx .fv-l5 i{width:22px;height:22px;line-height:22px;font-size:12px;border-radius:5px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .fv-pill{padding:3px 10px;font-size:13.5px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .fv-pill b{font-size:14px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-head .star{font-size:25px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-head .fx-btn{width:34px;height:34px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-slots{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;padding:14px 20px;width:100%}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-slot{grid-template-columns:64px 1fr auto!important;grid-template-rows:none!important;align-items:center!important;padding:12px 16px;min-height:64px;font-size:15.5px;gap:12px;border-radius:12px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-slot .ft-side{align-items:flex-end!important;text-align:right!important;font-size:14px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-lbl{font-size:12px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-res{width:28px;height:28px;font-size:14.5px;border-radius:7px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-sc{font-size:20px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-sc.big{font-size:24px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-opp img{width:30px;height:30px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-opp b{font-size:17px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .fv-orec{font-size:13.5px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-mid{grid-column:1/-1;padding:6px 4px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .rd-chip{font-size:13px;padding:6px 12px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-roast{margin:4px 20px 8px;padding:7px 12px;font-size:13.5px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card)>.gm-d{margin:4px 20px 18px;padding:16px 22px;border-radius:12px;gap:14px;font-size:15px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card)>.gm-d h6{font-size:13px;letter-spacing:1px;margin:0 0 8px;color:var(--gold)}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card)>.gm-d .gm-dt thead th{font-size:15px;font-weight:900;color:var(--text);padding:6px 10px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card)>.gm-d .gm-dt tbody td{width:22%;font-size:16.5px;font-weight:900;padding:7px 10px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card)>.gm-d .gm-dt tbody th{width:56%;font-size:14.5px;font-weight:700;padding:7px 12px;white-space:nowrap}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card)>.gm-d .gm-dp{font-size:14px;gap:6px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card)>.gm-d .gm-dm{font-size:14px;line-height:1.6;padding-top:4px}
+    :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card)>.gm-d .gm-dh{font-size:12.5px;padding-top:4px}
+  }
+  /* ===== Oct 28: Matchup mobile-first -> tablet (>=700px) -> desktop (>=1024px), zero nested scroll, zero border overlap ===== */
+  .mu,.mu.tr,#fzMatch .mu,#fzTrade0 .mu{max-height:none!important}
+  .mu-b,.tr .mu-b,#fzMatch .mu:not(.closed)>.mu-b,#fzMatch:not(.mu-all) .mu:not(.closed)>.mu-b{overflow:visible!important;max-height:none!important;overscroll-behavior:auto!important;-webkit-mask-image:none!important;mask-image:none!important}
+  .mu-b>.mu-sb,.mu-b>.mu-bar{position:static!important;box-shadow:none!important}
+  #fzMatch .mu-more{display:none!important}
+  .sx-b.on-card,.pl-card>.sx-b.on-card,.fzc>.sx-b.on-card,.wt-p>.sx-b.on-card{left:6px!important;top:6px!important}
+  .mu-rows .ms-n .sx-b{position:static!important;width:20px;height:20px;font-size:11.5px;margin:0 2px;flex:0 0 20px;vertical-align:middle}
+  /* Mobile-first base (<=699px) for Matchup rows */
+  .mu-rows.ms-list{display:flex!important;flex-direction:column;gap:8px}
+  .mu-rows .ms{display:grid!important;grid-template-columns:minmax(0,1fr) 68px minmax(0,1fr)!important;gap:5px!important;align-items:stretch}
+  .mu-rows .ms-sd,.mu-rows .ms-sd.op{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:space-between;min-height:0!important;height:auto!important;padding:8px!important;gap:6px!important;border-radius:12px;overflow:hidden!important;text-align:left}
+  .mu-rows .ms-sd.op{text-align:right}
+  .mu-rows .ms-th{position:relative!important;width:48px!important;height:58px!important;flex:0 0 auto!important;display:block!important;padding:2px!important;border-radius:8px!important;overflow:hidden!important;background:linear-gradient(135deg,#6f7787,#e3e8f0 30%,#8b93a3 55%,#cfd5df)!important}
+  .mu-rows .ms-sd.op .ms-th{align-self:flex-end}
+  .mu-rows .ms-th img:first-child{width:100%!important;height:100%!important;object-fit:cover!important;object-position:50% 15%!important;border-radius:6px!important;border:0!important;display:block!important}
+  .mu-rows .ms-th img.ms-lg{position:absolute!important;top:2px!important;right:2px!important;left:auto!important;bottom:auto!important;width:16px!important;height:16px!important;padding:1.5px!important;border-radius:50%!important;background:#fffaf0!important;box-shadow:0 1px 3px rgba(0,0,0,.6)!important;z-index:2}
+  .mu-rows .ms-sd.op .ms-th img.ms-lg{right:auto!important;left:2px!important}
+  .mu-rows .ms-th .ms-pos{position:absolute!important;left:2px!important;right:2px!important;bottom:2px!important;display:block!important;text-align:center;font-size:8px!important;font-weight:900;line-height:11px!important;color:#fff!important;background:rgba(8,12,20,.82)!important;border-radius:0 0 5px 5px!important;padding:0 2px}
+  .mu-rows .ms-i{min-width:0;display:flex;flex-direction:column;gap:3px}
+  .mu-rows .ms-n{display:flex;align-items:center;gap:4px;flex-wrap:wrap;min-width:0}
+  .mu-rows .ms-sd.op .ms-n{flex-direction:row-reverse;justify-content:flex-start}
+  .mu-rows .ms-n b{font-size:13px!important;font-weight:900;line-height:1.2;color:var(--text);overflow-wrap:anywhere}
+  .mu-rows .ms-sub{display:flex;flex-wrap:wrap;align-items:center;gap:3px 6px;font-size:10.5px!important;color:var(--muted)}
+  .mu-rows .ms-sub .ms-tm{display:inline!important;font-size:10.5px!important;font-weight:800}
+  .mu-rows .ms-gs,.mu-rows .ms-sl{font-size:10.5px!important;line-height:1.25;overflow-wrap:anywhere}
+  .mu-rows .ms-dvw .dv{font-size:9.5px!important;padding:2px 6px!important;max-width:100%}
+  .mu-rows .ms-p{display:flex;flex-direction:row;align-items:baseline;justify-content:flex-start;gap:5px;flex-wrap:wrap;min-width:0;width:auto!important}
+  .mu-rows .ms-sd.op .ms-p{justify-content:flex-end}
+  .mu-rows .ms-p b{font-size:19px!important;line-height:1}
+  .mu-rows .ms-pj{font-size:12px!important;padding:2px 6px!important}.mu-rows .ms-pj.big{font-size:16px!important;padding:2px 7px!important}
+  .mu-rows .ms-c.ms-vs{padding:6px 3px!important;gap:4px!important;border-radius:11px;overflow:hidden}
+  /* Tablet (700px - 1023px) */
+  @media (min-width:700px){
+    .mu-rows .ms{grid-template-columns:minmax(0,1fr) 124px minmax(0,1fr)!important;gap:8px!important}
+    .mu-rows .ms-sd,.mu-rows .ms-sd.op{flex-direction:row!important;align-items:center!important;min-height:102px!important;padding:10px 12px!important;gap:11px!important}
+    .mu-rows .ms-sd.op{flex-direction:row-reverse!important}
+    .mu-rows .ms-th{width:64px!important;height:76px!important;align-self:center!important}
+    .mu-rows .ms-th img.ms-lg{width:20px!important;height:20px!important;top:3px!important;right:3px!important}
+    .mu-rows .ms-sd.op .ms-th img.ms-lg{left:3px!important;right:auto!important}
+    .mu-rows .ms-th .ms-pos{font-size:9.5px!important;line-height:13px!important}
+    .mu-rows .ms-i{flex:1 1 auto;justify-content:center;gap:4px}
+    .mu-rows .ms-n b{font-size:16.5px!important}
+    .mu-rows .ms-sub,.mu-rows .ms-sub .ms-tm,.mu-rows .ms-gs,.mu-rows .ms-sl{font-size:12px!important}
+    .mu-rows .ms-dvw .dv{font-size:11px!important;padding:2px 8px!important}
+    .mu-rows .ms-p{flex-direction:column!important;align-items:flex-end!important;justify-content:center!important;min-width:68px!important;gap:2px}
+    .mu-rows .ms-sd.op .ms-p{align-items:flex-start!important}
+    .mu-rows .ms-p b{font-size:24px!important}
+    .mu-rows .ms-pj{font-size:13.5px!important;padding:2px 8px!important}.mu-rows .ms-pj.big{font-size:21px!important;padding:3px 9px!important}
+    .mu-rows .ms-c.ms-vs{padding:8px 6px!important;gap:5px!important}
+    .mu-rows .vs-sc{flex-direction:row!important;gap:5px}.mu-rows .vs-sc b{font-size:20px!important}
+    .mu-rows .ms-vs .dl{font-size:15px!important;padding:3px 9px!important}
+  }
+  /* Desktop (>=1024px): broadcast-grade large cards */
+  @media (min-width:1024px){
+    .mu-sb{padding:14px 18px!important;gap:14px!important}
+    .mu-tm img,.mu-tm .ph{width:52px!important;height:52px!important;font-size:15px!important}
+    .mu-tm .nm b{font-size:18px!important}
+    .mu-tm .nm i{font-size:13px!important}
+    .mu-tm .sc b{font-size:32px!important}
+    .mu-tm .sc i{font-size:12.5px!important}
+    .mu-mid{font-size:12px!important}.mu-mid b{font-size:18px!important}
+    .mu-rows.ms-list{gap:10px!important}
+    .mu-rows .ms{grid-template-columns:minmax(0,1fr) 164px minmax(0,1fr)!important;gap:10px!important}
+    .mu-rows .ms-sd,.mu-rows .ms-sd.op{min-height:118px!important;padding:12px 16px!important;gap:14px!important;border-radius:14px!important}
+    .mu-rows .ms-th{width:82px!important;height:94px!important;padding:2.5px!important;border-radius:10px!important}
+    .mu-rows .ms-th img:first-child{border-radius:7px!important}
+    .mu-rows .ms-th img.ms-lg{width:24px!important;height:24px!important;top:3px!important;right:3px!important}
+    .mu-rows .ms-sd.op .ms-th img.ms-lg{left:3px!important;right:auto!important}
+    .mu-rows .ms-th .ms-pos{font-size:10.5px!important;line-height:15px!important}
+    .mu-rows .ms-i{gap:5px!important}
+    .mu-rows .ms-n b{font-size:20px!important;line-height:1.15!important}
+    .mu-rows .ms-n .sx-b{width:22px;height:22px;font-size:12.5px;flex:0 0 22px}
+    .mu-rows .ms-sub,.mu-rows .ms-sub .ms-tm{font-size:14px!important}
+    .mu-rows .ms-gs,.mu-rows .ms-sl{font-size:13.5px!important}
+    .mu-rows .ms-dvw .dv{font-size:13px!important;padding:3px 10px!important}
+    .mu-rows .ms-dvw .dv b{font-size:13px!important}.mu-rows .ms-dvw .dv i{font-size:11.5px!important}
+    .mu-rows .ms-p{min-width:86px!important;gap:3px!important}
+    .mu-rows .ms-p b{font-size:30px!important}
+    .mu-rows .ms-pj{font-size:15px!important;padding:3px 9px!important}.mu-rows .ms-pj.big{font-size:26px!important;padding:4px 11px!important}
+    .mu-rows .ms-c.ms-vs{padding:10px 8px!important;gap:6px!important;border-radius:14px!important}
+    .mu-rows .ms-vs .sl{font-size:13px!important;padding:3px 11px!important}
+    .mu-rows .vs-sc b{font-size:24px!important}
+    .mu-rows .ms-vs .dl{font-size:17px!important;padding:4px 12px!important}
+    .mu-rows .vs-w{font-size:11px!important}
+    .mu-rows .ms-vs .ms-sh{width:96px!important;height:6px!important}
+  }
+  /* ===== Oct 28: Fantasy Lab sport switcher & PWA standalone safe-area + install modal ===== */
+  .flab-spbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:6px 0 12px;padding:8px 11px;background:var(--panel);border:1px solid var(--line);border-radius:12px}
+  .flab-spbar .lbl{font-size:11.5px;font-weight:900;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-right:4px}
+  .flab-sp{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font-size:13px;font-weight:800;cursor:pointer}
+  .flab-sp:hover{border-color:var(--gold)}
+  .flab-sp.on{background:var(--accent);border-color:var(--accent);color:#111}
+  .flab-sp b{padding:0 5px;border-radius:999px;background:rgba(0,0,0,.25);font-size:11px}
+  .flab-sp.on b{background:rgba(0,0,0,.2);color:#111}
+  @media (display-mode:standalone){
+    .topstack{padding-top:env(safe-area-inset-top,0px)}
+    body{padding-bottom:env(safe-area-inset-bottom,0px)}
+    #pwaBtn{display:none!important}
+  }
+  html.pwa-standalone #pwaBtn{display:none!important}
+  .pwa-box{width:min(480px,100%);padding:18px}
+  .pwa-hd{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .pwa-hd img{width:54px;height:54px;border-radius:13px;border:1px solid var(--line);flex:0 0 54px}
+  .pwa-hd h2{margin:0;font-size:18px}.pwa-hd small{color:var(--muted);font-size:12.5px}
+  .pwa-steps{display:grid;gap:10px;margin:12px 0}
+  .pwa-card{padding:11px 13px;border-radius:11px;background:var(--panel2);border:1px solid var(--line);font-size:13px;line-height:1.45}
+  .pwa-card h4{margin:0 0 5px;font-size:13.5px;color:var(--gold)}
+  .pwa-card ol{margin:4px 0 0;padding-left:18px;display:grid;gap:3px}
+
+  /* ===== Oct 28 (late): ☀️☢️ Over-the-Top Blinding Light Mode ("light-assault") ===== */
+  #lightModeBtn.on{background:linear-gradient(90deg,#ff00cc,#ffee00,#00ffcc)!important;color:#000!important;border:2px dashed #ff0055!important;font-weight:900!important;box-shadow:0 0 14px #ff00cc}
+  .la-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:6px auto 10px;max-width:1560px;padding:10px 14px;border-radius:14px;background:repeating-linear-gradient(135deg,#fffb00 0 18px,#ff88f7 18px 36px,#7bff00 36px 54px,#00fff2 54px 72px);border:4px dashed #ff0055;box-shadow:0 0 24px #ff00cc,inset 0 0 14px #ffffff;color:#110022;font-family:"Comic Sans MS","Papyrus","Chalkboard SE",cursive,sans-serif}
+  .la-bar[hidden]{display:none!important}
+  .la-main{flex:1 1 320px;min-width:0;background:rgba(255,255,255,.92);padding:7px 11px;border-radius:10px;border:2px solid #ff00aa}
+  .la-hd{font-size:13.5px;font-weight:900;letter-spacing:.4px;color:#b8006b;text-transform:uppercase}
+  .la-rt{margin-top:3px;font-size:13.5px;font-weight:800;color:#12002b;overflow-wrap:anywhere}
+  .la-acts{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .la-reroll{padding:8px 12px;border-radius:10px;border:2px solid #6600ff;background:#00ffcc;color:#110033;font-family:inherit;font-size:12.5px;font-weight:900;cursor:pointer;box-shadow:2px 2px 0 #ff00aa}
+  .la-panic{padding:9px 15px;border-radius:12px;border:3px solid #000;background:linear-gradient(90deg,#ff0033,#ff6600,#ff00aa);color:#fff;font-family:inherit;font-size:13.5px;font-weight:900;cursor:pointer;box-shadow:0 0 18px #ff0055;animation:laPulse .9s ease-in-out infinite alternate}
+  @keyframes laPulse{from{box-shadow:0 0 10px #ff0055,0 0 0 2px #fffb00;filter:brightness(1)}to{box-shadow:0 0 24px #ff00cc,0 0 0 4px #00ffcc;filter:brightness(1.15)}}
+  body.light-assault{
+    --bg:#fffb00;--panel:#ffffff;--panel2:#e6ff00;--line:#ff00aa;--text:#140028;--muted:#7a005c;--accent:#ff00aa;--live:#ff0033;--gold:#b30086;--ok:#008a2e;
+    background:repeating-linear-gradient(45deg,#fffb00 0 28px,#d4ff00 28px 56px,#ffe6fa 56px 84px,#c8fff4 84px 112px)!important;
+    color:#140028!important;
+    font-family:"Comic Sans MS","Papyrus","Chalkboard SE",cursive,sans-serif!important;
+  }
+  body.light-assault .topstack,body.light-assault .tabs{background:linear-gradient(90deg,#fffb00,#ff99ee,#7dff00,#00ffee)!important;border-bottom:3px dashed #ff00aa!important}
+  body.light-assault .subbar{background:#ffccf9!important;color:#220033!important;border-bottom:2px dotted #ff00aa}
+  body.light-assault .ticker{background:linear-gradient(90deg,#ffea00,#ff66cc,#00ffaa)!important;color:#110022!important;border-bottom:4px dashed #ff0055!important}
+  body.light-assault .ticker a,body.light-assault .ticker span,body.light-assault .ticker b{color:#110022!important;text-shadow:1px 1px 0 #fff}
+  body.light-assault .ft-card,body.light-assault .fp-it,body.light-assault .card,body.light-assault .gr,body.light-assault .mu,body.light-assault .news,body.light-assault .qv-bar,body.light-assault .flab-spbar,body.light-assault .sec-roast,body.light-assault .mu-roast{
+    background:linear-gradient(135deg,#ffffff 0%,#fff9b0 55%,#ffd6f6 100%)!important;
+    border:3px dashed #ff00aa!important;
+    color:#140028!important;
+    box-shadow:4px 4px 0 #00e5ff,0 0 14px rgba(255,0,170,.45)!important;
+  }
+  body.light-assault .ft-card:nth-child(odd),body.light-assault .fp-it:nth-child(odd),body.light-assault .gr:nth-child(odd){transform:rotate(-.45deg)}
+  body.light-assault .ft-card:nth-child(even),body.light-assault .fp-it:nth-child(even),body.light-assault .gr:nth-child(even){transform:rotate(.45deg)}
+  body.light-assault .ft-slot,body.light-assault .ms-sd,body.light-assault .ms-c.ms-vs,body.light-assault .mu-sb,body.light-assault .gm-d{
+    background:#fff6cc!important;color:#140028!important;border:2px dotted #ff00aa!important
+  }
+  body.light-assault .btn,body.light-assault .tab,body.light-assault .qv-pill,body.light-assault .fp-jump{
+    background:#ffe600!important;color:#1a0033!important;border:2px solid #ff00aa!important;font-family:inherit!important;box-shadow:2px 2px 0 #00d9ff
+  }
+  body.light-assault .tab.active{background:#ff00aa!important;color:#fffb00!important}
+  body.light-assault b,body.light-assault h1,body.light-assault h2,body.light-assault h3,body.light-assault .section-title,body.light-assault .ft-roast,body.light-assault .fp-roast,body.light-assault .qv-roast{color:#1a0033!important}
 </style>
 </head>
 <body>
@@ -3545,10 +3786,12 @@ html.tc-open{overflow:hidden}
 </div>
 
 <header>
-  <div class="brand"><div class="fav-wheel" id="favWheel" title="Teams"><button class="fw-arr l" data-fw="-1" aria-label="Scroll teams left" tabindex="-1" hidden>‹</button><div class="fav-logos fw-track" id="favLogos" role="list" aria-label="Favorite teams"></div><button class="fw-arr r" data-fw="1" aria-label="Scroll teams right" tabindex="-1" hidden>›</button></div><div class="fav-wheel pl-wheel" id="plWheel" hidden><button class="fw-arr l" data-fw="-1" aria-label="Scroll players left" tabindex="-1" hidden>‹</button><div class="fav-logos fw-track" id="plLogos" role="list" aria-label="Favorite and fantasy players"></div><button class="fw-arr r" data-fw="1" aria-label="Scroll players right" tabindex="-1" hidden>›</button></div><button type="button" class="fp-jump" id="fpJump" data-fpjump title="Jump to your Favorite Players" aria-label="Jump to Favorite Players">⭐<span class="fp-jl">Players</span><b id="fpJumpN" hidden></b></button><button class="fav-gear" id="favGear" data-open-favs title="Manage favorites" aria-label="Manage favorites" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button><button class="btn csearch" data-focus-search="" aria-label="Search">🔍</button><h1 id="dashTitle" tabindex="0" role="button" aria-label="Dashboard name. Click to rename." title="Click to rename">Mann's <span>Sports</span><em class="h1-x"> Dashboard</em></h1></div>
+  <div class="brand"><div class="fav-wheel" id="favWheel" title="Teams"><button class="fw-arr l" data-fw="-1" aria-label="Scroll teams left" tabindex="-1" hidden>‹</button><div class="fav-logos fw-track" id="favLogos" role="list" aria-label="Favorite teams"></div><button class="fw-arr r" data-fw="1" aria-label="Scroll teams right" tabindex="-1" hidden>›</button></div><div class="fav-wheel pl-wheel" id="plWheel" hidden><button class="fw-arr l" data-fw="-1" aria-label="Scroll players left" tabindex="-1" hidden>‹</button><div class="fav-logos fw-track" id="plLogos" role="list" aria-label="Favorite and fantasy players"></div><button class="fw-arr r" data-fw="1" aria-label="Scroll players right" tabindex="-1" hidden>›</button></div><button type="button" class="fp-jump ft-jump" id="ftJump" data-ftjump title="Jump to your Favorite Teams" aria-label="Jump to Favorite Teams">★<span class="fp-jl">Teams</span><b id="ftJumpN" hidden></b></button><button type="button" class="fp-jump" id="fpJump" data-fpjump title="Jump to your Favorite Players" aria-label="Jump to Favorite Players">⭐<span class="fp-jl">Players</span><b id="fpJumpN" hidden></b></button><button type="button" class="fp-jump fz-jump" id="fzFavJump" data-fzpeek title="Quick-peek Current Fantasy Favorites (Roster &amp; Watch List)" aria-label="Open Current Fantasy Favorites">🎮<span class="fp-jl">Fantasy</span><b id="fzFavJumpN" hidden></b></button><button class="fav-gear" id="favGear" data-open-favs title="Manage favorites" aria-label="Manage favorites" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button><button class="btn csearch" data-focus-search="" aria-label="Search">🔍</button><h1 id="dashTitle" tabindex="0" role="button" aria-label="Dashboard name. Click to rename." title="Click to rename">Mann's <span>Sports</span><em class="h1-x"> Dashboard</em></h1></div>
   <div class="usearch hd-search" data-usearch data-usfav><span class="ico">🔍</span><input type="search" placeholder="Search any team or player: stats, ☆ to favorite" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-label="Search teams and players"><kbd>/</kbd><div class="us-results" role="listbox" hidden></div></div>
   <div class="meta">
     <span class="acct" id="acctSlot" hidden></span>
+    <button type="button" class="btn" id="pwaBtn" title="Install Mann's Sports Dashboard as an app on iOS, Android or Desktop">📲 <span class="ai-l">App</span></button>
+    <button type="button" class="btn" id="lightModeBtn" data-light-toggle="1" aria-pressed="false" title="Turn on blinding Light Mode (at your own risk)">☀️ <span class="ai-l">Light</span></button>
     <button class="btn" id="favsBtn" title="Manage favorite teams and players">★ Favorites <span id="favCount"></span></button>
     <button class="btn" id="sportsBtn" title="Choose which sports to follow">⚙ Sports</button>
     <button class="btn" id="tickerNewsBtn" title="Show team and player news in the ticker">📰 Ticker news</button>
@@ -13602,6 +13845,1329 @@ addEventListener('keydown', e => { if (e.key !== 'Escape') return; const d = doc
 if (syOn()) { const go = () => { const r = window.requestIdleCallback || (f => setTimeout(f, 1200)); r(() => syBoot(), { timeout: 4000 }); };
   if (document.readyState === 'complete') go(); else addEventListener('load', go, { once: true }); }
 </script>
+<script>
+/* ===== Oct 28 (evening):
+   1) ★ Favorite Teams dedicated top section + #ftJump header quick-jump (matching ⭐ Favorite Players),
+   2) 🎮 Fantasy Favorites persistent quick-link + quick-peek modal/drawer + in-view quick bar across ALL tabs/views,
+   3) 🧪 Fantasy Lab sport switcher (NFL / NBA / MLB / NHL / Golf / UFC) + strict sport-locked Watch List search & bucket sanitizer,
+   4) 📲 Full iOS / Android / Desktop PWA support (head meta tags, canvas-generated 180/192/512 PNG icons + manifest, safe-area insets, #pwaBtn install helper),
+   5) Massive 4x-5x Roast Expansion across Spin-it (150+ new player tier/pos/small-sample lines, 50+ new Player Category Award lines, 50+ new Team Buffoonery & ST_QUIPS lines),
+      Matchup & Sweat-o-Meter (60+ new roasts), Trade Lab & Watch List (60+ new roasts), and Favorite Teams & Players roasts (50+ new roasts), all tracked by sd_spin_seen_v1. ===== */
+
+/* --- 0. Ensure NBA is a first-class fantasy-capable sport in FSPORTS & FS_ORDER --- */
+(() => {
+  try {
+    if (typeof FSPORTS !== 'undefined') {
+      FSPORTS.nba = Object.assign(FSPORTS.nba || {}, {
+        label: 'NBA', emoji: '🏀', name: 'Fantasy Basketball', lg: 'nba', path: 'basketball/nba',
+        sport: 'basketball', league: 'nba', web: 'nba/player', hs: 'nba', roto: 'NBA', inj: true, kind: 'team', extra: false
+      });
+      if (typeof FS_PATH !== 'undefined') FS_PATH['basketball/nba'] = 'nba';
+      if (typeof FS_ORDER !== 'undefined' && !FS_ORDER.includes('nba')) {
+        const i = FS_ORDER.indexOf('nfl');
+        FS_ORDER.splice(i >= 0 ? i + 1 : 0, 0, 'nba');
+      }
+      if (typeof FS_LINKS !== 'undefined' && !FS_LINKS.nba) {
+        FS_LINKS.nba = [
+          ['ESPN Fantasy Basketball', 'https://www.espn.com/fantasy/basketball/'],
+          ['NBA daily lineups', 'https://www.rotowire.com/basketball/nba-lineups.php'],
+          ['NBA injuries', 'https://www.espn.com/nba/injuries'],
+          ['Consensus ranks', 'https://www.fantasypros.com/nba/rankings/overall.php']
+        ];
+      }
+      if (typeof SLOTS !== 'undefined' && !SLOTS.nba) {
+        SLOTS.nba = { names: { 0: 'PG', 1: 'SG', 2: 'SF', 3: 'PF', 4: 'C', 5: 'G', 6: 'F', 11: 'UTIL', 12: 'BE', 13: 'IR' }, bench: [12], ir: [13], order: [0, 1, 2, 3, 4, 5, 6, 11] };
+      }
+    }
+  } catch (e) { console.warn('nba fs init', e); }
+})();
+
+/* --- Sanitize mannFantasyWatch.v1 so any player saved in the wrong sport bucket moves to its true sport bucket --- */
+function wlSanitizeBuckets(){
+  try {
+    if (typeof watchStore !== 'object' || !watchStore) return;
+    let moved = false;
+    const inferSp = (p, bucket) => {
+      if (p && p.sp && FSPORTS[p.sp] && p.sp !== bucket) return p.sp;
+      if (p && p.lg && FSPORTS[p.lg] && p.lg !== bucket) return p.lg;
+      const hs = String((p && p.headshot) || '') + ' ' + String((p && p.teamLogo) || '') + ' ' + String((p && p.link) || '');
+      const m = hs.match(/\/(?:headshots|teamlogos|espncdn\.com\/i\/teamlogos)\/(nfl|nba|mlb|nhl|golf|mma)\b/i) || hs.match(/espn\.com\/(nfl|nba|mlb|nhl|golf|mma)\//i);
+      if (m) { const k = m[1].toLowerCase() === 'mma' ? 'ufc' : m[1].toLowerCase(); if (FSPORTS[k]) return k; }
+      const idPref = String((p && p.id) || '').match(/^(nfl|nba|mlb|nhl|golf|ufc)-/i);
+      if (idPref) return idPref[1].toLowerCase();
+      return bucket;
+    };
+    for (const sp of Object.keys(watchStore)) {
+      const arr = Array.isArray(watchStore[sp]) ? watchStore[sp] : [];
+      const keep = [];
+      for (const p of arr) {
+        if (!p) continue;
+        const trueSp = inferSp(p, sp);
+        if (trueSp !== sp && FSPORTS[trueSp]) {
+          p.sp = trueSp;
+          watchStore[trueSp] = Array.isArray(watchStore[trueSp]) ? watchStore[trueSp] : [];
+          if (!watchStore[trueSp].some(x => String(x.id) === String(p.id) || String(x.eid || x.id) === String(p.eid || p.id))) {
+            watchStore[trueSp].push(p);
+          }
+          delete watchMem[trueSp];
+          moved = true;
+        } else {
+          p.sp = sp;
+          keep.push(p);
+        }
+      }
+      if (keep.length !== arr.length) { watchStore[sp] = keep; delete watchMem[sp]; moved = true; }
+    }
+    if (moved) lsSet(WATCH_KEY, watchStore);
+  } catch (e) { console.warn('wlSanitize', e); }
+}
+wlSanitizeBuckets();
+
+/* --- Strict sport-locked Watch List search & Fantasy Lab sport switcher --- */
+const LAB_SPORTS = ['nfl', 'nba', 'mlb', 'nhl', 'golf', 'ufc'];
+function flabSwitchSport(sp){
+  if (!FSPORTS[sp]) return;
+  if (!fantasySel.includes(sp)) {
+    fantasySel = FS_ORDER.filter(k => k === sp || fantasySel.includes(k));
+    lsSet(FANTASY_KEY, fantasySel);
+  }
+  MN.fsTab = sp;
+  lsSet(FTAB_KEY, sp);
+  WL.sp = sp; WL.q = ''; WL.items = []; WL.err = '';
+  const el = document.getElementById('games');
+  if (el && state.tab === WATCH_TAB) { el.dataset.view = ''; el.dataset.sp = ''; }
+  loadMyNews().then(() => { try { rerenderPlayers(); } catch (_) {} }).catch(() => {});
+  renderTabs();
+  renderMyNews();
+}
+function flabSportBarHTML(sp){
+  const pills = LAB_SPORTS.filter(k => FSPORTS[k]).map(k => {
+    const F = FSPORTS[k], on = k === sp, cnt = watchList(k).length + rosterPlayers(k).length;
+    return `<button type="button" class="flab-sp${on ? ' on' : ''}" data-flabsp="${k}" role="tab" aria-selected="${on}" title="Switch Fantasy Lab & Watch List to ${esc(F.label)}">${F.emoji} ${esc(F.label)}${cnt ? ` <b>${cnt}</b>` : ''}</button>`;
+  }).join('');
+  return `<div class="flab-spbar" role="tablist" aria-label="Fantasy Lab Sport Switcher"><span class="lbl">🧪 Sport:</span>${pills}</div>`;
+}
+
+/* Override wlInput and wlRenderResults so Watch List search is 100% locked to the active fantasy sport (sp) */
+wlRenderResults = function(){
+  const res = document.getElementById('wlRes'); if (!res) return;
+  if (!WL.q || WL.q.length < 2) { res.hidden = true; return; }
+  const sp = WL.sp || MN.fsTab || 'nfl', F = FSPORTS[sp] || FSPORTS.nfl;
+  const items = (WL.items || []).filter(r => (r.sp || sp) === sp);
+  let h = items.map((r, i) => {
+    const on = isWatched(r.id, sp), ros = players.some(p => p.id === String(r.id) && p.roster && psp(p) === sp);
+    return `<div class="wl-row"><img src="${esc(r.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><div class="n"><b>${esc(r.name)}${ros ? '<span class="tag-ros">🎮 on your roster</span>' : ''}</b><i><span class="lgb">${F.emoji} ${esc(F.label)}</span>${esc([r.pos, r.teamName || r.team].filter(Boolean).join(' · '))}</i></div><button type="button" class="wl-b${on ? ' on' : ''}" data-wlwatch="${i}" aria-pressed="${on}">${on ? '👁 Watching' : '👁 Watch'}</button></div>`;
+  }).join('');
+  if (WL.loading) h += `<div class="wl-msg">Searching ${esc(F.label)} players…</div>`;
+  else if (!items.length) h += `<div class="wl-msg">${esc(WL.err || `No ${F.label} players found for “${WL.q}”. Switch sport above to search ${LAB_SPORTS.filter(k => k !== sp && FSPORTS[k]).map(k => FSPORTS[k].label).join('/')}.`)}</div>`;
+  res.innerHTML = h; res.hidden = false;
+};
+wlInput = function(inp){
+  const sp = (inp && inp.dataset && inp.dataset.sp) || MN.fsTab || 'nfl';
+  WL.q = (inp ? inp.value : '').trim(); WL.sp = sp; clearTimeout(WL.timer); const seq = ++WL.seq;
+  if (WL.q.length < 2) { WL.items = []; WL.loading = false; wlRenderResults(); return; }
+  WL.loading = true; wlRenderResults();
+  WL.timer = setTimeout(async () => {
+    let items = [], err = '';
+    const dst = sp === 'nfl' ? wlDstMatches(WL.q) : [];
+    const nq = normName(WL.q);
+    // 1) local NFL comps / roster / cached athletes for that exact sport
+    const local = [];
+    try {
+      if (sp === 'nfl' && CMP.d && CMP.d.nfl && CMP.d.nfl.p) {
+        for (const x of Object.values(CMP.d.nfl.p)) {
+          if (x && x.n && !cmpDst(x) && normName(x.n).includes(nq)) {
+            local.push({ sp: 'nfl', id: String(x.id), eid: String(x.id), name: x.n, short: x.n, pos: x.pos || '', team: x.tm || 'FA', teamName: x.tmN || x.tm || '', teamLogo: x.tm ? `https://a.espncdn.com/i/teamlogos/nfl/500/${x.tm.toLowerCase()}.png` : '', headshot: `https://a.espncdn.com/i/headshots/nfl/players/full/${x.id}.png`, active: true });
+          }
+        }
+      }
+      for (const p of players) {
+        if (psp(p) === sp && normName(p.name).includes(nq) && !local.some(x => x.id === String(p.id))) local.push({ ...pBase(p), sp, active: true });
+      }
+    } catch (_) {}
+    // 2) strictly sport-scoped ESPN athlete search (searchSport(sp, q) ONLY — never unfiltered searchAll)
+    try {
+      const remote = (await searchSport(sp, WL.q)).filter(r => r && r.sp === sp && r.active !== false);
+      const seen = new Set();
+      for (const r of [...remote, ...local]) {
+        const k = String(r.eid || r.id);
+        if (!seen.has(k)) { seen.add(k); items.push({ ...r, sp }); }
+      }
+    } catch (e) {
+      items = local;
+      if (!dst.length && !local.length) err = `${(FSPORTS[sp] || {}).label || 'Player'} search is unavailable right now.`;
+    }
+    items = (sp === 'nfl' ? dst : []).concat(items.filter(r => !dst.some(d => d.id === r.id))).slice(0, 12);
+    if (seq !== WL.seq) return;
+    WL.items = items; WL.err = err; WL.loading = false; wlRenderResults();
+  }, 220);
+};
+
+/* --- 5. MASSIVE ROAST EXPANSION (3x-5x across Spin-it, Matchup/Sweat, Trade Lab, and Favorites) --- */
+const ROAST_MORE_SX_TIERS = {
+  95: [
+    "{name} ({stat}) is playing on Rookie difficulty with the sliders cranked to 100. Unfair.",
+    "Opposing defensive coordinators see {name} on the film and immediately start updating LinkedIn.",
+    "{name} is dropping {stat} and treating NFL secondaries like traffic cones at a driver's ed course.",
+    "At {stat}, {name} should be taxed in two brackets and banned in three states.",
+    "{name} is hard-carrying Goodell's Good Guys like a sherpa hauling a grand piano up Everest ({stat}).",
+    "Call the league office, call Congress, call a priest—{name} ({stat}) is breaking the scoreboard.",
+    "{name} wakes up, brushes his teeth, and casually hangs {stat} before the second quarter.",
+    "Your opponent saw {name} in your lineup ({stat}) and preemptively muted the group chat.",
+    "{name} ({stat}) is what happens when a create-a-player maxes out every attribute to 99.",
+    "Starting {name} ({stat}) isn't fantasy management, it's printing counterfeit money in your basement."
+  ],
+  88: [
+    "{name} ({stat}) walks into the stadium and the boss-fight Latin choir starts singing.",
+    "Defenses throw double coverage at {name} and he still hangs {stat} on their heads.",
+    "{name} is eating opposing game plans for breakfast and asking for seconds ({stat}).",
+    "You don't 'match up' with {name} ({stat})—you just survive four quarters and count the damage.",
+    "At {stat}, {name} is the guy your opponent begs you to trade at 1:30 AM every Tuesday.",
+    "{name} ({stat}) is carrying your fantasy squad like he owns a controlling stake in the franchise.",
+    "Every time {name} touches the rock ({stat}), your win probability jumps twelve percent.",
+    "{name} is putting up {stat} with the cold-blooded efficiency of a Wall Street liquidator.",
+    "Opponents need a defensive coordinator, a safety over the top, and an exorcist for {name} ({stat}).",
+    "{name} ({stat}) is single-handedly keeping your questionable draft strategy above .500."
+  ],
+  80: [
+    "{name} ({stat}) is the main character of your Sunday and everybody else is background extras.",
+    "Camera pans to {name}, pyrotechnics go off, and boom—another {stat} in the box score.",
+    "{name} has that 'contract-year, rent-is-due, ex-is-watching' energy ({stat}).",
+    "When {name} is cooking ({stat}), even your terrible flex decisions look like 4D chess.",
+    "{name} ({stat}) is the only guy on your roster who actually read the scouting report this week.",
+    "Set {name} in your lineup ({stat}), crack a cold one, and watch the points roll in.",
+    "{name} is giving you {stat} and swagger strong enough to talk trash by 2:15 PM.",
+    "Whole offense runs through {name} right now ({stat})—ride that wave until the wheels fall off.",
+    "{name} ({stat}) is out-scoring half the first-round picks in your league without breaking a sweat.",
+    "If everyone on Goodell's Good Guys played like {name} ({stat}), you'd be undefeated."
+  ],
+  72: [
+    "{name} ({stat}) wears New Balances, mows the lawn at 7 AM, and quietly gets you double digits.",
+    "Zero drama, zero diva tweets, just {name} clocking {stat} like a union foreman.",
+    "{name} ({stat}) has thermostat-set-to-68, don't-touch-my-tools reliability.",
+    "While flashier guys drop goose eggs, {name} ({stat}) brings home the groceries in one trip.",
+    "{name} ({stat}) is the cast-iron skillet of your lineup—heavy, seasoned, and indestructible.",
+    "Not going viral on RedZone, just {name} banking {stat} while you aren't looking.",
+    "{name} ({stat}) plays like a guy who knows how to back a boat trailer in on the first try.",
+    "Solid, grumpy, dependable {stat} from {name}. The dad-bod Hall of Fame salutes him.",
+    "{name} ({stat}) is the duct tape holding your starting lineup together this month.",
+    "You never brag about starting {name}, and you never regret it either ({stat})."
+  ],
+  64: [
+    "{name} ({stat}) is a 2016 Toyota Camry: beige, uninspiring, and starts every single Sunday.",
+    "At {stat}, {name} is the human equivalent of a firm handshake and a 740 credit score.",
+    "{name} won't win your week single-handedly, and he won't torpedo it either ({stat}).",
+    "Put {name} in the flex ({stat}) when you just need somebody with a pulse and a helmet.",
+    "{name} ({stat}) is out there doing honest, middle-management football work.",
+    "Nobody buys a {name} jersey for the flash, they buy it for {stat} and zero stress.",
+    "{name} ({stat}) is the complimentary breadbasket of your fantasy lineup—fills the gap.",
+    "Respectable {stat} from {name}. Not champagne, not tap water—just a solid domestic lager.",
+    "{name} clocks in at 1:00 PM, files his {stat}, and clocks out at 4:05 PM sharp.",
+    "If 'fine, I guess' were a fantasy stat line, it would be {name} at {stat}."
+  ],
+  56: [
+    "{name} ({stat}) is gas-station sushi: might be a sneaky W, might ruin your entire Sunday.",
+    "One quarter {name} looks All-Pro, the next three he's invisible ({stat}). Classic microwave burrito.",
+    "{name} ({stat}) is a coin flip wrapped in a riddle inside a questionable offensive scheme.",
+    "Starting {name} ({stat}) feels like guessing the Wi-Fi password at an airport Chili's.",
+    "You bench {name} and he drops 22; you start him and you get {stat}. Every damn time.",
+    "{name} ({stat}) is lukewarm leftovers—edible in a bye-week pinch, depressing otherwise.",
+    "Watching {name} ({stat}) is three hours of yelling 'THROW IT TO HIM' at your television.",
+    "{name} gives you {stat} and just enough false hope to keep you from dropping him.",
+    "The {name} roller coaster ({stat}) has no seatbelt and the operator is asleep.",
+    "{name} ({stat}) is the definition of 'too good to drop, too terrifying to start.'"
+  ],
+  48: [
+    "{name} ({stat}) got his uniform dirty and ran some cardio. Here's your participation ribbon.",
+    "At {stat}, {name} contributed roughly as much to your matchup as the waterboy.",
+    "{name} ({stat}) was definitely on the field—we saw his jersey in the background of a replay.",
+    "Your lineup needed a hero and {name} showed up with {stat} and a juice box.",
+    "{name} ({stat}) is playing like a guy whose controller battery died in the second quarter.",
+    "If moral victories counted for fantasy points, {name} ({stat}) would still be losing.",
+    "{name} ({stat}) is out there running decoy routes for the actual fantasy starters.",
+    "Starting {name} ({stat}) is how you end up needing 34 points from your Monday night kicker.",
+    "{name} gave you {stat} and a masterclass in polite, non-threatening football.",
+    "Congrats to {name} on {stat} and a great afternoon of aerobic exercise."
+  ],
+  40: [
+    "{name} ({stat}) is playing like he's still recovering from a 2021 victory party.",
+    "You drafted {name} for the résumé and got {stat} and a leather jacket he can't pull off.",
+    "{name} ({stat}) is living off name recognition from three seasons ago.",
+    "Every week you start {name} ({stat}), an angel loses its wings and your opponent laughs.",
+    "{name} ({stat}) looks like he's running in wet jeans and timberlands out there.",
+    "Father Time and the defensive line are both undefeated against {name} ({stat}) right now.",
+    "{name} ({stat}) is the fantasy equivalent of buying a boat you never take out of the driveway.",
+    "Stop looking at {name}'s projected points—look at {stat} and accept reality.",
+    "{name} ({stat}) is holding your roster spot hostage based on vibes from the Obama administration.",
+    "Trade {name} ({stat}) to the guy in your league who only watches RedZone once a month."
+  ],
+  32: [
+    " paging {name} ({stat})—please report to the box score, your fantasy manager is crying.",
+    "{name} ({stat}) has gone full Danny Phantom. Zero footprint on the game film.",
+    "Put {name}'s picture on a milk carton because {stat} is a missing-persons case.",
+    "{name} ({stat}) is haunting your bench like a Victorian ghost in shoulder pads.",
+    "Even the stat-correction elves on Tuesday morning can't find any points for {name} ({stat}).",
+    "{name} ({stat}) played 45 snaps and somehow left zero DNA evidence on the play sheet.",
+    "Starting {name} ({stat}) is functionally identical to leaving the lineup slot empty.",
+    "{name} ({stat}) is doing stealth missions out there—not even his own quarterback can spot him.",
+    "If you squint at the TV, you can see {name} ({stat}) blocking 30 yards away from the ball.",
+    "{name} ({stat}) is a mirage in cleats. Waivers are calling."
+  ],
+  24: [
+    "{name} ({stat}) is in Deep Witness Protection—new name, new zip code, zero targets.",
+    "The coaching staff hid {name} ({stat}) so well the broadcast crew forgot he was active.",
+    "At {stat}, {name} is basically paying for a sideline pass with a free jersey.",
+    "{name} ({stat}) has fewer touches this month than the referee.",
+    "Did {name} ({stat}) play today, or did he just do pregame warmups and head to Applebee's?",
+    "Starting {name} ({stat}) is a cry for help that your leaguemates are ignoring.",
+    "{name} ({stat}) is allergic to the end zone and socially distancing from the football.",
+    "Sherlock Holmes, Scooby-Doo, and the FBI couldn't track down {name}'s production ({stat}).",
+    "{name} ({stat}) is a roster clogger of the highest federal classification.",
+    "Drop {name} ({stat}) into the sun and pick up literally anybody with two functioning hamstrings."
+  ],
+  12: [
+    "{name} ({stat}) just turned your Sunday into a group-chat roast session where you're the main course.",
+    "Your opponent saw {name} drop {stat} in your starting lineup and sent a laughing crying emoji.",
+    "{name} ({stat}) is performance art designed to test how much pain a fantasy manager can endure.",
+    "Starting {name} ({stat}) should automatically enroll you in the league's last-place punishment.",
+    "{name} ({stat}) is a walking, talking screenshot for the Monday morning shame report.",
+    "At {stat}, {name} was actively playing for the other fantasy team today.",
+    "You had all week to set your lineup and you still trotted out {name} for {stat}.",
+    "{name} ({stat}) is the reason fantasy apps need a 'Delete Season' button.",
+    "Even the bye-week players on your bench outscored {name}'s {stat} spiritually.",
+    "{name} ({stat}) is a comedy routine wearing cleats."
+  ],
+  0: [
+    "🚨 five-alarm dumpster fire: {name} ({stat}) just nuked your matchup from orbit.",
+    "{name} ({stat}) is a football war crime. Call The Hague and demand a stat recount.",
+    "At {stat}, {name} owes you a formal written apology and your league buy-in back.",
+    "Hazmat suits required within 50 yards of {name}'s box score ({stat}).",
+    "{name} ({stat}) played so badly your phone battery drained faster out of sheer embarrassment.",
+    "If {name} ({stat}) were a restaurant, the health inspector would weld the doors shut.",
+    "Put {name} ({stat}) on waivers at 3:01 AM so nobody even sees him leave your roster.",
+    "{name} ({stat}) is what happens when Murphy's Law puts on a football helmet.",
+    "Not even garbage time wanted anything to do with {name} ({stat}) this week.",
+    "{name} ({stat}) is a crater where your playoff hopes used to live."
+  ]
+};
+
+const ROAST_MORE_PL_CAT = {
+  cheat: [
+    "{name} ({stat}) is an IRL GameShark code—your opponent is already drafting their concession text.",
+    "Goodell's Good Guys has {name} ({stat}) and the rest of the league is playing for second place.",
+    "Every touch {name} gets ({stat}) looks like varsity playing against the seventh-grade B-team.",
+    "{name} ({stat}) is so automatic the IRS is trying to classify his touchdowns as passive income.",
+    "Lock {name} ({stat}) into your lineup in permanent Sharpie and throw away the cap.",
+    "{name} ({stat}) is a one-man stimulus package for your weekly fantasy score."
+  ],
+  heater: [
+    "{name} ({stat}) is hotter than a metal bleachers seat in August—do NOT bench this man.",
+    "Touch {name} right now ({stat}) and you'll get third-degree burns on your thumb.",
+    "{name} has been on a tear so nasty ({stat}) the league office is ordering a random 'hydration test.'",
+    "Last three weeks of {name} ({stat}) belong in the Louvre next to the Mona Lisa.",
+    "Opposing defenses are bringing fire extinguishers to the huddle for {name} ({stat}).",
+    "Ride {name}'s heater ({stat}) like a stolen jetski until the season ends."
+  ],
+  boom: [
+    "{name} ({stat}) is roulette on grass: 35 points on two catches or 1.8 points and a bruised rib.",
+    "Starting {name} ({stat}) is for degenerates who hit on 17 in Vegas and love the sweat.",
+    "{name} ({stat}) either wins your week by 1:45 PM or ruins your Sunday dinner. No in-between.",
+    "The {name} chart ({stat}) looks like a seismograph during an earthquake.",
+    "Buckle up—{name} ({stat}) is either catching an 80-yard bomb or doing cardio for three hours.",
+    "Keep the Pepto-Bismol next to the remote when {name} ({stat}) is in your flex."
+  ],
+  inj: [
+    "{name} ({stat}) has VIP platinum status in the blue medical tent.",
+    "Wednesday 'DNP', Thursday 'Limited', Friday 'Game-Time Decision'—the {name} ({stat}) weekly symphony.",
+    "{name}'s soft tissue ({stat}) is held together by athletic tape, Toradol, and fantasy prayers.",
+    "If {name} ({stat}) sneezes during warmups, 400,000 fantasy managers pull a hamstring in solidarity.",
+    "{name} ({stat}) is a Porsche that spends four days a week up on the mechanic's lift.",
+    "Never put {name} ({stat}) in a Thursday slot unless you enjoy Sunday morning panic sweats."
+  ],
+  scam: [
+    "{name} ({stat}) catches seven balls for 19 total yards and walks out with 15 PPR points like a bank robber.",
+    "Line-of-scrimmage merchant! {name} ({stat}) hasn't run past the sticks since September and still cashes checks.",
+    "Half-PPR hates him, standard leagues ignore him, full-PPR worships {name} ({stat}).",
+    "{name} ({stat}) turns 3rd-and-14 checkdowns into a steady middle-class fantasy income.",
+    "Death, taxes, and {name} ({stat}) catching four garbage-time dump-offs on the final drive.",
+    "{name} ({stat}) is proof that yards are optional when the quarterback panics."
+  ],
+  thief: [
+    "{name} ({stat}) is 85% rostered purely because nobody wants to admit they wasted a draft pick.",
+    "Sunk-cost fallacy in cleats: {name} ({stat}) is robbing your starting lineup blind.",
+    "{name} ({stat}) has first-round name value and twelfth-round waiver-wire output.",
+    "You can't drop {name} ({stat}), you can't trade him, and starting him is self-harm. Lineup hostage!",
+    "{name} ({stat}) is cashing game checks while delivering preseason punter numbers.",
+    "Free yourself from the shackles of {name} ({stat})—let him sabotage someone else's roster."
+  ],
+  cardio: [
+    "{name} ({stat}) ran 38 routes today and got the same number of targets as you did on the couch.",
+    "Elite marathon training from {name} ({stat})—shame they don't award points per mile jogged.",
+    "{name} ({stat}) is out there getting his Apple Watch rings closed and nothing else.",
+    "Fifty snaps, spotless jersey, {stat}—{name} is just enjoying the stadium breeze.",
+    "{name} ({stat}) is the world's highest-paid decoy.",
+    "Put a pedometer on {name} ({stat}) because that's the only stat going up."
+  ],
+  freezer: [
+    "{name} ({stat}) is colder than a Green Bay parking lot in January.",
+    "Somebody defrost {name} ({stat})—his box scores have been below freezing for a month.",
+    "{name} ({stat}) went from draft-day darling to the back of the freezer behind the 2023 peas.",
+    "Even penguin colonies think {name}'s recent stretch ({stat}) is a little chilly.",
+    "Bench {name} ({stat}) until the spring thaw arrives.",
+    "{name}'s ceiling lately ({stat}) is lower than a crawlspace."
+  ],
+  terror: [
+    "{name} ({stat}) is a domestic threat to Goodell's Good Guys' playoff odds.",
+    "Every time you click 'Start' on {name} ({stat}), your fantasy team's life expectancy drops.",
+    "{name} ({stat}) is a double agent sent by your opponent to sabotage your week from the inside.",
+    "Starting {name} ({stat}) is like pulling the pin on a grenade and putting it in your flex slot.",
+    "{name} ({stat}) doesn't just bust—he takes the rest of your lineup's morale down with him.",
+    "Quarantine {name} ({stat}) on the waiver wire before the contagion spreads."
+  ],
+  lunch: [
+    "{name} ({stat}) packs a bologna sandwich, tapes his ankles, and delivers 13.4 points like clockwork.",
+    "Zero flash, 100% grit—{name} ({stat}) is the backbone of a working-class fantasy squad.",
+    "When your stars bust, {name} ({stat}) is the guy keeping the lights on.",
+    "{name} ({stat}) never makes SportsCenter Top 10 and never drops a goose egg.",
+    "Blue-collar {stat} from {name}: honest pay for honest work.",
+    "{name} ({stat}) is the player you appreciate on Tuesday morning when you win by 2.1 points."
+  ],
+  small: [
+    "{name} ({stat}) has two weeks of tape—hold the Hall of Fame jacket fitting for a minute.",
+    "Tiny sample alert on {name} ({stat}): could be a league-winner, could be a one-week wonder.",
+    "We need at least three more Sundays before we decide if {name} ({stat}) is legit or a mirage.",
+    "{name} ({stat}) is still in the free-trial period of our roast algorithm."
+  ]
+};
+
+const ROAST_MORE_BUFFOON = {
+  wagon: [
+    "{name} ({rec}) is an unstoppable freight train and the rest of the division is tied to the tracks.",
+    "At {rec} ({streak}), {name} fans are already insufferable at the office water cooler—and they earned it.",
+    "{name} ({rec}) is beating teams so badly the fourth quarter is basically a preseason scrimmage.",
+    "Crown 'em! {name} ({rec}, {streak}) is playing chess while everyone else eats the pieces.",
+    "{name} ({rec}) has championship DNA and zero respect for the spread.",
+    "Start planning the parade PTO because {name} ({rec}) is on a rampage."
+  ],
+  shootout: [
+    "{name} ({rec}) games have more points than an arcade pinball machine and zero defense.",
+    "First team to 45 wins! {name} ({rec}) treats tackling like a polite suggestion.",
+    "Hammer the Over whenever {name} ({rec}) takes the field—the secondary is on vacation.",
+    "{name} ({rec}) scores at will and lets the other team do the exact same thing out of courtesy.",
+    "Every {name} ({rec}) broadcast needs a track-meet scoreboard and a pitch counter.",
+    "Offense is A+, defense is 'wait, we're allowed to cover that guy?' ({name}, {rec})."
+  ],
+  cardiac: [
+    "{name} ({rec}) is single-handedly funding every cardiologist in the metro area.",
+    "Why win comfortably when {name} ({rec}) can blow a 14-point lead and win on a walk-off prayer?",
+    "Every {name} ({rec}) game ends with palms sweating, knees weak, and a flag on the final play.",
+    "{name} ({rec}) is allergic to normal four-quarter victories—pure blood-pressure terrorism.",
+    "Watching {name} ({rec}) requires a pulse oximeter and a stress ball.",
+    "Two-minute warning + {name} ({rec}) = guaranteed chaos in the living room."
+  ],
+  fraud: [
+    "Paper tiger alert! {name} ({rec}) has a glossy record built on cupcake opponents and lucky bounces.",
+    "{name} ({rec}) is wearing a Rolex they bought out of a trunk in a strip-mall parking lot.",
+    "Scratch the surface of {name}'s {rec} record and it's duct tape, penalties, and prayer.",
+    "Everyone in the building knows {name} ({rec}) is one playoff game away from getting exposed.",
+    "{name} ({rec}) is the most fraudulent contender since a three-dollar bill.",
+    "Sell your {name} ({rec}) stock now before the schedule gets real."
+  ],
+  clown: [
+    "Honk the red nose! {name} ({rec}, {streak}) just invented a brand-new way to embarrass the city.",
+    "{name} ({rec}) is a weekly masterclass in clock mismanagement and comedy.",
+    "Put Yakety Sax over the {name} ({rec}, {streak}) highlight reel and it syncs up frame for frame.",
+    "{name} ({rec}) is making fans wear paper bags over their heads in their own living rooms.",
+    "At {rec} ({streak}), {name} is a sitcom masquerading as a professional sports team.",
+    "Even the mascot is asking for a trade out of {name} ({rec}) right now."
+  ],
+  tank: [
+    "{name} ({rec}) is driving an M1 Abrams tank straight toward the #1 overall draft pick.",
+    "At {rec}, {name} fans are watching college highlights on Saturdays with binoculars and a notepad.",
+    "{name} ({rec}) has mathematically eliminated joy from the stadium.",
+    "Lower-bowl tickets for {name} ({rec}) are currently going for two hot dogs and a handshake.",
+    "{name} ({rec}) isn't rebuilding, they're excavating a sub-basement.",
+    "Tank Commander {name} ({rec}) reports mission accomplished after another L."
+  ],
+  coach: [
+    "The seat under {name}'s head coach ({rec}, {streak}) could melt steel beams right now.",
+    "Moving vans have been spotted circling the {name} ({rec}) facility after {streak}.",
+    "{name} ({rec}) timeouts are being hoarded like family heirlooms while the clock runs out.",
+    "Sports talk radio in {name}'s city ({rec}, {streak}) is at DEFCON 1.",
+    "One more blown halftime adjustment and {name} ({rec}) is hiring a guy off the broadcast booth.",
+    "{name} ({rec}, {streak}) is playing 1994 prevent defense in a 2026 world."
+  ],
+  mash: [
+    "{name} ({rec}) is signing guys off the practice squad's practice squad just to field a lineup.",
+    "The {name} ({rec}) locker room has more crutches and walking boots than a ski lodge in February.",
+    "At this rate, {name} ({rec}) is holding open tryouts in the stadium parking lot on Friday.",
+    "Every week {name} ({rec}) loses another starter to a mysterious lower-body gremlin.",
+    "Pray for the {name} ({rec}) athletic trainers—they're working 90-hour weeks."
+  ],
+  sicko: [
+    "Yes… HA HA HA… YES! {name} ({rec}, {streak}) is peak Sickos Committee entertainment.",
+    "{name} ({rec}) plays games that set the sport back forty years and we can't stop watching.",
+    "Punts, turnovers, bizarre bounces, and chaos—{name} ({rec}) is appointment television for maniacs.",
+    "Nobody knows what {name} ({rec}, {streak}) is doing, least of all {name}.",
+    "If you bet money on a {name} ({rec}) game, call the helpline immediately."
+  ]
+};
+
+const ROAST_MORE_TRADE = {
+  you: [
+    "Sending {g1} for {r1} is highway robbery—wear a ski mask when you hit propose.",
+    "If {opp} accepts {g1} for {r1}, the league commissioner is calling an emergency UN Security Council meeting.",
+    "You gain {me}/wk and {opp} gets {g1} and a participation certificate. Ruthless.",
+    "{opp} hasn't checked their injury report since Tuesday—slip {g1} for {r1} into their inbox now.",
+    "This deal turns Goodell's Good Guys into a superteam and {opp} into a cautionary tale.",
+    "Fleecing {opp} for {r1} is so dirty you'll need to wash your phone with soap after."
+  ],
+  them: [
+    "Whoa there, Santa Claus—trading {g1} for {r1} hands {opp} the trophy on a silver platter.",
+    "Why don't you Venmo {opp} your league dues directly instead of sending {g1} for {r1}?",
+    "You {me}/wk, {opp} {them}/wk. Step away from the trade button and drink some water.",
+    "If you send {g1} for {r1}, {opp} will screenshot it and roast you in the chat until Thanksgiving.",
+    "Donating {g1} to {opp} is charitable, heartwarming, and completely insane in a competitive league."
+  ],
+  both: [
+    "You upgrade at {rpos}, {opp} plugs their hole at {gpos}—an actual adult trade in a league full of goblins.",
+    "{g1} for {r1} helps both starting lineups (+{me}/wk for you). Shake hands before somebody overthinks it.",
+    "No fleece, no collusion, just {g1} for {r1} making both rosters scarier for Sunday.",
+    "Rare win-win alert: {r1} fits Goodell's Good Guys like a glove and {opp} actually needs a {gpos}."
+  ],
+  any: [
+    "Dumping {g1} for {r1} is the roster glow-up Goodell's Good Guys has been waiting for.",
+    "Text {opp} 'hey man, looked at your roster, think this helps us both'—the oldest lie in fantasy sports.",
+    "{r1} in your {rpos} slot > {g1} burning a hole on your bench every Sunday.",
+    "Propose {give} for {get}, then casually drop a fake injury rumor about {g1}'s backup in the chat.",
+    "Deadline winners are built on bold swaps like {give} for {get}. Scared money don't make playoffs.",
+    "{opp} is one Sunday tilt away from smashing accept on {give} for {get}."
+  ]
+};
+
+/* Merge the expanded roast pools into the live Spin-it / Trade Lab structures */
+(() => {
+  try {
+    if (typeof SX_TIERS !== 'undefined') {
+      for (const tier of SX_TIERS) {
+        const extra = ROAST_MORE_SX_TIERS[tier[0]];
+        if (extra && Array.isArray(tier[4])) tier[4].push(...extra);
+      }
+    }
+    if (typeof SX_PL_CAT_LINES !== 'undefined') {
+      for (const [k, lines] of Object.entries(ROAST_MORE_PL_CAT)) {
+        SX_PL_CAT_LINES[k] = (SX_PL_CAT_LINES[k] || []).concat(lines);
+      }
+    }
+    if (typeof ST_BUFFOON_LINES !== 'undefined') {
+      for (const [k, lines] of Object.entries(ROAST_MORE_BUFFOON)) {
+        ST_BUFFOON_LINES[k] = (ST_BUFFOON_LINES[k] || []).concat(lines);
+      }
+    }
+    if (typeof ST_QUIPS !== 'undefined' && Array.isArray(ST_QUIPS)) {
+      const extraSt = [
+        ["{name} at {rec} ({streak}) has the whole city pricing championship tattoos.", "{name} ({rec}) is playing so well even the local pessimists are smiling."],
+        ["{name} ({rec}, {streak}) has you texting your ex 'we're back' at 11 PM.", "{rec} and rolling—{name} merch is suddenly formal wear."],
+        ["{name} at {rec}: pour the good bourbon, this team is built for January.", "{streak} heater for {name} ({rec})—act like a seasoned contender."],
+        ["All aboard the {name} ({rec}) wagon—bandwagon applications are open.", "{name} ({rec}, {streak}) has fair-weather fans crawling out of the woodwork."],
+        ["{name} at {rec}: respectable enough to wear the cap to the grocery store.", "{streak} for {name} ({rec})—cautious optimism is officially legal."],
+        ["{name} ({rec}) is hovering around .500 purgatory—keep the receipt on that jersey.", "{streak} and {rec}: {name} is the human embodiment of a shrug emoji."],
+        ["{name} at {rec}: check the score on your phone, don't rearrange your weekend.", "{streak} for {name} ({rec})—strictly background noise while you fold laundry."],
+        ["{name} at {rec} ({streak})—hide the team flag behind the garage.", "{rec}: tell coworkers you're 'more of a draft-pick enthusiast' than a {name} fan."],
+        ["{name} ({rec}, {streak}) is why God invented RedZone and secondary hobbies.", "At {rec}, watching {name} for three hours should count as community service."],
+        ["{name} at {rec} ({streak})—rename the dog, burn the jersey, salt the earth.", "{rec}: {name} fandom is currently covered under emotional-distress insurance."]
+      ];
+      extraSt.forEach((arr, i) => { if (ST_QUIPS[i]) ST_QUIPS[i].push(...arr); });
+    }
+    if (typeof rqTrade === 'function') {
+      const T = rqTrade();
+      for (const [k, lines] of Object.entries(ROAST_MORE_TRADE)) {
+        if (T[k]) T[k].push(...lines);
+      }
+    }
+  } catch (e) { console.warn('roast pool merge', e); }
+})();
+
+/* --- Matchup & Sweat-o-Meter Roasts (55+ lines referencing Goodell's Good Guys, opponent, margin, bench blunders) --- */
+const MU_ROAST_POOLS = {
+  leadBig: [
+    "{team} ({myrec}) is boat-racing {opp} by {mg} pts ({myS}–{opS})! Stop, stop, they're already dead!",
+    "Up {mg} on {opp} ({myS}–{opS})—start screenshotting the scoreboard for the group chat victory lap.",
+    "{team} is cooking {opp} so badly ({myS}–{opS}) ESPN should invoke the mercy rule before Monday night.",
+    "A +{mg} beatdown over {opp}! Goodell's Good Guys brought a flamethrower to a pillow fight.",
+    "Pour a drink and put your feet up—{team} is up {mg} on {opp} and cruising to the W.",
+    "{opp} checked the app, saw {team} up {mg}, and immediately closed their phone for the weekend."
+  ],
+  trailBig: [
+    "Down {mg} to {opp} ({myS}–{opS})… {team} needs a Sunday night miracle, a stat correction, and an act of God.",
+    "{opp} is taking {team} behind the woodshed ({opS}–{myS}). Don't look at the group chat until Wednesday.",
+    "Trailing {opp} by {mg}—time to pray your last starter drops a 45-burger on Monday Night Football.",
+    "Rough scene for {team} ({myrec}): down {mg} to {opp}. Have you considered blaming the schedule makers?",
+    "Down {mg} ({myS}–{opS}) against {opp}. Your starters are playing like they're in witness protection."
+  ],
+  sweat: [
+    "💦 SWEAT ALERT: {team} vs {opp} is separated by {mg} pts! Every 4-yard checkdown is a cardiac event.",
+    "Butt-clench territory! {myS} to {opS} vs {opp}—one garbage-time catch flips the whole week.",
+    "Neck and neck with {opp} ({mg} pt margin)! Do NOT blink, do NOT jinx it in the group chat.",
+    "A {mg}-point nail-biter against {opp}! Your fingernails and your blood pressure are in shambles.",
+    "This {team} vs {opp} matchup ({myS}–{opS}) is tighter than a stadium turnstile after halftime."
+  ],
+  projLead: [
+    "{team} ({myrec}) is projected to smoke {opp} by +{mg} ({myP}–{opP}). Now pray your starters actually read the script.",
+    "ESPN gives {team} a {wp}% win chance (+{mg} proj over {opp}). Don't let a last-minute tinker ruin it!",
+    "Projected {myP} to {opP} over {opp} (+{mg})—Goodell's Good Guys is the Vegas favorite this week.",
+    "{team} has {opp} out-projected by {mg} pts ({wp}% win odds). Time to talk reckless in the chat before kickoff.",
+    "Looking juicy: {team} ({myrec}) projects for {myP} vs {opp}'s {opP}. Lock the lineup and step away.",
+    "With a +{mg} projected edge over {opp}, the only person who can beat {team} this week is you overthinking the flex."
+  ],
+  projTrail: [
+    "Underdog alert: {team} ({myrec}) projects {mg} pts behind {opp} ({myP}–{opP}). Projections are for nerds anyway.",
+    "{opp} is favored {opP}–{myP} ({wp}% for {team}), which makes the upset screenshot 10x sweeter when it hits.",
+    "Down {mg} in the projections to {opp}—Goodell's Good Guys thrives in the underdog role.",
+    "ESPN says {opp} by {mg} ({opP}–{myP}). ESPN also thought half your draft class was good. Play the games!"
+  ],
+  benchOuch: [
+    "💀 COACHING MALPRACTICE: You left {benchP} ({bPts} pts) on the bench to start {startP} ({sPts} pts)!",
+    "{benchP} dropped {bPts} on your bench while {startP} gave you {sPts}. Turn in your headset immediately.",
+    "Your benchwarmer {benchP} ({bPts} pts) outscored your starter {startP} ({sPts})—pain level: immeasurable.",
+    "Look at {benchP} hanging {bPts} pts on your pine while {startP} gave you {sPts}. Fantasy self-sabotage at its finest.",
+    "If bench points counted, {benchP} ({bPts}) would have you in first place. Instead you started {startP} ({sPts}).",
+    "Starting {startP} ({sPts}) over {benchP} ({bPts}) is a fireable offense in all 32 NFL cities.",
+    "Someone call CPS on your lineup management—{benchP} ({bPts} pts) was locked in the basement while {startP} ({sPts}) stunk up the joint.",
+    "You stared at the app for 20 minutes on Sunday morning and still chose {startP} ({sPts}) over {benchP} ({bPts}). Incredible.",
+    "{benchP} ({bPts} pts) is glaring at you from the bench while {startP} ({sPts}) ruins your Sunday."
+  ],
+  extraLead: [
+    "{team} ({myrec}) is putting on a clinic against {opp} (+{mg} margin)—somebody cue the victory cigars!",
+    "Up {mg} pts on {opp}! Goodell's Good Guys is treating this week like a paid vacation.",
+    "{opp} brought a spoon to a bazooka fight against {team} ({myS}–{opS}, +{mg}).",
+    "Total domination by {team} (+{mg} over {opp})—don't forget to send a 'good effort bro' text at 4:05 PM.",
+    "{team} is up {mg} on {opp} and the fourth-quarter garbage time hasn't even started yet.",
+    "At +{mg} over {opp}, Goodell's Good Guys is scoring like an pinball machine on free play.",
+    "{opp} is getting cooked by {mg} pts—your starters woke up and chose violence today.",
+    "Victory formation for {team}! +{mg} margin over {opp} and counting."
+  ],
+  extraTrail: [
+    "Down {mg} to {opp}… {team} needs a defensive touchdown, two overtime periods, and a minor miracle.",
+    "{opp} has {team} in a blender right now (-{mg} pts). Time to pretend you 'care more about your other league.'",
+    "Trailing {opp} by {mg}—your lineup is playing like they all stayed out until 4 AM in Vegas.",
+    "Goodell's Good Guys is down {mg} to {opp}. Have you tried turning your roster off and back on again?",
+    "Down {mg} against {opp}: every time your opponent's RB touches the ball, an angel cries.",
+    "Your projected comeback against {opp} (-{mg} pts) currently requires a 50-yard TD from your tight end.",
+    "{opp} is up {mg} on {team} and talking spicy in the group chat—pray for a Monday Night bailout!",
+    "A {mg}-point hole vs {opp}. Don't panic, just quietly start scouting Week {wp} waivers."
+  ],
+  extraSweat: [
+    "💦 MAXIMUM SWEAT: {team} and {opp} are separated by {mg} pts ({myS}–{opS})! Pace the living room!",
+    "Every single yard matters in {team} vs {opp} ({mg} pt gap)—do not sit down!",
+    "Sweat-o-Meter is off the charts: {mg} pts between {team} and {opp} with the week on the line!",
+    "One reception flips {team} vs {opp} ({mg} pt margin)—pure fantasy football crack!",
+    "Your heart rate is 140 BPM watching {team} vs {opp} separated by {mg} points.",
+    "A {mg}-point razor's edge against {opp}! Stat-correction Tuesday is going to be a warzone.",
+    "Close-game alert ({mg} pts vs {opp}): even a 2-yard kneel-down at the end of the game could decide this!",
+    "Neither {team} nor {opp} deserves to lose a {mg}-point sweatfest like this (okay, {opp} does)."
+  ]
+};
+function muRoastLine(D){
+  try {
+    if (!D || D.none || !D.me || !D.op) return '';
+    const me = D.me, op = D.op, lv = (me.live || 0) + (op.live || 0) > 0;
+    const myS = r1(me.live || 0), opS = r1(op.live || 0), myP = r1(me.proj || 0), opP = r1(op.proj || 0);
+    const diff = lv ? r1(myS - opS) : r1(myP - opP), mg = Math.abs(diff);
+    let wp = me.wp != null ? Math.round(me.wp * 100) : 50;
+    const M = typeof rqMe === 'function' ? rqMe() : {};
+    const v = { team: me.name || "Goodell's Good Guys", myrec: me.rec || '4-2', opp: op.name || 'Opponent', myS, opS, myP, opP, mg, wp, benchP: M.benchP || '', startP: M.startP || '', bPts: M.bPts || '', sPts: M.sPts || '' };
+    let pool = [];
+    if (v.benchP && v.startP) pool = pool.concat(MU_ROAST_POOLS.benchOuch, MU_ROAST_POOLS.benchOuch);
+    if (lv) {
+      if (mg <= 8) pool = pool.concat(MU_ROAST_POOLS.sweat, MU_ROAST_POOLS.extraSweat);
+      else if (diff > 0) pool = pool.concat(MU_ROAST_POOLS.leadBig, MU_ROAST_POOLS.extraLead);
+      else pool = pool.concat(MU_ROAST_POOLS.trailBig, MU_ROAST_POOLS.extraTrail);
+    } else {
+      if (mg <= 4) pool = pool.concat(MU_ROAST_POOLS.sweat, MU_ROAST_POOLS.extraSweat);
+      else if (diff >= 0) pool = pool.concat(MU_ROAST_POOLS.projLead, MU_ROAST_POOLS.extraLead);
+      else pool = pool.concat(MU_ROAST_POOLS.projTrail, MU_ROAST_POOLS.extraTrail);
+    }
+    return spinPick50(pool, v, muRoastLine.u || (muRoastLine.u = new Set()));
+  } catch (_) { return ''; }
+}
+
+/* --- Favorite Teams & Favorite Players Roast Generator (55+ lines) --- */
+const FT_ROAST_POOLS = {
+  liveWin: [
+    "🔥 {name} is up {sc} on {opp} right now—try not to jinx it by bragging in the group chat before 0:00!",
+    "Look at {name} leading {opp} ({sc})! Even a blind squirrel finds a lead sometimes.",
+    "{name} ({rec}) has {opp} on the ropes ({sc})—hold onto your butts for the fourth quarter."
+  ],
+  liveLose: [
+    "😬 {name} is trailing {opp} ({sc}) live… pour a stiff one, it's happening again.",
+    "{name} ({rec}) down {sc} to {opp}—why do you let this franchise control your blood pressure?",
+    "Live pain check: {name} trailing {opp} {sc}. Time to blame the refs and the coordinator."
+  ],
+  lastWin: [
+    "👑 {name} ({rec}) just beat {opp} {sc}! Act like you've been here before (even though we have the receipts).",
+    "Victory Monday/Sunday energy: {name} topped {opp} ({sc}) and you haven't stopped smiling since.",
+    "{name} ({rec}) took down {opp} {sc}—hang the banner and talk trash till next kickoff!",
+    "A W over {opp} ({sc}) has {name} ({rec}) fans pricing playoff flights way too early."
+  ],
+  lastLose: [
+    "🤡 {name} ({rec}) took an L to {opp} ({sc}) last time out—emotional damage still pending.",
+    "Dropping {sc} to {opp}? {name} ({rec}) owes you three hours of your weekend back.",
+    "Still recovering from {name} ({rec}) losing {sc} to {opp}… therapy is cheaper than season tickets.",
+    "After {name} lost {sc} to {opp}, the local sports radio phone lines melted down.",
+    "{name} ({rec}) dropping {sc} to {opp} was a masterclass in snatching defeat from the jaws of victory.",
+    "We don't talk about {name}'s {sc} loss to {opp} in polite company anymore.",
+    "{name} ({rec}) lost {sc} to {opp} and the coaching staff is still looking for answers on the tablet.",
+    "That {sc} L to {opp} aged every {name} ({rec}) fan seven dog years."
+  ],
+  next: [
+    "👀 {name} ({rec}) has {opp} up next—get your excuses and your antacids ready now.",
+    "{name} ({rec}) vs {opp} on deck: another weekend of voluntary emotional terrorism for the fanbase.",
+    "Rooting for {name} ({rec}) with {opp} coming up is a bold lifestyle choice. Respect the loyalty.",
+    "{name} ({rec}) squares up with {opp} next—clear the couch and hide the breakables.",
+    "Next test for {name} ({rec}): {opp}. Vegas has opinions, the fanbase has anxiety.",
+    "Win or lose against {opp}, {name} ({rec}) is guaranteed to take five years off your life expectancy.",
+    "{name} ({rec}) vs {opp} incoming: time to overreact to every single injury-report tweet.",
+    "If {name} ({rec}) beats {opp}, we're buying championship merch; if they lose, fire everybody."
+  ]
+};
+function ftTeamRoast(x){
+  try {
+    const f = FT[x.key] || {}, tm = f.team || {}, info = MN.teamInfo[x.key] || {}, m = favMetaFor(x.key), g = ftGames(x);
+    const name = tm.name || info.name || m.name || x.abbr, rec = tm.record || info.record || 'this season';
+    let pool = FT_ROAST_POOLS.next, opp = 'their next opponent', sc = '';
+    if (g.live) {
+      const ms = Number(g.live.me.score || 0), os = Number(g.live.opp.score || 0);
+      opp = g.live.opp.abbr || g.live.opp.name || 'opponent'; sc = `${ms}–${os}`;
+      pool = ms >= os ? FT_ROAST_POOLS.liveWin : FT_ROAST_POOLS.liveLose;
+    } else if (g.last) {
+      const ms = Number(g.last.me.score || 0), os = Number(g.last.opp.score || 0), w = g.last.me.winner || ms > os;
+      opp = g.last.opp.abbr || g.last.opp.name || 'opponent'; sc = `${ms}–${os}`;
+      pool = w ? FT_ROAST_POOLS.lastWin : FT_ROAST_POOLS.lastLose;
+    } else if (g.next) {
+      opp = g.next.opp.abbr || g.next.opp.name || 'TBD';
+    }
+    return spinPick50(pool, { name, rec, opp, sc }, ftTeamRoast.u || (ftTeamRoast.u = new Set()));
+  } catch (_) { return ''; }
+}
+
+const FP_ROAST_POOLS = {
+  boom: [
+    "🔥 {name} ({team} {pos}) dropped {pts} pts—absolute fantasy royalty carrying your squad on his back!",
+    "At {pts} pts, {name} ({team}) is an ATM that spits out twenties every time he touches the ball.",
+    "Bow down to {name} ({pts} pts)—the best decision you've made all season.",
+    "{name} ({team} {pos}) hanging {pts} pts while your opponent cries into their nachos."
+  ],
+  solid: [
+    "💪 {name} ({team} {pos}) clocking {pts} pts—honest, blue-collar points that pay the bills.",
+    "Steady {pts} pts from {name} ({team}). Never stresses you out, always shows up.",
+    "{name} ({team} {pos}) delivering {pts} pts like a prime delivery driver."
+  ],
+  bust: [
+    "🥶 {name} ({team} {pos}) with {pts} pts… did he play or just do cardio in a clean jersey?",
+    "Paging {name} ({team})—{pts} pts is how you get demoted to the bench with a quickness.",
+    "Starred {name} ({team} {pos}) and got {pts} pts. Even the waterboy had more impact."
+  ],
+  any: [
+    "⭐ {name} ({team} {pos}) is pinned to your VIP list—time to earn that star this week!",
+    "{name} ({team} {pos}) has the talent to drop 30 or make you question everything. Buckle up.",
+    "Ride or die with {name} ({team} {pos})—starred for greatness, monitored for chaos.",
+    "{name} ({team} {pos}) is one broken tackle away from breaking the slate wide open.",
+    "Opposing defenses have {name} ({team} {pos}) circled in red Sharpie on the whiteboard.",
+    "You starred {name} ({team} {pos}) for the ceiling—now enjoy the roller coaster."
+  ]
+};
+function fpPlayerRoast(p){
+  try {
+    if (!p) return '';
+    const now = fpNow(p), ptsObj = fpPts(p, now), v = ptsObj ? Number(ptsObj.v) : null;
+    const pool = v != null ? (v >= 20 ? FP_ROAST_POOLS.boom : v >= 11 ? FP_ROAST_POOLS.solid : FP_ROAST_POOLS.bust) : FP_ROAST_POOLS.any;
+    return spinPick50(pool, { name: p.name, team: p.team || '', pos: p.pos || '', pts: v != null ? v : '' }, fpPlayerRoast.u || (fpPlayerRoast.u = new Set()));
+  } catch (_) { return ''; }
+}
+
+/* --- 1 & 2. ★ Favorite Teams top section + #ftJump + 🎮 Fantasy Favorites quick-link in ALL views --- */
+function ftJumpUpdate(){
+  const n = starList().length;
+  const b = document.getElementById('ftJumpN'); if (b) { b.textContent = n ? String(n) : ''; b.hidden = !n; }
+  const j = document.getElementById('ftJump'); if (j) j.setAttribute('aria-label', `Jump to Favorite Teams${n ? ' (' + n + ')' : ''}`);
+}
+function fzFavCount(){
+  const sp = (typeof MN !== 'undefined' && MN.fsTab) || 'nfl';
+  const ros = rosterPlayers(sp).filter(p => slotGroup(p) === 's');
+  const allRos = rosterPlayers(sp);
+  const wt = LAB_SPORTS.reduce((a, k) => a + (FSPORTS[k] ? watchList(k).length : 0), 0);
+  return (ros.length || allRos.length) + wt;
+}
+function fzFavJumpUpdate(){
+  const n = fzFavCount();
+  const b = document.getElementById('fzFavJumpN'); if (b) { b.textContent = n ? String(n) : ''; b.hidden = !n; }
+  const j = document.getElementById('fzFavJump'); if (j) j.setAttribute('aria-label', `Open Current Fantasy Favorites${n ? ' (' + n + ')' : ''}`);
+}
+function ftJump(){
+  const go = () => {
+    const el = document.getElementById('favSection'); if (!el) return;
+    if (FMIN && FMIN.teams) { FMIN.teams = false; lsSet(FMIN_KEY, FMIN); renderFavorites(); }
+    el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    try { el.focus({ preventScroll: true }); } catch (_) {}
+    setTimeout(() => { const r = el.getBoundingClientRect(); if (r.top < 0 || r.top > innerHeight * .6) el.scrollIntoView({ block: 'start' }); }, 800);
+    el.classList.remove('fp-flash'); void el.offsetWidth; el.classList.add('fp-flash'); setTimeout(() => el.classList.remove('fp-flash'), 1400);
+  };
+  if (state.tab !== 'mynews') {
+    const t = document.querySelector('.tab[data-tab="mynews"]');
+    if (t) t.click();
+    requestAnimationFrame(() => requestAnimationFrame(go));
+  } else {
+    renderFavorites();
+    go();
+  }
+}
+
+/* Quick-access bar injected at the top of #games in EVERY tab/view (My News, Fantasy, Fantasy Lab, NFL, CFB, MLB, NHL, etc.) */
+function qvBarHTML(){
+  const tn = starList().length, pn = fpList().length, fn = fzFavCount();
+  const sp = (typeof MN !== 'undefined' && MN.fsTab) || 'nfl';
+  const D = MU.d && MU.d.nfl;
+  let roast = '';
+  if (state.tab === FANTASY_TAB && D) roast = muRoastLine(D);
+  else if (starList().length) roast = ftTeamRoast(starList()[Math.floor(Math.random() * starList().length)]);
+  else if (fpList().length) roast = fpPlayerRoast(fpList()[0]);
+  return `<div class="qv-bar" role="navigation" aria-label="Quick Favorites & Fantasy Links">` +
+    `<span class="qv-lbl">⚡ Quick:</span>` +
+    `<button type="button" class="qv-pill" data-ftjump title="Jump to ★ Favorite Teams">★ Teams${tn ? ` <b>${tn}</b>` : ''}</button>` +
+    `<button type="button" class="qv-pill" data-fpjump title="Jump to ⭐ Favorite Players">⭐ Players${pn ? ` <b>${pn}</b>` : ''}</button>` +
+    `<button type="button" class="qv-pill fz" data-fzpeek title="Quick-peek your current Fantasy Favorites (Starters + Watch List)">🎮 Fantasy Favs${fn ? ` <b>${fn}</b>` : ''}</button>` +
+    `<button type="button" class="qv-pill fz" data-fzgoto="${FANTASY_TAB}" title="Go to 🎮 Fantasy Roster & Matchup">🎮 Roster</button>` +
+    `<button type="button" class="qv-pill fz" data-fzgoto="${WATCH_TAB}" title="Go to 🧪 Fantasy Lab & Watch List">🧪 Watch List (${watchList(sp).length})</button>` +
+    (roast ? `<div class="qv-roast"><span id="qvRoastTxt">🎤 ${esc(roast)}</span><button type="button" class="qv-rbtn" data-qvroast title="Deal another fresh roast">🔥 Roast me</button></div>` : '') +
+  `</div>`;
+}
+function ensureQvBar(){
+  const g = document.getElementById('games'); if (!g) return;
+  let bar = document.getElementById('qvBarWrap');
+  if (!bar) {
+    bar = document.createElement('div');
+    bar.id = 'qvBarWrap';
+  }
+  if (g.firstElementChild !== bar) g.insertBefore(bar, g.firstChild);
+  const fp = document.getElementById('fpSection');
+  if (fp && state.tab === 'mynews' && bar.nextElementSibling !== fp) g.insertBefore(fp, bar.nextElementSibling);
+  bar.innerHTML = qvBarHTML();
+}
+
+/* 🎮 Fantasy Favorites Quick-Peek Modal/Drawer (works from ANY view) */
+function fzPeekOpen(open){
+  let d = document.getElementById('fzPeekModal');
+  if (!open) { if (d) d.hidden = true; return; }
+  if (!d) {
+    d = document.createElement('div'); d.className = 'modal fzp-modal'; d.id = 'fzPeekModal'; d.hidden = true;
+    document.body.appendChild(d);
+  }
+  const sp = (typeof MN !== 'undefined' && MN.fsTab) || 'nfl', F = FSPORTS[sp] || FSPORTS.nfl;
+  const L = espnLinks[sp] || {};
+  const starters = rosterPlayers(sp).filter(p => slotGroup(p) === 's').sort((a, b) => slotRank(a) - slotRank(b));
+  const bench = rosterPlayers(sp).filter(p => slotGroup(p) !== 's');
+  const watched = LAB_SPORTS.flatMap(k => FSPORTS[k] ? watchList(k).map(p => ({ ...p, sp: k })) : []);
+  const favPls = fpList();
+  const D = MU.d && MU.d.nfl;
+  const roast = (D && muRoastLine(D)) || (starters[0] && fpPlayerRoast(starters[0])) || '';
+  const rowHTML = (p, badge) => {
+    const now = fpNow(p), pts = fpPts(p, now), st = fpStatus(now);
+    const Fp = FSPORTS[psp(p)] || F;
+    return `<button type="button" class="fzp-it"${psAttr(p)} title="Open full stats for ${esc(p.name)}">` +
+      `<img src="${esc(p.headshot || p.teamLogo || '')}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` +
+      `<span class="fzp-tx"><b>${esc(p.name)}</b><small>${esc([badge || (p.roster && p.roster.slot) || p.pos, p.team, Fp.label].filter(Boolean).join(' · '))}</small>${st ? `<small>${st}</small>` : ''}</span>` +
+      `<span class="fzp-pts">${pts ? `<b>${esc(String(pts.v))}</b>${esc(pts.l.replace('fantasy ', ''))}` : `<b>${esc(p.pos || '')}</b>`}</span>` +
+    `</button>`;
+  };
+  d.innerHTML = `<div class="modal-box fzp-box" role="dialog" aria-modal="true" aria-labelledby="fzpTitle">
+    <div class="fzp-hd">
+      <h2><span id="fzpTitle">🎮 Current Fantasy Favorites</span> <small>${esc(L.teamName ? `${L.teamName} (${L.record || F.label})` : F.name)}</small></h2>
+      <button type="button" class="sy-x" data-fzpclose aria-label="Close">✕</button>
+    </div>
+    ${roast ? `<div class="mu-roast"><span>🎤 ${esc(roast)}</span><button type="button" class="qv-rbtn" data-fzproast>🔥 Another roast</button></div>` : ''}
+    <div class="fzp-nav">
+      <button type="button" class="btn pri" data-fzgoto="${FANTASY_TAB}">🎮 Open Full Roster &amp; Matchup →</button>
+      <button type="button" class="btn" data-fzgoto="${WATCH_TAB}">🧪 Open Fantasy Lab &amp; Watch List (${watched.length}) →</button>
+      <button type="button" class="btn" data-ftjump>★ Favorite Teams (${starList().length})</button>
+      <button type="button" class="btn" data-fpjump>⭐ Favorite Players (${favPls.length})</button>
+    </div>
+    <div class="fzp-bd">
+      <div class="fzp-sec"><h3>🏈 Active Fantasy Starters (${starters.length}) <small>${esc(L.teamName || 'Your lineup')} · tap any player for stats</small></h3>
+        ${starters.length ? `<div class="fzp-grid">${starters.map(p => rowHTML(p, p.roster && p.roster.slot)).join('')}</div>` : `<div class="empty">No active starters synced for ${esc(F.label)}.</div>`}
+      </div>
+      <div class="fzp-sec"><h3>👁 Fantasy Lab Watch List (${watched.length}) <small>Waiver &amp; trade targets across sports</small></h3>
+        ${watched.length ? `<div class="fzp-grid">${watched.map(p => rowHTML(p, '👁 Watch')).join('')}</div>` : `<div class="empty">Your Watch List is empty. Open Fantasy Lab to add targets.</div>`}
+      </div>
+      ${favPls.length ? `<div class="fzp-sec"><h3>⭐ Starred Favorite Players (${favPls.length})</h3><div class="fzp-grid">${favPls.map(p => rowHTML(p, '⭐ Fav')).join('')}</div></div>` : ''}
+      ${bench.length ? `<div class="fzp-sec"><h3>🪑 Bench (${bench.length})</h3><div class="fzp-grid">${bench.slice(0, 8).map(p => rowHTML(p, 'BENCH')).join('')}</div></div>` : ''}
+    </div>
+  </div>`;
+  d.hidden = false;
+}
+
+/* Enhance renderFavorites so #favSection has the clean ★ Favorite Teams header (+ Add teams, roast banner, per-card roast) */
+(() => {
+  const origFavs = renderFavorites;
+  renderFavorites = function(){
+    const r = origFavs.apply(this, arguments);
+    try {
+      const el = document.getElementById('favSection');
+      if (el) {
+        el.classList.add('ft-sec');
+        el.tabIndex = -1;
+        const st = starList(), tTitle = el.querySelector('.section-title');
+        if (tTitle) {
+          const liveN = st.filter(x => ftGames(x).live).length, slim = !isMyNews();
+          const sampleRoast = st.length ? ftTeamRoast(st[0]) : '';
+          tTitle.innerHTML = `★ Favorite Teams <small>${st.length} starred${liveN ? ` · <span style="color:var(--live)">${liveN} live</span>` : ''}</small>` +
+            `<button class="linkbtn" style="margin-left:auto;font-size:13px" data-focus-search="">＋ Add teams</button>` +
+            `<button class="linkbtn" style="font-size:13px" data-open-favs>Manage</button>` +
+            `<button class="linkbtn" style="font-size:13px" data-fzpeek>🎮 Fantasy Favs (${fzFavCount()})</button>` +
+            (slim ? fminBtn('teams') : '');
+          if (sampleRoast && isMyNews() && !el.querySelector('.sec-roast')) {
+            const rb = document.createElement('div');
+            rb.className = 'sec-roast';
+            rb.innerHTML = `<span id="ftSecRoastTxt">🎤 ${esc(sampleRoast)}</span><button type="button" class="qv-rbtn" data-ftsecroast>🔥 Roast my teams</button>`;
+            tTitle.after(rb);
+          }
+        }
+        // Add a fresh roast line inside each full .ft-card on My News
+        el.querySelectorAll('.ft-card').forEach(card => {
+          if (card.querySelector('.ft-roast')) return;
+          const k = card.dataset.ftk, x = st.find(z => z.key === k);
+          if (!x) return;
+          const q = ftTeamRoast(x);
+          if (q) {
+            const d = document.createElement('div');
+            d.className = 'ft-roast';
+            d.textContent = '🎤 ' + q;
+            const slots = card.querySelector('.ft-slots');
+            if (slots) slots.after(d); else card.appendChild(d);
+          }
+        });
+      }
+      ftJumpUpdate();
+      fzFavJumpUpdate();
+    } catch (e) { console.warn('renderFavorites hook', e); }
+    return r;
+  };
+})();
+
+/* Enhance renderFavPlayersSection with per-player roast line & section roast banner */
+(() => {
+  const origFpCard = fpCard;
+  fpCard = function(x){
+    const html = origFpCard.apply(this, arguments);
+    try {
+      const q = fpPlayerRoast(x && x.p);
+      if (!q) return html;
+      return html.replace(/<\/span><\/button><button type="button" class="fp-un"/, `<span class="fp-roast">🎤 ${esc(q)}</span></span></button><button type="button" class="fp-un"`);
+    } catch (_) { return html; }
+  };
+  const origFpSec = renderFavPlayersSection;
+  renderFavPlayersSection = function(){
+    const r = origFpSec.apply(this, arguments);
+    try {
+      const el = document.getElementById('fpSection');
+      if (el) {
+        const list = fpList();
+        const title = el.querySelector('#fpTitle');
+        if (title && !title.querySelector('[data-fzpeek]')) {
+          const btn = document.createElement('button');
+          btn.type = 'button'; btn.className = 'linkbtn'; btn.style.fontSize = '13px'; btn.dataset.fzpeek = '1';
+          btn.textContent = `🎮 Fantasy Favs (${fzFavCount()})`;
+          title.appendChild(btn);
+        }
+        if (list.length && title && !el.querySelector('.sec-roast')) {
+          const rb = document.createElement('div');
+          rb.className = 'sec-roast';
+          rb.innerHTML = `<span id="fpSecRoastTxt">🎤 ${esc(fpPlayerRoast(list[0]))}</span><button type="button" class="qv-rbtn" data-fpsecroast>🔥 Roast my players</button>`;
+          title.after(rb);
+        }
+      }
+      ensureQvBar();
+    } catch (e) { console.warn('fpSection hook', e); }
+    return r;
+  };
+})();
+
+/* Hook renderGames, renderFantasy, renderWatchTab, and muScore so quick links, sport switcher, and matchup roasts show everywhere */
+(() => {
+  const origMuScore = muScore;
+  muScore = function(D, part){
+    const h = origMuScore.apply(this, arguments);
+    if (part === 'wp') return h;
+    try {
+      const q = muRoastLine(D);
+      return h + (q ? `<div class="mu-roast"><span id="muRoastTxt">🎤 ${esc(q)}</span><button type="button" class="qv-rbtn" data-muroast>🔥 Roast matchup</button></div>` : '');
+    } catch (_) { return h; }
+  };
+
+  const origWatch = renderWatchTab;
+  renderWatchTab = function(){
+    const r = origWatch.apply(this, arguments);
+    try {
+      const sp = MN.fsTab || 'nfl', F = FSPORTS[sp] || FSPORTS.nfl;
+      const inp = document.getElementById('wlInput');
+      if (inp) {
+        inp.dataset.sp = sp;
+        inp.placeholder = sp === 'nfl' ? `Search NFL players or D/ST to watch…` : `Search ${F.label} players to watch…`;
+      }
+      const watchArea = document.getElementById('watchArea');
+      if (watchArea) {
+        let bar = document.getElementById('flabSportBar');
+        if (!bar) {
+          bar = document.createElement('div');
+          bar.id = 'flabSportBar';
+          watchArea.before(bar);
+        }
+        bar.innerHTML = flabSportBarHTML(sp);
+      }
+      // Hide duplicate older .fs-tabs in Watch Tab if flabSportBar is present
+      document.querySelectorAll('#games .chips.fs-tabs').forEach(el => { if (state.tab === WATCH_TAB) el.style.display = 'none'; });
+      ensureQvBar();
+      fzFavJumpUpdate();
+    } catch (e) { console.warn('watch hook', e); }
+    return r;
+  };
+
+  const origFz = renderFantasy;
+  renderFantasy = function(){
+    const r = origFz.apply(this, arguments);
+    try { ensureQvBar(); fzFavJumpUpdate(); sxBadges(); } catch (_) {}
+    return r;
+  };
+  const origMuRender = muRender;
+  muRender = function(){
+    const r = origMuRender.apply(this, arguments);
+    try { sxBadges(); } catch (_) {}
+    return r;
+  };
+
+  const origGames = renderGames;
+  renderGames = function(){
+    const r = origGames.apply(this, arguments);
+    try { ensureQvBar(); ftJumpUpdate(); fpJumpUpdate(); fzFavJumpUpdate(); } catch (_) {}
+    return r;
+  };
+
+  const origHdr = renderHeaderLogos;
+  renderHeaderLogos = function(){
+    const r = origHdr.apply(this, arguments);
+    try { ftJumpUpdate(); fpJumpUpdate(); fzFavJumpUpdate(); } catch (_) {}
+    return r;
+  };
+})();
+
+/* Add roast banner inside psRender (player modal) and tcRender (team modal) */
+(() => {
+  const origPs = psRender;
+  psRender = function(){
+    const r = origPs.apply(this, arguments);
+    try {
+      if (PS.el && PS.p) {
+        const bd = PS.el.querySelector('.ps-bd');
+        if (bd && !bd.querySelector('.sec-roast')) {
+          const q = fpPlayerRoast(PS.p);
+          if (q) {
+            const d = document.createElement('div');
+            d.className = 'sec-roast';
+            d.innerHTML = `<span>🎤 ${esc(q)}</span>`;
+            bd.prepend(d);
+          }
+        }
+      }
+    } catch (_) {}
+    return r;
+  };
+  const origTc = tcRender;
+  tcRender = function(){
+    const r = origTc.apply(this, arguments);
+    try {
+      if (TC.el && TC.T) {
+        const bd = TC.el.querySelector('.ps-bd');
+        if (bd && !bd.querySelector('.sec-roast')) {
+          const q = ftTeamRoast({ key: TC.T.lg + ':' + String(TC.T.abbr || '').toUpperCase(), lg: TC.T.lg, abbr: String(TC.T.abbr || '').toUpperCase() });
+          if (q) {
+            const d = document.createElement('div');
+            d.className = 'sec-roast';
+            d.innerHTML = `<span>🎤 ${esc(q)}</span>`;
+            bd.prepend(d);
+          }
+        }
+      }
+    } catch (_) {}
+    return r;
+  };
+})();
+
+/* Fix sxBadges in Matchup so the Spin-it button sits neatly inside .ms-n (next to player name) instead of floating over the card border */
+(() => {
+  const origSxBadges = sxBadges;
+  sxBadges = function(){
+    origSxBadges.apply(this, arguments);
+    try {
+      document.querySelectorAll('.mu-b .ms-sd').forEach(sd => {
+        const nm = sd.querySelector('.ms-n'), loose = sd.querySelector(':scope > .sx-b');
+        if (loose && nm) nm.appendChild(loose);
+      });
+    } catch (_) {}
+  };
+})();
+
+/* --- 4. iOS + Android + Desktop PWA Support (dynamic 180/192/512 PNG icons + manifest + install modal) --- */
+const PWA = { prompt: null, icon180: '', icon192: '', icon512: '' };
+function pwaDrawIcon(sz){
+  try {
+    const c = document.createElement('canvas'); c.width = sz; c.height = sz;
+    const g = c.getContext('2d');
+    // Rounded dark-navy & gold stadium badge
+    const bg = g.createLinearGradient(0, 0, sz, sz);
+    bg.addColorStop(0, '#162038'); bg.addColorStop(0.55, '#0b0f19'); bg.addColorStop(1, '#1e160c');
+    g.fillStyle = bg; g.fillRect(0, 0, sz, sz);
+    // Gold/orange outer ring
+    g.strokeStyle = '#ff8a1f'; g.lineWidth = Math.max(4, sz * 0.045);
+    g.strokeRect(sz * 0.06, sz * 0.06, sz * 0.88, sz * 0.88);
+    // Star + MSD monogram
+    g.fillStyle = '#ffc83d';
+    g.font = `900 ${Math.round(sz * 0.34)}px system-ui, -apple-system, sans-serif`;
+    g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText('★', sz * 0.5, sz * 0.34);
+    g.fillStyle = '#ffffff';
+    g.font = `900 ${Math.round(sz * 0.24)}px system-ui, -apple-system, sans-serif`;
+    g.fillText('MSD', sz * 0.5, sz * 0.71);
+    return c.toDataURL('image/png');
+  } catch (_) { return ''; }
+}
+function pwaStandalone(){
+  try { return !!(window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true); } catch (_) { return false; }
+}
+function pwaInit(){
+  try {
+    PWA.icon180 = pwaDrawIcon(180);
+    PWA.icon192 = pwaDrawIcon(192);
+    PWA.icon512 = pwaDrawIcon(512);
+    const ap = document.getElementById('pwaAppleIcon');
+    if (ap && PWA.icon180) ap.href = PWA.icon180;
+    const manifest = {
+      name: "Mann's Sports Dashboard",
+      short_name: "Mann's Sports",
+      description: "Live scores, Favorite Teams & Players, Fantasy Matchup, Trade Lab, Spin-it & savage roasts.",
+      start_url: "./",
+      scope: "./",
+      display: "standalone",
+      orientation: "any",
+      background_color: "#0b0f19",
+      theme_color: "#0b0f19",
+      icons: [
+        PWA.icon192 ? { src: PWA.icon192, sizes: "192x192", type: "image/png", purpose: "any maskable" } : null,
+        PWA.icon512 ? { src: PWA.icon512, sizes: "512x512", type: "image/png", purpose: "any maskable" } : null
+      ].filter(Boolean)
+    };
+    const mf = document.getElementById('pwaManifest');
+    if (mf) mf.href = 'data:application/manifest+json;charset=utf-8,' + encodeURIComponent(JSON.stringify(manifest));
+    const standalone = pwaStandalone();
+    document.documentElement.classList.toggle('pwa-standalone', standalone);
+    const btn = document.getElementById('pwaBtn');
+    if (btn) btn.hidden = standalone;
+  } catch (e) { console.warn('pwaInit', e); }
+}
+addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  PWA.prompt = e;
+  const btn = document.getElementById('pwaBtn');
+  if (btn && !pwaStandalone()) btn.hidden = false;
+});
+addEventListener('appinstalled', () => {
+  PWA.prompt = null;
+  document.documentElement.classList.add('pwa-standalone');
+  const btn = document.getElementById('pwaBtn'); if (btn) btn.hidden = true;
+  toast("📲 Mann's Sports Dashboard installed!");
+});
+function pwaOpenModal(open){
+  let d = document.getElementById('pwaModal');
+  if (!open) { if (d) d.hidden = true; return; }
+  if (!d) {
+    d = document.createElement('div'); d.className = 'modal pwa-modal'; d.id = 'pwaModal'; d.hidden = true;
+    document.body.appendChild(d);
+  }
+  const st = pwaStandalone();
+  d.innerHTML = `<div class="modal-box pwa-box" role="dialog" aria-modal="true" aria-labelledby="pwaTitle">
+    <div class="fzp-hd">
+      <div class="pwa-hd">${PWA.icon180 ? `<img src="${esc(PWA.icon180)}" alt="App icon">` : ''}<div><h2 id="pwaTitle">📲 Install Mann's Sports App</h2><small>${st ? '✅ Running as an installed Full-Screen App' : 'Add to your iPhone, iPad, Android or Desktop'}</small></div></div>
+      <button type="button" class="sy-x" data-pwaclose aria-label="Close">✕</button>
+    </div>
+    ${PWA.prompt ? `<div style="margin:10px 0"><button type="button" class="btn sy-pri" style="width:100%;padding:11px" data-pwainstall>📲 Install Now (1-Click)</button></div>` : ''}
+    <div class="pwa-steps">
+      <div class="pwa-card">
+        <h4>🍎 iPhone &amp; iPad (iOS Safari)</h4>
+        <ol>
+          <li>Open this page in <b>Safari</b> on your iPhone or iPad.</li>
+          <li>Tap the <b>Share</b> button <span aria-label="Share icon">⬆️</span> in the Safari toolbar.</li>
+          <li>Scroll down and tap <b>Add to Home Screen ➕</b>, then tap <b>Add</b>.</li>
+          <li>Launch <b>Mann's Sports</b> from your Home Screen—it opens full-screen with its own icon and zero browser bars!</li>
+        </ol>
+      </div>
+      <div class="pwa-card">
+        <h4>💻 Desktop Chrome / Edge &amp; 🤖 Android</h4>
+        <ol>
+          <li>Click the <b>Install Mann's Sports</b> icon in the right side of the address bar (or open the browser menu <b>⋮ → Install app / Add to Home screen</b>).</li>
+        </ol>
+      </div>
+    </div>
+  </div>`;
+  d.hidden = false;
+}
+
+/* Global click listener for all new buttons */
+document.addEventListener('click', async e => {
+  const t = e.target && e.target.closest ? e.target : null; if (!t) return;
+  if (t.closest('[data-ftjump]')) { e.preventDefault(); fzPeekOpen(false); ftJump(); return; }
+  if (t.closest('[data-fzpeek]')) { e.preventDefault(); fzPeekOpen(true); return; }
+  if (t.closest('[data-fzpclose]') || t.id === 'fzPeekModal') { e.preventDefault(); fzPeekOpen(false); return; }
+  const goto = t.closest('[data-fzgoto]');
+  if (goto) {
+    e.preventDefault(); fzPeekOpen(false);
+    const tab = goto.dataset.fzgoto;
+    if (tab && !fantasyTabOn()) setFantasySports(['nfl'], true);
+    const btn = document.querySelector(`.tab[data-tab="${CSS.escape(tab)}"]`);
+    if (btn) btn.click(); else { state.tab = tab; renderTabs(); renderMyNews(); }
+    scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+  const flsp = t.closest('[data-flabsp]');
+  if (flsp) { e.preventDefault(); flabSwitchSport(flsp.dataset.flabsp); return; }
+  if (t.closest('[data-qvroast]')) {
+    e.preventDefault();
+    const el = document.getElementById('qvRoastTxt');
+    const D = MU.d && MU.d.nfl, st = starList(), fp = fpList();
+    const poolPick = (state.tab === FANTASY_TAB && D && muRoastLine(D)) || (st.length && ftTeamRoast(st[Math.floor(Math.random() * st.length)])) || (fp.length && fpPlayerRoast(fp[Math.floor(Math.random() * fp.length)])) || '';
+    if (el && poolPick) el.textContent = '🎤 ' + poolPick;
+    return;
+  }
+  if (t.closest('[data-ftsecroast]')) {
+    e.preventDefault();
+    const st = starList(), el = document.getElementById('ftSecRoastTxt');
+    if (el && st.length) el.textContent = '🎤 ' + ftTeamRoast(st[Math.floor(Math.random() * st.length)]);
+    return;
+  }
+  if (t.closest('[data-fpsecroast]')) {
+    e.preventDefault();
+    const fp = fpList(), el = document.getElementById('fpSecRoastTxt');
+    if (el && fp.length) el.textContent = '🎤 ' + fpPlayerRoast(fp[Math.floor(Math.random() * fp.length)]);
+    return;
+  }
+  if (t.closest('[data-muroast]')) {
+    e.preventDefault();
+    const D = MU.d && MU.d.nfl, el = document.getElementById('muRoastTxt');
+    if (el && D) el.textContent = '🎤 ' + muRoastLine(D);
+    return;
+  }
+  if (t.closest('[data-fzproast]')) {
+    e.preventDefault(); fzPeekOpen(true); return;
+  }
+  if (t.closest('#pwaBtn')) {
+    e.preventDefault();
+    if (PWA.prompt) {
+      try { await PWA.prompt.prompt(); PWA.prompt = null; return; } catch (_) {}
+    }
+    pwaOpenModal(true);
+    return;
+  }
+  if (t.closest('[data-pwainstall]')) {
+    e.preventDefault();
+    if (PWA.prompt) { try { await PWA.prompt.prompt(); PWA.prompt = null; pwaOpenModal(false); } catch (_) {} }
+    return;
+  }
+  if (t.closest('[data-pwaclose]') || t.id === 'pwaModal') { e.preventDefault(); pwaOpenModal(false); return; }
+});
+addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  const fzp = document.getElementById('fzPeekModal'); if (fzp && !fzp.hidden) { fzPeekOpen(false); return; }
+  const pwm = document.getElementById('pwaModal'); if (pwm && !pwm.hidden) { pwaOpenModal(false); return; }
+});
+
+
+/* --- 6. ☀️☢️ Over-the-Top Blinding Light Mode ("light-assault") --- */
+const LIGHT_ROASTS = [
+  "Congratulations Mann, you just turned your sports dashboard into a 1998 GeoCities laser-tag website.",
+  "Even Roger Goodell wouldn't sentence someone's retinas to this.",
+  "Your corneas just entered the NFL blue medical tent (Questionable to return).",
+  "Did you lose a fantasy bet to Christopher or do you just hate having eyesight?",
+  "This is brighter than the sun reflecting off a bald offensive coordinator's forehead at 1:00 PM.",
+  "Comic Sans + highlighter yellow: the official uniform of benching a 30-point scorer.",
+  "Scientists at NASA just spotted your screen from low Earth orbit.",
+  "Your monitor is currently emitting enough UV radiation to tan a linebacker.",
+  "If Goodell's Good Guys played as loud as this color scheme, you'd be 14-0.",
+  "Warning: staring at this mode for more than 45 seconds may cause you to trade CeeDee Lamb for a kicker.",
+  "This color palette was designed by a raccoon on three cans of Monster Energy.",
+  "Your eyeballs are filing a workers' compensation claim as we speak.",
+  "Welcome to 3:00 AM fridge-light simulator—except the fridge is full of neon highlighters.",
+  "Even the Boston Bruins penalty box is more relaxing than this screen right now.",
+  "You asked for an annoying light mode. Behold: visual psychological warfare.",
+  "Neighbors three houses down are wondering why you turned on a tanning bed in the living room.",
+  "Every card is slightly crooked because straight lines are for people who use Dark Mode.",
+  "This font choice alone just docked Goodell's Good Guys 12 projected fantasy points.",
+  "Somewhere a graphic designer just woke up in a cold sweat and doesn't know why.",
+  "Put on welding goggles before scrolling down to the Matchup section.",
+  "Your phone battery is dropping 2% per minute just trying to power all this yellow.",
+  "This looks like a Nickelodeon game show exploded inside a bowling alley.",
+  "Step away from the highlighter fumes, Mann—the Dark Mode panic button is right there.",
+  "If your opponent sees you using this theme, they're claiming an automatic forfeit.",
+  "Retina Sweat-o-Meter: 100/100 (Full Solar Flare).",
+  "Not even a tinted visor could save an NFL quarterback from this glare.",
+  "You wanted over-the-top annoying? We gave you Comic Sans, hot-pink dashes, and radioactive lime. Respect."
+];
+let lightAssaultOn = false;
+function pickLightRoast(){
+  return spinPick50(LIGHT_ROASTS, {}, pickLightRoast.u || (pickLightRoast.u = new Set()));
+}
+function ensureLightBar(){
+  let bar = document.getElementById('lightAssaultBar');
+  if (!bar) {
+    bar = document.createElement('div');
+    bar.id = 'lightAssaultBar';
+    bar.className = 'la-bar';
+    bar.hidden = true;
+    const main = document.querySelector('main');
+    if (main) main.prepend(bar);
+  }
+  return bar;
+}
+function setLightAssault(on){
+  lightAssaultOn = !!on;
+  document.body.classList.toggle('light-assault', lightAssaultOn);
+  const btn = document.getElementById('lightModeBtn');
+  if (btn) {
+    btn.classList.toggle('on', lightAssaultOn);
+    btn.setAttribute('aria-pressed', String(lightAssaultOn));
+    btn.innerHTML = lightAssaultOn ? '🌙 <span class="ai-l">Dark Mode NOW!</span>' : '☀️ <span class="ai-l">Light</span>';
+  }
+  const bar = ensureLightBar();
+  if (bar) {
+    bar.hidden = !lightAssaultOn;
+    if (lightAssaultOn) {
+      bar.innerHTML = `<div class="la-main"><div class="la-hd">🕶️☢️ BLINDING LIGHT MODE ACTIVE — WHY DID YOU DO THIS TO YOURSELF, MANN?!</div><div class="la-rt" id="lightRoastTxt">🎤 ${esc(pickLightRoast())}</div></div>` +
+        `<div class="la-acts"><button type="button" class="la-reroll" data-light-roast="1">🎲 Roast my eyes again</button><button type="button" class="la-panic" data-light-off="1">😭 MY EYES! BACK TO DARK MODE</button></div>`;
+    }
+  }
+}
+document.addEventListener('click', e => {
+  const t = e.target && e.target.closest ? e.target : null; if (!t) return;
+  if (t.closest('[data-light-toggle]')) { e.preventDefault(); setLightAssault(!lightAssaultOn); return; }
+  if (t.closest('[data-light-off]')) { e.preventDefault(); setLightAssault(false); toast('🌙 Sweet relief—back in Dark Mode!'); return; }
+  if (t.closest('[data-light-roast]')) {
+    e.preventDefault();
+    const el = document.getElementById('lightRoastTxt');
+    if (el) el.textContent = '🎤 ' + pickLightRoast();
+    return;
+  }
+});
+
+try { pwaInit(); ftJumpUpdate(); fpJumpUpdate(); fzFavJumpUpdate(); } catch (_) {}
+</script>
+
 <script>
 /* Oct 19: boot last, after every script block above has defined its globals (see bootDashboard). */
 try { bootDashboard(); } catch (e) { sysFail('boot', e); }
