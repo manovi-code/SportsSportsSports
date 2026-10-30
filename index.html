@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261030-1205-excel-drilldown-namefix">
+<meta name="build-id" content="20261030-1430-bestworst-tiles">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,7 +18,7 @@
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261030-1205-excel-drilldown-namefix';
+var BUILD_ID = '20261030-1430-bestworst-tiles';
 var FIREBASE_CONFIG = { apiKey: "AIzaSyDVX8Nz5Cpm3cdEdfYKDi9iKZ3eEuEsVlY", authDomain: "sportssportssports-d2cfc.firebaseapp.com", projectId: "sportssportssports-d2cfc",
   storageBucket: "sportssportssports-d2cfc.firebasestorage.app", messagingSenderId: "566191759512", appId: "1:566191759512:web:3b5e44b2547505bf4f70ed" };
 /* ^ Oct 28: optional sign-in + sync. Set to null to turn it off completely (no SDK load, no button). Web config keys are public by design; access is locked by firestore.rules. */
@@ -3874,6 +3874,14 @@ html.tc-open{overflow:hidden}
   /* Oct 30: player-card name lines never run under the ▶ highlight button or the headshot circle (nmFit sets the room; this is the last resort) */
   .pg-sm .cc .cc-circ .hl-cc{top:auto;bottom:100%;left:auto;right:-4px;transform:translateY(6px)}   /* small roster cards: ▶ rides on the headshot's top-right edge, off the name plate */
   .cc .cc-plate>.nm-cut,.pc .pc-plate>.nm-cut{overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap}
+
+  /* Oct 30: drill-down stat tiles show the whole value: no ellipsis; psTileFit shrinks the number to fit, then lets it wrap */
+  .ps-tile b{overflow:visible;text-overflow:clip}
+  .ps-tile b.ps-wrap{white-space:normal;overflow-wrap:anywhere}
+  .ps-tile .ps-tsub{display:block;margin-top:2px;font:800 12.5px/1.2 system-ui;font-style:normal;color:#c9d6f0;font-variant-numeric:tabular-nums}
+  .ps-tile.hi .ps-tsub{color:#ffe9a6}
+  .ps-tile i{overflow-wrap:normal}.ps-tile i.ps-wrap,.ps-tile .ps-tsub.ps-wrap{overflow-wrap:anywhere}
+  @media (max-width:420px){.ps-tiles{grid-template-columns:repeat(auto-fill,minmax(76px,1fr))}.ps-tile{padding:8px 8px 7px}.ps-tile i{font-size:10px;letter-spacing:.2px}}
 </style>
 </head>
 <body>
@@ -12143,7 +12151,8 @@ async function psData(p){
 
 /* ---------- small renderers ---------- */
 function psTiles(list){ const L = list.filter(x => x && x[1] != null && x[1] !== '' && x[1] !== '-'); if (!L.length) return '';
-  return `<div class="ps-tiles">${L.map(([k, v, tip, cls]) => `<div class="ps-tile${cls ? ' ' + cls : ''}"${tip ? ` title="${esc(tip)}"` : ''}><b>${esc(v)}</b><i>${esc(k)}</i></div>`).join('')}</div>`; }
+  return `<div class="ps-tiles">${L.map(([k, v, tip, cls]) => { const sv = String(v), cut = /txt/.test(cls || '') ? -1 : sv.indexOf(' · ');   // Oct 30: "31 · W7" → big value over a small detail line
+    return `<div class="ps-tile${cls ? ' ' + cls : ''}"${tip ? ` title="${esc(tip)}"` : ''}><b>${esc(cut > 0 ? sv.slice(0, cut) : sv)}</b>${cut > 0 ? `<em class="ps-tsub">${esc(sv.slice(cut + 3))}</em>` : ''}<i>${esc(k)}</i></div>`; }).join('')}</div>`; }
 function psSec(title, body, sub){ return body ? `<section class="ps-sec"><h3>${title}${sub ? ` <small>${esc(sub)}</small>` : ''}</h3>${body}</section>` : ''; }
 function psTable(head, rows, cls){ if (!rows.length) return '';
   return `<div class="ps-tw"><table class="ps-t${cls ? ' ' + cls : ''}"><thead><tr>${head.map(h => `<th${h.c ? ` class="${h.c}"` : ''}${h.t ? ` title="${esc(h.t)}"` : ''}>${h.g ? `<i>${esc(h.g)}</i>` : ''}${esc(h.h)}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`; }
@@ -14484,6 +14493,25 @@ function nmFit(root){
   document.body ? start() : document.addEventListener('DOMContentLoaded', start);
   addEventListener('resize', run); addEventListener('load', run);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(run);
+})();
+</script>
+<script>
+/* Oct 30: fit drill-down stat tiles (player + team views). Each value, detail and label shrinks (down to 60%) until it fits its tile; if it still can't, it wraps. Never ellipsis. */
+function psTileFit(root){
+  (root || document).querySelectorAll('.ps-tile b, .ps-tile i, .ps-tile .ps-tsub').forEach(b => {   // labels shrink so a long word (CONSISTENCY) never splits mid-word
+    b.style.fontSize = ''; b.classList.remove('ps-wrap'); if (!b.clientWidth) return;
+    const f0 = parseFloat(getComputedStyle(b).fontSize);
+    for (let i = 0; i < 4 && b.scrollWidth > b.clientWidth + 1; i++) { const fs = parseFloat(getComputedStyle(b).fontSize); if (fs <= f0 * .6 + .01) break; b.style.fontSize = Math.max(f0 * .6, fs * b.clientWidth / b.scrollWidth * .97).toFixed(2) + 'px'; }
+    if (b.scrollWidth > b.clientWidth + 1) b.classList.add('ps-wrap');
+  });
+}
+(function(){
+  const fit = () => { ['psView', 'tcView'].forEach(id => { const o = document.getElementById(id); if (o && !o.hidden) try { psTileFit(o); } catch (_) {} }); };
+  ['psRender', 'tcRender'].forEach(n => { const f = window[n]; if (typeof f === 'function') window[n] = function(){ const r = f.apply(this, arguments); try { fit(); } catch (_) {} return r; }; });
+  let q = 0; const soon = () => { if (q) return; q = requestAnimationFrame(() => { q = 0; fit(); }); }; addEventListener('resize', soon);
+  const mo = new MutationObserver(ms => { if (ms.some(m => m.target.closest && m.target.closest('.ps-box') && [...m.addedNodes].some(n => n.nodeType === 1 && (n.matches('.ps-tile, .ps-tiles') || n.querySelector('.ps-tile'))))) soon(); });
+  const st = () => mo.observe(document.body, { childList: true, subtree: true }); document.body ? st() : document.addEventListener('DOMContentLoaded', st);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
 })();
 </script>
 <script>
