@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261029-1520-roast-tonedown">
+<meta name="build-id" content="20261029-2040-equal-cards">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,7 +18,7 @@
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261029-1520-roast-tonedown';
+var BUILD_ID = '20261029-2040-equal-cards';
 var FIREBASE_CONFIG = { apiKey: "AIzaSyDVX8Nz5Cpm3cdEdfYKDi9iKZ3eEuEsVlY", authDomain: "sportssportssports-d2cfc.firebaseapp.com", projectId: "sportssportssports-d2cfc",
   storageBucket: "sportssportssports-d2cfc.firebasestorage.app", messagingSenderId: "566191759512", appId: "1:566191759512:web:3b5e44b2547505bf4f70ed" };
 /* ^ Oct 28: optional sign-in + sync. Set to null to turn it off completely (no SDK load, no button). Web config keys are public by design; access is locked by firestore.rules. */
@@ -3432,7 +3432,7 @@ html.tc-open{overflow:hidden}
   .xl-btn.xl-ok{background:#15803d;border-color:#86efac;color:#fff}
   .xl-bar{display:flex;justify-content:flex-end;align-items:center;margin:2px 0 4px}
   .xl-bar .xl-btn{padding:2px 8px;font-size:10.5px}
-  /* Oct 24 spinit50: player categories, team buffoonery awards, respin button & category filter bar */
+  /* Oct 24 spinit50: player category awards, respin button & category filter bar */
   .sx-awd{display:inline-flex;align-items:center;gap:6px;margin:6px 0 4px;padding:4px 11px;border-radius:999px;background:linear-gradient(90deg,rgba(255,194,26,.16),rgba(241,7,163,.16));border:1px solid rgba(255,194,26,.5);color:#ffe8a3;font:800 12px/1.25 system-ui,sans-serif;letter-spacing:.2px;box-shadow:0 0 12px rgba(255,194,26,.15)}
   .sx-awd small{font-weight:700;color:#cbd5e1;opacity:.85;text-transform:uppercase;font-size:9.5px;letter-spacing:.6px}
   .sx-respin{display:inline-flex;align-items:center;gap:4px;margin-left:auto;padding:4px 10px;border-radius:999px;border:1px solid rgba(123,47,247,.6);background:rgba(123,47,247,.22);color:#e5dbff;font:800 11.5px/1.2 system-ui,sans-serif;cursor:pointer;transition:background .15s,transform .15s}
@@ -3850,6 +3850,26 @@ html.tc-open{overflow:hidden}
   .mu-rows .ms-n .sx-b+.sx-b{display:none!important}
   /* Oct 29: Spin-it header row (visits · Spin again · Excel) never runs under the ✕ close button */
   .sx-box .loy{padding-right:44px}
+
+  /* ===== Oct 29: equal-height Favorite Team cards ===== */
+  .ft-grid:not(.cmp){align-items:stretch}
+  .ft-grid:not(.cmp)>.ft-card:not(.gmd-on){height:auto}
+  .ft-card .ft-slots{flex:1 1 auto}
+  @container (max-width:759.98px){.ft-card:not(.gmd-on) .ft-slots>:last-child{margin-top:auto}}   /* Next slot (preview / TV links) pinned to the bottom */
+  .ft-slot.live .ft-side{flex-direction:row;flex-wrap:wrap;justify-content:flex-end;align-items:center;column-gap:5px;row-gap:4px}
+  .ft-slot.live .ft-side .ft-clock{flex:1 0 100%}
+  .ft-slot.live .ft-side .yttv-pill{align-self:center}
+  .ft-mid-tg{font:800 10.5px/1.3 system-ui,sans-serif;letter-spacing:.2px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);background:rgba(10,14,24,.55);color:var(--text,#e8ecf3);cursor:pointer;white-space:nowrap;flex:none}
+  .ft-mid-tg:hover{border-color:var(--accent)}.ft-mid-tg:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+  .ft-mid[hidden]{display:none!important}
+  @container (min-width:760px){.ft-mid-tg{display:none}.ft-mid[hidden]{display:flex!important}}
+  :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-mid-tg{display:none}
+  :is(.ft-card.gmd-on,.ft-grid.fx-big .ft-card) .ft-mid[hidden]{display:flex!important}
+  /* Oct 29: Fantasy roster cards sit straight in their position rows (no deck fan), so every card in a row is the same size and lines up */
+  .cc-grid.pg-grid>.cc:nth-child(n){--fan:0deg;--lift:0px;margin-right:0}
+  .cc-grid.pg-grid>.cc:is(:hover,:focus-within,.flipped):nth-child(n){--lift:-6px}
+  /* Oct 29: team Spin-it tier ladder stays on one line on phones */
+  @media (max-width:520px){.st-ladder{flex-wrap:nowrap;gap:1px}.st-ladder span{font-size:16px;padding:2px 3px}}
 </style>
 </head>
 <body>
@@ -4901,7 +4921,7 @@ function ftSlot(kind, g, x, extra){
     return `<div class="ft-slot last clickable"${link}><span class="ft-lbl">Last</span><span class="ft-main"><span class="ft-res ${r.toLowerCase()}">${r}</span><span class="ft-sc">${esc(g.me.score)}–${esc(g.opp.score)}</span>${ftOpp(g)}</span><span class="ft-side"><span>${esc(dayLabelET(g.date))}</span>${goA('Box score ↗')}</span></div>`;
   }
   const w = watchChips(g.nets, g.lg, { compact: true, max: 1 });
-  if (kind === 'live') return `<div class="ft-slot live clickable${gxBadge(g) ? ' gx-cl' : ''}"${link}><span class="ft-lbl"><span class="dotl"></span>Live</span><span class="ft-main"><span class="ft-sc big">${gxScore(g, g.me, g.me.score || '0')}–${gxScore(g, g.opp, g.opp.score || '0')}</span>${ftOpp(g)}</span><span class="ft-side"><span class="ft-clock">${esc(g.detail || 'In progress')}</span>${gxBadge(g)}${yttvPill(g)}${rdChips(g, true)}${w.html || (g.nets[0] ? `<span>${esc(g.nets[0])}</span>` : '')}${goA('Gamecast ↗')}</span></div>`;
+  if (kind === 'live') return `<div class="ft-slot live clickable${gxBadge(g) ? ' gx-cl' : ''}"${link}><span class="ft-lbl"><span class="dotl"></span>Live</span><span class="ft-main"><span class="ft-sc big">${gxScore(g, g.me, g.me.score || '0')}–${gxScore(g, g.opp, g.opp.score || '0')}</span>${ftOpp(g)}</span><span class="ft-side"><span class="ft-clock">${esc(g.detail || 'In progress')}</span>${gxBadge(g)}${yttvPill(g)}${rdChips(g, true)}${w.html || (g.nets[0] ? `<span>${esc(g.nets[0])}</span>` : '')}${goA('Gamecast ↗')}${extra || ''}</span></div>`;
   return `<div class="ft-slot next clickable"${link}><span class="ft-lbl">Next</span><span class="ft-main">${ftOpp(g)}${(o => o ? `<i class="fv-orec">(${esc(o)})</i>` : '')(x ? fvOppRec(x.lg, g) : '')}${extra ? `<span class="ft-tag">${esc(extra)}</span>` : ''}</span><span class="ft-side"><span>${esc(ftWhen(g))}</span>${w.html || (g.nets.length ? `<span class="ft-net">${esc(g.nets.slice(0, 2).join(', '))}</span>` : '')}${goA('Preview ↗')}</span></div>`;
 }
 function toggleFx(k){ FX.has(k) ? FX.delete(k) : FX.add(k); lsSet(FX_KEY, [...FX]); }
@@ -4924,6 +4944,8 @@ function ftLine(x, name, logo, color, g){
     <span class="fl-acts"><button class="star on" data-star="${esc(x.key)}" title="Unstar ${esc(name)}">★</button>${fxBtn(k, name)}</span>
     <div class="fl-st"${g.live && g.live.id ? ` data-ltk="${esc(x.lg + ':' + g.live.id)}"` : ''}>${st}${rd}</div>${fvSxHTML(S)}</div>`;
 }
+var FTMID = new Set();   // Oct 29: live Favorite Team cards whose period tracker is unfolded (this session only)
+function ftMidTg(k, on){ return `<button type="button" class="ft-mid-tg" data-ftmid="${esc(k)}" aria-expanded="${on}" title="${on ? 'Hide' : 'Show'} the period tracker and game thread">${on ? '▴' : '▾'} Tracker</button>`; }
 function ftCard(x){
   const f = FT[x.key] || {}, tm = f.team || {}, info = MN.teamInfo[x.key] || {}, m = favMetaFor(x.key), g = ftGames(x);
   const name = tm.name || info.name || m.name || x.abbr, logo = tm.logo || info.logo || m.logo || '';
@@ -4940,7 +4962,8 @@ function ftCard(x){
     return `<div class="ft-mid${rd ? ' has-rd' : ''}">${tg ? gtHTML(tg, { compact: !!rd, noSurf: tg.state !== 'in' }) : `<div class="gt gt-none"><span class="gt-lb">${g.bye ? 'Bye week' : 'No games scheduled'}</span></div>`}${rd}</div>`;
   };
   if (!g.loaded && !g.last && !g.next && !g.live) slots += `<div class="ft-slot empty"><span class="ft-main">${g.err ? "Couldn't load the schedule. Will retry." : 'Loading schedule…'}</span></div><div class="ft-mid"><div class="gt gt-none"></div></div><div class="ft-slot empty"></div>`;
-  else if (g.live) slots += ftSlot('live', g.live, x) + mid() + nextSlot();
+  else if (g.live) { const m = mid(), on = FTMID.has(x.key);   // Oct 29: the period tracker + game-thread strip stays folded behind a small toggle until tapped
+    slots += ftSlot('live', g.live, x, m ? ftMidTg(x.key, on) : '') + (m && !on ? m.replace('<div class="ft-mid', '<div hidden class="ft-mid') : m) + nextSlot(); }
   else slots += ftSlot('last', g.last, x, 'No games played yet') + mid() + nextSlot();
   const tid = (tm.id || MN.teamIds[x.key] || info.id || ''), fg = g.live || g.next || g.last, fgk = fg && fg.id ? x.lg + ':' + fg.id : '', ok = typeof GMD !== 'undefined' && GMD.ft[x.key];
   const panel = ok && GMD.g[ok] ? `<div class="gm-d">${gmdHTML(GMD.g[ok])}</div>` : '';
@@ -8742,7 +8765,7 @@ function sxStatsHTML(e, d){
   if (e.team && FSPORTS[e.sp] && FSPORTS[e.sp].kind === 'team') h += sxNext(FSPORTS[e.sp].lg, e.team, d.team && d.team.next);
   return h || '<div class="sx-ld">ESPN has no stats for this player yet.</div>';
 }
-/* ===== Oct 24 spinit50: 50-visit non-repeating write-up memory + Player Categories + Team Buffoonery Awards ===== */
+/* ===== Oct 24 spinit50: 50-visit non-repeating write-up memory + Player Category Awards ===== */
 var SPIN_SEEN_KEY = 'sd_spin_seen_v1';
 function spinSeenList(){ try { const a = JSON.parse(localStorage.getItem(SPIN_SEEN_KEY) || '[]'); return Array.isArray(a) ? a : []; } catch (_) { return []; } }
 function spinMarkSeen(sig){
@@ -8868,89 +8891,6 @@ var SX_PL_CAT_LINES = {
     "Blue-collar {stat} from {name}: honest pay for honest work."
   ]
 };
-var ST_BUFFOON_LINES = {
-  wagon: [
-    "{name} ({rec}) is a certified wagon right now. Clear the parade route.",
-    "At {rec} on a {streak} run, {name} has opposing coaches rewatching film at 2 a.m.",
-    "Book the flights and buy the championship merch: {name} ({rec}) is the real deal.",
-    "{name} ({rec}) is rolling through the schedule like a snowplow downhill.",
-    "{name} ({rec}, {streak}) is playing chess while everyone else is playing checkers.",
-    "{name} ({rec}) fans have earned their swagger at the office water cooler.",
-    "Start planning the parade day off. {name} ({rec}) is on a roll."
-  ],
-  shootout: [
-    "{name} ({rec}) plays every game like the scoreboard operator gets paid by the digit.",
-    "Champagne offense, sparkling-water defense. Every {name} game is a track meet.",
-    "Watching {name} ({rec}) is three hours of fireworks and a nervous final drive.",
-    "{name} ({rec}) games have more points than a pinball machine.",
-    "First team to 45 wins! {name} ({rec}) treats defense as a friendly suggestion.",
-    "Every {name} ({rec}) broadcast needs a bigger scoreboard.",
-    "Offense: A+. Defense: 'still working on it.' ({name}, {rec})"
-  ],
-  cardiac: [
-    "{name} ({rec}) refuses to play a normal game. Every fourth quarter is an adventure.",
-    "Rooting for {name} ({rec}) ages you seven dog years per weekend. Worth it.",
-    "{name} could play a JV squad and it would still come down to the final possession.",
-    "The {name} playbook has 400 pages and every one ends with 'make it close.'",
-    "Why win comfortably when {name} ({rec}) can win on the final play?",
-    "Watching {name} ({rec}) comes with a free stress ball.",
-    "Two-minute warning + {name} ({rec}) = guaranteed living-room chaos."
-  ],
-  fraud: [
-    "Pretender alert: {name} is {rec} on paper, but the point differential has questions.",
-    "{name} ({rec}) is a very nice-looking house with a few lucky bounces in the foundation.",
-    "Don't let the {rec} record fool you. {name} has been winning with duct tape and charm.",
-    "{name} at {rec} is a mirage until they beat somebody really good.",
-    "{name} ({rec}) has a shiny record and a schedule full of cupcakes.",
-    "Scratch the surface of {name}'s {rec} and you'll find a lot of close calls.",
-    "Everyone's waiting to see {name} ({rec}) against a real contender."
-  ],
-  clown: [
-    "Beep beep! Pull up the tiny car: {name} ({rec}, {streak}) is running a full three-ring circus.",
-    "{name} ({rec}) is a weekly comedy sketch with a very expensive stadium.",
-    "At {rec} ({streak}), the {name} game plan appears to be 'wing it.'",
-    "Even the stadium pigeons are leaving {name} games early ({rec}).",
-    "Play the Benny Hill theme over the {name} ({rec}) highlights. It syncs perfectly.",
-    "{name} ({rec}) is a sitcom that somehow got a sports contract.",
-    "Even the mascot looks a little confused at {name} ({rec}) games right now."
-  ],
-  tank: [
-    "Salute the Tank Commander! {name} ({rec}) is already scouting next year's draft class.",
-    "At {rec}, {name} isn't losing, they're 'building for the future.'",
-    "{name} ({rec}) tickets should come with a free soda and a warm hug.",
-    "The best player on {name} ({rec}) right now might be next year's first-round pick.",
-    "{name} ({rec}) isn't rebuilding, they're pouring a brand-new foundation.",
-    "{name} ({rec}) fans have become amateur college scouts. Fun hobby!",
-    "Lower-bowl seats for {name} ({rec}) currently cost two hot dogs and a handshake."
-  ],
-  coach: [
-    "The seat under {name}'s coaching staff ({rec}, {streak}) is getting a little toasty.",
-    "After {streak} ({rec}), the {name} postgame pressers are very short.",
-    "Local radio callers in {name}'s market ({rec}) have some suggestions for the coordinator.",
-    "{name} ({rec}, {streak}) is one rough third quarter from a very awkward press conference.",
-    "{name} ({rec}) is saving timeouts like family heirlooms.",
-    "Sports talk radio in {name}'s city ({rec}, {streak}) is extremely caffeinated right now.",
-    "{name} ({rec}, {streak}) could use a fresh whiteboard and a new marker."
-  ],
-  mash: [
-    "{name} ({rec}) doesn't need a game plan, they need a bigger training room.",
-    "Half the {name} lineup is in bubble wrap ({rec}) and the backup's backup is taking reps.",
-    "The {name} ({rec}) locker room has more ice packs than a ski lodge.",
-    "{name} ({rec}) might hold open tryouts in the parking lot on Friday.",
-    "Send a fruit basket to the {name} ({rec}) athletic trainers. They've earned it.",
-    "Every week {name} ({rec}) loses another starter to a mysterious tweak.",
-    "{name} ({rec}) is fielding a lineup out of pure determination."
-  ],
-  sicko: [
-    "{name} ({rec}, {streak}) makes zero sense to Vegas or the analytics nerds. Pure Sickos Committee cinema.",
-    "Beat a contender Saturday, lose to an underdog Tuesday: that's the {name} ({rec}) guarantee.",
-    "Predicting {name} ({rec}) games should come with a disclaimer.",
-    "Punts, bounces, chaos: {name} ({rec}) is appointment television for the chaos-curious.",
-    "Nobody knows what {name} ({rec}, {streak}) will do next, including {name}.",
-    "{name} ({rec}) games set the sport back a few years and we can't look away.",
-    "Yes… YES! {name} ({rec}) is peak weird-sports entertainment."
-  ]
-};
 function sxPlayerAward(e, sc){
   if (!sc) return { id: 'tbd', ic: '🔬', nm: 'Mystery Box', k: 'small' };
   if (sxSmall(sc)) return { id: 'small', ic: '🍼', nm: 'Small Sample Hall of Famer', k: 'small' };
@@ -8972,20 +8912,6 @@ function sxPlayerAward(e, sc){
   if (s < 44 && (x.own || 0) >= 55) return { id: 'thief', ic: '💼', nm: 'Contract Thief (Lineup Hostage)', k: 'thief' };
   return { id: 'cardio', ic: '👻', nm: 'Cardio King (Just Running Out There)', k: 'cardio' };
 }
-function stTeamAward(e, d, t){
-  if (!t) return { id: 'tbd', ic: '🎪', nm: 'Mystery Circus', k: 'sicko' };
-  const P = t.parts || {}, s = t.s, rec = (d && d.S && d.S.rec) || '';
-  const closeCnt = (t.last || []).filter(g => Math.abs(g.ms - g.os) <= (SX_SCALE[String((CAT[e.lg] || {}).path || '').split('/')[0]] || 10) * 0.45).length;
-  if (t.outs && t.outs.length >= 2) return { id: 'mash', ic: '🏥', nm: 'Walking Boot Brigade', k: 'mash' };
-  if (s >= 84 || /^W[4-9]/.test(t.streak || '')) return { id: 'wagon', ic: '🚀', nm: 'Certified Wagon (Parade Booked)', k: 'wagon' };
-  if ((P.wp || 0) >= 58 && (P.diff || 50) <= 45) return { id: 'fraud', ic: '🎭', nm: 'Fraud Watch (Pretender Alert)', k: 'fraud' };
-  if (closeCnt >= 3) return { id: 'cardiac', ic: '💔', nm: 'Cardiac Arrest Factory (Sweaty Merchants)', k: 'cardiac' };
-  if (s < 30 || /^L[4-9]/.test(t.streak || '')) return { id: 'clown', ic: '🎪', nm: 'Full Front-Office Clown Car', k: 'clown' };
-  if ((P.wp != null && P.wp <= 28) || s < 38) return { id: 'tank', ic: '🗑️', nm: 'Tank Commander (Lottery Legends)', k: 'tank' };
-  if (/^L[2-3]/.test(t.streak || '') || (P.diff != null && P.diff < 38)) return { id: 'coach', ic: '🚌', nm: 'Fire the Coach Watch', k: 'coach' };
-  if (s >= 60 && closeCnt >= 2) return { id: 'shootout', ic: '🍾', nm: 'Champagne Offense, Beer Defense', k: 'shootout' };
-  return { id: 'sicko', ic: '🍿', nm: 'Pure Sickos Committee Cinema', k: 'sicko' };
-}
 function sxFullQuip(e, sc){
   const q1 = sxQuip(e, sc);
   if (sxSmall(sc)) return q1;
@@ -8993,14 +8919,6 @@ function sxFullQuip(e, sc){
   const name = rqLast(e.name), stat = sc.x && sc.x.ppg != null ? `${sc.x.ppg} PPG` : `${sc.s}/100`;
   const u = new Set([q1]);
   const q2 = spinPick50(catPool, { name, stat }, u);
-  return [q1, q2].filter(Boolean).join(' ');
-}
-function stFullQuip(e, d, t){
-  const q1 = stSportWords(e.lg, stQuip(e, d, t));
-  const aw = stTeamAward(e, d, t), catPool = ST_BUFFOON_LINES[aw.k] || [];
-  const name = String(e.name || '').split(' ').slice(-1)[0], rec = (d && d.S && d.S.rec) || 'this season', streak = (t && t.streak) || '';
-  const u = new Set([q1]);
-  const q2 = stSportWords(e.lg, spinPick50(catPool, { name, rec, streak }, u));
   return [q1, q2].filter(Boolean).join(' ');
 }
 function sxPanel(e, d){
@@ -9049,14 +8967,13 @@ function sxSettle(stg, face){ const coin = stg.querySelector('.sx-coin'); if (!c
 function sxResume(stg){ const coin = stg.querySelector('.sx-coin'); if (!coin) return; const tg = (+stg.dataset.ang || 0) % 360;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return; coin.style.transition = 'none'; coin.style.transform = ''; coin.style.animation = `sxSpin 5.5s linear ${(-tg / 360 * 5.5).toFixed(2)}s infinite`; }
 function sxSearchOpen(){
-  const cats = [['all', '🌀 All'], ['teams', '🎪 Team Buffoonery'], ['cheat', '👑 Cheat Codes'], ['heater', '🔥 Heaters'], ['boom', '🎰 Boom-or-Ambulance'], ['scam', '🎯 PPR Scammers'], ['cardio', '👻 Cardio Kings'], ['terror', '🤡 Fantasy Terrorists']];
+  const cats = [['all', '🌀 All'], ['teams', '🏟️ Teams'], ['cheat', '👑 Cheat Codes'], ['heater', '🔥 Heaters'], ['boom', '🎰 Boom-or-Ambulance'], ['scam', '🎯 PPR Scammers'], ['cardio', '👻 Cardio Kings'], ['terror', '🤡 Lineup Saboteurs']];
   let curCat = 'all';
   const body = sxShell(); body.innerHTML = `<button type="button" class="se-go" data-sescrew><span class="ic" aria-hidden="true">🌀</span><span><b>😈 SCREW 'EM</b><i>Find the most desperate team and the lopsided deal they'd take</i></span></button><div class="sx-srch" style="display:flex;gap:8px;align-items:center"><input type="search" style="flex:1" placeholder="Spin anything: player or team…" aria-label="Spin-it search"><button type="button" class="xl-btn" data-xlexp="spinit" title="Export Spin-it rankings to Microsoft Excel (.csv)">📥 Excel</button></div><div class="sx-cats" role="group" aria-label="Spin-it categories">${cats.map(([k, l]) => `<button type="button" class="sx-cat${k === 'all' ? ' on' : ''}" data-sxcat="${k}">${l}</button>`).join('')}</div><div class="sx-res"></div>`;
   const inp = body.querySelector('input'), res = body.querySelector('.sx-res'); inp.focus();
   const awFor = o => {
     if (o.k === 't') {
-      const ck = 't:' + o.lg + ':' + (o.id || o.abbr || o.tid), cd = SX.cache && SX.cache[ck] && SX.cache[ck].d;
-      return cd && cd.ts ? stTeamAward(o, cd, cd.ts) : { id: 'teams', ic: '🎪', nm: 'Team Buffoonery', k: 'teams' };
+      return null;   // teams have no award (Oct 29: Team Buffoonery Award removed)
     }
     const sc = sxPlayerScore(o);
     return sxPlayerAward(o, sc);
@@ -9714,8 +9631,7 @@ function stPanel(e, d){
   return loyBadge() + `<div class="st ${cls}" style="${esc(col)}">
     <div class="st-hd">${e.logo ? `<img class="st-logo" src="${esc(e.logo)}" alt="" onerror="this.remove()">` : ''}<div><h2>${esc(e.name)}</h2><small>${esc(sub)}</small></div><span class="st-sc" title="Fan-commitment score (0-100)"><b>${t.s}</b><i>/100</i></span></div>
     <div class="st-tier" role="status"><span class="st-ic" aria-hidden="true">${ic}</span><span class="st-nm">${esc(nm)}</span></div>
-    ${(aw => `<div class="sx-awd"><small>Team Buffoonery Award</small><span>${aw.ic} ${esc(aw.nm)}</span></div>`)(stTeamAward(e, d, t))}
-    <p class="st-joke">${esc(lead ? lead + '. ' : '')}${esc(stFullQuip(e, d, t))}</p>${brk}
+    <p class="st-joke">${esc(lead ? lead + '. ' : '')}${esc(joke)}</p>${brk}
     <ul class="st-why">${t.reasons.map(r => `<li>${esc(r)}</li>`).join('')}</ul>
     <div class="st-ladder" aria-label="Fan-commitment ladder">${ST_TIERS.map(x => `<span class="${x === t.T ? 'on ' + x[3] : ''}" title="${esc(x[2])}${x[0] >= 0 ? ' (' + x[0] + '+)' : ''}">${x[1]}</span>`).join('')}</div>
     <div class="sx-pnl st-pnl">${sxBars(t.bars, null, true)}<div class="sx-kv">${chip(t.streak, 'Streak')}${chip(p.form, 'Form (last 5)')}${chip(p.wp != null ? p.wp + '%' : null, 'Win %')}${chip(p.diff, 'Margin trend')}${chip(p.qual, 'Quality wins')}${t.outs.length ? chip(t.outs.length, 'Key players out') : ''}</div>
@@ -14610,6 +14526,50 @@ document.addEventListener('click', e => {
 try { pwaInit(); ftJumpUpdate(); fpJumpUpdate(); fzFavJumpUpdate(); } catch (_) {}
 </script>
 
+<script>
+/* Oct 29: Team Buffoonery Award removed. Prune the Spin-it no-repeat memory (sd_spin_seen_v1, this device only) of lines that
+   no longer exist in any pool, so old award lines don't linger in localStorage. Runs once per build. */
+(() => { try {
+  const k = 'sd_spin_pruned_v1'; if (localStorage.getItem(k) === BUILD_ID) return;
+  const live = new Set([].concat(...SX_TIERS.map(t => t[4]), RQ_SMALL.tier[4], ...Object.values(SX_PL_CAT_LINES), ...ST_QUIPS, ST_TIERS.map(t => t[4]), typeof LIGHT_ROASTS !== 'undefined' ? LIGHT_ROASTS : []));
+  const a = spinSeenList(), keep = a.filter(x => live.has(x));
+  if (keep.length !== a.length) localStorage.setItem(SPIN_SEEN_KEY, JSON.stringify(keep));
+  localStorage.setItem(k, BUILD_ID);
+} catch (_) {} })();
+</script>
+<script>
+/* Oct 29: Favorite Teams equal heights. Multi-column grids: every regular card gets the tallest folded card's height, so rows and a lone
+   last card all match. One column (phones): short cards are lifted to the median so the stack looks even without big gaps. */
+function ftEqualize(){
+  document.querySelectorAll('.ft-grid:not(.cmp):not(.fx-big)').forEach(gr => {
+    const cards = [...gr.children].filter(c => c.classList.contains('ft-card') && !c.classList.contains('gmd-on'));
+    cards.forEach(c => { c.style.minHeight = ''; });
+    if (cards.length < 2 || !gr.offsetWidth) return;
+    const cols = getComputedStyle(gr).gridTemplateColumns.split(' ').filter(Boolean).length;
+    const prev = gr.style.alignItems; gr.style.alignItems = 'start';
+    const hs = cards.filter(c => !c.querySelector('.ft-mid-tg[aria-expanded="true"]')).map(c => c.getBoundingClientRect().height).filter(h => h > 0).sort((a, b) => a - b);
+    gr.style.alignItems = prev;
+    if (!hs.length) return;
+    const h = cols >= 2 ? hs[hs.length - 1] : hs[Math.floor((hs.length - 1) / 2)];
+    cards.forEach(c => { c.style.minHeight = Math.ceil(h) + 'px'; });
+  });
+}
+(function(){
+  let q = 0; const run = () => { if (q) return; q = requestAnimationFrame(() => { q = 0; try { ftEqualize(); } catch (_) {} }); };
+  const mo = new MutationObserver(ms => { if (ms.some(m => m.target.closest && (m.target.closest('.ft-grid') || m.target.querySelector && m.target.querySelector('.ft-grid')))) run(); });
+  const start = () => { mo.observe(document.body, { childList: true, subtree: true }); run(); };
+  document.body ? start() : document.addEventListener('DOMContentLoaded', start);
+  addEventListener('resize', run); addEventListener('load', run);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(run);
+  document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('.ft-mid-tg'); if (!b) return;
+    e.preventDefault(); e.stopPropagation();
+    const k = b.dataset.ftmid, on = !FTMID.has(k); on ? FTMID.add(k) : FTMID.delete(k);
+    const card = b.closest('.ft-card'), m = card && card.querySelector('.ft-mid'); if (m) m.hidden = !on;
+    b.setAttribute('aria-expanded', on); b.title = (on ? 'Hide' : 'Show') + ' the period tracker and game thread'; b.textContent = (on ? '▴' : '▾') + ' Tracker';
+    run(); }, true);
+  document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.closest && e.target.closest('.ft-mid-tg')) e.stopPropagation(); }, true);
+})();
+</script>
 <script>
 /* Oct 19: boot last, after every script block above has defined its globals (see bootDashboard). */
 try { bootDashboard(); } catch (e) { sysFail('boot', e); }
