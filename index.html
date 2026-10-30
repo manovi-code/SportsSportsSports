@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261029-2040-equal-cards">
+<meta name="build-id" content="20261030-1205-excel-drilldown-namefix">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,7 +18,7 @@
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261029-2040-equal-cards';
+var BUILD_ID = '20261030-1205-excel-drilldown-namefix';
 var FIREBASE_CONFIG = { apiKey: "AIzaSyDVX8Nz5Cpm3cdEdfYKDi9iKZ3eEuEsVlY", authDomain: "sportssportssports-d2cfc.firebaseapp.com", projectId: "sportssportssports-d2cfc",
   storageBucket: "sportssportssports-d2cfc.firebasestorage.app", messagingSenderId: "566191759512", appId: "1:566191759512:web:3b5e44b2547505bf4f70ed" };
 /* ^ Oct 28: optional sign-in + sync. Set to null to turn it off completely (no SDK load, no button). Web config keys are public by design; access is locked by firestore.rules. */
@@ -3848,7 +3848,7 @@ html.tc-open{overflow:hidden}
   .sx-b{overflow:hidden!important;contain:paint}
   .mu-rows .ms-n{display:flex;align-items:center;gap:4px;min-width:0}
   .mu-rows .ms-n .sx-b+.sx-b{display:none!important}
-  /* Oct 29: Spin-it header row (visits · Spin again · Excel) never runs under the ✕ close button */
+  /* Oct 29: Spin-it header row (visits · Spin again) never runs under the ✕ close button */
   .sx-box .loy{padding-right:44px}
 
   /* ===== Oct 29: equal-height Favorite Team cards ===== */
@@ -3870,6 +3870,10 @@ html.tc-open{overflow:hidden}
   .cc-grid.pg-grid>.cc:is(:hover,:focus-within,.flipped):nth-child(n){--lift:-6px}
   /* Oct 29: team Spin-it tier ladder stays on one line on phones */
   @media (max-width:520px){.st-ladder{flex-wrap:nowrap;gap:1px}.st-ladder span{font-size:16px;padding:2px 3px}}
+
+  /* Oct 30: player-card name lines never run under the ▶ highlight button or the headshot circle (nmFit sets the room; this is the last resort) */
+  .pg-sm .cc .cc-circ .hl-cc{top:auto;bottom:100%;left:auto;right:-4px;transform:translateY(6px)}   /* small roster cards: ▶ rides on the headshot's top-right edge, off the name plate */
+  .cc .cc-plate>.nm-cut,.pc .pc-plate>.nm-cut{overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -6386,7 +6390,7 @@ function muSection(sp){
   const bl = (s, t) => `<div><h6>${esc(t)}</h6>${bn(s).map(p => `<div class="mu-bnr"><img src="${esc(p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><span>${esc(p.short || p.name)} <i>${esc(p.pos)} · ${esc(p.team)}${S.ir.includes(p.sid) ? ' · IR' : ''}</i></span><b>${(p.pts || {}).act ?? '–'}</b><i>/ ${(p.pts || {}).proj ?? '–'}</i></div>`).join('') || '<div class="mu-ld">Empty</div>'}</div>`;
   const bench = `<div class="mu-bn"><button class="mu-bnh" data-mu="bench" aria-expanded="${MU.ui.bench}">${MU.ui.bench ? '▾' : '▸'} Bench (both teams)</button>${MU.ui.bench ? `<div class="mu-bng">${bl(D.me, 'Your bench')}${bl(D.op, (D.op ? D.op.name : 'Opponent') + ' bench')}</div>` : ''}</div>`;
   return `<section class="mu${open ? '' : ' closed'}" id="fzMatchup">${head}<div class="mu-b">${muScore(D)}
-    <div class="mu-bar"><div class="tb-vt seg${v === 'table' ? ' v-table' : ''}" role="group" aria-label="Matchup view"><button data-mu="v:cards" aria-pressed="${v === 'cards'}" class="${v === 'cards' ? 'on' : ''}"><span class="ic" aria-hidden="true">🃏</span>Cards</button><button data-mu="v:table" aria-pressed="${v === 'table'}" class="${v === 'table' ? 'on' : ''}"><span class="ic" aria-hidden="true">▦</span>Table</button></div>${muScore(D, 'wp')}${v === 'cards' ? '<button class="mu-rp" data-mu="replay" title="Replay the battle">⟲ Replay</button>' : '<button type="button" class="xl-btn" data-xlexp="mu" title="Export matchup table to Microsoft Excel (.csv)">📥 Excel</button>'}</div>
+    <div class="mu-bar"><div class="tb-vt seg${v === 'table' ? ' v-table' : ''}" role="group" aria-label="Matchup view"><button data-mu="v:cards" aria-pressed="${v === 'cards'}" class="${v === 'cards' ? 'on' : ''}"><span class="ic" aria-hidden="true">🃏</span>Cards</button><button data-mu="v:table" aria-pressed="${v === 'table'}" class="${v === 'table' ? 'on' : ''}"><span class="ic" aria-hidden="true">▦</span>Table</button></div>${muScore(D, 'wp')}${v === 'cards' ? '<button class="mu-rp" data-mu="replay" title="Replay the battle">⟲ Replay</button>' : ''}</div>
     ${body}${bench}</div><button type="button" class="mu-more" data-mumore="fzMatch"><span class="mo">Show full matchup ▾</span><span class="ml">Show less ▴</span></button></section>`;
 }
 function muSbVar(){ const m = document.getElementById('fzMatchup'), sb = m && m.querySelector('.mu-b>.mu-sb'); if (sb) m.style.setProperty('--musb', sb.offsetHeight + 'px'); }
@@ -7357,7 +7361,7 @@ function pkMini(C, pos, me){   // inside comps panels: top pickups at this playe
 function tbBar(scope, sp){
   const v = tbView(scope), pos = TB_POS.includes(TB.pos) ? TB.pos : 'All';
   return `<div class="tb-bar tb-sticky"><div class="tb-vt seg${scope === 'fz' ? ' seg3' : ''} v-${v}" role="group" aria-label="${scope === 'fz' ? 'Fantasy team view' : 'View'}"><button data-tbview="${scope}:cards" aria-pressed="${v === 'cards'}" class="${v === 'cards' ? 'on' : ''}" title="Trading-card view"><span class="ic" aria-hidden="true">🃏</span>Cards</button>${scope === 'fz' ? `<button data-tbview="fz:wheel" aria-pressed="${v === 'wheel'}" class="${v === 'wheel' ? 'on' : ''}" title="Card wheel: highlights play in place, tap to flip"><span class="ic" aria-hidden="true">🎡</span>Wheel</button>` : ''}<button data-tbview="${scope}:table" aria-pressed="${v === 'table'}" class="${v === 'table' ? 'on' : ''}" title="Spreadsheet view"><span class="ic" aria-hidden="true">▦</span>Table</button></div>
-    ${v === 'table' && sp === 'nfl' ? `<div class="chips tb-pos" role="group" aria-label="Position filter">${TB_POS.map(k => `<button class="chip${k === pos ? ' on' : ''}" data-tbpos="${k}" aria-pressed="${k === pos}">${k}</button>`).join('')}</div>` : ''}${v === 'table' ? `<button type="button" class="xl-btn" data-xlexp="tb:${scope}" title="Export table to Microsoft Excel (.csv)">📥 Excel</button>` : ''}</div>`;
+    ${v === 'table' && sp === 'nfl' ? `<div class="chips tb-pos" role="group" aria-label="Position filter">${TB_POS.map(k => `<button class="chip${k === pos ? ' on' : ''}" data-tbpos="${k}" aria-pressed="${k === pos}">${k}</button>`).join('')}</div>` : ''}</div>`;
 }
 function tbTable(scope, sp, list){
   const C = sp === 'nfl' ? CMP.d.nfl : null, rank = C ? cmpRank(C) : {};
@@ -8649,7 +8653,7 @@ var LOY = (function(){ let o = null; try { o = JSON.parse(localStorage.getItem(L
 var LOY_LV = [null, ['Rookie', '🐣'], ['Regular', '🍺'], ['Season Ticket Holder', '🏟️'], ['Hall of Famer', '🏆']];
 function loyLevel(){ const o = LOY || {}; return o.visits >= 60 || o.days >= 30 ? 4 : o.visits >= 20 || o.days >= 7 ? 3 : o.visits >= 5 ? 2 : 1; }
 function loyBadge(){ const L = LOY_LV[loyLevel()];
-  return `<div class="loy"><span class="loy-b" title="Counted on this device only (localStorage). Nothing is sent anywhere.">${L[1]} ${esc(L[0])} · ${LOY.visits} visit${LOY.visits === 1 ? '' : 's'}</span><button type="button" class="sx-respin" data-sxrespin="1" title="Spin a fresh non-repeating rating write-up">🔄 Spin again</button><button type="button" class="xl-btn" data-xlexp="spinit" title="Export Spin-it rankings to Microsoft Excel (.csv)">📥 Excel</button></div>`; }
+  return `<div class="loy"><span class="loy-b" title="Counted on this device only (localStorage). Nothing is sent anywhere.">${L[1]} ${esc(L[0])} · ${LOY.visits} visit${LOY.visits === 1 ? '' : 's'}</span><button type="button" class="sx-respin" data-sxrespin="1" title="Spin a fresh non-repeating rating write-up">🔄 Spin again</button></div>`; }
 var RQ_SMALL = {
   tier: [null, 'Small Sample Size', '🔬', '#74c0fc', ["Only {gp} of data on {name}. The jury's still out, and the jury went for snacks.", "{name} has {gp} on the résumé. That's a trailer, not a movie.", "Rookie Wall Pending: ask about {name} again in three weeks.", "Small sample size alert. Don't panic, don't brag.",
     "{name} is still in the preseason of our opinion.", "{stat}. Cute. Come back with more games.", "Too early to judge {name}. We're saving our best material for later.", "{name}: TBD. Like everyone's draft grades.",
@@ -8969,7 +8973,7 @@ function sxResume(stg){ const coin = stg.querySelector('.sx-coin'); if (!coin) r
 function sxSearchOpen(){
   const cats = [['all', '🌀 All'], ['teams', '🏟️ Teams'], ['cheat', '👑 Cheat Codes'], ['heater', '🔥 Heaters'], ['boom', '🎰 Boom-or-Ambulance'], ['scam', '🎯 PPR Scammers'], ['cardio', '👻 Cardio Kings'], ['terror', '🤡 Lineup Saboteurs']];
   let curCat = 'all';
-  const body = sxShell(); body.innerHTML = `<button type="button" class="se-go" data-sescrew><span class="ic" aria-hidden="true">🌀</span><span><b>😈 SCREW 'EM</b><i>Find the most desperate team and the lopsided deal they'd take</i></span></button><div class="sx-srch" style="display:flex;gap:8px;align-items:center"><input type="search" style="flex:1" placeholder="Spin anything: player or team…" aria-label="Spin-it search"><button type="button" class="xl-btn" data-xlexp="spinit" title="Export Spin-it rankings to Microsoft Excel (.csv)">📥 Excel</button></div><div class="sx-cats" role="group" aria-label="Spin-it categories">${cats.map(([k, l]) => `<button type="button" class="sx-cat${k === 'all' ? ' on' : ''}" data-sxcat="${k}">${l}</button>`).join('')}</div><div class="sx-res"></div>`;
+  const body = sxShell(); body.innerHTML = `<button type="button" class="se-go" data-sescrew><span class="ic" aria-hidden="true">🌀</span><span><b>😈 SCREW 'EM</b><i>Find the most desperate team and the lopsided deal they'd take</i></span></button><div class="sx-srch" style="display:flex;gap:8px;align-items:center"><input type="search" style="flex:1" placeholder="Spin anything: player or team…" aria-label="Spin-it search"></div><div class="sx-cats" role="group" aria-label="Spin-it categories">${cats.map(([k, l]) => `<button type="button" class="sx-cat${k === 'all' ? ' on' : ''}" data-sxcat="${k}">${l}</button>`).join('')}</div><div class="sx-res"></div>`;
   const inp = body.querySelector('input'), res = body.querySelector('.sx-res'); inp.focus();
   const awFor = o => {
     if (o.k === 't') {
@@ -12931,72 +12935,6 @@ function xlDownload(rows, baseName, btn){
   }
   try { toast('📥 Exported ' + fn); } catch (_) {}
 }
-function xlExportRoster(scope, btn){
-  const sp = (typeof MN !== 'undefined' && MN.fsTab) || (typeof fantasySel !== 'undefined' && fantasySel[0]) || 'nfl';
-  const C = sp === 'nfl' && typeof CMP !== 'undefined' && CMP.d ? CMP.d.nfl : null, rank = C ? cmpRank(C) : {};
-  const list = scope === 'wt' ? (typeof watchList === 'function' ? watchList(sp) : []) : (typeof activePlayers === 'function' ? activePlayers().filter(p => p.roster && psp(p) === sp) : []);
-  if (!list.length) {
-    const tbl = document.querySelector(`.tb-wrap[data-tbid="${scope}"] table`);
-    if (tbl) return xlDownload(xlFromTable(tbl), xlTableName(tbl), btn);
-    return xlDownload([], scope + '-table', btn);
-  }
-  const pos = sp === 'nfl' && TB_POS.includes(TB.pos) ? TB.pos : 'All';
-  let R = list.map(p => tbFromPlayer(p, C, rank));
-  if (pos !== 'All') R = R.filter(r => r.pos === pos);
-  const hasLive = scope === 'fz' && R.some(r => r.isLive);
-  const cols = tbCols('main', pos, hasLive);
-  const S = cols.some(c => c.k === TB.sort.k) && !(scope === 'wt' && TB.sort.k === 'slot') ? TB.sort : { k: scope === 'wt' ? 'ppg' : 'slot', d: scope === 'wt' ? -1 : 1 };
-  const sorted = tbSort(R, cols, S);
-  const GN = { s: 'Starters', b: 'Bench', i: 'IR', u: 'Other', w: 'Watchlist' };
-  const statCols = cols.filter(c => !['slot', 'pos', 'rk', 'rar', 'ppg', 'lw', 'proj', 'live', 'tot', 'l3', 'trend', 'own', 'chg', 'next'].includes(c.k));
-  const hdr = scope === 'wt'
-    ? ['Player', 'Team', 'Position', 'Status', 'Availability', 'Position Rank', 'Rarity Tier', 'PPG', 'Last Week', 'Projected', 'Season Points', 'L3 Avg', 'Trend', '% Rostered', '% Change', 'Next Game', ...statCols.map(c => c.l)]
-    : ['Section', 'Slot', 'Player', 'Team', 'Position', 'Status', 'Position Rank', 'Rarity Tier', 'PPG', 'Last Week', 'Projected', ...(hasLive ? ['Live Points'] : []), 'Season Points', 'L3 Avg', 'Trend', '% Rostered', '% Change', 'Next Game', ...statCols.map(c => c.l)];
-  const rows = [hdr];
-  for (const r of sorted) {
-    const sec = GN[r.g] || 'Roster';
-    const slotTxt = r.slotN || r.slot || '';
-    const statusTxt = r.inj ? (r.inj.status || r.inj.code || 'Injured') : 'Healthy';
-    const availTxt = r.st === 'fa' ? 'Free Agent' : r.st === 'wv' ? 'Waivers' : r.st === 'mine' ? 'Yours' : r.st === 'team' ? 'Rostered' : r.slot || '';
-    const rkTxt = r.rk ? (r.pos || '') + r.rk : '';
-    const rarObj = r.x && typeof rarById === 'function' ? rarById(r.x.id) : null;
-    const rarTxt = rarObj && typeof RAR_T !== 'undefined' && RAR_T[rarObj.i] ? `${RAR_T[rarObj.i][1]} (${Math.round(rarObj.pct)})` : '';
-    const nextTxt = !r.next ? '' : r.next.live ? `LIVE ${r.next.det || ''} ${r.next.txt || ''}`.trim() : `${r.next.txt || ''}${r.next.d ? ' · ' + dayLabelET(new Date(r.next.d)) : ''}`;
-    const trendTxt = r.trend != null ? (r.trend > 0 ? '+' : '') + r.trend.toFixed(1) : '';
-    const chgTxt = r.chg != null ? (r.chg > 0 ? '+' : '') + r.chg.toFixed(1) + '%' : '';
-    const ownTxt = r.own != null ? r.own + '%' : '';
-    const extraVals = statCols.map(c => { const v = c.v(r); return v == null ? '' : v; });
-    if (scope === 'wt') {
-      rows.push([r.name, r.tm || '', r.pos || '', statusTxt, availTxt, rkTxt, rarTxt, r.ppg ?? '', r.lw ?? '', r.proj ?? '', r.tot ?? '', r.l3 ?? '', trendTxt, ownTxt, chgTxt, nextTxt, ...extraVals]);
-    } else {
-      rows.push([sec, slotTxt, r.name, r.tm || '', r.pos || '', statusTxt, rkTxt, rarTxt, r.ppg ?? '', r.lw ?? '', r.proj ?? '', ...(hasLive ? [r.live ?? ''] : []), r.tot ?? '', r.l3 ?? '', trendTxt, ownTxt, chgTxt, nextTxt, ...extraVals]);
-    }
-  }
-  const D = typeof MU !== 'undefined' && MU.d && MU.d.nfl;
-  const baseName = scope === 'fz' && D && D.me && D.me.name ? D.me.name + '-roster-table' : scope === 'wt' ? 'watchlist-table' : 'fantasy-table';
-  xlDownload(rows, baseName, btn);
-}
-function xlExportMatchup(btn){
-  const D = typeof MU !== 'undefined' && MU.d && MU.d.nfl;
-  const tbl = document.querySelector('#fzMatchup table.mu-tb');
-  if (tbl) {
-    const rows = xlFromTable(tbl);
-    return xlDownload(rows, 'fantasy-matchup-table', btn);
-  }
-  if (!D || !D.me) return xlDownload([], 'fantasy-matchup-table', btn);
-  const hdr = ['Slot', 'Your Player', 'Your Team', 'Your Projected', 'Your Actual', 'Opponent Player', 'Opponent Team', 'Opponent Projected', 'Opponent Actual'];
-  const rows = [hdr];
-  const mePs = D.me.ps || [], opPs = (D.op && D.op.ps) || [], n = Math.max(mePs.length, opPs.length);
-  for (let i = 0; i < n; i++) {
-    const a = mePs[i], b = opPs[i];
-    rows.push([
-      (a && a.slot) || (b && b.slot) || '',
-      a ? a.name : '', a ? a.team : '', a && a.pts ? a.pts.proj ?? '' : '', a && a.pts ? a.pts.act ?? '' : '',
-      b ? b.name : '', b ? b.team : '', b && b.pts ? b.pts.proj ?? '' : '', b && b.pts ? b.pts.act ?? '' : ''
-    ]);
-  }
-  xlDownload(rows, 'fantasy-matchup-table', btn);
-}
 function xlCleanCell(c, isHeader){
   const clone = c.cloneNode(true);
   if (isHeader) {
@@ -13008,12 +12946,6 @@ function xlCleanCell(c, isHeader){
   return clone.textContent.replace(/[▲▼]/g, '').replace(/\s+/g, ' ').trim();
 }
 function xlFromTable(tbl){
-  if (tbl.classList.contains('tb') && !tbl.classList.contains('pk-tb') && !tbl.classList.contains('tb-sub')) {
-    const w = tbl.closest('.tb-wrap');
-    if (w && (w.dataset.tbid === 'fz' || w.dataset.tbid === 'wt')) {
-      // Handled by xlExportRoster when triggered from toolbar, or build structured rows here
-    }
-  }
   const rows = [];
   let hasTh = false;
   for (const tr of tbl.querySelectorAll('tr')) {
@@ -13056,56 +12988,15 @@ function xlTableName(tbl){
   if (sec) { const h = sec.querySelector('h2, h3, h4, h5, h6, .fzc-sh'); if (h) return h.textContent; }
   return 'sports-table';
 }
-async function xlExportSpinIt(btn){
-  const rows = [['Rank', 'Name', 'Category', 'Sport / League', 'Position', 'Team', 'WHYDFML Score', 'Tier', 'Record / Stats', 'Write-up']];
-  const items = [];
-  try {
-    if (SX.ov) {
-      const curH2 = SX.ov.querySelector('.sx-hd h2, .st-hd h2');
-      if (curH2) {
-        const isTm = !!SX.ov.querySelector('.st');
-        const scEl = SX.ov.querySelector('.st-sc b, .sx-gauge .gt'), tierEl = SX.ov.querySelector('.st-nm, .sx-lbl'), subEl = SX.ov.querySelector('.sx-hd small, .st-hd small'), jokeEl = SX.ov.querySelector('.st-joke, .sx-quip');
-        const subParts = (subEl ? subEl.textContent.trim() : '').split(' · ');
-        items.push({
-          name: curH2.textContent.trim(),
-          cat: isTm ? 'Team' : 'Player',
-          sport: isTm ? (subParts[0] || '') : (subParts[2] || 'NFL'),
-          pos: isTm ? (subParts[2] || '') : (subParts[0] || ''),
-          team: isTm ? curH2.textContent.trim() : (subParts[1] || ''),
-          score: scEl ? +scEl.textContent.trim() || 0 : 0,
-          tier: tierEl ? tierEl.textContent.trim() : '',
-          stats: isTm ? (subParts[1] || '') : subParts.join(' · '),
-          roast: jokeEl ? jokeEl.textContent.replace(/^[“"]|[”"]$/g, '').trim() : ''
-        });
-      }
-    }
-    const pls = typeof sxAllPlayers === 'function' ? sxAllPlayers() : [];
-    for (const p of pls) {
-      if (items.some(x => x.name === p.name)) continue;
-      const e = sxPlayer(p.id, psp(p)), sc = sxPlayerScore(e);
-      if (!sc) continue;
-      const tier = sxLabel(sc.s, sc), q = sxQuip(e, sc), x = sc.x || {};
-      const st = [x.ppg != null ? x.ppg + ' PPG' : '', x.tot != null ? x.tot + ' pts' : ''].filter(Boolean).join(' · ');
-      items.push({ name: e.name, cat: 'Player', sport: (FSPORTS[e.sp] || {}).label || 'NFL', pos: e.pos || '', team: e.team || '', score: sc.s, tier, stats: st, roast: q || '' });
-    }
-    for (const s of (typeof starList === 'function' ? starList() : [])) {
-      const t = sxTeam(s.lg, s.abbr); if (!t || items.some(x => x.name === t.name)) continue;
-      const ck = 't:' + s.lg + ':' + (t.id || t.abbr || t.tid), cd = SX.cache && SX.cache[ck] && SX.cache[ck].d;
-      const ts = cd && cd.ts, sc = (ts && ts.s) ?? (cd && cd.sc && cd.sc.s);
-      const info = (typeof MN !== 'undefined' && MN.teamInfo && MN.teamInfo[s.key]) || {};
-      items.push({ name: t.name, cat: 'Team', sport: (CAT[s.lg] || {}).label || s.lg.toUpperCase(), pos: info.standing || '', team: s.abbr, score: sc != null ? sc : 50, tier: ts && ts.T ? ts.T[2] : (sc != null ? sxLabel(sc) : 'Ranked'), stats: info.record || '', roast: ts && ts.reasons ? ts.reasons.join('; ') : '' });
-    }
-  } catch (_) {}
-  items.sort((a, b) => (b.score || 0) - (a.score || 0));
-  items.forEach((it, i) => rows.push([i + 1, it.name, it.cat, it.sport, it.pos, it.team, it.score, it.tier, it.stats, it.roast]));
-  xlDownload(rows, 'spin-it-rankings', btn);
-}
+/* Oct 30: Excel export lives ONLY in the player drill-down (#psView) and team drill-down (#tcView, plus an expanded Favorite Team card's
+   detail panel). Spin-it, card grids, the roster/matchup tables and every other list view stay export-free. */
+var XL_SCOPE = '#psView .ps-box, #tcView .ps-box, .ft-card.gmd-on > .gm-d';
 function xlDecorateTables(){
+  document.querySelectorAll('.xl-bar').forEach(b => { if (!b.closest(XL_SCOPE)) b.remove(); });   // drop any stale bar outside a drill-down
   document.querySelectorAll('table').forEach(tbl => {
     if (tbl.dataset.xlok) return;
+    if (!tbl.closest(XL_SCOPE) || tbl.closest('.sx-ov')) return;   // not a drill-down: no Excel (checked again if it moves into one)
     tbl.dataset.xlok = '1';
-    if (tbl.closest('.tb-wrap') && tbl.closest('section, #fzSection, #wtSection, main')?.querySelector('.tb-bar [data-xlexp]')) return;
-    if (tbl.classList.contains('mu-tb') && tbl.closest('#fzMatchup')?.querySelector('.mu-bar [data-xlexp]')) return;
     const bar = document.createElement('div'); bar.className = 'xl-bar';
     bar.innerHTML = `<button type="button" class="xl-btn" data-xltbl="1" title="Export this table to Microsoft Excel (.csv)">📥 Excel</button>`;
     const wrap = tbl.closest('.tb-wrap, .ps-tw, .mu-tbw, .lb-wrap, .nd-wrap, .tr-tw') || tbl;
@@ -13113,7 +13004,7 @@ function xlDecorateTables(){
   });
 }
 addEventListener('click', e => {
-  const b = e.target && e.target.closest ? e.target.closest('[data-xlexp], [data-xltbl]') : null;
+  const b = e.target && e.target.closest ? e.target.closest('[data-xltbl]') : null;
   if (!b) return;
   e.preventDefault(); e.stopPropagation();
   if (b.dataset.xltbl) {
@@ -13122,10 +13013,6 @@ addEventListener('click', e => {
     if (tbl) xlDownload(xlFromTable(tbl), xlTableName(tbl), b);
     return;
   }
-  const k = b.dataset.xlexp;
-  if (k === 'spinit') { xlExportSpinIt(b); return; }
-  if (k && k.startsWith('tb:')) { xlExportRoster(k.split(':')[1], b); return; }
-  if (k === 'mu') { xlExportMatchup(b); return; }
 }, true);
 if (typeof MutationObserver !== 'undefined') {
   let xlTm = 0;
@@ -14568,6 +14455,35 @@ function ftEqualize(){
     b.setAttribute('aria-expanded', on); b.title = (on ? 'Hide' : 'Show') + ' the period tracker and game thread'; b.textContent = (on ? '▴' : '▾') + ' Tracker';
     run(); }, true);
   document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.closest && e.target.closest('.ft-mid-tg')) e.stopPropagation(); }, true);
+})();
+</script>
+<script>
+/* Oct 30: player-card names (.cc trading cards in every grid/row, .pc wheel cards). For each name line, find the ▶ highlight button and the
+   headshot circle that sit beside it, cap the line just left of them, shrink the font (down to 60%), and only then ellipsis. */
+function nmFit(root){
+  (root || document).querySelectorAll('.cc, .pc').forEach(card => {
+    if (!card.offsetWidth) return;
+    const obs = [...card.querySelectorAll('.hl-btn, .cc-circ:not(.cc-circ-x)')].filter(o => o.offsetWidth && !o.closest('.cc-back, .pc-back') && getComputedStyle(o).visibility !== 'hidden').map(o => o.getBoundingClientRect());
+    card.querySelectorAll('.cc-plate > *, .pc-plate > *').forEach(el => {
+      el.style.maxWidth = ''; el.classList.remove('nm-cut');
+      const isName = el.matches('.cc-ln, .pc-ln, .cc-fn, .pc-fn'); if (isName) el.style.fontSize = '';
+      const R = el.getBoundingClientRect(); if (!R.width || !el.offsetWidth) return;
+      const k = R.width / el.offsetWidth || 1;   // CSS zoom / transforms: rect px per layout px
+      const lim = obs.filter(o => o.bottom > R.top + 1 && o.top < R.bottom - 1 && o.right > R.left).reduce((m, o) => Math.min(m, o.left), Infinity);
+      if (lim < Infinity) el.style.maxWidth = Math.max(24, (lim - R.left) / k - 4).toFixed(1) + 'px';
+      if (isName) { const f0 = parseFloat(getComputedStyle(el).fontSize); for (let i = 0; i < 4 && el.scrollWidth > el.clientWidth + 1; i++) { const fs = parseFloat(getComputedStyle(el).fontSize); if (fs <= f0 * .6 + .01) break; el.style.fontSize = Math.max(f0 * .6, fs * el.clientWidth / el.scrollWidth * .97).toFixed(2) + 'px'; } }
+      if (el.scrollWidth > el.clientWidth + 1 || [...el.children].some(c => { if (/absolute|fixed/.test(getComputedStyle(c).position)) return false; const r = c.getBoundingClientRect(); return lim < Infinity && r.width && r.right > lim + .5; })) el.classList.add('nm-cut');
+    });
+  });
+}
+(function(){
+  if (typeof pgText === 'function') { const _pg = pgText; pgText = function(root){ const r = _pg(root); try { nmFit(root); } catch (_) {} return r; }; }
+  let q = 0; const run = () => { if (q) return; q = requestAnimationFrame(() => { q = 0; try { nmFit(); } catch (_) {} }); };
+  const has = n => n.nodeType === 1 && (n.matches('.cc, .pc, .cc-circ, .hl-btn') || n.querySelector('.cc, .pc'));
+  const start = () => { new MutationObserver(ms => { for (const m of ms) { if ([...m.addedNodes].some(has) || (m.target.closest && m.target.closest('.cc, .pc'))) { run(); return; } } }).observe(document.body, { childList: true, subtree: true }); run(); };
+  document.body ? start() : document.addEventListener('DOMContentLoaded', start);
+  addEventListener('resize', run); addEventListener('load', run);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(run);
 })();
 </script>
 <script>
