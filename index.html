@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261030-2233-gameday-batch1">
+<meta name="build-id" content="20261030-2256-batch2">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,7 +18,7 @@
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261030-2233-gameday-batch1';
+var BUILD_ID = '20261030-2256-batch2';
 var FIREBASE_CONFIG = { apiKey: "AIzaSyDVX8Nz5Cpm3cdEdfYKDi9iKZ3eEuEsVlY", authDomain: "sportssportssports-d2cfc.firebaseapp.com", projectId: "sportssportssports-d2cfc",
   storageBucket: "sportssportssports-d2cfc.firebasestorage.app", messagingSenderId: "566191759512", appId: "1:566191759512:web:3b5e44b2547505bf4f70ed" };
 /* ^ Oct 28: optional sign-in + sync. Set to null to turn it off completely (no SDK load, no button). Web config keys are public by design; access is locked by firestore.rules. */
@@ -3998,6 +3998,72 @@ html.tc-open{overflow:hidden}
   .rz-chip{display:inline-flex;align-items:center;gap:6px;max-width:100%;padding:3px 9px 3px 3px;border-radius:999px;background:#13233b;border:1px solid #2d5284;font-size:12px;font-weight:800;cursor:pointer;overflow-wrap:anywhere}
   .rz-chip.bn{border-style:dashed;opacity:.85}
   .rz-chip img{width:22px;height:22px;border-radius:50%;object-fit:cover;background:#0a0f1a}
+  /* ===== Oct 30: BATCH 2 — Waiver gems · Weekly recap · Rivalry ===== */
+  .b2{margin:0 0 12px;padding:12px;border-radius:16px;border:1px solid #2b3a5c;background:linear-gradient(180deg,#111a2c,#0d1424);min-width:0}
+  .b2-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-bottom:10px}.b2-h b{font-size:16px}.b2-h small{font-size:11.5px;color:var(--muted);font-weight:700}
+  .b2-ld{padding:10px 12px;border-radius:12px;background:#0e1626;border:1px solid #23304b;color:#b5c2de;font-size:13px;font-weight:700}
+  .b2-foot{margin-top:8px;font-size:11px;color:var(--muted);font-weight:600;line-height:1.4}
+  .b2 .up{color:#5fd38a}.b2 .dn{color:#ff8a7a}
+  /* recap */
+  .rc{padding:0;overflow:hidden}
+  .rc-tg{display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;background:none;border:0;color:var(--text);cursor:pointer;text-align:left;font:inherit}
+  .rc-tg b{font-size:15px}.rc-car{margin-left:auto;font-size:12px;font-weight:800;color:#9cd4ff;white-space:nowrap}
+  .rc-res{font-size:12px;font-weight:900;padding:2px 8px;border-radius:999px;background:#22304d;white-space:nowrap}.rc-res.W{background:#173d27;color:#a8f0c4}.rc-res.L{background:#4a1a1f;color:#ffc2bb}
+  .rc:not(.closed)>.rc-tg{border-bottom:1px solid #23304b}
+  .rc-card{margin:12px;padding:14px;border-radius:18px;border:1px solid #2f6b4a;background:linear-gradient(170deg,#0f3a26 0,#0d1424 55%,#0a0f1a);display:flex;flex-direction:column;gap:12px}
+  .rc-card.L{border-color:#7a2a33;background:linear-gradient(170deg,#3d1418 0,#0d1424 55%,#0a0f1a)}.rc-card.T{border-color:#7a6a2a;background:linear-gradient(170deg,#3a3010 0,#0d1424 55%,#0a0f1a)}
+  .rc-top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11px;font-weight:900;letter-spacing:1px;color:#9fb0d2}
+  .rc-wl{font-size:24px;letter-spacing:1.5px;color:#38d27a}.rc-card.L .rc-wl{color:#ff6b5e}.rc-card.T .rc-wl{color:#ffd34d}
+  .rc-sc{display:flex;flex-direction:column;gap:4px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)}
+  .rc-t{display:grid;grid-template-columns:28px minmax(0,1fr) auto;align-items:center;gap:8px}.rc-t img{width:28px;height:28px;border-radius:50%;background:#0a0f1a;object-fit:cover}
+  .rc-t b{font-size:14px;overflow-wrap:anywhere}.rc-t strong{font-size:26px;font-weight:900;font-variant-numeric:tabular-nums}.rc-t.me strong{color:#5fd38a}.rc-card.L .rc-t.me strong{color:#fff}.rc-t.op b,.rc-t.op strong{color:#c8d6f5}
+  .rc-vs{font-size:10.5px;font-weight:900;color:#6f7fa3;padding-left:36px}
+  .rc-ps{display:grid;grid-template-columns:1fr;gap:8px}@media (min-width:600px){.rc-ps{grid-template-columns:1fr 1fr}}
+  .rc-p{display:grid;grid-template-columns:40px minmax(0,1fr) auto;grid-template-areas:"l l l" "i n v";align-items:center;gap:4px 10px;padding:10px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid #2f7a4c;cursor:pointer}
+  .rc-p.dud{border-color:#2d5284}.rc-pl{grid-area:l;font-size:10.5px;font-weight:900;letter-spacing:.6px;color:#7ee2a6;text-transform:uppercase}.rc-p.dud .rc-pl{color:#9cd4ff}
+  .rc-p img{grid-area:i;width:40px;height:40px;border-radius:50%;object-fit:cover;background:#0a0f1a}.rc-pn{grid-area:n;display:flex;flex-direction:column;min-width:0}.rc-pn b{font-size:14px;overflow-wrap:anywhere}.rc-pn i{font-style:normal;font-size:11px;color:var(--muted);font-weight:700}
+  .rc-pv{grid-area:v;text-align:right;display:flex;flex-direction:column}.rc-pv b{font-size:22px;font-weight:900}.rc-pv i{font-style:normal;font-size:10.5px;font-weight:800;color:#b5c2de;white-space:nowrap}
+  .rc-kv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .rc-kv span{padding:8px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;min-width:0}
+  .rc-kv i{font-style:normal;font-size:10px;font-weight:900;letter-spacing:.5px;color:#9fb0d2;text-transform:uppercase}.rc-kv b{font-size:19px;font-weight:900;overflow-wrap:anywhere}.rc-kv small{font-size:11px;color:var(--muted);font-weight:700}
+  .rc-bn{font-size:12px;color:#b5c2de;font-weight:700}.rc-bn b{color:var(--text)}
+  .rc-q{margin:0;font-size:14px;line-height:1.45;font-weight:700;color:#ffe08a;font-style:italic}
+  .rc-act{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:0 12px 12px}
+  .rc-pick{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:#c8d6f5}.rc-pick select{background:#13233b;color:var(--text);border:1px solid #2d5284;border-radius:10px;padding:6px 8px;font:inherit;font-size:13px}
+  .rc-btn{padding:8px 13px;border-radius:12px;border:1px solid #2d5284;background:#13233b;color:#9cd4ff;font-weight:900;font-size:13px;cursor:pointer}.rc-btn:hover,.rc-btn:focus-visible{border-color:#7cc4ff;outline:none}.rc-btn:disabled{opacity:.6}
+  /* rivalry */
+  .rv-sum{font-size:12.5px;color:#c8d6f5;font-weight:700;margin:-4px 0 8px}.rv-sum b{color:var(--gold)}
+  .rv-hd{display:none}
+  .rv-list{display:flex;flex-direction:column;gap:6px}
+  .rv-r{border-radius:12px;border:1px solid #23304b;background:#0e1626;min-width:0}.rv-r.now{border-color:var(--gold);box-shadow:0 0 0 1px rgba(255,200,61,.25) inset}
+  .rv-b{display:grid;grid-template-columns:30px minmax(0,1fr) auto auto 16px;grid-template-areas:"lg n rec st car" "lg n pts pts car";align-items:center;gap:2px 10px;width:100%;padding:8px 10px;background:none;border:0;color:var(--text);font:inherit;text-align:left;cursor:pointer}
+  .rv-b:focus-visible{outline:2px solid #7cc4ff;outline-offset:-2px;border-radius:12px}
+  .rv-lg{grid-area:lg;width:30px;height:30px;border-radius:50%;background:#0a0f1a;object-fit:cover}
+  .rv-n{grid-area:n;display:flex;flex-direction:column;min-width:0}.rv-n b{font-size:13.5px;overflow-wrap:anywhere;line-height:1.2}.rv-n i{font-style:normal;font-size:11px;color:var(--muted);font-weight:700}.rv-n em{font-style:normal;color:var(--gold);font-weight:900}
+  .rv-rec{grid-area:rec;font-size:17px;font-weight:900;font-variant-numeric:tabular-nums;justify-self:end}
+  .rv-pts{grid-area:pts;justify-self:end;font-size:11px;color:var(--muted);font-weight:700;white-space:nowrap}.rv-pts b{color:#c8d6f5;margin-right:4px}.rv-pts i{font-style:normal}
+  .rv-st{grid-area:st;font-size:10.5px;font-weight:900;padding:2px 7px;border-radius:999px;background:#22304d;color:#c8d6f5}.rv-st.W{background:#173d27;color:#a8f0c4}.rv-st.L{background:#4a1a1f;color:#ffc2bb}
+  .rv-car{grid-area:car;color:#6f7fa3;font-size:12px;transition:transform .2s}.rv-r.open .rv-car{transform:rotate(180deg)}
+  .rv-det{padding:4px 10px 10px;display:flex;flex-direction:column;gap:8px}
+  .rv-kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px}.rv-kv span{padding:7px 9px;border-radius:10px;background:#111b2f;border:1px solid #233050;display:flex;flex-direction:column;min-width:0}
+  .rv-kv i{font-style:normal;font-size:10px;font-weight:900;letter-spacing:.5px;text-transform:uppercase;color:#9fb0d2}.rv-kv b{font-size:17px;font-weight:900}.rv-kv small{font-size:11px;color:var(--muted);font-weight:700}
+  .rv-gl{display:flex;flex-direction:column;gap:4px}.rv-g{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:8px;align-items:center;padding:5px 9px;border-radius:8px;background:#111b2f;font-size:12.5px;font-weight:700}
+  .rv-g b{font-weight:900}.rv-g.W b{color:#5fd38a}.rv-g.L b{color:#ff8a7a}.rv-g strong{font-variant-numeric:tabular-nums}
+  @media (min-width:820px){.rv-hd{display:grid;grid-template-columns:30px minmax(0,1fr) 70px 150px 60px 16px;gap:10px;padding:0 10px 4px;font-size:10.5px;font-weight:900;letter-spacing:.5px;text-transform:uppercase;color:#6f7fa3}.rv-hd span:first-child{grid-column:1/3}.rv-hd span:not(:first-child){text-align:right}
+    .rv-b{grid-template-columns:30px minmax(0,1fr) 70px 150px 60px 16px;grid-template-areas:"lg n rec pts st car"}.rv-st{justify-self:end}}
+  /* gems */
+  .gm-needs{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:-2px 0 10px;font-size:11.5px;font-weight:800;color:#b5c2de}
+  .gm-nd{padding:2px 8px;border-radius:999px;background:#22304d;color:#c8d6f5;font-weight:900}.gm-nd.weak{background:#4a1a1f;color:#ffc2bb}.gm-nd.strong{background:#173d27;color:#a8f0c4}
+  .gm-grid{display:grid;grid-template-columns:1fr;gap:10px}@media (min-width:600px){.gm-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (min-width:1100px){.gm-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  .gm-c{min-width:0;padding:10px;border-radius:13px;border:1px solid #2a3756;background:#0e1626;display:flex;flex-direction:column;gap:8px}
+  .gm-top{display:flex;align-items:center;gap:8px}.gm-rk{font-weight:900;color:var(--gold)}.gm-sc{margin-left:auto;font-size:12px;font-weight:900;padding:2px 8px;border-radius:999px;background:#13233b;color:#9cd4ff}
+  .gm-top .cm-eye{position:static;margin:0}
+  .gm-id{display:flex;align-items:center;gap:8px;min-width:0;cursor:pointer}.gm-id img{width:42px;height:42px;border-radius:50%;object-fit:cover;background:#0a0f1a;flex:0 0 auto}
+  .gm-nm{display:flex;flex-direction:column;min-width:0}.gm-nm b{font-size:14px;overflow-wrap:anywhere}.gm-nm i{font-style:normal;font-size:11px;color:var(--muted);font-weight:700}
+  .gm-st{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.gm-st span{display:flex;flex-direction:column;align-items:center;padding:5px 2px;border-radius:9px;background:#111b2f;min-width:0}
+  .gm-st b{font-size:15px;font-weight:900}.gm-st i{font-style:normal;font-size:10px;color:var(--muted);font-weight:800;white-space:nowrap}
+  .gm-why{margin:0;font-size:12.5px;line-height:1.4;color:#d7e0f3;font-weight:600}
+  .gm-nx,.gm-up{font-size:12px;font-weight:700;color:#b5c2de;overflow-wrap:anywhere}.gm-up{padding:6px 9px;border-radius:9px;background:#12261b;border:1px solid #23533a}.gm-up b{color:var(--text)}
 </style>
 </head>
 <body>
@@ -14829,6 +14895,274 @@ function gdRender(){
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && GD.rzOpen && !document.querySelector('#psView:not([hidden])')) { e.stopPropagation(); rzClose(); } }, true);
 })();
 function gdPill(){ document.querySelectorAll('.qv-pill.rz').forEach(b => { const c = rzCount(), h = `🔴 Red Zone${c ? ` <b>${c}</b>` : ''}`; if (b.innerHTML !== h) b.innerHTML = h; }); }
+</script>
+
+<script>
+/* ===== Oct 30: BATCH 2 — 💎 Waiver Gems · 📸 Weekly Recap card · ⚔️ Rivalry history =====
+   ESPN fantasy league data only (public league reads, credentials omitted); anything ESPN doesn't return is hidden.
+   Read-only: nothing here ever claims a player, changes a lineup or sends anything to ESPN. No alerts. */
+var B2 = { rv: null, rvBusy: false, rvErr: 0, rvOpen: null, rc: {}, rcBusy: {}, rcWk: null, rcOpen: null };
+function b2L(){ const L = espnLinks && espnLinks.nfl; return L && L.source !== 'paste' && L.leagueId && L.teamId ? L : null; }
+function b2Tm(t){ return (t && (t.name || [t.location, t.nickname].filter(Boolean).join(' ')) || ('Team ' + (t && t.id))).trim(); }
+function b2Img(src, cls){ return src ? `<img${cls ? ` class="${cls}"` : ''} src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.visibility='hidden'">` : ''; }
+
+/* ---------- ⚔️ Rivalry history (also supplies the completed-week list for the recap) ---------- */
+async function rvSeason(L, y, cur){
+  const q = 'view=mMatchupScore&view=mTeam&view=mStatus';
+  let d = null;
+  try { d = await efJSON(efLeagueUrl('nfl', y, L.leagueId, q)); }
+  catch (e) { if (cur) throw e; try { const a = await efJSON(`${EF_API}${EF.nfl.game}/leagueHistory/${L.leagueId}?seasonId=${y}&${q}`); d = Array.isArray(a) ? a[0] : a; } catch (_) { d = null; } }
+  return d && Array.isArray(d.schedule) && Array.isArray(d.teams) ? d : null;
+}
+async function rvLoad(){
+  const L = b2L(); if (!L || B2.rvBusy) return; B2.rvBusy = true;
+  try {
+    const cur = await rvSeason(L, L.season, true); if (!cur) throw new Error('no league data');
+    const prev = ((cur.status || {}).previousSeasons || []).map(Number).filter(y => y && y < +L.season).sort((a, b) => b - a).slice(0, 15);
+    const olds = await Promise.all(prev.map(y => rvSeason(L, y, false).catch(() => null)));
+    const me7 = (cur.teams || []).find(t => t.id === +L.teamId); const myOwner = me7 && (me7.primaryOwner || (me7.owners || [])[0]);
+    const mem = {}; for (const d of [cur, ...olds]) for (const m of (d && d.members) || []) if (!mem[m.id]) mem[m.id] = [m.firstName, m.lastName ? m.lastName[0] + '.' : ''].filter(Boolean).join(' ').trim() || m.displayName || '';
+    const seasons = [], games = [];
+    for (const d of [cur, ...olds]) { if (!d) continue; const y = +(d.seasonId || L.season), tms = {};
+      for (const t of d.teams) tms[t.id] = { id: t.id, name: b2Tm(t), logo: t.logo || '', own: t.primaryOwner || (t.owners || [])[0] || ('t' + t.id) };
+      const mine = y === +L.season ? tms[+L.teamId] : Object.values(tms).find(t => myOwner && t.own === myOwner);
+      if (!mine) continue; let n = 0;
+      for (const g of d.schedule) { if (!g.home || !g.away || !g.winner || g.winner === 'UNDECIDED') continue;
+        const meH = g.home.teamId === mine.id, meA = g.away.teamId === mine.id; if (!meH && !meA) continue;
+        const m = meH ? g.home : g.away, o = meH ? g.away : g.home, ot = tms[o.teamId]; if (!ot) continue;
+        const res = g.winner === 'TIE' ? 'T' : (g.winner === 'HOME') === meH ? 'W' : 'L';
+        games.push({ y, wk: g.matchupPeriodId, po: g.playoffTierType && g.playoffTierType !== 'NONE', pf: r1(m.totalPoints || 0), pa: r1(o.totalPoints || 0), res, key: ot.own, tid: ot.id, name: ot.name, logo: ot.logo }); n++; }
+      if (n) seasons.push(y); }
+    // opponents keyed by owner, so a renamed team stays one rivalry; label with the newest team name
+    const by = {};
+    for (const g of games.sort((a, b) => a.y - b.y || a.wk - b.wk)) { const r = by[g.key] ||= { key: g.key, owner: mem[g.key] || '', gs: [] }; r.gs.push(g); r.name = g.name; r.logo = g.logo; r.tid = g.tid; }
+    for (const r of Object.values(by)) { const gs = r.gs; r.w = gs.filter(g => g.res === 'W').length; r.l = gs.filter(g => g.res === 'L').length; r.t = gs.filter(g => g.res === 'T').length;
+      r.pf = r1(gs.reduce((a, g) => a + g.pf, 0)); r.pa = r1(gs.reduce((a, g) => a + g.pa, 0));
+      const wins = gs.filter(g => g.res === 'W'), losses = gs.filter(g => g.res === 'L');
+      r.best = wins.length ? wins.reduce((a, g) => g.pf - g.pa > a.pf - a.pa ? g : a) : null; r.worst = losses.length ? losses.reduce((a, g) => g.pa - g.pf > a.pa - a.pf ? g : a) : null;
+      const last = gs[gs.length - 1]; let k = 0; for (let i = gs.length - 1; i >= 0 && gs[i].res === last.res; i--) k++; r.streak = last.res + k; }
+    // completed weeks of the current season (recap week list)
+    const curWeeks = games.filter(g => g.y === +L.season).map(g => g.wk).sort((a, b) => a - b);
+    B2.rv = { t: Date.now(), lg: L.leagueId + ':' + L.teamId, seasons: seasons.sort((a, b) => a - b), opp: Object.values(by), weeks: curWeeks, nTeams: cur.teams.length,
+      curMp: (cur.status || {}).currentMatchupPeriod || null, season: +L.season };
+    B2.rvErr = 0;
+  } catch (e) { B2.rvErr = Date.now(); console.warn('rivalry', e); }
+  finally { B2.rvBusy = false; try { b2Render(); } catch (_) {} }
+}
+function ensureRv(){ const L = b2L(); if (!L) return; const R = B2.rv;
+  if ((!R || R.lg !== L.leagueId + ':' + L.teamId || Date.now() - R.t > 30 * 60e3) && !B2.rvBusy && (!B2.rvErr || Date.now() - B2.rvErr > 2 * 60e3)) rvLoad(); }
+function rvHTML(){
+  const L = b2L(), R = B2.rv; if (!L) return '';
+  const head = `<div class="b2-h"><b>⚔️ Rivalry history</b><small>${R && R.seasons.length ? `All-time head-to-head in this league · ESPN seasons: ${R.seasons.length > 1 ? `${R.seasons[0]}–${R.seasons[R.seasons.length - 1]}` : R.seasons[0]}` : 'All-time head-to-head in this league'}</small></div>`;
+  if (!R || R.lg !== L.leagueId + ':' + L.teamId) return B2.rvErr ? '' : `<section class="b2 rv" id="rvSec">${head}<div class="b2-ld">Loading league history from ESPN…</div></section>`;
+  if (!R.opp.length) return '';
+  const D = MU.d && MU.d.nfl, curOp = D && D.op ? +D.op.id : null;
+  const tot = R.opp.reduce((a, r) => ({ w: a.w + r.w, l: a.l + r.l, t: a.t + r.t }), { w: 0, l: 0, t: 0 });
+  const opp = R.opp.slice();
+  if (curOp != null && !opp.some(r => r.tid === curOp) && D.op) opp.push({ key: 'cur-' + curOp, tid: curOp, name: D.op.name, logo: D.op.logo || '', owner: '', gs: [], w: 0, l: 0, t: 0, pf: 0, pa: 0, best: null, worst: null, streak: '' });
+  const list = opp.sort((a, b) => (b.tid === curOp) - (a.tid === curOp) || (b.w - b.l) - (a.w - a.l) || (b.pf - b.pa) - (a.pf - a.pa));
+  const rows = list.map(r => { const open = B2.rvOpen === r.key, now = r.tid === curOp, gp = r.gs.length;
+    const det = open && !gp ? `<div class="rv-det" id="rvd-${esc(r.tid)}"><div class="b2-ld">You haven't played ${esc(r.name)} yet. This week is the first meeting.</div></div>` : open ? `<div class="rv-det" id="rvd-${esc(r.tid)}">
+      <div class="rv-kv">${r.best ? `<span><i>Biggest win</i><b class="up">+${r1(r.best.pf - r.best.pa)}</b><small>${r.best.pf}–${r.best.pa} · ${R.seasons.length > 1 ? r.best.y + ' ' : ''}Wk ${r.best.wk}</small></span>` : ''}${r.worst ? `<span><i>Worst loss</i><b class="dn">−${r1(r.worst.pa - r.worst.pf)}</b><small>${r.worst.pf}–${r.worst.pa} · ${R.seasons.length > 1 ? r.worst.y + ' ' : ''}Wk ${r.worst.wk}</small></span>` : ''}<span><i>Avg score</i><b>${r1(r.pf / gp)}–${r1(r.pa / gp)}</b><small>${gp} game${gp === 1 ? '' : 's'}</small></span></div>
+      <div class="rv-gl">${r.gs.slice().reverse().map(g => `<div class="rv-g ${g.res}"><b>${g.res}</b><span>${R.seasons.length > 1 ? g.y + ' · ' : ''}Week ${g.wk}${g.po ? ' · Playoffs' : ''}</span><strong>${g.pf}–${g.pa}</strong></div>`).join('')}</div></div>` : '';
+    return `<div class="rv-r${now ? ' now' : ''}${open ? ' open' : ''}"><button type="button" class="rv-b" data-rvopen="${esc(r.key)}" aria-expanded="${open}" aria-controls="rvd-${esc(r.tid)}">
+      ${b2Img(r.logo, 'rv-lg')}<span class="rv-n"><b>${esc(r.name)}</b><i>${r.owner ? esc(r.owner) : ''}${now ? `${r.owner ? ' · ' : ''}<em>This week</em>` : ''}</i></span>
+      <span class="rv-rec ${r.w > r.l ? 'up' : r.w < r.l ? 'dn' : ''}">${r.w}-${r.l}${r.t ? '-' + r.t : ''}</span>
+      <span class="rv-pts" title="Points for – points against">${r.gs.length ? `<b>${r.pf}</b>–${r.pa}` : 'First meeting'}</span>${r.streak ? `<span class="rv-st ${r.streak[0]}">${r.streak}</span>` : '<span class="rv-st">New</span>'}<span class="rv-car" aria-hidden="true">▾</span></button>${det}</div>`; }).join('');
+  return `<section class="b2 rv" id="rvSec">${head}<div class="rv-sum">You're <b>${tot.w}-${tot.l}${tot.t ? '-' + tot.t : ''}</b> against the league · tap a rival for every game</div>
+    <div class="rv-hd" aria-hidden="true"><span>Opponent</span><span>W-L</span><span>PF / PA</span><span>Streak</span></div><div class="rv-list">${rows}</div></section>`;
+}
+
+/* ---------- 📸 Weekly recap ---------- */
+const RC_KEY = 'mannRecap.v1';
+function rcStore(){ return lsGet(RC_KEY, {}) || {}; }
+async function rcLoad(wk){
+  const L = b2L(); if (!L) return; const k = L.leagueId + ':' + L.teamId + ':' + L.season + ':' + wk;
+  if (B2.rc[k] || B2.rcBusy[k]) return; const S = rcStore(); if (S[k]) { B2.rc[k] = S[k]; return; }
+  B2.rcBusy[k] = 1;
+  try {
+    const [d, pro] = await Promise.all([efJSON(efLeagueUrl('nfl', L.season, L.leagueId, `view=mMatchupScore&view=mBoxscore&view=mTeam&scoringPeriodId=${wk}`)), efProTeams('nfl', L.season)]);
+    const tid = +L.teamId, sch = (d.schedule || []).filter(g => g.matchupPeriodId === wk);
+    const g = sch.find(x => (x.home && x.home.teamId === tid) || (x.away && x.away.teamId === tid)); if (!g || !g.winner || g.winner === 'UNDECIDED') throw new Error('week not final');
+    const meH = g.home.teamId === tid, m = meH ? g.home : g.away, o = meH ? g.away : g.home, tm = id => (d.teams || []).find(t => t.id === id) || { id };
+    const r = m.rosterForCurrentScoringPeriod || m.rosterForMatchupPeriod || {}, ps = efRoster('nfl', { roster: r }, pro).players;
+    const S0 = SLOTS.nfl, st = ps.filter(p => !S0.bench.includes(p.sid) && !S0.ir.includes(p.sid)), bn = ps.filter(p => S0.bench.includes(p.sid));
+    const pt = p => (p.pts && typeof p.pts.act === 'number' ? p.pts.act : 0), pj = p => (p.pts && typeof p.pts.proj === 'number' ? p.pts.proj : null);
+    const actual = r1(st.reduce((a, p) => a + pt(p), 0));
+    // best possible lineup with the same slots (most restrictive slot first)
+    const slots = st.map(p => S0.names[p.sid] || p.slot).filter(s => SS_ELIG[s]).sort((a, b) => SS_ELIG[a].length - SS_ELIG[b].length);
+    const pool = [...st, ...bn].map(p => ({ p, v: pt(p) })); let opt = 0;
+    for (const s of slots) { let bi = -1; pool.forEach((x, i) => { if (SS_ELIG[s].includes(x.p.pos) && (bi < 0 || x.v > pool[bi].v)) bi = i; }); if (bi >= 0) { opt += pool[bi].v; pool.splice(bi, 1); } }
+    opt = r1(Math.max(opt, actual));
+    const scored = st.filter(p => pj(p) != null).map(p => ({ p, a: pt(p), j: pj(p), d: r1(pt(p) - pj(p)) }));
+    const mvp = scored.length ? scored.reduce((a, x) => x.d > a.d ? x : a) : null, dud = scored.length ? scored.reduce((a, x) => x.d < a.d ? x : a) : null;
+    const benchBest = bn.length ? bn.map(p => ({ p, a: pt(p) })).reduce((a, x) => x.a > a.a ? x : a) : null;
+    const totals = sch.flatMap(x => [x.home, x.away]).filter(Boolean).map(s => s.totalPoints || 0).sort((a, b) => b - a), my = m.totalPoints || 0;
+    const sl = p => p && { name: p.name, short: p.short || p.name, pos: p.pos, team: p.team, headshot: p.headshot, eid: p.eid, id: p.id, dst: p.dst };
+    const res = g.winner === 'TIE' ? 'T' : (g.winner === 'HOME') === meH ? 'W' : 'L', mt = tm(m.teamId), ot = tm(o.teamId);
+    const R = { wk, season: +L.season, res, me: { name: b2Tm(mt), logo: mt.logo || '', pts: r1(my) }, op: { name: b2Tm(ot), logo: ot.logo || '', pts: r1(o.totalPoints || 0) },
+      mvp: mvp && { ...sl(mvp.p), a: mvp.a, j: r1(mvp.j), d: mvp.d }, dud: dud && dud !== mvp && { ...sl(dud.p), a: dud.a, j: r1(dud.j), d: dud.d },
+      left: r1(Math.max(0, opt - actual)), opt, actual, bench: benchBest && benchBest.a > 0 ? { ...sl(benchBest.p), a: benchBest.a } : null,
+      rank: totals.indexOf(my) + 1, nTeams: totals.length, high: totals[0] === my, avg: totals.length ? r1(totals.reduce((a, b) => a + b, 0) / totals.length) : null };
+    R.quip = rcQuip(R);
+    B2.rc[k] = R; S[k] = R; const keys = Object.keys(S); if (keys.length > 40) delete S[keys[0]]; lsSet(RC_KEY, S);
+  } catch (e) { console.warn('recap', e); B2.rc[k] = { err: 1, wk }; }
+  finally { delete B2.rcBusy[k]; try { b2Render(); } catch (_) {} }
+}
+function rcQuip(R){
+  const m = r1(Math.abs(R.me.pts - R.op.pts)), mv = R.mvp ? R.mvp.short : 'your lineup', du = R.dud ? R.dud.short : '', op = R.op.name, pick = a => a[(R.wk + Math.round(R.me.pts)) % a.length];
+  if (R.res === 'T') return `A tie. Somewhere a coin is very disappointed it didn't get a turn.`;
+  if (R.res === 'W') {
+    if (R.high) return pick([`Highest score in the league. ${mv} played like the cheat codes were on, and ${op} just had to watch.`, `League-high ${R.me.pts}. The rest of the league is checking if ${mv} was legal.`]);
+    if (m >= 30) return pick([`Won by ${m}. ${mv} turned this into a highlight reel, and ${op} is still looking for the remote.`, `A ${m}-point statement. ${op} brought a playbook; you brought ${mv}.`]);
+    if (m < 8) return pick([`Won by ${m}. Great for the record, rough on the heart rate. ${mv} carried the oxygen tank.`, `A ${m}-point squeaker. Frame it, then never schedule it again.`]);
+    return pick([`Clean win by ${m}. ${mv} punched the clock, did the job, and went home early.`, `${m}-point win. ${mv} led the way${du ? `, and ${du} gets a do-over next week` : ''}.`]);
+  }
+  if (R.left >= m && R.left > 0) return pick([`Lost by ${m} with ${R.left} points on the bench. The winning lineup was sitting right there, eating sunflower seeds.`, `The bench outscored the margin by ${r1(R.left - m)}. Next week, let the bench speak first.`]);
+  if (m < 8) return pick([`Lost by just ${m}. One more catch and this card is a victory lap. ${mv} did his part.`, `A ${m}-point heartbreaker. ${mv} showed up; the scoreboard just didn't get the memo.`]);
+  return pick([`${op} had one of those weeks. ${mv} kept it respectable; ${du ? du + ' owes the group chat snacks' : 'the rest owe the group chat snacks'}.`, `Down ${m}, but ${mv} was a bright spot. Shake it off: there's a new matchup Thursday.`]);
+}
+function rcAutoOpen(){ const wd = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })).getDay(); return wd === 2 || wd === 3; }
+function rcWeeks(){ const R = B2.rv, L = b2L(); return R && L && R.lg === L.leagueId + ':' + L.teamId ? R.weeks : []; }
+function rcHTML(){
+  const L = b2L(), W = rcWeeks(); if (!L || !W.length) return '';
+  const last = W[W.length - 1], wk = W.includes(B2.rcWk) ? B2.rcWk : last, k = L.leagueId + ':' + L.teamId + ':' + L.season + ':' + wk;
+  if (!B2.rc[k]) rcLoad(wk); const R = B2.rc[k];
+  const hid = (rcStore().hidden || {})[L.season + ':' + last];
+  const open = B2.rcOpen != null ? B2.rcOpen : (rcAutoOpen() && !hid);
+  const pick = `<label class="rc-pick">Week <select data-rcwk aria-label="Recap week">${W.slice().reverse().map(w => `<option value="${w}"${w === wk ? ' selected' : ''}>${w}${w === last ? ' (latest)' : ''}</option>`).join('')}</select></label>`;
+  const bar = `<button type="button" class="rc-tg" data-rctoggle aria-expanded="${open}"><b>📸 Week ${wk} recap</b>${R && !R.err ? `<span class="rc-res ${R.res}">${R.res} ${R.me.pts}–${R.op.pts}</span>` : ''}<span class="rc-car" aria-hidden="true">${open ? 'Hide ▴' : 'Open ▾'}</span></button>`;
+  if (!open) return `<section class="b2 rc closed" id="rcSec">${bar}</section>`;
+  let body;
+  if (!R) body = `<div class="b2-ld">Loading week ${wk} from ESPN…</div>`;
+  else if (R.err) body = `<div class="b2-ld">ESPN didn't return week ${wk}'s box score.</div>`;
+  else { const P = (x, lbl, cls) => x ? `<div class="rc-p ${cls}"${psAttr({ ...x, sp: 'nfl' })} role="button" tabindex="0"><span class="rc-pl">${lbl}</span>${b2Img(x.headshot)}<span class="rc-pn"><b>${esc(x.short)}</b><i>${esc(x.pos)} · ${esc(x.team)}</i></span><span class="rc-pv"><b>${x.a}</b><i>${x.d != null ? `${x.d > 0 ? '+' : ''}${x.d} vs ${x.j} proj` : 'pts'}</i></span></div>` : '';
+    body = `<div class="rc-card ${R.res}" id="rcCard">
+      <div class="rc-top"><span>WEEK ${R.wk} RECAP · ${R.season}</span><span class="rc-wl">${R.res === 'W' ? 'WIN' : R.res === 'L' ? 'LOSS' : 'TIE'}</span></div>
+      <div class="rc-sc"><div class="rc-t me">${b2Img(R.me.logo)}<b>${esc(R.me.name)}</b><strong>${R.me.pts}</strong></div><span class="rc-vs">vs</span><div class="rc-t op">${b2Img(R.op.logo)}<b>${esc(R.op.name)}</b><strong>${R.op.pts}</strong></div></div>
+      <div class="rc-ps">${P(R.mvp, '🏆 MVP', 'mvp')}${P(R.dud, '🧊 Dud', 'dud')}</div>
+      <div class="rc-kv"><span><i>Week rank</i><b>#${R.rank}<small> of ${R.nTeams}</small></b></span><span><i>Bench left</i><b>${R.left}<small> pts</small></b></span><span><i>League avg</i><b>${R.avg ?? '–'}</b></span></div>
+      ${R.bench && R.left > 0 ? `<div class="rc-bn">Best bench score: <b>${esc(R.bench.short)}</b> ${R.bench.a} pts · best possible lineup ${R.opt}</div>` : ''}
+      <p class="rc-q">“${esc(R.quip)}”</p></div>
+      <div class="rc-act">${pick}<button type="button" class="rc-btn" data-rcpng>⬇ Download PNG</button>${typeof navigator !== 'undefined' && navigator.share && navigator.canShare ? '<button type="button" class="rc-btn" data-rcshare>↗ Share</button>' : ''}</div>`; }
+  return `<section class="b2 rc" id="rcSec">${bar}${!R || R.err ? `<div class="rc-act">${pick}</div>` : ''}${body}</section>`;
+}
+function rcCur(){ const L = b2L(), W = rcWeeks(); if (!L || !W.length) return null; const wk = W.includes(B2.rcWk) ? B2.rcWk : W[W.length - 1]; const R = B2.rc[L.leagueId + ':' + L.teamId + ':' + L.season + ':' + wk]; return R && !R.err ? R : null; }
+function rcImg(src){ return new Promise(res => { if (!src) return res(null); const i = new Image(); i.crossOrigin = 'anonymous'; i.referrerPolicy = 'no-referrer'; const t = setTimeout(() => res(null), 6000); i.onload = () => { clearTimeout(t); res(i); }; i.onerror = () => { clearTimeout(t); res(null); }; i.src = src; }); }
+async function rcCanvas(R){
+  const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
+  const win = R.res === 'W', acc = win ? '#38d27a' : R.res === 'L' ? '#ff6b5e' : '#ffd34d';
+  const g = x.createLinearGradient(0, 0, 0, H); g.addColorStop(0, win ? '#0f3a26' : R.res === 'L' ? '#3d1418' : '#3a3010'); g.addColorStop(.45, '#0d1424'); g.addColorStop(1, '#070b14'); x.fillStyle = g; x.fillRect(0, 0, W, H);
+  const F = (s, w) => `${w || 800} ${s}px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif`;
+  const fit = (t, max, s, w) => { let z = s; x.font = F(z, w); while (x.measureText(t).width > max && z > 18) { z -= 2; x.font = F(z, w); } return z; };
+  const wrap = (t, X, Y, max, lh) => { const ws = String(t).split(' '); let line = '', y = Y; for (const w of ws) { const tt = line ? line + ' ' + w : w; if (x.measureText(tt).width > max && line) { x.fillText(line, X, y); line = w; y += lh; } else line = tt; } if (line) x.fillText(line, X, y); return y; };
+  const rr = (X, Y, w, h, r, fill, stroke) => { x.beginPath(); x.moveTo(X + r, Y); x.arcTo(X + w, Y, X + w, Y + h, r); x.arcTo(X + w, Y + h, X, Y + h, r); x.arcTo(X, Y + h, X, Y, r); x.arcTo(X, Y, X + w, Y, r); x.closePath(); if (fill) { x.fillStyle = fill; x.fill(); } if (stroke) { x.strokeStyle = stroke; x.lineWidth = 3; x.stroke(); } };
+  x.textBaseline = 'alphabetic'; x.fillStyle = '#9fb0d2'; x.font = F(34, 900); x.fillText(`WEEK ${R.wk} RECAP · ${R.season}`, 70, 110);
+  x.fillStyle = acc; x.font = F(150, 900); x.textAlign = 'right'; x.fillText(R.res === 'W' ? 'WIN' : R.res === 'L' ? 'LOSS' : 'TIE', W - 70, 210); x.textAlign = 'left';
+  // score
+  rr(60, 260, W - 120, 250, 36, 'rgba(255,255,255,.05)', 'rgba(255,255,255,.12)');
+  x.fillStyle = '#fff'; fit(R.me.name, 600, 44); x.fillText(R.me.name, 100, 340); x.fillStyle = acc; x.font = F(84, 900); x.textAlign = 'right'; x.fillText(String(R.me.pts), W - 100, 350); x.textAlign = 'left';
+  x.fillStyle = '#c8d6f5'; fit(R.op.name, 600, 40, 700); x.fillText(R.op.name, 100, 460); x.fillStyle = '#c8d6f5'; x.font = F(70, 800); x.textAlign = 'right'; x.fillText(String(R.op.pts), W - 100, 465); x.textAlign = 'left';
+  x.fillStyle = '#6f7fa3'; x.font = F(28, 800); x.fillText('vs', 100, 400);
+  // MVP / dud
+  const imgs = await Promise.all([R.mvp && rcImg(R.mvp.headshot), R.dud && rcImg(R.dud.headshot)]);
+  const card = (p, img, lbl, Y, col) => { if (!p) return; rr(60, Y, W - 120, 170, 30, 'rgba(255,255,255,.05)', col);
+    if (img) { x.save(); x.beginPath(); x.arc(160, Y + 85, 62, 0, Math.PI * 2); x.closePath(); x.fillStyle = '#0a0f1a'; x.fill(); x.clip(); const s = Math.max(124 / img.width, 124 / img.height); x.drawImage(img, 160 - img.width * s / 2, Y + 85 - img.height * s / 2, img.width * s, img.height * s); x.restore(); }
+    const tx = img ? 250 : 100; x.fillStyle = col; x.font = F(28, 900); x.fillText(lbl, tx, Y + 55); x.fillStyle = '#fff'; fit(p.name, 480, 46); x.fillText(p.name, tx, Y + 108); x.fillStyle = '#9fb0d2'; x.font = F(26, 700); x.fillText(`${p.pos} · ${p.team}`, tx, Y + 145);
+    x.textAlign = 'right'; x.fillStyle = '#fff'; x.font = F(64, 900); x.fillText(String(p.a), W - 100, Y + 95); x.fillStyle = col; x.font = F(26, 800); x.fillText(`${p.d > 0 ? '+' : ''}${p.d} vs ${p.j} proj`, W - 100, Y + 140); x.textAlign = 'left'; };
+  card(R.mvp, imgs[0], '🏆 MVP', 550, '#38d27a'); card(R.dud, imgs[1], '🧊 BIGGEST DUD', 745, '#7cc4ff');
+  // stats
+  const st = [['WEEK RANK', `#${R.rank} of ${R.nTeams}`], ['BENCH LEFT', `${R.left} pts`], ['LEAGUE AVG', R.avg != null ? String(R.avg) : '–']], bw = (W - 120 - 40) / 3;
+  st.forEach(([k, v], i) => { const X = 60 + i * (bw + 20); rr(X, 945, bw, 130, 26, 'rgba(255,255,255,.05)', 'rgba(255,255,255,.12)'); x.fillStyle = '#9fb0d2'; x.font = F(24, 900); x.fillText(k, X + 28, 990); x.fillStyle = '#fff'; fit(v, bw - 56, 48, 900); x.fillText(v, X + 28, 1050); });
+  // quip
+  x.fillStyle = '#ffe08a'; x.font = F(36, 700); wrap(`“${R.quip}”`, 70, 1140, W - 140, 46);
+  x.fillStyle = '#6f7fa3'; x.font = F(24, 700); x.fillText('ESPN fantasy data · SportsSportsSports', 70, H - 50);
+  return c;
+}
+async function rcBlob(){ const R = rcCur(); if (!R) return null; const c = await rcCanvas(R); return new Promise(res => c.toBlob(b => res(b ? { b, name: `week-${R.wk}-recap-${R.season}.png`, R } : null), 'image/png')); }
+async function rcDownload(btn){ const o = btn && btn.textContent; if (btn) { btn.disabled = true; btn.textContent = 'Making PNG…'; }
+  try { const r = await rcBlob(); if (!r) return; const u = URL.createObjectURL(r.b), a = document.createElement('a'); a.href = u; a.download = r.name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 4000); }
+  catch (e) { console.warn('recap png', e); } finally { if (btn) { btn.disabled = false; btn.textContent = o; } } }
+async function rcShare(btn){ try { const r = await rcBlob(); if (!r) return; const f = new File([r.b], r.name, { type: 'image/png' });
+    if (navigator.canShare && navigator.canShare({ files: [f] })) await navigator.share({ files: [f], title: `Week ${r.R.wk} recap` }); else rcDownload(btn); } catch (e) { if (e && e.name !== 'AbortError') console.warn('recap share', e); } }
+
+/* ---------- 💎 Waiver gems (Fantasy Lab) ---------- */
+function gmNext(tm){ const gs = (state.games.nfl || []).filter(g => g.teams && g.teams.some(t => String(t.abbr).toUpperCase() === String(tm).toUpperCase()));
+  const g = gs.find(x => x.state === 'in') || gs.find(x => x.state === 'pre'); if (!g) return '';
+  const me = g.teams.find(t => String(t.abbr).toUpperCase() === String(tm).toUpperCase()), o = g.teams.find(t => t !== me);
+  return `${me.homeAway === 'home' ? 'vs' : '@'} ${o.abbr} · ${g.state === 'in' ? 'LIVE' : etFmt(g.date, { weekday: 'short' }) + ' ' + timeET(g.date).replace(' ET', '')}`; }
+function gmData(){
+  const C = CMP.d && CMP.d.nfl, D = MU.d && MU.d.nfl, L = b2L(); if (!C || !L || C.lg !== L.leagueId + ':' + L.teamId) return null;
+  const POS = ['QB', 'RB', 'WR', 'TE'], S = SLOTS.nfl, myPs = D && D.me ? D.me.ps.filter(p => !S.ir.includes(p.sid)) : [];
+  const myStart = D && D.me ? gdStarters(D.me) : [], nT = (B2.rv && B2.rv.nTeams) || 10;
+  const need = {};
+  for (const pos of POS) { const mine = myStart.filter(p => p.pos === pos && gdPj(p) > 0), k = Math.max(1, mine.length);
+    const lg = Object.values(C.p).filter(x => (x.st === 'mine' || x.st === 'team') && x.pos === pos && x.proj != null).sort((a, b) => b.proj - a.proj).slice(0, nT * k);
+    const la = lg.length ? lg.reduce((a, x) => a + x.proj, 0) / lg.length : null, ma = mine.length ? mine.reduce((a, p) => a + gdPj(p), 0) / mine.length : null;
+    const ratio = la && ma != null ? ma / la : 1; need[pos] = { la: la && r1(la), ma: ma != null ? r1(ma) : null, ratio, w: Math.max(.75, Math.min(1.5, 1.6 - .6 * ratio)) }; }
+  const out = [];
+  for (const x of Object.values(C.p)) {
+    if ((x.st !== 'fa' && x.st !== 'wv') || !POS.includes(x.pos) || x.ppg == null || !x.gp || /OUT|INJURY_RESERVE|SUSPENSION|DOUBTFUL/.test(x.inj || '')) continue;
+    const l = (x.wk || []).slice(-3), l3 = l.length ? r1(l.reduce((a, b) => a + b, 0) / l.length) : null; if (l3 == null) continue;
+    const trend = r1(l3 - x.ppg), chg = x.chg || 0; if (trend < .5 && chg < .5) continue;
+    const pj = x.proj != null ? x.proj : l3; if (pj <= 0) continue;
+    const n = need[x.pos], score0 = (n.w * (.4 * pj + .3 * l3 + .15 * x.ppg + .5 * Math.max(0, trend) + .4 * Math.max(0, Math.min(10, chg))));
+    const same = myPs.filter(p => p.pos === x.pos).map(p => ({ p, j: gdPj(p), start: !S.bench.includes(p.sid) })).sort((a, b) => a.j - b.j);
+    const up = same.filter(s => s.j < pj), tgt = up.find(s => s.start) || up[0] || null, score = r1(score0 * (tgt ? 1 : same.length ? .8 : 1.1));
+    out.push({ x, l3, trend, chg, pj, score, need: n, tgt, gain: tgt ? r1(pj - tgt.j) : null, nMine: same.length });
+  }
+  return { need, list: out.sort((a, b) => b.score - a.score).slice(0, 6) };
+}
+function gmWhy(r){ const x = r.x, bits = [];
+  if (r.trend >= .5) bits.push(`averaging ${r.l3} over the last 3 vs ${x.ppg} on the season`);
+  if (r.chg >= .5) bits.push(`rostered in ${r1(r.chg)}% more ESPN leagues this week`);
+  let s = bits.join(', and ') || `${r.pj} projected`; s = s[0].toUpperCase() + s.slice(1);
+  if (r.need.ratio < .9 && r.need.la) s += `. Your ${x.pos}s project ${r.need.ma} vs ${r.need.la} for a typical league starter`;
+  return s + '.'; }
+function gmHTML(){
+  const L = b2L(); if (!L) return '';
+  const head = `<div class="b2-h"><b>💎 Waiver gems</b><small>Free agents &amp; waivers in your league that are trending up, weighted toward your thinnest spots · ideas only, no ESPN claims</small></div>`;
+  const G = gmData(); if (!G) return `<section class="b2 gm" id="gmSec">${head}<div class="b2-ld">Loading your league's player pool…</div></section>`;
+  if (!G.list.length) return `<section class="b2 gm" id="gmSec">${head}<div class="b2-ld">No free agents are trending up right now.</div></section>`;
+  const needs = Object.entries(G.need).filter(([, n]) => n.la && n.ma != null).map(([p, n]) => `<span class="gm-nd ${n.ratio < .9 ? 'weak' : n.ratio > 1.1 ? 'strong' : ''}" title="Your starters project ${n.ma} vs ${n.la} league starter average">${p} ${Math.round(n.ratio * 100)}%</span>`).join('');
+  const cards = G.list.map((r, i) => { const x = r.x, nx = gmNext(x.tm), P = psCmpP(x);
+    return `<article class="gm-c"><div class="gm-top"><span class="gm-rk">#${i + 1}</span>${cmpTag(x)}<span class="gm-sc" title="Gem score">${r.score}</span>${cmpEye(x)}</div>
+      <div class="gm-id"${psAttr(P)} role="button" tabindex="0" title="Full stats for ${esc(x.n)}">${b2Img(`https://a.espncdn.com/i/headshots/nfl/players/full/${x.id}.png`)}<span class="gm-nm"><b>${esc(x.n)}</b><i>${esc(x.pos)} · ${esc(x.tm)}${x.inj ? ` <span class="ss-inj">${esc(x.inj === 'QUESTIONABLE' ? 'Q' : x.inj.slice(0, 4))}</span>` : ''}</i></span></div>
+      <div class="gm-st"><span><b>${r.l3}</b><i>L3</i></span><span><b>${x.ppg}</b><i>PPG</i></span><span><b>${x.proj ?? '–'}</b><i>Proj</i></span>${x.chg != null ? `<span><b class="${x.chg > 0 ? 'up' : x.chg < 0 ? 'dn' : ''}">${x.chg > 0 ? '+' : ''}${r1(x.chg)}</b><i>% rost</i></span>` : ''}</div>
+      <p class="gm-why">${esc(gmWhy(r))}</p>
+      ${nx ? `<div class="gm-nx">Next: ${esc(nx)}</div>` : ''}
+      <div class="gm-up">${r.tgt ? `Upgrade over <b>${esc(r.tgt.p.short || r.tgt.p.name)}</b>${r.tgt.start ? '' : ' (bench)'} <span class="up">+${r.gain} proj</span>` : r.nMine ? `Depth: wouldn't top your current ${esc(x.pos)}s this week` : `You have no ${esc(x.pos)} on your roster`}</div></article>`; }).join('');
+  return `<section class="b2 gm" id="gmSec">${head}${needs ? `<div class="gm-needs"><span>Your starters vs league average:</span>${needs}</div>` : ''}<div class="gm-grid">${cards}</div>
+    <div class="b2-foot">Gem score = 40% this week's projection + 30% last-3 avg + 15% season PPG + trend boosts, × how thin you are at the position · 👁 adds to your Fantasy Lab watch list (not ★ favorites)</div></section>`;
+}
+
+/* ---------- wiring ---------- */
+function b2Mount(id, before, after){ const ref = document.getElementById(before || after); if (!ref) return null; let el = document.getElementById(id);
+  if (!el) { el = document.createElement('div'); el.id = id; } if (before ? el.nextElementSibling !== ref : ref.nextElementSibling !== el) before ? ref.before(el) : ref.after(el); return el; }
+function b2Set(el, h){ if (el && el._h !== h) { el._h = h; el.innerHTML = h; } }
+function b2Render(){
+  if (!b2L()) return;
+  if (state.tab === FANTASY_TAB && (MN.fsTab || 'nfl') === 'nfl') {
+    ensureRv();
+    b2Set(b2Mount('fzRecap', document.getElementById('fzGameday') ? 'fzGameday' : 'fzMatch'), rcHTML());
+    b2Set(b2Mount('fzRivals', null, 'fzMatch'), rvHTML());
+  } else if (state.tab === WATCH_TAB && (MN.fsTab || 'nfl') === 'nfl') {
+    ensureRv();
+    b2Set(b2Mount('fzGems', 'watchArea'), gmHTML());
+  }
+}
+(function(){
+  if (typeof renderFantasy === 'function') { const f = renderFantasy; renderFantasy = function(){ const r = f.apply(this, arguments); try { b2Render(); } catch (e) { console.warn('batch2', e); } return r; }; }
+  if (typeof renderWatchTab === 'function') { const f = renderWatchTab; renderWatchTab = function(){ const r = f.apply(this, arguments); try { b2Render(); } catch (e) { console.warn('batch2', e); } return r; }; }
+  if (typeof muRender === 'function') { const f = muRender; muRender = function(){ const r = f.apply(this, arguments); try { b2Render(); } catch (e) { console.warn('batch2', e); } return r; }; }
+  addEventListener('click', e => { const t = e.target && e.target.closest ? e.target : null; if (!t) return;
+    const ro = t.closest('[data-rvopen]'); if (ro) { e.preventDefault(); const k = ro.dataset.rvopen; B2.rvOpen = B2.rvOpen === k ? null : k; b2Render(); const b = document.querySelector(`[data-rvopen="${CSS.escape(k)}"]`); if (b) b.focus({ preventScroll: true }); return; }
+    if (t.closest('[data-rctoggle]')) { e.preventDefault(); const W = rcWeeks(), L = b2L(); const open = !(document.getElementById('rcSec') && !document.getElementById('rcSec').classList.contains('closed'));
+      B2.rcOpen = open; if (!open && L && W.length) { const S = rcStore(); (S.hidden ||= {})[L.season + ':' + W[W.length - 1]] = 1; lsSet(RC_KEY, S); } b2Render(); return; }
+    const pb = t.closest('[data-rcpng]'); if (pb) { e.preventDefault(); rcDownload(pb); return; }
+    const sb = t.closest('[data-rcshare]'); if (sb) { e.preventDefault(); rcShare(sb); return; } });
+  addEventListener('change', e => { const s = e.target && e.target.matches && e.target.matches('[data-rcwk]') ? e.target : null; if (!s) return; B2.rcWk = +s.value; b2Render(); const n = document.querySelector('[data-rcwk]'); if (n) n.focus(); });
+})();
 </script>
 
 <script>
