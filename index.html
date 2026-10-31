@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261030-1430-bestworst-tiles">
+<meta name="build-id" content="20261030-2233-gameday-batch1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,7 +18,7 @@
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261030-1430-bestworst-tiles';
+var BUILD_ID = '20261030-2233-gameday-batch1';
 var FIREBASE_CONFIG = { apiKey: "AIzaSyDVX8Nz5Cpm3cdEdfYKDi9iKZ3eEuEsVlY", authDomain: "sportssportssports-d2cfc.firebaseapp.com", projectId: "sportssportssports-d2cfc",
   storageBucket: "sportssportssports-d2cfc.firebasestorage.app", messagingSenderId: "566191759512", appId: "1:566191759512:web:3b5e44b2547505bf4f70ed" };
 /* ^ Oct 28: optional sign-in + sync. Set to null to turn it off completely (no SDK load, no button). Web config keys are public by design; access is locked by firestore.rules. */
@@ -3882,6 +3882,122 @@ html.tc-open{overflow:hidden}
   .ps-tile.hi .ps-tsub{color:#ffe9a6}
   .ps-tile i{overflow-wrap:normal}.ps-tile i.ps-wrap,.ps-tile .ps-tsub.ps-wrap{overflow-wrap:anywhere}
   @media (max-width:420px){.ps-tiles{grid-template-columns:repeat(auto-fill,minmax(76px,1fr))}.ps-tile{padding:8px 8px 7px}.ps-tile i{font-size:10px;letter-spacing:.2px}}
+  /* ===== Oct 30: GAME DAY batch 1 — win odds bar · Start/Sit · Red Zone ===== */
+  .wo{position:relative;margin:10px 0 4px;padding:10px 12px 9px;border-radius:14px;border:1px solid #2b3a5c;background:linear-gradient(180deg,#121b2e,#0c1322);box-sizing:border-box;max-width:100%;overflow:hidden}
+  .wo.m-live{border-color:#7a2a33;background:linear-gradient(180deg,#1d1220,#0c1322)}
+  .wo.m-final{border-color:#3d4a66}
+  .wo-top{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10.5px;font-weight:900;letter-spacing:.9px;color:#9fb0d2}
+  .wo-tag{display:inline-flex;align-items:center;gap:6px;min-width:0}
+  .wo.m-live .wo-tag{color:#ff8a8a}
+  .wo-dot{width:8px;height:8px;border-radius:50%;background:#ff4646;box-shadow:0 0 0 0 rgba(255,70,70,.7);animation:woPulse 1.6s infinite}
+  @keyframes woPulse{0%{box-shadow:0 0 0 0 rgba(255,70,70,.7)}70%{box-shadow:0 0 0 7px rgba(255,70,70,0)}100%{box-shadow:0 0 0 0 rgba(255,70,70,0)}}
+  @media (prefers-reduced-motion:reduce){.wo-dot{animation:none}.wo-bar span{transition:none!important}}
+  .wo-est{flex:0 0 auto;font-size:10px;letter-spacing:.3px;color:#8796b5;font-weight:800;padding:1px 7px;border:1px solid #2e3b58;border-radius:999px;cursor:help}
+  .wo-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:7px 0 6px}
+  .wo-tm{display:flex;align-items:center;gap:8px;min-width:0;flex:1 1 0}
+  .wo-tm.op{justify-content:flex-end;text-align:right}
+  .wo-tm img{width:30px;height:30px;border-radius:50%;object-fit:cover;flex:0 0 auto;background:#0a0f1a}
+  .wo-nm{display:flex;flex-direction:column;min-width:0}
+  .wo-nm b{font-size:13px;line-height:1.15;color:var(--text);overflow:hidden;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+  .wo-nm i{font-style:normal;font-size:10.5px;color:var(--muted);font-weight:700}
+  .wo-tm strong{font-size:26px;line-height:1;font-weight:900;font-variant-numeric:tabular-nums;flex:0 0 auto}
+  .wo-tm.me strong{color:#5fd38a}.wo-tm.op strong{color:#ff8a7a}
+  .wo-bar{position:relative;display:flex;height:12px;border-radius:999px;overflow:hidden;background:#0a0f1a;border:1px solid #23304b}
+  .wo-bar span{display:block;height:100%;transition:width .9s cubic-bezier(.2,.8,.2,1)}
+  .wo-a{background:linear-gradient(90deg,#1e9e57,#5fd38a)}.wo-b{background:linear-gradient(90deg,#ff8a7a,#c0392b)}
+  .wo-mid{position:absolute;left:50%;top:-2px;bottom:-2px;width:2px;margin-left:-1px;background:rgba(255,255,255,.55)}
+  .wo-sub{margin-top:6px;font-size:11.5px;color:#a9b6d3;font-weight:700;text-align:center;overflow-wrap:anywhere}
+  .wo.m-final .wo-sub{color:var(--gold);font-weight:900;font-size:12.5px}
+  @media (max-width:420px){.wo{padding:9px 10px 8px}.wo-tm img{width:24px;height:24px}.wo-tm strong{font-size:22px}.wo-nm b{font-size:12px}.wo-row{gap:6px}}
+  @media (min-width:900px){.wo{padding:12px 16px 10px}.wo-bar{height:14px}.wo-tm strong{font-size:30px}}
+  .mu-bar .sp{flex:1}
+
+  #fzGameday{margin:6px 0 10px}
+  .gd-bar{display:flex;justify-content:flex-end;margin:0 0 8px}
+  .rz-go{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:12px;border:1px solid #8c2a30;background:linear-gradient(180deg,#3a1418,#21090c);color:#ffd7d7;font-weight:900;font-size:13.5px;cursor:pointer;letter-spacing:.2px}
+  .rz-go:hover,.rz-go:focus-visible{border-color:#ff5b5b;outline:none}
+  .rz-go b,.qv-pill.rz b{padding:0 6px;border-radius:999px;background:#e0262f;color:#fff;font-size:11px}
+  .qv-pill.rz{border-color:#8c2a30;background:#2a1014;color:#ffc9c9}
+  .qv-pill.rz:hover,.qv-pill.rz:focus-visible{border-color:#ff5b5b}
+
+  .ss{margin:0 0 12px;padding:12px;border-radius:16px;border:1px solid #2b3a5c;background:linear-gradient(180deg,#111a2c,#0d1424)}
+  .ss-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-bottom:10px}
+  .ss-h b{font-size:16px}.ss-h small{font-size:11.5px;color:var(--muted);font-weight:700}
+  .ss-grid{display:grid;grid-template-columns:1fr;gap:10px}
+  @media (min-width:820px){.ss-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (min-width:1500px){.ss-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  .ss-c{min-width:0;padding:10px;border-radius:13px;border:1px solid #2a3756;background:#0e1626;display:flex;flex-direction:column;gap:8px}
+  .ss-c.k-must{border-color:#8c2a30}.ss-c.k-swap{border-color:#2f7a4c}.ss-c.k-risk{border-color:#8a6a1c}
+  .ss-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .ss-tag{font-size:10.5px;font-weight:900;letter-spacing:.7px;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:#22304d;color:#c8d6f5}
+  .k-must .ss-tag{background:#5a1a1f;color:#ffd0d0}.k-swap .ss-tag{background:#173d27;color:#a8f0c4}.k-risk .ss-tag{background:#4a3a10;color:#ffe08a}
+  .ss-slot{font-size:11px;color:var(--muted);font-weight:800}
+  .ss-vs{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:6px;align-items:stretch}
+  .ss-mid{align-self:center;font-size:11px;font-weight:900;color:#6f7fa3}
+  .ss-p{min-width:0;padding:8px;border-radius:10px;border:1px solid #233050;background:#111b2f;display:flex;flex-direction:column;gap:4px;cursor:pointer}
+  .ss-p:hover,.ss-p:focus-visible{border-color:#4f6aa3;outline:none}
+  .ss-p.rec{border-color:#3fbf72;background:linear-gradient(180deg,#123222,#0f1d17);box-shadow:0 0 0 1px rgba(63,191,114,.25) inset}
+  .ss-p.none{cursor:default;justify-content:center;color:var(--muted);font-size:12px}
+  .ss-lbl{font-size:10px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;color:#8796b5}
+  .ss-p.rec .ss-lbl{color:#7ee2a6}
+  .ss-id{display:flex;align-items:center;gap:7px;min-width:0}
+  .ss-id img{width:34px;height:34px;border-radius:50%;object-fit:cover;background:#0a0f1a;flex:0 0 auto}
+  .ss-nm{display:flex;flex-direction:column;min-width:0}
+  .ss-nm b{font-size:13px;line-height:1.2;overflow-wrap:anywhere}
+  .ss-nm i{font-style:normal;font-size:11px;color:var(--muted);font-weight:700}
+  .ss-inj{display:inline-block;padding:0 4px;border-radius:4px;font-size:9.5px;font-weight:900;background:#4a3a10;color:#ffe08a}.ss-inj.out{background:#5a1a1f;color:#ffd0d0}
+  .ss-pj{display:flex;align-items:baseline;gap:4px}.ss-pj strong{font-size:20px;font-weight:900;font-variant-numeric:tabular-nums}.ss-pj small{font-size:10.5px;color:var(--muted);font-weight:800}
+  .ss-opp,.ss-form,.ss-dv{font-size:11px;font-weight:700;color:#b5c2de;overflow-wrap:anywhere}
+  .ss-form b{color:var(--text)}.ss-form em{font-style:normal;margin-left:3px}.ss-form .up{color:#5fd38a}.ss-form .dn{color:#ff8a7a}
+  .ss-dv.g{color:#7ee2a6}.ss-dv.y{color:#e8d27a}.ss-dv.r{color:#ff8a7a}
+  .ss-why{margin:0;font-size:12.5px;line-height:1.4;color:#d7e0f3;font-weight:600}
+  .ss-ok{padding:10px 12px;border-radius:12px;background:#12261b;border:1px solid #2f7a4c;color:#a8f0c4;font-weight:800;font-size:13px}
+  @media (max-width:380px){.ss{padding:10px}.ss-c{padding:8px}.ss-p{padding:7px}.ss-id img{width:28px;height:28px}.ss-pj strong{font-size:18px}}
+
+  html.rz-open{overflow:hidden}
+  .rz-ov{position:fixed;inset:0;z-index:10030;background:rgba(4,6,12,.86);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+  .rz-ov[hidden]{display:none}
+  .rz-box{position:relative;max-width:1180px;margin:0 auto;min-height:100%;box-sizing:border-box;padding:14px 12px 30px;background:linear-gradient(180deg,#1a0b0e 0,#0b0f19 180px)}
+  @media (min-width:820px){.rz-box{padding:20px 22px 40px;min-height:auto;margin:24px auto;border-radius:20px;border:1px solid #5a1a1f}}
+  .rz-hd{position:relative;padding-right:46px;margin-bottom:12px}
+  .rz-hd h2{margin:0;font-size:22px;font-weight:900;letter-spacing:.3px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .rz-live{font-size:11px;padding:2px 8px;border-radius:999px;background:#e0262f;color:#fff;font-weight:900}.rz-live[hidden]{display:none}
+  .rz-hd p{margin:4px 0 0;font-size:12.5px;color:#b5c2de;font-weight:600}
+  .rz-x{position:absolute;top:0;right:0;width:38px;height:38px;border-radius:50%;border:1px solid #5a2a30;background:#22090d;color:#fff;font-size:17px;cursor:pointer}
+  .rz-x:hover,.rz-x:focus-visible{border-color:#ff5b5b;outline:none}
+  .rz-grid{display:grid;grid-template-columns:1fr;gap:12px}
+  @media (min-width:820px){.rz-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .rz-g{min-width:0;border-radius:16px;border:1px solid #2b3a5c;background:#0f1728;padding:12px;display:flex;flex-direction:column;gap:9px}
+  .rz-g.is-rz{border-color:#ff4d4d;background:linear-gradient(160deg,rgba(150,18,24,.55),#0f1728 60%);box-shadow:0 0 0 1px rgba(255,77,77,.35),0 8px 30px rgba(224,38,47,.18)}
+  .rz-gh{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px}
+  .rz-t{display:flex;align-items:center;gap:6px;min-width:0}.rz-gh .rz-t:last-child{justify-content:flex-end}
+  .rz-t img{width:28px;height:28px;object-fit:contain;flex:0 0 auto}
+  .rz-t b{font-size:14px}.rz-t strong{font-size:22px;font-weight:900;font-variant-numeric:tabular-nums}
+  .rz-t.poss b{color:#ffd34d}
+  .rz-clk{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11.5px;font-weight:800;color:#c8d6f5;text-align:center}
+  .rz-badge{font-style:normal;font-size:10px;font-weight:900;letter-spacing:.8px;padding:2px 7px;border-radius:4px;background:#e0262f;color:#fff;animation:woPulse 1.6s infinite}
+  .rz-sit{font-size:12.5px;font-weight:700;color:#ffe08a;text-align:center;overflow-wrap:anywhere}.rz-sit b{color:#fff}
+  .rz-pls{display:flex;flex-direction:column;gap:6px}
+  .rz-pl{display:grid;grid-template-columns:30px minmax(0,1fr) auto auto;align-items:center;gap:8px;padding:6px 8px;border-radius:10px;background:#131d33;border:1px solid #1f2b46;cursor:pointer}
+  .rz-pl:hover,.rz-pl:focus-visible{border-color:#4f6aa3;outline:none}
+  .rz-pl.me{border-left:3px solid #3fbf72}.rz-pl.op{border-left:3px solid #ff7a6a}.rz-pl.bn{opacity:.82}
+  .rz-pl img{width:30px;height:30px;border-radius:50%;object-fit:cover;background:#0a0f1a}
+  .rz-pn{display:flex;flex-direction:column;min-width:0}.rz-pn b{font-size:13px;overflow-wrap:anywhere}.rz-pn i{font-style:normal;font-size:11px;color:var(--muted);font-weight:700}
+  .rz-who{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.5px;padding:2px 6px;border-radius:999px;background:#1d3a2a;color:#8fe8b2;white-space:nowrap}
+  .rz-pl.op .rz-who{background:#3d1a1a;color:#ffb3a8}.rz-pl.bn .rz-who{background:#22304d;color:#c8d6f5}
+  .rz-pts{text-align:right;white-space:nowrap}.rz-pts strong{font-size:17px;font-weight:900;font-variant-numeric:tabular-nums}.rz-pts small{font-size:10.5px;color:var(--muted);font-weight:700;margin-left:2px}
+  .rz-lk{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .rz-gc{font-size:12px;font-weight:800;color:#9cd4ff;text-decoration:none;padding:4px 9px;border:1px solid #2d5284;border-radius:999px}
+  .rz-gc:hover{border-color:#7cc4ff}
+  .rz-empty{padding:12px 14px;border-radius:12px;background:#111a2c;border:1px solid #2b3a5c;font-size:13px;color:#c8d6f5;margin-bottom:12px}
+  .rz-next{display:grid;grid-template-columns:1fr;gap:8px}
+  @media (min-width:820px){.rz-next{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .rz-nx{min-width:0;padding:10px 12px;border-radius:12px;background:#0f1728;border:1px solid #23304b;display:flex;flex-direction:column;gap:7px}
+  .rz-nxt{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 10px}.rz-nxt b{font-size:13px;color:#ffd34d}.rz-nxt i{font-style:normal;font-size:12px;color:#b5c2de;font-weight:700}
+  .rz-nxp{display:flex;flex-wrap:wrap;gap:6px}
+  .rz-chip{display:inline-flex;align-items:center;gap:6px;max-width:100%;padding:3px 9px 3px 3px;border-radius:999px;background:#13233b;border:1px solid #2d5284;font-size:12px;font-weight:800;cursor:pointer;overflow-wrap:anywhere}
+  .rz-chip.bn{border-style:dashed;opacity:.85}
+  .rz-chip img{width:22px;height:22px;border-radius:50%;object-fit:cover;background:#0a0f1a}
 </style>
 </head>
 <body>
@@ -6397,8 +6513,8 @@ function muSection(sp){
   const S = SLOTS[sp], bn = s => (s ? s.ps : []).filter(p => S.bench.includes(p.sid) || S.ir.includes(p.sid)).sort((a, b) => ((b.pts || {}).proj || 0) - ((a.pts || {}).proj || 0));
   const bl = (s, t) => `<div><h6>${esc(t)}</h6>${bn(s).map(p => `<div class="mu-bnr"><img src="${esc(p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><span>${esc(p.short || p.name)} <i>${esc(p.pos)} · ${esc(p.team)}${S.ir.includes(p.sid) ? ' · IR' : ''}</i></span><b>${(p.pts || {}).act ?? '–'}</b><i>/ ${(p.pts || {}).proj ?? '–'}</i></div>`).join('') || '<div class="mu-ld">Empty</div>'}</div>`;
   const bench = `<div class="mu-bn"><button class="mu-bnh" data-mu="bench" aria-expanded="${MU.ui.bench}">${MU.ui.bench ? '▾' : '▸'} Bench (both teams)</button>${MU.ui.bench ? `<div class="mu-bng">${bl(D.me, 'Your bench')}${bl(D.op, (D.op ? D.op.name : 'Opponent') + ' bench')}</div>` : ''}</div>`;
-  return `<section class="mu${open ? '' : ' closed'}" id="fzMatchup">${head}<div class="mu-b">${muScore(D)}
-    <div class="mu-bar"><div class="tb-vt seg${v === 'table' ? ' v-table' : ''}" role="group" aria-label="Matchup view"><button data-mu="v:cards" aria-pressed="${v === 'cards'}" class="${v === 'cards' ? 'on' : ''}"><span class="ic" aria-hidden="true">🃏</span>Cards</button><button data-mu="v:table" aria-pressed="${v === 'table'}" class="${v === 'table' ? 'on' : ''}"><span class="ic" aria-hidden="true">▦</span>Table</button></div>${muScore(D, 'wp')}${v === 'cards' ? '<button class="mu-rp" data-mu="replay" title="Replay the battle">⟲ Replay</button>' : ''}</div>
+  return `<section class="mu${open ? '' : ' closed'}" id="fzMatchup">${head}<div class="mu-b">${muScore(D)}${typeof woHTML === 'function' ? woHTML(D) : ''}
+    <div class="mu-bar"><div class="tb-vt seg${v === 'table' ? ' v-table' : ''}" role="group" aria-label="Matchup view"><button data-mu="v:cards" aria-pressed="${v === 'cards'}" class="${v === 'cards' ? 'on' : ''}"><span class="ic" aria-hidden="true">🃏</span>Cards</button><button data-mu="v:table" aria-pressed="${v === 'table'}" class="${v === 'table' ? 'on' : ''}"><span class="ic" aria-hidden="true">▦</span>Table</button></div><span class="sp"></span>${v === 'cards' ? '<button class="mu-rp" data-mu="replay" title="Replay the battle">⟲ Replay</button>' : ''}</div>
     ${body}${bench}</div><button type="button" class="mu-more" data-mumore="fzMatch"><span class="mo">Show full matchup ▾</span><span class="ml">Show less ▴</span></button></section>`;
 }
 function muSbVar(){ const m = document.getElementById('fzMatchup'), sb = m && m.querySelector('.mu-b>.mu-sb'); if (sb) m.style.setProperty('--musb', sb.offsetHeight + 'px'); }
@@ -14514,6 +14630,207 @@ function psTileFit(root){
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
 })();
 </script>
+<script>
+/* ===== Oct 30: GAME DAY batch 1 — 🧠 Start/Sit helper · 📈 Live win odds · 🔴 Red Zone mode =====
+   Real ESPN data only (fantasy league matchup + NFL scoreboard already loaded by the dashboard); anything missing is hidden.
+   Recommendations only: nothing here ever changes Mann's ESPN lineup or sends anything to ESPN. No roasts, no Excel, no alerts. */
+var GD = { rzOpen: false, rzFrom: null };
+function gdSide(D, k){ return D && D[k] && Array.isArray(D[k].ps) ? D[k] : null; }
+function gdStarters(s){ const S = SLOTS.nfl; return s ? s.ps.filter(p => !S.bench.includes(p.sid) && !S.ir.includes(p.sid)) : []; }
+function gdBench(s){ const S = SLOTS.nfl; return s ? s.ps.filter(p => S.bench.includes(p.sid)) : []; }
+function gdGame(p){ try { return playerGame({ ...p, sp: 'nfl' }); } catch (_) { return null; } }
+function gdMe(g, p){ return g && g.teams ? g.teams.find(t => String(t.abbr).toUpperCase() === String(p.team).toUpperCase()) || null : null; }
+function gdOpp(g, p){ const m = gdMe(g, p); return m ? g.teams.find(t => t !== m) || null : null; }
+function gdLeft(g){   // share of the game still to play (1 = not started, 0 = final)
+  if (!g || g.state === 'pre') return 1; if (g.state === 'post') return 0;
+  const per = +g.period || 1, m = /(\d+):(\d+)/.exec(String(g.clock || '')), c = m ? +m[1] + +m[2] / 60 : 0;
+  if (/half/i.test(String(g.detail || '')) && !/\d:\d/.test(String(g.detail || ''))) return .5;
+  if (per > 4) return .03;
+  return Math.max(.02, Math.min(1, ((4 - per) * 15 + c) / 60));
+}
+function gdInj(p){ const s = String(p && p.inj || '').toUpperCase();
+  return !s ? null : s === 'OUT' ? { c: 'OUT', k: 'out', t: 'out' } : s === 'INJURY_RESERVE' ? { c: 'IR', k: 'out', t: 'on IR' } : s === 'SUSPENSION' ? { c: 'SUSP', k: 'out', t: 'suspended' }
+    : s === 'DOUBTFUL' ? { c: 'D', k: 'risk', t: 'doubtful' } : s === 'QUESTIONABLE' ? { c: 'Q', k: 'risk', t: 'questionable' } : null; }
+function gdPj(p){ const v = p && p.pts && p.pts.proj; return typeof v === 'number' && isFinite(v) ? v : 0; }
+
+/* ---------- 📈 Live win odds ---------- */
+function woPhi(z){ const t = 1 / (1 + 0.2316419 * Math.abs(z)), q = 0.3989423 * Math.exp(-z * z / 2) * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274)))); return z > 0 ? 1 - q : q; }
+function woCalc(D){
+  const A = gdSide(D, 'me'), B = gdSide(D, 'op'); if (!A || !B) return null;
+  const side = s => { let rem = 0, v = 0, left = 0, live = 0, pre = 0;
+    for (const p of gdStarters(s)) { const pj = gdPj(p), g = gdGame(p), act = p.pts && p.pts.act;
+      const f = g ? gdLeft(g) : (act != null && act !== 0 ? 0 : pj > 0 ? 1 : 0);
+      if (g && g.state === 'in') live++; if (f >= 1 && pj > 0) pre++; if (f > 0 && pj > 0) left++;
+      rem += pj * f; v += Math.pow(.55 * pj, 2) * f; }
+    const cur = typeof s.live === 'number' ? s.live : 0; return { cur, rem, v, left, live, pre, fin: cur + rem }; };
+  const a = side(A), b = side(B), diff = a.fin - b.fin, sd = Math.sqrt(a.v + b.v);
+  const done = !a.left && !b.left && (a.cur || b.cur), pregame = !a.live && !b.live && !a.cur && !b.cur, between = !done && !pregame && !a.live && !b.live;
+  let p = done ? (a.cur > b.cur ? 1 : a.cur < b.cur ? 0 : .5) : sd < .25 ? (diff > 0 ? 1 : diff < 0 ? 0 : .5) : woPhi(diff / sd);
+  if (!done) p = Math.min(.99, Math.max(.01, p));
+  return { A, B, a, b, p, done, pregame, between, live: a.live + b.live, espn: typeof A.wp === 'number' ? A.wp : null };
+}
+function woHTML(D){
+  const W = woCalc(D); if (!W) return '';
+  const pct = Math.round(W.p * 100), op = 100 - pct, logo = t => t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '';
+  const mode = W.done ? 'final' : W.pregame ? 'pre' : W.between ? 'mid' : 'live';
+  const lbl = mode === 'final' ? 'FINAL' : mode === 'pre' ? 'PRE-GAME WIN ODDS' : mode === 'mid' ? 'WIN ODDS · BETWEEN GAMES' : 'LIVE WIN ODDS';
+  const res = W.done ? (W.a.cur > W.b.cur ? `You won ${r1(W.a.cur)}–${r1(W.b.cur)}` : W.a.cur < W.b.cur ? `${esc(W.B.name)} won ${r1(W.b.cur)}–${r1(W.a.cur)}` : `Tie ${r1(W.a.cur)}–${r1(W.b.cur)}`) : '';
+  const sub = W.done ? res : `Projected final ${r1(W.a.fin)}–${r1(W.b.fin)}${W.live ? ` · ${W.live} player${W.live === 1 ? '' : 's'} live` : ''}${W.espn != null ? ` · ESPN ${Math.round(W.espn * 100)}%` : ''}`;
+  return `<div class="wo m-${mode}" id="woBar" role="group" aria-label="${esc(lbl)}: you ${pct}%, ${esc(W.B.name)} ${op}%">
+    <div class="wo-top"><span class="wo-tag">${mode === 'live' ? '<span class="wo-dot" aria-hidden="true"></span>' : ''}${lbl}</span>${W.done ? '' : `<span class="wo-est" title="Estimate: live score + remaining ESPN projections for players yet to play or still playing, scaled by game time left, with a normal-variance model (about ±55% of each player's projection). Not ESPN's number.">Estimate ⓘ</span>`}</div>
+    <div class="wo-row"><div class="wo-tm me">${logo(W.A)}<span class="wo-nm"><b>${esc(W.A.name)}</b><i>You</i></span><strong>${W.done ? (W.a.cur > W.b.cur ? 'W' : W.a.cur < W.b.cur ? 'L' : 'T') : pct + '%'}</strong></div>
+      <div class="wo-tm op"><strong>${W.done ? (W.b.cur > W.a.cur ? 'W' : W.b.cur < W.a.cur ? 'L' : 'T') : op + '%'}</strong><span class="wo-nm"><b>${esc(W.B.name)}</b><i>Opponent</i></span>${logo(W.B)}</div></div>
+    <div class="wo-bar" aria-hidden="true"><span class="wo-a" style="width:${pct}%"></span><span class="wo-b" style="width:${op}%"></span><i class="wo-mid"></i></div>
+    <div class="wo-sub">${sub}</div></div>`;
+}
+function woPatch(){ const el = document.getElementById('woBar'), D = MU.d && MU.d.nfl; if (!el || !D || D.none) return; const h = woHTML(D); if (!h) return;
+  const t = document.createElement('template'); t.innerHTML = h.trim(); const n = t.content.firstElementChild; if (n && n.outerHTML !== el.outerHTML) el.replaceWith(n); }
+
+/* ---------- 🧠 Start / Sit ---------- */
+var SS_ELIG = { QB: ['QB'], TQB: ['QB'], RB: ['RB'], WR: ['WR'], TE: ['TE'], FLEX: ['RB', 'WR', 'TE'], 'RB/WR': ['RB', 'WR'], 'WR/TE': ['WR', 'TE'], OP: ['QB', 'RB', 'WR', 'TE'], 'D/ST': ['D/ST'], K: ['K'] };
+function ssForm(p){ const D = MU.d.nfl, l3 = D && D.l3 ? D.l3[p.eid] : null; let avg = null;
+  try { const ap = activePlayers().find(x => psp(x) === 'nfl' && String(peid(x)) === String(peid(p))); if (ap) { const C = CMP.d && CMP.d.nfl, R = tbFromPlayer(ap, C, C ? cmpRank(C) : {}); avg = R.ppg != null ? R.ppg : null; } } catch (_) {}
+  return { l3: typeof l3 === 'number' ? l3 : null, avg: typeof avg === 'number' ? r1(avg) : null }; }
+function ssCalls(){
+  const D = MU.d && MU.d.nfl, L = espnLinks && espnLinks.nfl; if (!D || D.none || !D.me || !L || D.lg !== L.leagueId + ':' + L.teamId) return null;
+  const S = SLOTS.nfl, notStarted = p => { const g = gdGame(p); return !g || g.state === 'pre'; };
+  const st = gdStarters(D.me), bn = gdBench(D.me), out = [];
+  const pending = [...st, ...bn].some(p => { const g = gdGame(p); return g && g.state === 'pre'; });
+  for (const s of st) {
+    const slot = S.names[s.sid] || s.slot || '', el = SS_ELIG[slot]; if (!el || !notStarted(s)) continue;
+    const g = gdGame(s), inj = gdInj(s), bye = !g && gdPj(s) === 0, sp = gdPj(s);
+    const need = bye || (inj && inj.k === 'out');
+    const cands = bn.filter(b => el.includes(b.pos) && notStarted(b) && gdGame(b) && !(gdInj(b) && gdInj(b).k === 'out') && gdPj(b) > 0).sort((x, y) => gdPj(y) - gdPj(x));
+    const b = cands[0] || null;
+    if (!b) { if (need) out.push({ k: 'must', s, b: null, slot, d: 99 }); continue; }
+    const d = r1(gdPj(b) - sp), close = Math.max(1.5, sp * .12), bl = p => { const l = D.l3 && D.l3[p.eid]; return typeof l === 'number' ? .75 * gdPj(p) + .25 * l : gdPj(p); };
+    if (need) out.push({ k: 'must', s, b, slot, d: 99 });
+    else if (d > 0 && bl(b) - bl(s) > .5) out.push({ k: 'swap', s, b, slot, d });
+    else if (d > 0) out.push({ k: 'close', s, b, slot, d });
+    else if (inj && inj.k === 'risk' && -d <= Math.max(4, sp * .35)) out.push({ k: 'risk', s, b, slot, d });
+    else if (-d <= close) out.push({ k: 'close', s, b, slot, d });
+  }
+  const rank = { must: 0, swap: 1, risk: 2, close: 3 };
+  out.sort((x, y) => rank[x.k] - rank[y.k] || y.d - x.d);
+  const used = new Set(), calls = out.filter(c => { if (!c.b) return true; const k = String(c.b.id); if (used.has(k)) return false; used.add(k); return true; });
+  return { D, calls: calls.slice(0, 6), pending };
+}
+function ssOpp(p){ const g = gdGame(p); if (!g) return gdPj(p) === 0 ? 'Bye week' : '';
+  const m = gdMe(g, p), o = gdOpp(g, p); if (!m || !o) return '';
+  return `${m.homeAway === 'home' ? 'vs' : '@'} ${o.abbr} · ${g.state === 'pre' ? `${etFmt(g.date, { weekday: 'short' })} ${timeET(g.date).replace(' ET', '')}` : g.state === 'in' ? 'LIVE' : 'Final'}`; }
+function ssReason(c, fs, fb){
+  const S = c.s.short || c.s.name, B = c.b ? (c.b.short || c.b.name) : '', inj = gdInj(c.s), sp = r1(gdPj(c.s)), bp = c.b ? r1(gdPj(c.b)) : 0;
+  const hot = fs.l3 != null && fb.l3 != null ? r1(fb.l3 - fs.l3) : null;
+  if (c.k === 'must') { const why = !gdGame(c.s) && gdPj(c.s) === 0 ? 'is on bye' : 'is ' + (inj ? inj.t : 'out');
+    return c.b ? `${S} ${why}. ${B} is your best healthy ${c.slot} option (${bp} projected).` : `${S} ${why} and no healthy ${c.slot} is on your bench. Check waivers.`; }
+  if (c.k === 'swap') return `${B} projects ${r1(c.d)} more than ${S}${hot != null && hot >= 1 ? ` and is averaging ${r1(hot)} more over the last 3 weeks` : hot != null && hot <= -1 ? `, though ${S} has the better last 3 weeks (${fs.l3} vs ${fb.l3})` : ''}.`;
+  if (c.k === 'risk') return `${S} is ${inj.t}. ${B} is only ${r1(-c.d)} projected points behind, so he's a solid pivot if ${S} sits.`;
+  if (c.d > 0) return fs.l3 != null && fb.l3 != null && fs.l3 > fb.l3 ? `${B} projects ${r1(c.d)} more, but ${S} has the better last 3 weeks (${fs.l3} vs ${fb.l3}). Keep ${S}.` : `${B} projects only ${r1(c.d)} more. It's a coin flip, so either is fine.`;
+  return `Only ${r1(-c.d)} points apart on projection (${sp} vs ${bp}).${hot != null && Math.abs(hot) >= 1 ? ` ${hot > 0 ? B : S} has been better over the last 3 weeks (${hot > 0 ? fb.l3 : fs.l3} vs ${hot > 0 ? fs.l3 : fb.l3}).` : ''} Keep ${S} unless you have a hunch.`;
+}
+function ssSide(p, lbl, rec, f){
+  if (!p) return `<div class="ss-p none"><span class="ss-lbl">${esc(lbl)}</span><i>No healthy option</i></div>`;
+  const inj = gdInj(p), dv = (() => { try { return dvpFor(p); } catch (_) { return null; } })(), opp = ssOpp(p);
+  const arrow = f.l3 != null && f.avg != null ? (f.l3 - f.avg >= 1 ? '<em class="up">▲</em>' : f.avg - f.l3 >= 1 ? '<em class="dn">▼</em>' : '') : '';
+  return `<div class="ss-p${rec ? ' rec' : ''}"${psAttr(p)} role="button" tabindex="0" title="Full stats for ${esc(p.name)}">
+    <span class="ss-lbl">${rec ? '✓ ' : ''}${esc(lbl)}</span>
+    <div class="ss-id"><img src="${esc(p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><span class="ss-nm"><b>${esc(p.short || p.name)}</b><i>${esc(p.pos)} · ${esc(p.team)}${inj ? ` <span class="ss-inj ${inj.k}">${esc(inj.c)}</span>` : ''}</i></span></div>
+    <div class="ss-pj"><strong>${esc(r1(gdPj(p)))}</strong><small>proj</small></div>
+    ${opp ? `<div class="ss-opp">${esc(opp)}</div>` : ''}
+    ${dv ? `<div class="ss-dv ${dv.g}" title="${esc(dvpTitle(dv))}">${esc(DVP_WORD[dv.g] || '')} · #${dv.rk} vs ${esc(dv.pos)}</div>` : ''}
+    ${f.l3 != null || f.avg != null ? `<div class="ss-form">${f.l3 != null ? `L3 <b>${esc(f.l3)}</b>` : ''}${f.l3 != null && f.avg != null ? ' · ' : ''}${f.avg != null ? `Avg <b>${esc(f.avg)}</b>` : ''}${arrow}</div>` : ''}
+  </div>`;
+}
+function ssHTML(){
+  const R = ssCalls(); if (!R) return '';
+  const { D, calls, pending } = R; if (!pending && !calls.length) return '';
+  const TAG = { must: 'Must change', swap: 'Swap suggested', risk: 'Injury watch', close: 'Close call' };
+  const cards = calls.map(c => { const fs = ssForm(c.s), fb = c.b ? ssForm(c.b) : {}, benchRec = c.k === 'must' || c.k === 'swap';
+    return `<article class="ss-c k-${c.k}"><div class="ss-top"><span class="ss-tag">${TAG[c.k]}</span><span class="ss-slot">${esc(c.slot)} slot</span></div>
+      <div class="ss-vs">${ssSide(c.s, 'Starting', !benchRec, fs)}<div class="ss-mid" aria-hidden="true">vs</div>${ssSide(c.b, 'Bench', benchRec && !!c.b, fb)}</div>
+      <p class="ss-why">${esc(ssReason(c, fs, fb))}</p></article>`; }).join('');
+  return `<section class="ss" id="ssSec" aria-label="Start or sit helper"><div class="ss-h"><b>🧠 Start / Sit</b><small>Week ${esc(D.per)} · close lineup calls before kickoff · suggestions only, your ESPN lineup isn't changed</small></div>
+    ${calls.length ? `<div class="ss-grid">${cards}</div>` : `<div class="ss-ok">✓ No close calls: every starter projects ahead of your bench options.</div>`}</section>`;
+}
+
+/* ---------- 🔴 Red Zone ---------- */
+function rzPlayers(){ const D = MU.d && MU.d.nfl; if (!D || D.none || !D.me) return [];
+  const S = SLOTS.nfl, lab = (s, who) => s ? s.ps.filter(p => who === 'op' ? !S.bench.includes(p.sid) && !S.ir.includes(p.sid) : !S.ir.includes(p.sid)).map(p => ({ p, who, bn: S.bench.includes(p.sid) })) : [];
+  return [...lab(D.me, 'me'), ...lab(D.op, 'op')]; }
+function rzInside20(g, sit){ if (sit.rz) return true; const pt = /^([A-Z]{2,4})\s+(\d{1,2})$/.exec(String(sit.pt || '').trim()), pT = g.teams.find(t => String(t.id) === String(sit.poss));
+  return !!(pt && pT && pt[1] !== String(pT.abbr).toUpperCase() && +pt[2] <= 20); }
+function rzGames(){
+  const by = new Map();
+  for (const x of rzPlayers()) { const g = gdGame(x.p); if (!g) continue; if (!by.has(g.id)) by.set(g.id, { g, xs: [] }); by.get(g.id).xs.push(x); }
+  const all = [...by.values()], live = all.filter(e => e.g.state === 'in');
+  live.forEach(e => { const g = e.g, sit = g.sit || {}, pT = sit.poss ? g.teams.find(t => String(t.id) === String(sit.poss)) : null;
+    e.pT = pT; e.rz = !!(pT && rzInside20(g, sit)); e.possMine = !!(pT && e.xs.some(x => String(x.p.team).toUpperCase() === String(pT.abbr).toUpperCase()));
+    const [a, h] = g.teams; e.diff = Math.abs((+a.score || 0) - (+h.score || 0));
+    e.k = (e.rz ? 1000 : 0) + (pT ? 100 : 0) + (e.possMine ? 50 : 0) - Math.min(e.diff, 60); });
+  live.sort((x, y) => y.k - x.k);
+  const next = all.filter(e => e.g.state === 'pre' && e.xs.some(x => x.who === 'me')).sort((x, y) => x.g.date - y.g.date);
+  return { live, next, any: all.length };
+}
+function rzCount(){ try { return rzGames().live.length; } catch (_) { return 0; } }
+function rzPlayerRow(x, g, pT){ const p = x.p, a = p.pts || {}, hasBall = pT && String(pT.abbr).toUpperCase() === String(p.team).toUpperCase();
+  return `<div class="rz-pl ${x.who}${x.bn ? ' bn' : ''}"${psAttr(p)} role="button" tabindex="0" title="Full stats for ${esc(p.name)}"><img src="${esc(p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
+    <span class="rz-pn"><b>${esc(p.short || p.name)}${hasBall ? ' <span class="rz-ball" title="' + esc(p.team) + ' has the ball">🏈</span>' : ''}</b><i>${esc(p.pos)} · ${esc(p.team)}</i></span>
+    <span class="rz-who">${x.who === 'me' ? (x.bn ? 'Your bench' : 'You') : 'Opp'}</span><span class="rz-pts"><strong>${a.act != null ? esc(r1(a.act)) : '–'}</strong><small>/ ${a.proj != null ? esc(r1(a.proj)) : '–'}</small></span></div>`; }
+function rzGameCard(e){
+  const g = e.g, sit = g.sit || {}, [a, h] = g.teams, tm = t => `<div class="rz-t${e.pT === t ? ' poss' : ''}"><img src="${esc(t.logo || '')}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><b>${esc(t.abbr)}</b>${gmPossIcon(g, t, 'rz-pi')}<strong>${esc(t.score)}</strong></div>`;
+  const dd = sit.ddt || [sit.dd, sit.pt ? 'at ' + sit.pt : ''].filter(Boolean).join(' ');
+  const xs = e.xs.slice().sort((x, y) => (x.who === 'me' ? 0 : 1) - (y.who === 'me' ? 0 : 1) || (x.bn ? 1 : 0) - (y.bn ? 1 : 0));
+  const links = `${yttvPill(g)}${rdChips(g)}${g.box ? `<a class="rz-gc" href="${esc(g.box)}" target="_blank" rel="noopener">Gamecast ↗</a>` : ''}`;
+  return `<article class="rz-g${e.rz ? ' is-rz' : ''}" data-rzg="${esc(g.id)}"><div class="rz-gh">${tm(a)}<div class="rz-clk"><span>${esc(g.detail || '')}</span>${e.rz ? '<em class="rz-badge">RED ZONE</em>' : ''}</div>${tm(h)}</div>
+    ${dd ? `<div class="rz-sit">${e.pT ? `<b>${esc(e.pT.abbr)} ball</b> · ` : ''}${esc(dd)}</div>` : e.pT ? `<div class="rz-sit"><b>${esc(e.pT.abbr)} ball</b></div>` : ''}
+    <div class="rz-pls">${xs.map(x => rzPlayerRow(x, g, e.pT)).join('')}</div>${links.trim() ? `<div class="rz-lk">${links}</div>` : ''}</article>`;
+}
+function rzBody(){
+  const D = MU.d && MU.d.nfl; if (!D || !D.me) return `<div class="rz-empty">Loading your matchup from ESPN…</div>`;
+  if (D.none) return `<div class="rz-empty">No fantasy matchup this week.</div>`;
+  const R = rzGames();
+  if (R.live.length) return `<div class="rz-grid">${R.live.map(rzGameCard).join('')}</div>`;
+  const nx = R.next.map(e => { const mine = e.xs.filter(x => x.who === 'me'), [a, h] = e.g.teams;
+    return `<div class="rz-nx"><div class="rz-nxt"><b>${esc(dayLabelET(e.g.date))} ${esc(timeET(e.g.date))}</b><i>${esc(a.abbr)} @ ${esc(h.abbr)}${e.g.tv ? ' · ' + esc(e.g.tv) : ''}</i></div><div class="rz-nxp">${mine.map(x => `<span class="rz-chip${x.bn ? ' bn' : ''}"${psAttr(x.p)} role="button" tabindex="0"><img src="${esc(x.p.headshot)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">${esc(x.p.short || x.p.name)}</span>`).join('')}</div></div>`; }).join('');
+  return `<div class="rz-empty"><b>No games with your players are live right now.</b>${nx ? ' Next kickoffs:' : R.any ? ' All of your players’ games this week are final.' : ''}</div>${nx ? `<div class="rz-next">${nx}</div>` : ''}`;
+}
+function rzRender(){ const o = document.getElementById('rzView'); if (!o || o.hidden) return; const b = o.querySelector('.rz-bd'), h = rzBody(); if (b && b._h !== h) { b._h = h; b.innerHTML = h; }
+  const n = o.querySelector('.rz-live'); if (n) { const c = rzCount(); n.textContent = c ? `${c} live` : ''; n.hidden = !c; } }
+function rzOpen(){
+  let o = document.getElementById('rzView');
+  if (!o) { o = document.createElement('div'); o.id = 'rzView'; o.className = 'rz-ov'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true'); o.setAttribute('aria-labelledby', 'rzTitle');
+    o.innerHTML = `<div class="rz-box"><div class="rz-hd"><h2 id="rzTitle">🔴 Red Zone <span class="rz-live" hidden></span></h2><p>Live games with your fantasy players and your opponent's, most dangerous first. Updates every 30 seconds.</p><button type="button" class="rz-x" data-rzclose aria-label="Close Red Zone" title="Close (Esc)">✕</button></div><div class="rz-bd"></div></div>`;
+    document.body.appendChild(o); }
+  GD.rzFrom = document.activeElement; o.hidden = false; GD.rzOpen = true; document.documentElement.classList.add('rz-open');
+  try { ensureMu('nfl'); } catch (_) {}
+  rzRender(); o.scrollTop = 0; const x = o.querySelector('.rz-x'); if (x) x.focus({ preventScroll: true });
+}
+function rzClose(){ const o = document.getElementById('rzView'); if (!o || o.hidden) return; o.hidden = true; GD.rzOpen = false; document.documentElement.classList.remove('rz-open');
+  if (GD.rzFrom && GD.rzFrom.focus) try { GD.rzFrom.focus({ preventScroll: true }); } catch (_) {} }
+
+/* ---------- wiring ---------- */
+function gdBarHTML(){ const c = rzCount();
+  return `<div class="gd-bar"><button type="button" class="rz-go" data-rzopen title="Open Red Zone: live games with your fantasy players">🔴 Red Zone${c ? ` <b>${c} live</b>` : ''}</button></div>`; }
+function gdRender(){
+  if (state.tab !== FANTASY_TAB || (MN.fsTab || 'nfl') !== 'nfl') return;
+  const m = document.getElementById('fzMatch'); if (!m) return;
+  let el = document.getElementById('fzGameday'); if (!el) { el = document.createElement('div'); el.id = 'fzGameday'; m.before(el); } else if (el.nextElementSibling !== m) m.before(el);
+  const h = gdBarHTML() + ssHTML(); if (el._h !== h) { el._h = h; el.innerHTML = h; }
+}
+(function(){
+  if (typeof renderFantasy === 'function') { const f = renderFantasy; renderFantasy = function(){ const r = f.apply(this, arguments); try { gdRender(); } catch (e) { console.warn('gameday', e); } return r; }; }
+  if (typeof muRender === 'function') { const f = muRender; muRender = function(){ const r = f.apply(this, arguments); try { gdRender(); rzRender(); } catch (e) { console.warn('gameday', e); } return r; }; }
+  if (typeof lvPatch === 'function') { const f = lvPatch; lvPatch = function(){ const r = f.apply(this, arguments); try { woPatch(); gdRender(); rzRender(); gdPill(); } catch (e) { console.warn('gameday live', e); } return r; }; }
+  if (typeof qvBarHTML === 'function') { const f = qvBarHTML; qvBarHTML = function(){ const h = f.apply(this, arguments), c = rzCount();
+    return h.replace(/<\/div>\s*$/, `<button type="button" class="qv-pill rz" data-rzopen title="Red Zone: live games with your fantasy players">🔴 Red Zone${c ? ` <b>${c}</b>` : ''}</button></div>`); }; }
+  addEventListener('click', e => { const t = e.target && e.target.closest ? e.target : null; if (!t) return;
+    if (t.closest('[data-rzopen]')) { e.preventDefault(); rzOpen(); return; }
+    if (t.closest('[data-rzclose]') || (t.id === 'rzView')) { e.preventDefault(); rzClose(); } });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && GD.rzOpen && !document.querySelector('#psView:not([hidden])')) { e.stopPropagation(); rzClose(); } }, true);
+})();
+function gdPill(){ document.querySelectorAll('.qv-pill.rz').forEach(b => { const c = rzCount(), h = `🔴 Red Zone${c ? ` <b>${c}</b>` : ''}`; if (b.innerHTML !== h) b.innerHTML = h; }); }
+</script>
+
 <script>
 /* Oct 19: boot last, after every script block above has defined its globals (see bootDashboard). */
 try { bootDashboard(); } catch (e) { sysFail('boot', e); }
