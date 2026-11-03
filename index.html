@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261103-1251-collapsible">
+<meta name="build-id" content="20261103-1500-reorder">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,7 +18,7 @@
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261103-1251-collapsible';
+var BUILD_ID = '20261103-1500-reorder';
 var FIREBASE_CONFIG = { apiKey: "AIzaSyDVX8Nz5Cpm3cdEdfYKDi9iKZ3eEuEsVlY", authDomain: "sportssportssports-d2cfc.firebaseapp.com", projectId: "sportssportssports-d2cfc",
   storageBucket: "sportssportssports-d2cfc.firebasestorage.app", messagingSenderId: "566191759512", appId: "1:566191759512:web:3b5e44b2547505bf4f70ed" };
 /* ^ Oct 28: optional sign-in + sync. Set to null to turn it off completely (no SDK load, no button). Web config keys are public by design; access is locked by firestore.rules. */
@@ -4152,6 +4152,27 @@ html.tc-open{overflow:hidden}
   #fzPick .pk-sec > .section-title small,#watchArea.section-title small{font-size:12px;margin-left:0}
   #watchArea.section-title .cnt{display:none}
   #fzWx{margin:6px 0 10px}
+  #games:has(> .cz-h){display:flex;flex-direction:column}
+  #games:has(> .cz-h) > *{min-width:0}
+  .cz-o{display:none;flex:none;align-items:center;gap:6px;margin-left:auto}
+  html.cz-reorder .cz-o{display:flex}
+  html.cz-reorder .cz-c,html.cz-reorder .cz-s,html.cz-reorder .cz-n{display:none!important}
+  html.cz-reorder .cz-t{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}
+  html.cz-reorder .cz-h{cursor:default;padding-top:6px;padding-bottom:6px;margin-bottom:0;border-style:dashed}
+  html.cz-reorder #games > .cz-h ~ *:not(.cz-h){display:none!important}
+  .cz-mv,.cz-dr{flex:none;width:44px;height:44px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;padding:0;border-radius:10px;border:1px solid #2d4a7a;background:#0f1a2e;color:#cfe0ff;font:inherit;font-size:15px;font-weight:900;cursor:pointer}
+  .cz-mv:disabled{opacity:.3;cursor:default}
+  .cz-dr{touch-action:none;cursor:grab;border-style:dashed;color:#9cb8e8;user-select:none;-webkit-user-select:none}
+  .cz-mv:focus-visible{outline:2px solid #6aa8ff;outline-offset:1px}
+  .cz-h.cz-drag{position:relative;z-index:5;box-shadow:0 10px 28px rgba(0,0,0,.55);border-color:#6aa8ff;cursor:grabbing}
+  html.cz-dragging .cz-h:not(.cz-drag){transition:transform .15s ease}
+  html.cz-dragging{user-select:none;-webkit-user-select:none}
+  .cz-h.cz-moved{border-color:#6aa8ff;box-shadow:0 0 0 2px rgba(106,168,255,.35)}
+  .cz-bar .cz-hint{margin-right:auto;align-self:center;font-size:12.5px;font-weight:700;color:#9fb0d0}
+  .cz-bar .cz-done{border-color:#2f7a4c;background:#10291b;color:#9ff0c0}
+  @media (max-width:520px){.cz-bar .cz-go{flex:1 0 100%;margin-right:0;text-align:left}.cz-bar button{padding:6px 11px}.cz-bar{gap:6px}}
+  @media (max-width:420px){html.cz-reorder .cz-h{gap:6px;padding-left:10px;padding-right:8px}.cz-o{gap:4px}}
+  @media (prefers-reduced-motion: reduce){html.cz-dragging .cz-h:not(.cz-drag){transition:none}}
 </style>
 </head>
 <body>
@@ -9752,7 +9773,7 @@ function pgText(root){   // auto-shrink last names and live strips so they fit o
     b.classList.toggle('lv-cut', b.scrollWidth > b.clientWidth + 1); });
 }
 function pgScan(){
-  if (!PG_RO && 'ResizeObserver' in window) PG_RO = new ResizeObserver(es => es.forEach(e => pgFit(e.target)));
+  if (!PG_RO && 'ResizeObserver' in window) PG_RO = new ResizeObserver(es => requestAnimationFrame(() => es.forEach(e => pgFit(e.target))));   // Nov 3: next frame, so a refit never re-triggers inside the same RO pass
   document.querySelectorAll('.pg-grid').forEach(el => { pgFit(el); if (PG_RO && !PG_SEEN.has(el)) { PG_SEEN.add(el); PG_RO.observe(el); } });
 }
 function cmxCenter(){ const row = document.getElementById('pcRow'); if (!row || !row.offsetWidth) return; const R = row.getBoundingClientRect(), cx = R.left + R.width / 2; let best = null, bd = 1e9;
@@ -15582,10 +15603,25 @@ function czIs(k){ const S = czStore(); return k in S ? !!S[k] : k === 'match'; }
 function czDef(k){ return CZ_DEF.find(d => d[1] === k); }
 function czN(e){ let n = e && e.nextElementSibling; while (n && n.classList.contains('cz-h')) n = n.nextElementSibling; return n; }
 function czB(e){ const p = e && e.previousElementSibling; return p && p.classList.contains('cz-h') ? p : e; }
+/* ↕ section order, per tab, localStorage only. Applied with CSS `order` on a flex column, so the DOM order every
+   renderer relies on (mount points, refreshes) never changes and a re-render can't snap a section back. */
+var CZO_KEY = 'mannSectionOrder.v1';
+function czOStore(){ try { const v = JSON.parse(localStorage.getItem(CZO_KEY) || '{}'); return v && typeof v === 'object' ? v : {}; } catch (_) { return {}; } }
+function czOrder(tab){ const def = CZ_DEF.filter(d => d[0] === tab).map(d => d[1]), st = czOStore()[tab];
+  const out = Array.isArray(st) ? st.filter((k, i) => def.includes(k) && st.indexOf(k) === i) : [];
+  def.forEach((k, i) => { if (out.includes(k)) return; let j = i - 1; while (j >= 0 && !out.includes(def[j])) j--; out.splice(j >= 0 ? out.indexOf(def[j]) + 1 : 0, 0, k); });   // new sections land at their default spot
+  return out; }
+function czOSave(tab, list){ const S = czOStore(), def = CZ_DEF.filter(d => d[0] === tab).map(d => d[1]);
+  if (!list || list.join() === def.join()) delete S[tab]; else S[tab] = list;
+  try { Object.keys(S).length ? localStorage.setItem(CZO_KEY, JSON.stringify(S)) : localStorage.removeItem(CZO_KEY); } catch (_) {} }
+function czOrdOf(k){ const d = czDef(k); return d ? 10 + czOrder(d[0]).indexOf(k) * 2 : 0; }
 function czCss(){
   let st = document.getElementById('czStyle'); if (!st) { st = document.createElement('style'); st.id = 'czStyle'; document.head.appendChild(st); }
   const S = czStore(), rules = CZ_DEF.filter(d => !(d[1] in S ? S[d[1]] : d[1] === 'match')).map(d => d[1] === 'watch' ? '#watchArea,#watchArea~*:not(.cz-h):not(.cz-bar)' : '#' + d[2]);
-  const css = rules.length ? rules.join(',') + '{display:none!important}' : ''; if (st.textContent !== css) st.textContent = css; }
+  let css = rules.length ? rules.join(',') + '{display:none!important}' : '';
+  for (const tab of ['fantasy', 'watch']) czOrder(tab).forEach((k, i) => { const d = czDef(k), o = 10 + i * 2;
+    css += `#games>.cz-h[data-cz="${k}"],#${d[2]}${k === 'watch' ? ',#watchArea~*:not(.cz-h)' : ''}{order:${o}}`; });
+  if (st.textContent !== css) st.textContent = css; }
 /* one-line teasers, read from the section's own rendered (real-data) DOM; '' hides the teaser */
 function czQ(s){ return document.querySelector(s); }
 function czTx(s){ const e = czQ(s); return e ? e.textContent.replace(/\s+/g, ' ').trim() : ''; }
@@ -15618,9 +15654,9 @@ var CZ_TEASE = {
 /* 📸 recap "New" dot: on Tue/Wed (when the recap used to auto-open) until the latest week has been opened once */
 function czRecapKey(){ try { const L = b2L(), W = rcWeeks(); return L && W.length ? L.season + ':' + W[W.length - 1] : ''; } catch (_) { return ''; } }
 function czRecapNew(){ try { const k = czRecapKey(); return !!k && rcAutoOpen() && czStore()._rcSeen !== k; } catch (_) { return false; } }
-function czHdr(d){ const b = document.createElement('button'); b.type = 'button'; b.className = 'cz-h'; b.dataset.cz = d[1]; b.setAttribute('aria-controls', d[2]);
-  b.innerHTML = `<span class="cz-i" aria-hidden="true">${d[3]}</span><span class="cz-t">${d[4]}</span><span class="cz-n" hidden>New</span><span class="cz-s"></span><span class="cz-c" aria-hidden="true"></span>`; return b; }
-var CZ = { busy: false, raf: 0, mo: null };
+function czHdr(d){ const b = document.createElement('div'); b.setAttribute('role', 'button'); b.tabIndex = 0; b.className = 'cz-h'; b.dataset.cz = d[1]; b.setAttribute('aria-controls', d[2]);
+  b.innerHTML = `<span class="cz-i" aria-hidden="true">${d[3]}</span><span class="cz-t">${d[4]}</span><span class="cz-n" hidden>New</span><span class="cz-s"></span><span class="cz-c" aria-hidden="true"></span><span class="cz-o" role="group" aria-label="Move ${d[4]}"><button type="button" class="cz-mv" data-czmv="-1" aria-label="Move ${d[4]} up" title="Move up">▲</button><button type="button" class="cz-mv" data-czmv="1" aria-label="Move ${d[4]} down" title="Move down">▼</button><span class="cz-dr" title="Drag to move" aria-hidden="true">☰</span></span>`; return b; }
+var CZ = { busy: false, raf: 0, mo: null, ro: null };
 function czDecorate(){
   if (CZ.busy) return; CZ.busy = true;
   try {
@@ -15642,19 +15678,47 @@ function czDecorate(){
       const s = h.querySelector('.cz-s'); if (s.textContent !== t) s.textContent = t;
       const nw = h.querySelector('.cz-n'), isNew = d[1] === 'recap' && !open && czRecapNew(); if (nw.hidden === isNew) nw.hidden = !isNew;
     }
+    // children that aren't a section travel with the section above them (Fantasy Lab link, sport switcher pinned on top)
+    if (defs.length) { let cur = 0; const ids = new Set(defs.map(d => d[2]));
+      for (const c of g.children) { let o;
+        if (c.classList.contains('cz-h')) { cur = czOrdOf(c.dataset.cz); continue; }
+        if (ids.has(c.id)) { const d = defs.find(x => x[2] === c.id); cur = czOrdOf(d[1]); continue; }
+        o = c.id === 'flabSportBar' ? 1 : cur; const v = String(o); if (c.style.order !== v) c.style.order = v; } }
+    if (CZ.ro && CZ.ro !== tab) czReorderMode(false, true);
+    { const vis = czVisHeads(); vis.forEach((h, i) => { const u = h.querySelector('[data-czmv="-1"]'), dn = h.querySelector('[data-czmv="1"]'); if (u && u.disabled !== (i === 0)) u.disabled = i === 0; if (dn && dn.disabled !== (i === vis.length - 1)) dn.disabled = i === vis.length - 1; }); }
     let bar = g.querySelector(':scope > .cz-bar');
     if (shown < 2 || !first) { if (bar) bar.remove(); }
     else {
       if (!bar) { bar = document.createElement('div'); bar.className = 'cz-bar'; bar.setAttribute('role', 'group'); bar.setAttribute('aria-label', 'Show or hide every section'); }
-      if (bar.dataset.tab !== tab) { bar.dataset.tab = tab; bar.innerHTML = (tab === 'fantasy' ? '<button type="button" class="cz-go" data-czgo="inj" title="Open the Injury timeline in Fantasy Lab">🩺 Injury timeline →</button>' : '') + '<button type="button" data-czall="1">Expand all</button><button type="button" data-czall="0">Collapse all</button>'; }
+      const mode = tab + (CZ.ro ? ':ro' : '');
+      if (bar.dataset.czmode !== mode) { bar.dataset.czmode = mode; bar.innerHTML = CZ.ro
+        ? '<span class="cz-hint">▲ ▼ or drag ☰ to move</span><button type="button" data-czreset>Reset order</button><button type="button" class="cz-done" data-czro="0">Done</button>'
+        : (tab === 'fantasy' ? '<button type="button" class="cz-go" data-czgo="inj" title="Open the Injury timeline in Fantasy Lab">🩺 Injury timeline →</button>' : '') + '<button type="button" data-czro="1" title="Change the order of these sections">↕ Reorder</button><button type="button" data-czall="1">Expand all</button><button type="button" data-czall="0">Collapse all</button>'; }
       if (bar.nextElementSibling !== first) first.before(bar);
       const ks = defs.filter(d => { const h = g.querySelector(`:scope > .cz-h[data-cz="${d[1]}"]`); return h && !h.hidden; }).map(d => czIs(d[1]));
       const allO = ks.every(Boolean), allC = ks.every(x => !x), b1 = bar.querySelector('[data-czall="1"]'), b0 = bar.querySelector('[data-czall="0"]');
-      if (b1.disabled !== allO) b1.disabled = allO; if (b0.disabled !== allC) b0.disabled = allC;
+      if (b1 && b1.disabled !== allO) b1.disabled = allO; if (b0 && b0.disabled !== allC) b0.disabled = allC;
+      const rs = bar.querySelector('[data-czreset]'), isDef = !czOStore()[tab]; if (rs && rs.disabled !== isDef) rs.disabled = isDef;
     }
   } catch (e) { console.warn('sections', e); }
   finally { CZ.busy = false; }
 }
+function czVisHeads(){ const g = document.getElementById('games'); if (!g) return []; const L = czOrder(state.tab);
+  return [...g.querySelectorAll(':scope > .cz-h:not([hidden])')].filter(h => L.includes(h.dataset.cz)).sort((a, b) => L.indexOf(a.dataset.cz) - L.indexOf(b.dataset.cz)); }
+function czReduced(){ return matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function czApplyOrder(tab, list, moved, before){
+  const hs = czVisHeads(); before = before || new Map(hs.map(h => [h, h.getBoundingClientRect().top]));
+  czOSave(tab, list); czCss(); czDecorate();
+  if (!czReduced()) for (const h of hs) { const d = (before.get(h) ?? 0) - h.getBoundingClientRect().top; if (Math.abs(d) > 1 && h.animate) h.animate([{ transform: `translateY(${d}px)` }, { transform: 'none' }], { duration: 220, easing: 'cubic-bezier(.2,.8,.2,1)' }); }
+  const m = moved && document.querySelector(`#games > .cz-h[data-cz="${moved}"]`);
+  if (m) { m.classList.add('cz-moved'); clearTimeout(m._mvT); m._mvT = setTimeout(() => m.classList.remove('cz-moved'), 900);
+    const r = m.getBoundingClientRect(), top = parseFloat(getComputedStyle(m).scrollMarginTop) || 0; if (r.top < top || r.bottom > innerHeight) m.scrollIntoView({ block: 'nearest', behavior: czReduced() ? 'auto' : 'smooth' }); } }
+function czPlace(key, target, where, before){ const d = czDef(key); if (!d || key === target) return; const L = czOrder(d[0]).filter(k => k !== key); let i = L.indexOf(target); if (i < 0) return;
+  L.splice(where === 'after' ? i + 1 : i, 0, key); czApplyOrder(d[0], L, key, before); }
+function czMove(key, dir){ const vis = czVisHeads().map(h => h.dataset.cz), i = vis.indexOf(key), j = i + dir; if (i < 0 || j < 0 || j >= vis.length) return; czPlace(key, vis[j], dir > 0 ? 'after' : 'before'); }
+function czReorderMode(on, quiet){ CZ.ro = on ? state.tab : null; document.documentElement.classList.toggle('cz-reorder', !!on);
+  if (!quiet) { czDecorate(); const b = document.querySelector(on ? '#games > .cz-bar [data-czro="0"]' : '#games > .cz-bar [data-czro="1"]'); if (b) b.focus({ preventScroll: true }); }
+  if (!on) requestAnimationFrame(() => { try { dispatchEvent(new Event('resize')); } catch (_) {} }); }
 function czQueue(){ if (CZ.raf) return; CZ.raf = requestAnimationFrame(() => { CZ.raf = 0; czDecorate(); }); }
 /* open a section's lazy bits the moment it is expanded (sims, charts, ESPN loads that only run while open) */
 function czAfterOpen(keys){
@@ -15692,7 +15756,13 @@ function czReveal(el){ if (!el || !el.closest) return; const g = document.getEle
   const siv = Element.prototype.scrollIntoView;
   Element.prototype.scrollIntoView = function(){ try { czReveal(this); } catch (_) {} return siv.apply(this, arguments); };
   addEventListener('click', e => { const t = e.target && e.target.closest ? e.target : null; if (!t) return;
+    const mv = t.closest('[data-czmv]');
+    if (mv) { e.preventDefault(); e.stopPropagation(); const hh = mv.closest('.cz-h'); if (hh && !mv.disabled) { czMove(hh.dataset.cz, +mv.dataset.czmv); if (mv.disabled) { const o = hh.querySelector(`[data-czmv="${-mv.dataset.czmv}"]`); if (o) o.focus({ preventScroll: true }); } } return; }
+    const ro = t.closest('[data-czro]');
+    if (ro) { e.preventDefault(); czReorderMode(ro.dataset.czro === '1'); return; }
+    if (t.closest('[data-czreset]')) { e.preventDefault(); czApplyOrder(state.tab, null, null); return; }
     const h = t.closest('.cz-h[data-cz]');
+    if (h && document.documentElement.classList.contains('cz-reorder')) { e.preventDefault(); return; }   // reorder mode: the header only moves, it never folds
     if (h) { e.preventDefault(); const k = h.dataset.cz, open = !czIs(k); czSet(k, open); const n = document.querySelector(`#games > .cz-h[data-cz="${k}"]`); if (n) n.focus({ preventScroll: true });
       if (!open && n && n.getBoundingClientRect().top < 0) n.scrollIntoView({ block: 'start' }); return; }
     const go = t.closest('[data-czgo]');
@@ -15701,6 +15771,21 @@ function czReveal(el){ if (!el || !el.closest) return; const g = document.getEle
     const all = t.closest('[data-czall]');
     if (all) { e.preventDefault(); const keys = CZ_DEF.filter(d => d[0] === state.tab).map(d => d[1]); czSet(keys, all.dataset.czall === '1'); return; }
   });
+  addEventListener('keydown', e => { const h = e.target; if (!h || !h.classList || !h.classList.contains('cz-h') || (e.key !== 'Enter' && e.key !== ' ')) return; e.preventDefault(); h.click(); });
+  // ☰ drag (pointer events: mouse, touch, pen). Others slide aside while dragging; drop commits the same order the arrows use.
+  let D = null; const clr = () => { if (!D) return; document.documentElement.classList.remove('cz-dragging'); D.h.classList.remove('cz-drag'); };
+  addEventListener('pointerdown', e => { const hd = e.target && e.target.closest ? e.target.closest('.cz-dr') : null; if (!hd || !CZ.ro || (e.button != null && e.button > 0)) return;
+    const h = hd.closest('.cz-h'), hs = czVisHeads(), i = hs.indexOf(h); if (i < 0) return; e.preventDefault();
+    const tops = hs.map(x => x.getBoundingClientRect().top); const step = hs.length > 1 ? (tops[tops.length - 1] - tops[0]) / (hs.length - 1) : h.offsetHeight;
+    D = { h, hs, i, t: i, y0: e.clientY, step, id: e.pointerId }; try { hd.setPointerCapture(e.pointerId); } catch (_) {}
+    h.classList.add('cz-drag'); document.documentElement.classList.add('cz-dragging'); });
+  addEventListener('pointermove', e => { if (!D || e.pointerId !== D.id) return; e.preventDefault(); const dy = e.clientY - D.y0;
+    D.h.style.transform = `translateY(${dy}px)`; const t = Math.max(0, Math.min(D.hs.length - 1, D.i + Math.round(dy / D.step)));
+    if (t !== D.t) { D.t = t; D.hs.forEach((x, j) => { if (x === D.h) return; const sh = t > D.i && j > D.i && j <= t ? -D.step : t < D.i && j >= t && j < D.i ? D.step : 0; x.style.transform = sh ? `translateY(${sh}px)` : ''; }); } }, { passive: false });
+  const end = e => { if (!D || e.pointerId !== D.id) return; const X = D; clr(); D = null;
+    const before = new Map(X.hs.map(x => [x, x.getBoundingClientRect().top])); X.hs.forEach(x => { x.style.transform = ''; });
+    if (X.t !== X.i) czPlace(X.h.dataset.cz, X.hs[X.t].dataset.cz, X.t > X.i ? 'after' : 'before', before); };
+  addEventListener('pointerup', end); addEventListener('pointercancel', end);
   // quick-link pills that point at a section open it (capture: runs before the pill's own tab switch)
   addEventListener('click', e => { const t = e.target && e.target.closest ? e.target.closest('[data-fzgoto]') : null; if (!t) return;
     if (t.dataset.fzgoto === 'watch') { czSet('watch', true); setTimeout(() => { const h = document.querySelector('#games > .cz-h[data-cz="watch"]'); if (h) h.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }, 450); }
