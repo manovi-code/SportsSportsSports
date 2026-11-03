@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261103-1155-batch3">
+<meta name="build-id" content="20261103-1251-collapsible">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,7 +18,7 @@
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261103-1155-batch3';
+var BUILD_ID = '20261103-1251-collapsible';
 var FIREBASE_CONFIG = { apiKey: "AIzaSyDVX8Nz5Cpm3cdEdfYKDi9iKZ3eEuEsVlY", authDomain: "sportssportssports-d2cfc.firebaseapp.com", projectId: "sportssportssports-d2cfc",
   storageBucket: "sportssportssports-d2cfc.firebasestorage.app", messagingSenderId: "566191759512", appId: "1:566191759512:web:3b5e44b2547505bf4f70ed" };
 /* ^ Oct 28: optional sign-in + sync. Set to null to turn it off completely (no SDK load, no button). Web config keys are public by design; access is locked by firestore.rules. */
@@ -4125,6 +4125,33 @@ html.tc-open{overflow:hidden}
   .it-tl{display:flex;flex-wrap:wrap;align-items:center;gap:4px}.it-ar{color:#6f7fa3;font-size:11px}
   .it-e{display:inline-flex;flex-direction:column;align-items:center;padding:3px 8px;border-radius:9px;background:#111b2f;border:1px solid #233050}.it-e b{font-size:11.5px;font-weight:900}.it-e i{font-style:normal;font-size:9.5px;color:var(--muted);font-weight:700;white-space:nowrap}
   .it-e.s1{border-color:#5a4a1c}.it-e.s1 b{color:#ffe08a}.it-e.s2 b,.it-e.s3 b,.it-e.s4 b{color:#ff9c90}.it-e.s0 b{color:#7ee2a6}
+  /* ---------- Collapsible sections (Nov 3) ---------- */
+  .cz-bar{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
+  .cz-bar button{min-height:36px;padding:6px 14px;border-radius:999px;border:1px solid #2a3a5c;background:#101a2e;color:#cfe0ff;font:inherit;font-weight:800;font-size:12.5px;cursor:pointer}
+  .cz-bar button:disabled{opacity:.45;cursor:default}
+  .cz-bar .cz-go{margin-right:auto;border-color:#3a2f5c;background:#17142a;color:#e3d6ff}
+  .cz-h{display:flex;align-items:center;gap:10px;width:100%;box-sizing:border-box;min-width:0;min-height:48px;margin:8px 0 0;padding:10px 14px;border-radius:14px;border:1px solid #23304b;background:linear-gradient(180deg,#131e34,#0e1626);color:var(--text,#e8eefc);font:inherit;text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .cz-h[hidden]{display:none!important}
+  .cz-h,.cz-bar{scroll-margin-top:calc(var(--stack-h,70px) + var(--tabs-h,52px) + 10px)}
+  .cz-h[aria-expanded="true"]{border-color:#2d4a7a;margin-bottom:6px;background:linear-gradient(180deg,#152443,#0f1a2e)}
+  .cz-i{flex:none;font-size:18px;line-height:1}
+  .cz-t{flex:none;font-weight:900;font-size:15px;white-space:nowrap}
+  .cz-s{flex:1 1 auto;min-width:0;font-size:12.5px;font-weight:700;color:#9fb0d0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cz-s:empty{display:none}
+  .cz-h[aria-expanded="true"] .cz-s{display:none}
+  .cz-n{flex:none;font-size:10.5px;font-weight:900;letter-spacing:.02em;color:#1a1405;background:#ffd34d;border-radius:999px;padding:2px 8px}
+  .cz-n[hidden]{display:none}
+  .cz-c{flex:none;margin-left:auto;width:18px;text-align:center;font-size:14px;color:#9cb8e8}
+  .cz-h:focus-visible,.cz-bar button:focus-visible{outline:2px solid #6aa8ff;outline-offset:2px}
+  @media (hover:hover){.cz-h:hover{border-color:#3a5a90}.cz-bar button:hover:not(:disabled){border-color:#3a5a90}}
+  @media (max-width:420px){.cz-t{font-size:14.5px}.cz-h{gap:8px;padding:10px 12px}}
+  /* the header bar above now carries each section's title + toggle: drop the inner duplicates */
+  #fzRecap #rcSec > .rc-tg,#fzMatch .mu-h,#fzTrade0 .mu-h,#fzNeeds0 .mu-h,#fzComps .cm-h,#mnPlayers > .section-title:first-child,#mnFF > .fs-h{display:none!important}
+  #fzOdds .b2-h > b,#fzPower .b2-h > b,#fzRivals .b2-h > b,#fzInjTL .b2-h > b,#fzBye .b2-h > b,#fzGems .b2-h > b,#fzGameday .ss-h > b,#fzWx .ss-h > b{display:none}
+  #fzPick .pk-sec > .section-title,#watchArea.section-title{font-size:0;min-height:0;margin-top:0}
+  #fzPick .pk-sec > .section-title small,#watchArea.section-title small{font-size:12px;margin-left:0}
+  #watchArea.section-title .cnt{display:none}
+  #fzWx{margin:6px 0 10px}
 </style>
 </head>
 <body>
@@ -14941,7 +14968,8 @@ function gdBarHTML(){ const c = rzCount();
 function gdRender(){
   if (state.tab !== FANTASY_TAB || (MN.fsTab || 'nfl') !== 'nfl') return;
   const m = document.getElementById('fzMatch'); if (!m) return;
-  let el = document.getElementById('fzGameday'); if (!el) { el = document.createElement('div'); el.id = 'fzGameday'; m.before(el); } else if (el.nextElementSibling !== m) m.before(el);
+  const wx = document.getElementById('fzWx'), tg = wx && czN(wx) === m ? wx : m;   // Start/Sit sits right above weather (or Matchup), section headers between are fine
+  let el = document.getElementById('fzGameday'); if (!el) { el = document.createElement('div'); el.id = 'fzGameday'; czB(tg).before(el); } else if (czN(el) !== tg) czB(tg).before(el);
   const h = gdBarHTML() + ssHTML(); if (el._h !== h) { el._h = h; el.innerHTML = h; }
 }
 (function(){
@@ -15199,7 +15227,7 @@ function gmHTML(){
 
 /* ---------- wiring ---------- */
 function b2Mount(id, before, after){ const ref = document.getElementById(before || after); if (!ref) return null; let el = document.getElementById(id);
-  if (!el) { el = document.createElement('div'); el.id = id; } if (before ? el.nextElementSibling !== ref : ref.nextElementSibling !== el) before ? ref.before(el) : ref.after(el); return el; }
+  if (!el) { el = document.createElement('div'); el.id = id; } if (before ? czN(el) !== ref : czN(ref) !== el) before ? czB(ref).before(el) : ref.after(el); return el; }
 function b2Set(el, h){ if (el && el._h !== h) { el._h = h; el.innerHTML = h; } }
 function b2Render(){
   if (!b2L()) return;
@@ -15447,6 +15475,7 @@ function wxSecHTML(){
   if (!cards.length) return '';
   return `<section class="ss wx" id="wxSec"><div class="ss-h"><b>🌦 Game-day weather</b><small>Kickoff forecast for games with your players · Open-Meteo · flags: wind over 15 mph, rain, snow</small></div><div class="wx-grid">${cards.join('')}</div></section>`;
 }
+function wxRender(){ if (state.tab !== FANTASY_TAB || (MN.fsTab || 'nfl') !== 'nfl' || !document.getElementById('fzMatch')) return; b2Set(b2Mount('fzWx', 'fzMatch'), wxSecHTML()); }
 function wxFind(id){ id = String(id); return (state.games.nfl || []).find(x => String(x.id) === id) || ((typeof NU !== 'undefined' && NU.nfl && NU.nfl.games) || []).find(x => String(x.id) === id) || ((B3.wkG && B3.wkG.g) || []).find(x => String(x.id) === id) || null; }
 function wxPut(host, h, before){ let ch = host.querySelector(':scope > .wx-chip'); if (!h) { if (ch) ch.remove(); return; } if (ch && ch.outerHTML === h) return;
   const t = document.createElement('template'); t.innerHTML = h; const n = t.content.firstChild; ch ? ch.replaceWith(n) : before ? host.prepend(n) : host.appendChild(n); }
@@ -15456,7 +15485,7 @@ function wxDecorate(){
     let host = r.querySelector(':scope > .gr-wx'); if (!h) { if (host) host.remove(); return; }
     if (!host) { host = document.createElement('span'); host.className = 'gr-wx'; const det = r.querySelector(':scope > .gr-det'); det ? det.before(host) : r.appendChild(host); }
     wxPut(host, h); }); }
-var wxRT = 0; function wxRefresh(){ clearTimeout(wxRT); wxRT = setTimeout(() => { try { wxDecorate(); if (typeof gdRender === 'function') gdRender(); } catch (_) {} }, 150); }
+var wxRT = 0; function wxRefresh(){ clearTimeout(wxRT); wxRT = setTimeout(() => { try { wxDecorate(); wxRender(); } catch (_) {} }, 150); }
 
 /* ---------- 🩺 Injury timeline (Fantasy Lab) ---------- */
 var IT_KEY = 'mannInjTimeline.v1', IT_SEV = { ACTIVE: 0, PROBABLE: 0, QUESTIONABLE: 1, DOUBTFUL: 2, OUT: 3, INJURY_RESERVE: 4, SUSPENSION: 3, PUP: 4 };
@@ -15507,6 +15536,7 @@ function b3Render(){
     b3EnsureLeague();
     b2Set(b2Mount('fzOdds', null, 'fzMatch'), odHTML());
     b2Set(b2Mount('fzPower', null, 'fzOdds'), prHTML());
+    wxRender();
   } else if (state.tab === WATCH_TAB && (MN.fsTab || 'nfl') === 'nfl') {
     b3EnsureLeague(); b3EnsurePro();
     const gem = document.getElementById('fzGems') ? 'fzGems' : 'watchArea';
@@ -15516,14 +15546,170 @@ function b3Render(){
 }
 (function(){
   // rivalry follows power rankings when present (keeps one stable order: Matchup → Odds → Power → Rivalry)
-  if (typeof b2Render === 'function') { const f = b2Render; b2Render = function(){ const r = f.apply(this, arguments); try { const p = document.getElementById('fzPower'), rv = document.getElementById('fzRivals'); if (p && rv && p.nextElementSibling !== rv) p.after(rv); } catch (_) {} return r; }; }
-  if (typeof ssHTML === 'function') { const f = ssHTML; ssHTML = function(){ return f.apply(this, arguments) + wxSecHTML(); }; }
-  for (const n of ['renderFantasy', 'renderWatchTab', 'muRender']) if (typeof window[n] === 'function') { const f = window[n]; window[n] = function(){ const r = f.apply(this, arguments); try { b3Render(); const p = document.getElementById('fzPower'), rv = document.getElementById('fzRivals'); if (p && rv && p.nextElementSibling !== rv) p.after(rv); } catch (e) { console.warn('batch3', e); } return r; }; }
+  if (typeof b2Render === 'function') { const f = b2Render; b2Render = function(){ const r = f.apply(this, arguments); try { const p = document.getElementById('fzPower'), rv = document.getElementById('fzRivals'); if (p && rv && czN(p) !== rv) p.after(rv); } catch (_) {} return r; }; }
+  for (const n of ['renderFantasy', 'renderWatchTab', 'muRender']) if (typeof window[n] === 'function') { const f = window[n]; window[n] = function(){ const r = f.apply(this, arguments); try { b3Render(); const p = document.getElementById('fzPower'), rv = document.getElementById('fzRivals'); if (p && rv && czN(p) !== rv) p.after(rv); } catch (e) { console.warn('batch3', e); } return r; }; }
   if (typeof renderGames === 'function') { const f = renderGames; renderGames = function(){ const r = f.apply(this, arguments); try { wxDecorate(); } catch (_) {} return r; }; }
   addEventListener('change', e => { const s = e.target && e.target.matches && e.target.matches('[data-prwk]') ? e.target : null; if (!s) return; B3.prWk = +s.value; b3Render(); const n = document.querySelector('[data-prwk]'); if (n) n.focus(); });
 })();
 </script>
 
+<script>
+/* ---------- Collapsible sections (Nov 3): every Fantasy + Fantasy Lab section folds to a header bar.
+   Default: everything collapsed except ⚔️ Matchup. Open/closed state lives in localStorage only (not synced). ---------- */
+var CZ_KEY = 'mannSections.v1';
+var CZ_DEF = [   // [tab, key, anchor id, icon, title]
+  ['fantasy', 'recap', 'fzRecap', '📸', 'Weekly recap'],
+  ['fantasy', 'gameday', 'fzGameday', '🧠', 'Start / Sit'],
+  ['fantasy', 'weather', 'fzWx', '🌦', 'Game-day weather'],
+  ['fantasy', 'match', 'fzMatch', '⚔️', 'Matchup'],
+  ['fantasy', 'odds', 'fzOdds', '🎯', 'Playoff odds'],
+  ['fantasy', 'power', 'fzPower', '📊', 'Power rankings'],
+  ['fantasy', 'rivals', 'fzRivals', '🆚', 'Rivalry history'],
+  ['fantasy', 'roster', 'mnPlayers', '🎮', 'My roster'],
+  ['fantasy', 'pick', 'fzPick', '📥', 'Top 5 pickups'],
+  ['fantasy', 'comps', 'fzComps', '📈', 'Comps & movers'],
+  ['fantasy', 'news', 'mnFF', '📰', 'Fantasy news'],
+  ['watch', 'trade', 'fzTrade0', '🔄', 'Trade Lab'],
+  ['watch', 'needs', 'fzNeeds0', '📋', 'Team needs'],
+  ['watch', 'inj', 'fzInjTL', '🩺', 'Injury timeline'],
+  ['watch', 'bye', 'fzBye', '📅', 'Bye weeks & schedule'],
+  ['watch', 'gems', 'fzGems', '💎', 'Waiver gems'],
+  ['watch', 'watch', 'watchArea', '👁', 'Watch list']
+];
+function czStore(){ try { const v = JSON.parse(localStorage.getItem(CZ_KEY) || '{}'); return v && typeof v === 'object' ? v : {}; } catch (_) { return {}; } }
+function czSave(S){ try { localStorage.setItem(CZ_KEY, JSON.stringify(S)); } catch (_) {} }
+function czIs(k){ const S = czStore(); return k in S ? !!S[k] : k === 'match'; }
+function czDef(k){ return CZ_DEF.find(d => d[1] === k); }
+function czN(e){ let n = e && e.nextElementSibling; while (n && n.classList.contains('cz-h')) n = n.nextElementSibling; return n; }
+function czB(e){ const p = e && e.previousElementSibling; return p && p.classList.contains('cz-h') ? p : e; }
+function czCss(){
+  let st = document.getElementById('czStyle'); if (!st) { st = document.createElement('style'); st.id = 'czStyle'; document.head.appendChild(st); }
+  const S = czStore(), rules = CZ_DEF.filter(d => !(d[1] in S ? S[d[1]] : d[1] === 'match')).map(d => d[1] === 'watch' ? '#watchArea,#watchArea~*:not(.cz-h):not(.cz-bar)' : '#' + d[2]);
+  const css = rules.length ? rules.join(',') + '{display:none!important}' : ''; if (st.textContent !== css) st.textContent = css; }
+/* one-line teasers, read from the section's own rendered (real-data) DOM; '' hides the teaser */
+function czQ(s){ return document.querySelector(s); }
+function czTx(s){ const e = czQ(s); return e ? e.textContent.replace(/\s+/g, ' ').trim() : ''; }
+var CZ_TEASE = {
+  recap(){ const r = czTx('#rcSec .rc-res'), w = czTx('#rcSec .rc-tg > b').replace(/^\W+/, ''); return r ? `${w.replace(/ recap$/i, '')} · ${r}` : ''; },
+  gameday(){ const n = document.querySelectorAll('#ssSec .ss-c').length, m = document.querySelectorAll('#ssSec .ss-c.k-must').length;
+    return n ? `${n} lineup call${n > 1 ? 's' : ''}${m ? ` · ${m} must change` : ''}` : czQ('#ssSec .ss-ok') ? 'No close calls' : ''; },
+  weather(){ const c = document.querySelectorAll('#wxSec .wx-c'), f = document.querySelectorAll('#wxSec .wx-c.flag').length, d = document.querySelectorAll('#wxSec .wx-m.dome').length;
+    return c.length ? `${c.length} game${c.length > 1 ? 's' : ''}${d ? ` · ${d} dome` : ''} · ${f ? f + ' flagged' : 'no weather flags'}` : ''; },
+  match(){ const op = czTx('#fzMatch .mu-tm.op .nm b'), a = czTx('#fzMatch .mu-tm.me .sc b'), b = czTx('#fzMatch .mu-tm.op .sc b'), pa = czTx('#fzMatch .mu-tm.me .sc i'), pb = czTx('#fzMatch .mu-tm.op .sc i');
+    return op ? `vs ${op} · ${a}–${b}${pa && pb ? ` · proj ${pa.replace(/\D*([\d.]+).*/, '$1')}–${pb.replace(/\D*([\d.]+).*/, '$1')}` : ''}` : ''; },
+  odds(){ const p = czTx('#odSec .od-top .od-big:first-child b'); return /%/.test(p) ? `${p} to make playoffs` : ''; },
+  power(){ const r = czTx('#prSec .pr-r.me .pr-rk'), n = document.querySelectorAll('#prSec .pr-r').length, m = czTx('#prSec .pr-r.me .pr-mv'); return r ? `#${r} of ${n}${m && m !== '–' && m !== '-' ? ' ' + m : ''}` : ''; },
+  rivals(){ return czTx('#rvSec .rv-sum').replace(/\s*·\s*tap a rival.*$/i, ''); },
+  roster(){ const n = czTx('#mnPlayers .ros-n').replace(/[()]/g, ''), s = czTx('#mnPlayers > .section-title:first-child small'); return [n, s].filter(Boolean).join(' · '); },
+  pick(){ const e = czQ('#fzPick .pk-card .pk-nm'); if (!e) return ''; const i = e.querySelector(':scope > i'), it = i ? i.textContent.trim() : '', nm = e.textContent.replace(it, '').replace(/\s+/g, ' ').trim(); return nm ? '#1 ' + nm + (it ? ' · ' + it : '') : ''; },
+  comps(){ return ''; },
+  news(){ const a = czTx('#mnFF .chip[data-fffilter="all"]').match(/\d+/), i = czTx('#mnFF .chip[data-fffilter="inj"]').match(/\d+/); return a ? `${a[0]} items${i ? ` · ${i[0]} on injuries` : ''}` : ''; },
+  trade(){ return ''; },
+  needs(){ return czTx('#fzNeeds0 .nd-r.me th i'); },
+  inj(){ const st = [...document.querySelectorAll('#itSec .it-c')].map(c => ({ s: (c.querySelector('.it-st') || {}).textContent || '', n: (c.querySelector('.it-id b') || {}).textContent || '' }));
+    if (!st.length) return czQ('#itSec') ? 'No injury designations' : '';
+    const by = {}; st.forEach(x => { by[x.s] = (by[x.s] || 0) + 1; });
+    return Object.entries(by).map(([s, n]) => `${n} ${s}`).join(' · ') + ' · ' + st.map(x => x.n).join(', '); },
+  bye(){ if (!czQ('#bySec')) return ''; const h = [...document.querySelectorAll('#bySec .by-c.hole')].map(c => (/Week (\d+) ([A-Z/]+)/.exec(c.title || '') || []).slice(1)).filter(x => x.length);
+    return h.length ? 'Holes: ' + h.slice(0, 3).map(([w, p]) => `${p} wk ${w}`).join(', ') + (h.length > 3 ? ` +${h.length - 3}` : '') : 'No lineup holes from byes'; },
+  gems(){ const e = czQ('#gmSec .gm-c .gm-nm'); return e ? '#1 ' + (e.querySelector('b') || e).textContent.trim() + ((e.querySelector('i') || {}).textContent ? ' · ' + e.querySelector('i').textContent : '') : ''; },
+  watch(){ const n = czTx('#wlCount'); return /^\d+$/.test(n) ? `${n} player${n === '1' ? '' : 's'}` : ''; }
+};
+/* 📸 recap "New" dot: on Tue/Wed (when the recap used to auto-open) until the latest week has been opened once */
+function czRecapKey(){ try { const L = b2L(), W = rcWeeks(); return L && W.length ? L.season + ':' + W[W.length - 1] : ''; } catch (_) { return ''; } }
+function czRecapNew(){ try { const k = czRecapKey(); return !!k && rcAutoOpen() && czStore()._rcSeen !== k; } catch (_) { return false; } }
+function czHdr(d){ const b = document.createElement('button'); b.type = 'button'; b.className = 'cz-h'; b.dataset.cz = d[1]; b.setAttribute('aria-controls', d[2]);
+  b.innerHTML = `<span class="cz-i" aria-hidden="true">${d[3]}</span><span class="cz-t">${d[4]}</span><span class="cz-n" hidden>New</span><span class="cz-s"></span><span class="cz-c" aria-hidden="true"></span>`; return b; }
+var CZ = { busy: false, raf: 0, mo: null };
+function czDecorate(){
+  if (CZ.busy) return; CZ.busy = true;
+  try {
+    const g = document.getElementById('games'); if (!g) return;
+    const tab = state.tab, defs = CZ_DEF.filter(d => d[0] === tab);
+    g.querySelectorAll(':scope > .cz-h').forEach(h => { if (!defs.some(d => d[1] === h.dataset.cz)) h.remove(); });
+    let first = null, shown = 0;
+    for (const d of defs) {
+      const a = document.getElementById(d[2]); let h = g.querySelector(`:scope > .cz-h[data-cz="${d[1]}"]`);
+      if (!a || a.parentElement !== g) { if (h) h.remove(); continue; }
+      if (!h) h = czHdr(d);
+      if (a.previousElementSibling !== h) a.before(h);
+      const empty = d[1] !== 'watch' && !a.textContent.trim(); if (h.hidden !== empty) h.hidden = empty;
+      if (empty) continue; shown++; if (!first) first = h;
+      const open = czIs(d[1]), ex = String(open); if (h.getAttribute('aria-expanded') !== ex) h.setAttribute('aria-expanded', ex);
+      const lbl = `${open ? 'Collapse' : 'Expand'} ${d[4]}`; if (h.title !== lbl) h.title = lbl;
+      const c = h.querySelector('.cz-c'), cv = open ? '▾' : '▸'; if (c.textContent !== cv) c.textContent = cv;
+      let t = ''; try { t = open ? '' : (CZ_TEASE[d[1]] ? CZ_TEASE[d[1]]() : ''); } catch (_) { t = ''; }
+      const s = h.querySelector('.cz-s'); if (s.textContent !== t) s.textContent = t;
+      const nw = h.querySelector('.cz-n'), isNew = d[1] === 'recap' && !open && czRecapNew(); if (nw.hidden === isNew) nw.hidden = !isNew;
+    }
+    let bar = g.querySelector(':scope > .cz-bar');
+    if (shown < 2 || !first) { if (bar) bar.remove(); }
+    else {
+      if (!bar) { bar = document.createElement('div'); bar.className = 'cz-bar'; bar.setAttribute('role', 'group'); bar.setAttribute('aria-label', 'Show or hide every section'); }
+      if (bar.dataset.tab !== tab) { bar.dataset.tab = tab; bar.innerHTML = (tab === 'fantasy' ? '<button type="button" class="cz-go" data-czgo="inj" title="Open the Injury timeline in Fantasy Lab">🩺 Injury timeline →</button>' : '') + '<button type="button" data-czall="1">Expand all</button><button type="button" data-czall="0">Collapse all</button>'; }
+      if (bar.nextElementSibling !== first) first.before(bar);
+      const ks = defs.filter(d => { const h = g.querySelector(`:scope > .cz-h[data-cz="${d[1]}"]`); return h && !h.hidden; }).map(d => czIs(d[1]));
+      const allO = ks.every(Boolean), allC = ks.every(x => !x), b1 = bar.querySelector('[data-czall="1"]'), b0 = bar.querySelector('[data-czall="0"]');
+      if (b1.disabled !== allO) b1.disabled = allO; if (b0.disabled !== allC) b0.disabled = allC;
+    }
+  } catch (e) { console.warn('sections', e); }
+  finally { CZ.busy = false; }
+}
+function czQueue(){ if (CZ.raf) return; CZ.raf = requestAnimationFrame(() => { CZ.raf = 0; czDecorate(); }); }
+/* open a section's lazy bits the moment it is expanded (sims, charts, ESPN loads that only run while open) */
+function czAfterOpen(keys){
+  const sp = (typeof MN !== 'undefined' && MN.fsTab) || 'nfl';
+  try {
+    if (keys.includes('recap')) { const k = czRecapKey(); if (k) { const S = czStore(); S._rcSeen = k; czSave(S); } }
+    if (keys.some(k => k === 'trade' || k === 'needs') && typeof trRender === 'function') { trRender(sp); if (typeof ensureTr === 'function') ensureTr(sp); if (typeof ndRender === 'function') ndRender(sp); }
+    if (keys.includes('match') && typeof muRender === 'function') muRender(sp);
+    if (keys.some(k => /^(odds|power|bye|inj)$/.test(k)) && typeof b3Render === 'function') b3Render();
+    if (keys.some(k => k === 'recap' || k === 'rivals' || k === 'gems') && typeof b2Render === 'function') b2Render();
+    if (keys.includes('weather') && typeof wxRender === 'function') wxRender();
+    if (keys.includes('gameday') && typeof gdRender === 'function') gdRender();
+  } catch (e) { console.warn('sections open', e); }
+  requestAnimationFrame(() => { try { dispatchEvent(new Event('resize')); } catch (_) {} });
+}
+function czSet(keys, open){ keys = [].concat(keys); const S = czStore(); let ch = false;
+  for (const k of keys) if (czIs(k) !== !!open) { S[k] = !!open; ch = true; }
+  if (!ch) return false; czSave(S); czCss(); czDecorate(); if (open) czAfterOpen(keys); return true; }
+/* anything that scrolls to a spot inside a collapsed section (Needs → Trade Lab, jump links, player pings) opens it first */
+function czReveal(el){ if (!el || !el.closest) return; const g = document.getElementById('games'); if (!g || !g.contains(el)) return;
+  for (const d of CZ_DEF) { if (czIs(d[1])) continue; const a = document.getElementById(d[2]); if (!a) continue;
+    const inside = a === el || a.contains(el) || (d[1] === 'watch' && a.parentElement === el.parentElement && !!(a.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING)) || (d[1] === 'watch' && [...g.children].some(c => c !== a && c.contains(el) && (a.compareDocumentPosition(c) & Node.DOCUMENT_POSITION_FOLLOWING) && !c.classList.contains('cz-h')));
+    if (inside) czSet(d[1], true); } }
+(function(){
+  czCss();
+  try { if (typeof B2 !== 'undefined') B2.rcOpen = true; } catch (_) {}   // recap body always rendered; the header bar decides if it shows
+  // inner open/closed flags are synced prefs: force them only while the HTML is built, never saved
+  const wrap = (n, fn) => { const f = window[n]; if (typeof f !== 'function') return; window[n] = function(){ const undo = fn(); try { return f.apply(this, arguments); } finally { undo(); } }; };
+  wrap('muSection', () => { const o = MU.ui.open; MU.ui.open = true; return () => { MU.ui.open = o; }; });
+  wrap('trSection', () => { const o = TR.ui.open; TR.ui.open = czIs('trade'); return () => { TR.ui.open = o; }; });
+  wrap('ndSection', () => { const o = TR.ui.nd; TR.ui.nd = czIs('needs'); return () => { TR.ui.nd = o; }; });
+  wrap('ensureTr', () => { const o = TR.ui.open, n = TR.ui.nd; TR.ui.open = czIs('trade'); TR.ui.nd = czIs('needs'); return () => { TR.ui.open = o; TR.ui.nd = n; }; });
+  wrap('compsSection', () => { const o = CMP.open; CMP.open = true; return () => { CMP.open = o; }; });
+  wrap('rosterSection', () => { const o = FMIN.roster; FMIN.roster = false; return () => { FMIN.roster = o; }; });
+  const siv = Element.prototype.scrollIntoView;
+  Element.prototype.scrollIntoView = function(){ try { czReveal(this); } catch (_) {} return siv.apply(this, arguments); };
+  addEventListener('click', e => { const t = e.target && e.target.closest ? e.target : null; if (!t) return;
+    const h = t.closest('.cz-h[data-cz]');
+    if (h) { e.preventDefault(); const k = h.dataset.cz, open = !czIs(k); czSet(k, open); const n = document.querySelector(`#games > .cz-h[data-cz="${k}"]`); if (n) n.focus({ preventScroll: true });
+      if (!open && n && n.getBoundingClientRect().top < 0) n.scrollIntoView({ block: 'start' }); return; }
+    const go = t.closest('[data-czgo]');
+    if (go) { e.preventDefault(); const k = go.dataset.czgo, d = czDef(k); if (!d) return; czSet(k, true); const tb = document.querySelector(`.tab[data-tab="${d[0]}"]`); if (tb) tb.click();
+      setTimeout(() => { const h = document.querySelector(`#games > .cz-h[data-cz="${k}"]`); if (h) { h.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); h.focus({ preventScroll: true }); } }, 500); return; }
+    const all = t.closest('[data-czall]');
+    if (all) { e.preventDefault(); const keys = CZ_DEF.filter(d => d[0] === state.tab).map(d => d[1]); czSet(keys, all.dataset.czall === '1'); return; }
+  });
+  // quick-link pills that point at a section open it (capture: runs before the pill's own tab switch)
+  addEventListener('click', e => { const t = e.target && e.target.closest ? e.target.closest('[data-fzgoto]') : null; if (!t) return;
+    if (t.dataset.fzgoto === 'watch') { czSet('watch', true); setTimeout(() => { const h = document.querySelector('#games > .cz-h[data-cz="watch"]'); if (h) h.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }, 450); }
+    else if (t.dataset.fzgoto === 'fantasy') czSet(['match', 'roster'], true);
+  }, true);
+  const start = () => { const g = document.getElementById('games'); if (!g) return setTimeout(start, 200); CZ.mo = new MutationObserver(czQueue); CZ.mo.observe(g, { childList: true, subtree: true }); czQueue(); };
+  start();
+})();
+</script>
 <script>
 /* Oct 19: boot last, after every script block above has defined its globals (see bootDashboard). */
 try { bootDashboard(); } catch (e) { sysFail('boot', e); }
