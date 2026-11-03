@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261030-2256-batch2">
+<meta name="build-id" content="20261103-1155-batch3">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,7 +18,7 @@
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261030-2256-batch2';
+var BUILD_ID = '20261103-1155-batch3';
 var FIREBASE_CONFIG = { apiKey: "AIzaSyDVX8Nz5Cpm3cdEdfYKDi9iKZ3eEuEsVlY", authDomain: "sportssportssports-d2cfc.firebaseapp.com", projectId: "sportssportssports-d2cfc",
   storageBucket: "sportssportssports-d2cfc.firebasestorage.app", messagingSenderId: "566191759512", appId: "1:566191759512:web:3b5e44b2547505bf4f70ed" };
 /* ^ Oct 28: optional sign-in + sync. Set to null to turn it off completely (no SDK load, no button). Web config keys are public by design; access is locked by firestore.rules. */
@@ -4064,6 +4064,67 @@ html.tc-open{overflow:hidden}
   .gm-st b{font-size:15px;font-weight:900}.gm-st i{font-style:normal;font-size:10px;color:var(--muted);font-weight:800;white-space:nowrap}
   .gm-why{margin:0;font-size:12.5px;line-height:1.4;color:#d7e0f3;font-weight:600}
   .gm-nx,.gm-up{font-size:12px;font-weight:700;color:#b5c2de;overflow-wrap:anywhere}.gm-up{padding:6px 9px;border-radius:9px;background:#12261b;border:1px solid #23533a}.gm-up b{color:var(--text)}
+  /* ===== Nov 3: BATCH 3 — playoff odds · power rankings · bye planner · weather · injury timeline ===== */
+  .od-top{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px}
+  .od-big{display:flex;flex-direction:column;min-width:0;padding:10px;border-radius:13px;background:#0e1626;border:1px solid #2a3756}
+  .od-big span{font-size:10.5px;font-weight:900;letter-spacing:.5px;text-transform:uppercase;color:#9fb0d2}.od-big b{font-size:28px;font-weight:900;line-height:1.1;color:#5fd38a;font-variant-numeric:tabular-nums}
+  .od-big:nth-child(3) b{color:var(--text)}.od-big i{font-style:normal;font-size:11px;color:var(--muted);font-weight:700;overflow-wrap:anywhere}.od-big.muted b{color:#6f7fa3}
+  @media (max-width:380px){.od-big{padding:8px}.od-big b{font-size:22px}}
+  .od-h{margin:12px 0 6px;font-size:11px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;color:#9fb0d2}
+  .od-seeds{display:flex;gap:4px;align-items:flex-end;height:120px;padding:0 2px}
+  .od-sd{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;height:100%}
+  .od-sv{font-size:10px;font-weight:800;color:#b5c2de;height:14px;white-space:nowrap}
+  .od-sb{flex:1;width:100%;display:flex;align-items:flex-end;background:#0e1626;border-radius:6px 6px 0 0;overflow:hidden}.od-sb i{display:block;width:100%;background:#3a4a6e;border-radius:6px 6px 0 0}
+  .od-sd.in .od-sb i{background:linear-gradient(180deg,#5fd38a,#1e9e57)}.od-sd.bye .od-sb i{background:linear-gradient(180deg,#ffd34d,#c99a1d)}
+  .od-sl{font-size:11px;font-weight:900;color:#c8d6f5;margin-top:3px}.od-sd.in .od-sl{color:#7ee2a6}
+  .od-gl{display:flex;flex-direction:column;gap:6px}
+  .od-g{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 10px;border-radius:11px;background:#0e1626;border:1px solid #23304b}.od-g.me{border-color:#2f7a4c}
+  .od-gw{font-size:11px;font-weight:900;color:var(--gold);white-space:nowrap;min-width:38px}.od-gn{display:flex;flex-direction:column;min-width:0}.od-gn b{font-size:13px;overflow-wrap:anywhere}.od-gn i{font-style:normal;font-size:11.5px;color:#b5c2de;font-weight:600;overflow-wrap:anywhere}.od-gn i b{font-size:11.5px;color:var(--text)}
+  .od-gd{font-size:12px;font-weight:900;padding:2px 8px;border-radius:999px;background:#13233b;color:#9cd4ff;white-space:nowrap}
+  .pr-bar{display:flex;justify-content:flex-end;margin:-4px 0 8px}
+  .pr-list{display:flex;flex-direction:column;gap:6px}
+  .pr-r{display:grid;grid-template-columns:22px 30px 28px minmax(0,1fr) repeat(2,auto);grid-template-areas:"rk mv lg n v1 v2" "rk mv lg n v3 v4";align-items:center;gap:2px 8px;padding:7px 10px;border-radius:12px;background:#0e1626;border:1px solid #23304b;min-width:0}
+  .pr-r.me{border-color:var(--gold);box-shadow:0 0 0 1px rgba(255,200,61,.25) inset;background:linear-gradient(90deg,rgba(255,200,61,.08),#0e1626 60%)}
+  .pr-rk{grid-area:rk;font-size:17px;font-weight:900;color:var(--gold);text-align:center}.pr-mv{grid-area:mv;font-size:11px;font-weight:900;color:#6f7fa3;white-space:nowrap}
+  .pr-lg{grid-area:lg;width:28px;height:28px;border-radius:50%;background:#0a0f1a;object-fit:cover}
+  .pr-n{grid-area:n;display:flex;flex-direction:column;min-width:0}.pr-n b{font-size:13px;overflow-wrap:anywhere;line-height:1.2}.pr-n i{font-style:normal;font-size:11px;color:var(--muted);font-weight:700}.pr-n em{font-style:normal;color:var(--gold);font-weight:900}
+  .pr-v{display:flex;flex-direction:column;align-items:flex-end;min-width:44px}.pr-v b{font-size:13px;font-weight:900;font-variant-numeric:tabular-nums;white-space:nowrap}.pr-v i{font-style:normal;font-size:9.5px;color:var(--muted);font-weight:800;white-space:nowrap}
+  .pr-r .pr-v:nth-of-type(1){grid-area:v1}.pr-r .pr-v:nth-of-type(2){grid-area:v2}.pr-r .pr-v:nth-of-type(3){grid-area:v3}.pr-r .pr-v:nth-of-type(4){grid-area:v4}
+  @media (min-width:820px){.pr-r{grid-template-columns:26px 34px 30px minmax(0,1fr) repeat(4,76px);grid-template-areas:"rk mv lg n v1 v2 v3 v4"}}
+  .by-g{display:grid;grid-template-columns:1fr;gap:4px;margin-bottom:6px}
+  .by-r{display:grid;grid-template-columns:52px repeat(var(--n),minmax(0,1fr));gap:4px;align-items:stretch}
+  .by-p{display:flex;align-items:center;justify-content:space-between;gap:4px;font-size:12px;font-weight:900;padding:0 6px;border-radius:8px;background:#111b2f}.by-p i{font-style:normal;font-size:10px;color:var(--muted)}
+  .by-hd .by-p{background:none;color:#6f7fa3;font-size:10.5px}.by-w{text-align:center;font-size:10.5px;font-weight:900;color:#9fb0d2}
+  .by-c{display:flex;align-items:center;justify-content:center;min-height:30px;border-radius:8px;font-size:11px;font-weight:800;background:#12261b;color:#7ee2a6;border:1px solid #1f4a32}
+  .by-c.bye{background:#2c2610;color:#ffe08a;border-color:#5a4a1c}.by-c.hole{background:#4a1a1f;color:#ffd0d0;border-color:#8c2a30}
+  .by-key{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;font-size:11px;color:var(--muted);font-weight:700}.by-key .by-c{display:inline-flex;min-height:20px;padding:0 6px}
+  .by-pls{display:grid;grid-template-columns:1fr;gap:6px}@media (min-width:820px){.by-pls{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .by-pl{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;padding:8px;border-radius:12px;background:#0e1626;border:1px solid #23304b;min-width:0}
+  .by-pn{display:flex;align-items:center;gap:8px;min-width:0;cursor:pointer}.by-pn img{width:30px;height:30px;border-radius:50%;object-fit:cover;background:#0a0f1a;flex:0 0 auto}.by-pn span{display:flex;flex-direction:column;min-width:0}.by-pn b{font-size:13px;overflow-wrap:anywhere}.by-pn i{font-style:normal;font-size:11px;color:var(--muted);font-weight:700}
+  .by-nx{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+  .by-o{display:flex;flex-direction:column;align-items:center;padding:4px 2px;border-radius:8px;background:#111b2f;border:1px solid #233050;min-width:0}
+  .by-o i{font-style:normal;font-size:9.5px;color:var(--muted);font-weight:800}.by-o b{font-size:12px;font-weight:900;white-space:nowrap}.by-o em{font-style:normal;font-size:9.5px;font-weight:900}
+  .by-o.g{border-color:#2f7a4c;background:#12261b}.by-o.g em{color:#7ee2a6}.by-o.y{border-color:#5a4a1c}.by-o.y em{color:#e8d27a}.by-o.r{border-color:#8c2a30;background:#2a1014}.by-o.r em{color:#ff9c90}.by-o.bye{background:#2c2610;border-color:#5a4a1c;color:#ffe08a}
+  .wx-chip{display:inline-flex;align-items:center;gap:3px;margin-right:6px;padding:1px 7px;border-radius:999px;background:#13233b;border:1px solid #2d5284;color:#b8dcff;font-size:11px;font-weight:800;white-space:nowrap;vertical-align:middle}
+  .wx-chip.dome{background:#1b1f2c;border-color:#3a4458;color:#c8d0e0}.gr-wx{flex:1 0 100%;display:flex;min-width:0;margin-top:-2px}.gr-wx .wx-chip{margin:0;max-width:100%;overflow:hidden;text-overflow:ellipsis}.wx-chip.flag{border-color:#6b5a2a;color:#ffe3a3;background:#221d10}
+  .card-foot>span:first-child{min-width:0;overflow-wrap:anywhere}
+  .wx{margin-top:0}.wx-grid{display:grid;grid-template-columns:1fr;gap:8px}@media (min-width:600px){.wx-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (min-width:1100px){.wx-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  .wx-c{min-width:0;padding:10px;border-radius:13px;border:1px solid #2a3756;background:#0e1626;display:flex;flex-direction:column;gap:6px}.wx-c.flag{border-color:#6b5a2a}
+  .wx-t{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}.wx-t b{font-size:14px}.wx-t i{font-style:normal;font-size:11.5px;color:#ffd34d;font-weight:800}
+  .wx-v{font-size:11px;color:var(--muted);font-weight:700}
+  .wx-m{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.wx-m span{display:flex;flex-direction:column;align-items:center;padding:5px 2px;border-radius:9px;background:#111b2f}.wx-m b{font-size:17px;font-weight:900}.wx-m i{font-style:normal;font-size:10px;color:var(--muted);font-weight:800;white-space:nowrap}
+  .wx-m.dome{display:block;padding:8px;border-radius:9px;background:#1b1f2c;color:#c8d0e0;font-weight:900;font-size:13px;text-align:center}
+  .wx-f{display:flex;flex-wrap:wrap;gap:6px}.wx-fl{font-size:11px;font-weight:900;padding:2px 8px;border-radius:999px;background:#221d10;color:#ffe3a3;border:1px solid #6b5a2a}
+  .wx-ps{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
+  .it-grid{display:grid;grid-template-columns:1fr;gap:8px}@media (min-width:820px){.it-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .it-c{min-width:0;padding:10px;border-radius:13px;border:1px solid #2a3756;background:#0e1626;display:flex;flex-direction:column;gap:6px}.it-c.up{border-color:#2f7a4c}.it-c.dn{border-color:#8c2a30}
+  .it-id{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:8px;align-items:center;cursor:pointer}.it-id img{width:34px;height:34px;border-radius:50%;object-fit:cover;background:#0a0f1a}.it-id span:nth-child(2){display:flex;flex-direction:column;min-width:0}.it-id b{font-size:13.5px;overflow-wrap:anywhere}.it-id i{font-style:normal;font-size:11px;color:var(--muted);font-weight:700}
+  .it-st{font-size:12px;font-weight:900;padding:2px 9px;border-radius:999px;background:#22304d;color:#c8d6f5}.it-st.s1{background:#4a3a10;color:#ffe08a}.it-st.s2,.it-st.s3,.it-st.s4{background:#5a1a1f;color:#ffd0d0}.it-st.s0{background:#173d27;color:#a8f0c4}
+  .it-tr{font-size:12.5px;font-weight:800;color:#c8d6f5}.it-tr.up{color:#7ee2a6}.it-tr.dn{color:#ff9c90}
+  .it-n{font-size:11.5px;color:#b5c2de;font-weight:600;overflow-wrap:anywhere}
+  .it-tl{display:flex;flex-wrap:wrap;align-items:center;gap:4px}.it-ar{color:#6f7fa3;font-size:11px}
+  .it-e{display:inline-flex;flex-direction:column;align-items:center;padding:3px 8px;border-radius:9px;background:#111b2f;border:1px solid #233050}.it-e b{font-size:11.5px;font-weight:900}.it-e i{font-style:normal;font-size:9.5px;color:var(--muted);font-weight:700;white-space:nowrap}
+  .it-e.s1{border-color:#5a4a1c}.it-e.s1 b{color:#ffe08a}.it-e.s2 b,.it-e.s3 b,.it-e.s4 b{color:#ff9c90}.it-e.s0 b{color:#7ee2a6}
 </style>
 </head>
 <body>
@@ -15162,6 +15223,304 @@ function b2Render(){
     const pb = t.closest('[data-rcpng]'); if (pb) { e.preventDefault(); rcDownload(pb); return; }
     const sb = t.closest('[data-rcshare]'); if (sb) { e.preventDefault(); rcShare(sb); return; } });
   addEventListener('change', e => { const s = e.target && e.target.matches && e.target.matches('[data-rcwk]') ? e.target : null; if (!s) return; B2.rcWk = +s.value; b2Render(); const n = document.querySelector('[data-rcwk]'); if (n) n.focus(); });
+})();
+</script>
+
+<script>
+/* ===== Nov 3: BATCH 3 — 🎯 Playoff odds · 📊 Power rankings · 📅 Bye & schedule planner · 🌦 Game-day weather · 🩺 Injury timeline =====
+   Real data only: ESPN fantasy league reads (credentials omitted), ESPN NFL injuries feed, Open-Meteo (free, no key) for weather.
+   Read-only: never changes the ESPN lineup or sends anything to ESPN. No alerts. Anything missing is hidden. */
+var B3 = { lg: null, lgBusy: false, lgErr: 0, sim: null, pr: null, prWk: null, pro: null, proBusy: false, proErr: 0, wx: {}, wxBusy: {}, odOpen: false };
+function b3Key(L){ return L.leagueId + ':' + L.teamId + ':' + L.season; }
+
+/* ---------- league data (schedule + settings), shared by odds + power ---------- */
+async function b3LoadLeague(){
+  const L = b2L(); if (!L || B3.lgBusy) return; B3.lgBusy = true;
+  try {
+    const d = await efJSON(efLeagueUrl('nfl', L.season, L.leagueId, 'view=mMatchupScore&view=mTeam&view=mSettings&view=mStatus'));
+    const ss = ((d.settings || {}).scheduleSettings) || {}, teams = {};
+    for (const t of d.teams || []) teams[t.id] = { id: t.id, name: b2Tm(t), abbrev: t.abbrev || '', logo: t.logo || '', div: t.divisionId ?? 0 };
+    const reg = ss.matchupPeriodCount || null, games = [];
+    for (const g of d.schedule || []) { if (!g.home || !g.away) continue; const mp = g.matchupPeriodId; if (reg && mp > reg) continue;
+      games.push({ mp, h: g.home.teamId, a: g.away.teamId, hp: g.home.totalPoints || 0, ap: g.away.totalPoints || 0, done: !!g.winner && g.winner !== 'UNDECIDED', win: g.winner }); }
+    const n = Object.keys(teams).length, pc = ss.playoffTeamCount || null;
+    B3.lg = { t: Date.now(), k: b3Key(L), me: +L.teamId, teams, games, reg, pc, n, rule: ss.playoffSeedingRule || '', divs: (ss.divisions || []).length,
+      byes: pc ? Math.pow(2, Math.ceil(Math.log2(pc))) - pc : 0, cur: (d.status || {}).currentMatchupPeriod || null };
+    B3.sim = null; B3.pr = null; B3.lgErr = 0;
+  } catch (e) { B3.lgErr = Date.now(); console.warn('league sim data', e); }
+  finally { B3.lgBusy = false; try { b3Render(); } catch (_) {} }
+}
+function b3EnsureLeague(){ const L = b2L(); if (!L) return; const G = B3.lg;
+  if ((!G || G.k !== b3Key(L) || Date.now() - G.t > 30 * 60e3) && !B3.lgBusy && (!B3.lgErr || Date.now() - B3.lgErr > 2 * 60e3)) b3LoadLeague(); }
+function b3Weekly(G){ // team -> {mp: pts} for completed weeks
+  const w = {}; for (const id in G.teams) w[id] = {};
+  for (const g of G.games) if (g.done) { w[g.h][g.mp] = g.hp; w[g.a][g.mp] = g.ap; }
+  return w; }
+
+/* ---------- 📊 Power rankings ---------- */
+function prCompute(G, upTo){
+  const W = b3Weekly(G), ids = Object.keys(G.teams), out = {};
+  const wks = [...new Set(G.games.filter(g => g.done && g.mp <= upTo).map(g => g.mp))].sort((a, b) => a - b); if (!wks.length) return null;
+  for (const id of ids) { const pts = wks.map(k => W[id][k]).filter(v => typeof v === 'number'); let ap = 0, apl = 0, apt = 0;
+    for (const k of wks) { const me = W[id][k]; if (typeof me !== 'number') continue; for (const o of ids) if (o !== id && typeof W[o][k] === 'number') { if (me > W[o][k]) ap++; else if (me < W[o][k]) apl++; else apt++; } }
+    let w = 0, l = 0, t = 0; for (const g of G.games) if (g.done && g.mp <= upTo && (g.h === +id || g.a === +id)) { const mine = g.h === +id ? g.hp : g.ap, th = g.h === +id ? g.ap : g.hp; if (mine > th) w++; else if (mine < th) l++; else t++; }
+    const gp = pts.length, pf = pts.reduce((a, b) => a + b, 0), l3 = pts.slice(-3), apn = ap + apl + apt;
+    out[id] = { id: +id, gp, pf: r1(pf), ppg: gp ? pf / gp : 0, l3: l3.length ? l3.reduce((a, b) => a + b, 0) / l3.length : 0, ap, apl, apt, apPct: apn ? (ap + apt / 2) / apn : 0, w, l, t, xw: apn ? (ap + apt / 2) / apn * (w + l + t) : 0 }; }
+  const arr = Object.values(out), z = k => { const v = arr.map(x => x[k]), m = v.reduce((a, b) => a + b, 0) / v.length, s = Math.sqrt(v.reduce((a, b) => a + (b - m) ** 2, 0) / v.length) || 1; return x => (x[k] - m) / s; };
+  const zp = z('ppg'), zl = z('l3'), za = z('apPct');
+  for (const x of arr) { x.score = .4 * zp(x) + .35 * zl(x) + .25 * za(x); x.luck = r1(x.w + x.t / 2 - x.xw); }
+  arr.sort((a, b) => b.score - a.score || b.pf - a.pf).forEach((x, i) => x.rk = i + 1);
+  return { wk: wks[wks.length - 1], rows: arr };
+}
+function prHTML(){
+  const L = b2L(), G = B3.lg; if (!L) return '';
+  const head = (s) => `<div class="b2-h"><b>📊 Power rankings</b><small>${s}</small></div>`;
+  if (!G || G.k !== b3Key(L)) return B3.lgErr ? '' : `<section class="b2 pr" id="prSec">${head('All teams, ranked weekly')}<div class="b2-ld">Loading league scores from ESPN…</div></section>`;
+  const done = [...new Set(G.games.filter(g => g.done).map(g => g.mp))].sort((a, b) => a - b); if (!done.length) return '';
+  const wk = done.includes(B3.prWk) ? B3.prWk : done[done.length - 1], P = prCompute(G, wk); if (!P) return '';
+  const prev = done.indexOf(wk) > 0 ? prCompute(G, done[done.indexOf(wk) - 1]) : null, pm = {}; if (prev) for (const x of prev.rows) pm[x.id] = x.rk;
+  const rows = P.rows.map(x => { const t = G.teams[x.id] || {}, mv = pm[x.id] ? pm[x.id] - x.rk : 0, me = x.id === G.me;
+    return `<div class="pr-r${me ? ' me' : ''}"><span class="pr-rk">${x.rk}</span><span class="pr-mv ${mv > 0 ? 'up' : mv < 0 ? 'dn' : ''}" title="${prev ? `Last week #${pm[x.id]}` : ''}">${!prev ? '' : mv > 0 ? '▲' + mv : mv < 0 ? '▼' + -mv : '–'}</span>
+      ${b2Img(t.logo, 'pr-lg')}<span class="pr-n"><b>${esc(t.name || 'Team ' + x.id)}</b><i>${x.w}-${x.l}${x.t ? '-' + x.t : ''}${me ? ' · <em>You</em>' : ''}</i></span>
+      <span class="pr-v"><b>${r1(x.ppg)}</b><i>PF/g</i></span><span class="pr-v"><b>${r1(x.l3)}</b><i>Last 3</i></span><span class="pr-v"><b>${x.ap}-${x.apl}${x.apt ? '-' + x.apt : ''}</b><i>All-play</i></span>
+      <span class="pr-v"><b class="${x.luck >= .5 ? 'up' : x.luck <= -.5 ? 'dn' : ''}">${x.luck > 0 ? '+' : ''}${x.luck}</b><i>Luck</i></span></div>`; }).join('');
+  const pick = `<label class="rc-pick">After week <select data-prwk aria-label="Power rankings week">${done.slice().reverse().map(w => `<option value="${w}"${w === wk ? ' selected' : ''}>${w}</option>`).join('')}</select></label>`;
+  return `<section class="b2 pr" id="prSec">${head(`All ${G.n} teams after week ${wk} · ▲▼ vs the week before`)}<div class="pr-bar">${pick}</div><div class="pr-list">${rows}</div>
+    <div class="b2-foot">Rank = 40% points per game + 35% last-3 average + 25% all-play win % (your score vs every team, every week) · Luck = actual wins − all-play expected wins</div></section>`;
+}
+
+/* ---------- 🎯 Playoff odds (Monte Carlo) ---------- */
+function b3Rng(seed){ let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+function b3Gauss(){ const R = B3.rng || Math.random; let u = 0, v = 0; while (!u) u = R(); while (!v) v = R(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+function odSim(G, N){
+  const W = b3Weekly(G), ids = Object.keys(G.teams).map(Number), allPts = [];
+  { let h = 2166136261; for (const g of G.games) { const x = `${g.mp}|${g.h}|${g.a}|${g.hp}|${g.ap}|${g.done ? 1 : 0};`; for (let i = 0; i < x.length; i++) h = Math.imul(h ^ x.charCodeAt(i), 16777619); } B3.rng = b3Rng(h); }   // same data → same odds on every reload
+  for (const id of ids) for (const k in W[id]) allPts.push(W[id][k]);
+  const lm = allPts.reduce((a, b) => a + b, 0) / (allPts.length || 1), pool = Math.sqrt(allPts.reduce((a, b) => a + (b - lm) ** 2, 0) / (allPts.length || 1)) || 20;
+  const M = {}; for (const id of ids) { const v = Object.keys(W[id]).map(Number).sort((a, b) => a - b).map(k => W[id][k]), n = v.length;
+    const avg = n ? v.reduce((a, b) => a + b, 0) / n : lm, l3 = v.slice(-3), l3a = l3.length ? l3.reduce((a, b) => a + b, 0) / l3.length : avg;
+    const s2 = n > 1 ? v.reduce((a, b) => a + (b - avg) ** 2, 0) / (n - 1) : pool * pool, k0 = 4;
+    M[id] = { mu: ((.6 * avg + .4 * l3a) * n + lm * 2) / (n + 2), sd: Math.sqrt((n * s2 + k0 * pool * pool) / (n + k0)) }; }
+  const base = {}; for (const id of ids) base[id] = { w: 0, pf: 0 };
+  for (const g of G.games) if (g.done) { base[g.h].pf += g.hp; base[g.a].pf += g.ap; if (g.hp > g.ap) base[g.h].w++; else if (g.ap > g.hp) base[g.a].w++; else { base[g.h].w += .5; base[g.a].w += .5; } }
+  const rem = G.games.filter(g => !g.done), pc = G.pc || 0, by = G.byes || 0, me = G.me;
+  const seeds = new Array(ids.length + 1).fill(0), sw = rem.map(() => ({ hw: 0, hwIn: 0, aw: 0, awIn: 0 }));
+  let inC = 0, byeC = 0;
+  for (let r = 0; r < N; r++) { const s = {}; for (const id of ids) s[id] = { w: base[id].w, pf: base[id].pf, id };
+    const res = new Array(rem.length);
+    rem.forEach((g, i) => { const hp = M[g.h].mu + M[g.h].sd * b3Gauss(), ap = M[g.a].mu + M[g.a].sd * b3Gauss(); s[g.h].pf += hp; s[g.a].pf += ap;
+      if (hp >= ap) { s[g.h].w++; res[i] = 1; } else { s[g.a].w++; res[i] = 0; } });
+    const order = Object.values(s).sort((a, b) => b.w - a.w || b.pf - a.pf), seed = order.findIndex(x => x.id === me) + 1;
+    seeds[seed]++; const made = pc && seed <= pc; if (made) inC++; if (by && seed <= by) byeC++;
+    rem.forEach((g, i) => { const o = sw[i]; if (res[i]) { o.hw++; if (made) o.hwIn++; } else { o.aw++; if (made) o.awIn++; } }); }
+  const swing = rem.map((g, i) => { const o = sw[i], pH = o.hw ? o.hwIn / o.hw : null, pA = o.aw ? o.awIn / o.aw : null; return { g, pH, pA, d: pH != null && pA != null ? Math.abs(pH - pA) : 0 }; })
+    .filter(x => x.d > 0 && x.pH != null && x.pA != null).sort((a, b) => b.d - a.d).slice(0, 5);
+  const myRem = rem.filter(g => g.h === me || g.a === me).length;
+  return { N, p: inC / N, bye: by ? byeC / N : null, seeds: seeds.slice(1).map(c => c / N), swing, M, base, myRem, remN: rem.length };
+}
+function odHTML(){
+  const L = b2L(), G = B3.lg; if (!L) return '';
+  const head = `<div class="b2-h"><b>🎯 Playoff odds</b><small>Estimate · 10,000 simulated seasons of the rest of your league's schedule</small></div>`;
+  if (!G || G.k !== b3Key(L)) return B3.lgErr ? '' : `<section class="b2 od" id="odSec">${head}<div class="b2-ld">Loading the league schedule from ESPN…</div></section>`;
+  if (!G.pc || !G.games.length) return '';
+  if (!B3.sim || B3.sim.k !== G.k + ':' + G.t) { const S = odSim(G, 10000); S.k = G.k + ':' + G.t; B3.sim = S; }
+  const S = B3.sim, pct = v => v >= .995 ? '>99%' : v <= .005 && v > 0 ? '<1%' : Math.round(v * 100) + '%', me = G.teams[G.me] || {};
+  const myM = S.M[G.me];
+  const bars = S.seeds.map((v, i) => ({ s: i + 1, v })).filter(x => x.v >= .005 || x.s <= G.pc);
+  const maxV = Math.max(...bars.map(x => x.v), .01);
+  const seedHTML = `<div class="od-seeds" role="img" aria-label="Projected seed distribution">${bars.map(x => `<div class="od-sd${x.s <= G.pc ? ' in' : ''}${G.byes && x.s <= G.byes ? ' bye' : ''}"><span class="od-sv">${x.v >= .005 ? Math.round(x.v * 100) + '%' : ''}</span><span class="od-sb"><i style="height:${Math.max(2, Math.round(x.v / maxV * 100))}%"></i></span><span class="od-sl">${x.s}</span></div>`).join('')}</div>`;
+  const nm = id => esc((G.teams[id] || {}).name || 'Team ' + id), isMe = id => id === G.me;
+  const sw = S.swing.map(x => { const g = x.g, mine = isMe(g.h) || isMe(g.a), opp = isMe(g.h) ? g.a : g.h;
+    const lbl = mine ? `You vs ${nm(opp)}` : `${nm(g.h)} vs ${nm(g.a)}`;
+    const a = mine ? (isMe(g.h) ? x.pH : x.pA) : x.pH, b = mine ? (isMe(g.h) ? x.pA : x.pH) : x.pA;
+    return `<div class="od-g${mine ? ' me' : ''}"><span class="od-gw">Wk ${g.mp}</span><span class="od-gn"><b>${lbl}</b><i>${mine ? `If you win <b>${pct(a)}</b> · if you lose <b>${pct(b)}</b>` : `${nm(g.h)} wins → you <b>${pct(a)}</b> · ${nm(g.a)} wins → you <b>${pct(b)}</b>`}</i></span><span class="od-gd">±${Math.round(x.d * 50)}</span></div>`; }).join('');
+  const rule = G.rule === 'TOTAL_POINTS_SCORED' ? 'ties broken by total points' : G.rule === 'H2H_RECORD' ? 'ties broken by head-to-head (approximated with points)' : 'ties broken by points';
+  return `<section class="b2 od" id="odSec">${head}
+    <div class="od-top"><div class="od-big"><span>Make playoffs</span><b>${pct(S.p)}</b><i>top ${G.pc} of ${G.n}</i></div>
+      ${G.byes ? `<div class="od-big"><span>First-round bye</span><b>${pct(S.bye)}</b><i>top ${G.byes}</i></div>` : `<div class="od-big muted"><span>First-round bye</span><b>—</b><i>No byes in a ${G.pc}-team bracket</i></div>`}
+      <div class="od-big"><span>Record now</span><b>${(r => `${r.w}-${r.l}${r.t ? '-' + r.t : ''}`)(G.games.filter(g => g.done && (g.h === G.me || g.a === G.me)).reduce((o, g) => { const m = g.h === G.me ? g.hp : g.ap, t = g.h === G.me ? g.ap : g.hp; m > t ? o.w++ : m < t ? o.l++ : o.t++; return o; }, { w: 0, l: 0, t: 0 }))}</b><i>${S.myRem} game${S.myRem === 1 ? '' : 's'} left</i></div></div>
+    <h6 class="od-h">Projected seed</h6>${seedHTML}
+    ${sw ? `<h6 class="od-h">Games that matter most to you</h6><div class="od-gl">${sw}</div>` : ''}
+    <div class="b2-foot">Estimate, not ESPN's number. Each team's weekly score is drawn from a normal curve: mean = 60% season average + 40% last-3 average (lightly pulled to the league average), spread from its own weekly scores blended with the league's. ${esc(me.name || 'You')} model: ${r1(myM.mu)} ± ${r1(myM.sd)}. Seeding: wins, ${rule}${G.divs > 1 ? '; divisions are ignored' : ''}. ± = playoff-odds points that game swings.</div></section>`;
+}
+
+/* ---------- 📅 Bye week & schedule planner (Fantasy Lab) ---------- */
+var B3_PR = { QB: 1, RB: 2, WR: 3, TE: 4, K: 5, 'D/ST': 16 };
+async function b3LoadPro(){
+  const L = b2L(); if (!L || B3.proBusy) return; B3.proBusy = true;
+  try {
+    const [sch, r] = await Promise.all([efJSON(`${EF_API}${EF.nfl.game}/seasons/${L.season}?view=proTeamSchedules_wl`), efJSON(efLeagueUrl('nfl', L.season, L.leagueId, 'view=mPositionalRatings')).catch(() => null)]);
+    const tm = {}, ab = {};
+    for (const t of ((sch.settings || {}).proTeams || [])) { if (!t.id) continue; const a = String(t.abbrev || '').toUpperCase(); ab[a] = t.id;
+      const gs = {}; for (const [per, arr] of Object.entries(t.proGamesByScoringPeriod || {})) { const g = (arr || [])[0]; if (g) gs[per] = { o: g.homeProTeamId === t.id ? g.awayProTeamId : g.homeProTeamId, h: g.homeProTeamId === t.id, d: g.date }; }
+      tm[t.id] = { a, bye: t.byeWeek || null, gs }; }
+    const PR = r && ((r.positionAgainstOpponent || {}).positionalRatings) || {}, rt = {};
+    for (const [pos, id] of Object.entries(B3_PR)) { const by = (PR[id] || {}).ratingsByOpponent || {}, ents = Object.entries(by).filter(([, v]) => v && typeof v.average === 'number'); if (ents.length < 20) continue;
+      const s = ents.slice().sort((a, b) => b[1].average - a[1].average); rt[pos] = { n: s.length, t: Object.fromEntries(s.map(([tid, v], i) => [tid, { rk: 1 + s.filter(([, w]) => w.average > v.average).length, avg: r1(v.average) }])) }; }
+    B3.pro = { t: Date.now(), k: b3Key(L), tm, ab, rt }; B3.proErr = 0;
+  } catch (e) { B3.proErr = Date.now(); console.warn('bye planner', e); }
+  finally { B3.proBusy = false; try { b3Render(); } catch (_) {} }
+}
+function b3EnsurePro(){ const L = b2L(); if (!L) return; const P = B3.pro;
+  if ((!P || P.k !== b3Key(L) || Date.now() - P.t > 6 * 36e5) && !B3.proBusy && (!B3.proErr || Date.now() - B3.proErr > 2 * 60e3)) b3LoadPro(); }
+function byHTML(){
+  const L = b2L(), P = B3.pro, D = MU.d && MU.d.nfl; if (!L) return '';
+  const head = `<div class="b2-h"><b>📅 Bye weeks &amp; schedule</b><small>Your roster's upcoming byes and the next 4 opponents, rated by fantasy points they allow to that position (ESPN)</small></div>`;
+  if (!P || P.k !== b3Key(L) || !D || !D.me) return B3.proErr ? '' : `<section class="b2 by" id="bySec">${head}<div class="b2-ld">Loading NFL schedules from ESPN…</div></section>`;
+  const S = SLOTS.nfl, per = +D.per || 1, end = (B3.lg && B3.lg.reg) || 14, wks = []; for (let w = per; w <= end && wks.length < 8; w++) wks.push(w);
+  const ps = D.me.ps.filter(p => !S.ir.includes(p.sid)), POS = ['QB', 'RB', 'WR', 'TE', 'K', 'D/ST'];
+  const need = {}; for (const p of gdStarters(D.me)) { const s = S.names[p.sid] || p.slot; if (POS.includes(s)) need[s] = (need[s] || 0) + 1; }
+  const tmOf = p => P.tm[P.ab[String(p.team).toUpperCase()]] || null, out = p => /OUT|INJURY_RESERVE|SUSPENSION/.test(String(p.inj || '').toUpperCase());
+  const rows = POS.filter(pos => need[pos] || ps.some(p => p.pos === pos)).map(pos => { const mine = ps.filter(p => p.pos === pos), nd = need[pos] || 0;
+    const cells = wks.map(w => { const bye = mine.filter(p => { const t = tmOf(p); return t && !t.gs[w]; }), avail = mine.length - bye.length - mine.filter(p => !bye.includes(p) && w === per && out(p)).length;
+      const hole = nd && avail < nd, cls = hole ? 'hole' : bye.length ? 'bye' : 'ok';
+      return `<span class="by-c ${cls}" title="Week ${w} ${pos}: ${avail} available of ${mine.length}${nd ? `, ${nd} needed` : ''}${bye.length ? ` · bye: ${bye.map(p => p.short || p.name).join(', ')}` : ''}">${hole ? `<b>${avail}/${nd}</b>` : bye.length ? `<b>−${bye.length}</b>` : '✓'}</span>`; }).join('');
+    return `<div class="by-r"><span class="by-p">${esc(pos)}<i>${mine.length}</i></span>${cells}</div>`; }).join('');
+  const grid = `<div class="by-g" style="--n:${wks.length}"><div class="by-r by-hd"><span class="by-p">Wk</span>${wks.map(w => `<span class="by-w">${w}</span>`).join('')}</div>${rows}</div>
+    <div class="by-key"><span class="by-c ok">✓</span> covered <span class="by-c bye"><b>−1</b></span> players on bye, still covered <span class="by-c hole"><b>1/2</b></span> hole: available / starters needed</div>`;
+  const nxW = wks.slice(0, 4), rate = (p, w) => { const t = tmOf(p); if (!t) return null; const g = t.gs[w]; if (!g) return { bye: 1 };
+    const o = P.tm[g.o] || {}, R = P.rt[p.pos], x = R && R.t[g.o]; const third = R ? R.n / 3 : 0;
+    return { oa: o.a || '', h: g.h, rk: x ? x.rk : null, avg: x ? x.avg : null, n: R ? R.n : null, c: x ? (x.rk <= Math.round(third) ? 'g' : x.rk > Math.round(R.n - third) ? 'r' : 'y') : '' }; };
+  const word = { g: 'Easy', y: 'Neutral', r: 'Tough' };
+  const order = { QB: 0, RB: 1, WR: 2, TE: 3, K: 4, 'D/ST': 5 };
+  const pl = ps.slice().sort((a, b) => (order[a.pos] ?? 9) - (order[b.pos] ?? 9) || gdPj(b) - gdPj(a)).map(p => `<div class="by-pl"><span class="by-pn"${psAttr(p)} role="button" tabindex="0">${b2Img(p.headshot)}<span><b>${esc(p.short || p.name)}</b><i>${esc(p.pos)} · ${esc(p.team)}${S.bench.includes(p.sid) ? ' · BN' : ''}</i></span></span>
+    <span class="by-nx">${nxW.map(w => { const x = rate(p, w); if (!x) return `<span class="by-o"></span>`; if (x.bye) return `<span class="by-o bye"><i>W${w}</i><b>BYE</b></span>`;
+      return `<span class="by-o ${x.c}" title="${x.rk ? `${word[x.c]}: ${x.oa} allows ${x.avg} pts/g to ${p.pos}s (#${x.rk} of ${x.n} softest)` : `${x.oa}: no ESPN rating for ${p.pos}`}"><i>W${w}</i><b>${x.h ? '' : '@'}${esc(x.oa)}</b>${x.c ? `<em>${word[x.c]}</em>` : ''}</span>`; }).join('')}</span></div>`).join('');
+  return `<section class="b2 by" id="bySec">${head}${grid}<h6 class="od-h">Next 4 matchups</h6><div class="by-pls">${pl}</div>
+    <div class="b2-foot">Ratings: ESPN fantasy points allowed to each position this season, split into thirds (easy / neutral / tough). IR players are left out.</div></section>`;
+}
+
+/* ---------- 🌦 Game-day weather ---------- */
+var WX_V = {  // venue name → [lat, lon, roof]  roof: d = dome / fixed roof / covered, r = retractable (shown as Dome), o = open air
+  'State Farm Stadium': [33.5276, -112.2626, 'r'], 'Mercedes-Benz Stadium': [33.7554, -84.4008, 'r'], 'Santiago Bernabéu': [40.4531, -3.6883, 'r'], 'M&T Bank Stadium': [39.2780, -76.6227, 'o'],
+  'Highmark Stadium': [42.7738, -78.7870, 'o'], 'Bank of America Stadium': [35.2258, -80.8528, 'o'], 'Soldier Field': [41.8623, -87.6167, 'o'], 'Paycor Stadium': [39.0955, -84.5161, 'o'],
+  'Huntington Bank Field': [41.5061, -81.6995, 'o'], 'AT&T Stadium': [32.7473, -97.0945, 'r'], 'Maracanã Stadium': [-22.9122, -43.2302, 'o'], 'Empower Field at Mile High': [39.7439, -105.0201, 'o'],
+  'FC Bayern Munich Stadium': [48.2188, 11.6247, 'o'], 'Ford Field': [42.3400, -83.0456, 'd'], 'Lambeau Field': [44.5013, -88.0622, 'o'], 'Reliant Stadium': [29.6847, -95.4107, 'r'], 'NRG Stadium': [29.6847, -95.4107, 'r'],
+  'Lucas Oil Stadium': [39.7601, -86.1639, 'r'], 'EverBank Stadium': [30.3239, -81.6373, 'o'], 'Tottenham Hotspur Stadium': [51.6043, -0.0664, 'o'], 'Wembley Stadium': [51.5560, -0.2796, 'o'],
+  'Arrowhead Stadium': [39.0489, -94.4839, 'o'], 'GEHA Field at Arrowhead Stadium': [39.0489, -94.4839, 'o'], 'SoFi Stadium': [33.9535, -118.3392, 'd'], 'Melbourne Cricket Ground': [-37.8200, 144.9834, 'o'],
+  'Allegiant Stadium': [36.0909, -115.1833, 'd'], 'Hard Rock Stadium': [25.9580, -80.2389, 'o'], 'U.S. Bank Stadium': [44.9737, -93.2581, 'd'], 'Gillette Stadium': [42.0909, -71.2643, 'o'],
+  'Caesars Superdome': [29.9511, -90.0812, 'd'], 'Stade de France': [48.9245, 2.3602, 'o'], 'MetLife Stadium': [40.8135, -74.0745, 'o'], 'Lincoln Financial Field': [39.9008, -75.1675, 'o'],
+  'Acrisure Stadium': [40.4468, -80.0158, 'o'], 'Lumen Field': [47.5952, -122.3316, 'o'], 'Estadio Banorte': [19.3029, -99.1505, 'o'], 'Estadio Azteca': [19.3029, -99.1505, 'o'], "Levi's Stadium": [37.4030, -121.9700, 'o'],
+  'Raymond James Stadium': [27.9759, -82.5033, 'o'], 'Nissan Stadium': [36.1665, -86.7713, 'o'], 'Northwest Stadium': [38.9078, -76.8645, 'o'] };
+function wxVenue(g){ const v = WX_V[g.venue] || null; if (v) return { lat: v[0], lon: v[1], roof: v[2] !== 'o' }; return g.indoor ? { roof: true } : null; }
+function wxKey(g){ return 'nfl:' + g.id; }
+async function wxLoad(g){
+  const k = wxKey(g), V = wxVenue(g); if (!V || V.roof || B3.wxBusy[k]) return; const now = Date.now(), c = B3.wx[k]; if (c && now - c.t < 60 * 60e3) return;
+  const ko = new Date(g.date); if (isNaN(ko) || ko - now > 15 * 864e5 || now - ko > 5 * 36e5) return;
+  B3.wxBusy[k] = 1;
+  try { const iso = d => d.toISOString().slice(0, 13) + ':00', s = new Date(ko.getTime()), e = new Date(ko.getTime() + 3 * 36e5);
+    const u = `https://api.open-meteo.com/v1/forecast?latitude=${V.lat}&longitude=${V.lon}&hourly=temperature_2m,wind_speed_10m,wind_gusts_10m,precipitation_probability,precipitation,snowfall,weather_code&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=UTC&start_hour=${iso(s)}&end_hour=${iso(e)}`;
+    const r = await fetchWithTimeout(u, 15000, { credentials: 'omit' }); if (!r.ok) throw new Error('HTTP ' + r.status); const d = await r.json(), H = d.hourly || {};
+    const arr = k2 => (H[k2] || []).filter(v => typeof v === 'number'), mx = k2 => { const a = arr(k2); return a.length ? Math.max(...a) : null; };
+    const t0 = arr('temperature_2m')[0]; if (t0 == null) throw new Error('no forecast');
+    const codes = arr('weather_code'), snow = (mx('snowfall') || 0) > 0 || (codes.some(c2 => (c2 >= 71 && c2 <= 77) || c2 === 85 || c2 === 86) && (mx('precipitation_probability') ?? 100) >= 40), pop0 = mx('precipitation_probability'), rain = !snow && ((pop0 != null && pop0 >= 50) || (mx('precipitation') || 0) >= .05);
+    B3.wx[k] = { t: Date.now(), temp: Math.round(t0), wind: Math.round(mx('wind_speed_10m') ?? 0), gust: mx('wind_gusts_10m') != null ? Math.round(mx('wind_gusts_10m')) : null, pop: mx('precipitation_probability'), snow, rain };
+  } catch (e) { B3.wx[k] = { t: Date.now() - 45 * 60e3, err: 1 }; console.warn('weather', e && e.message); }
+  finally { delete B3.wxBusy[k]; wxRefresh(); }
+}
+function wxInfo(g){ const V = wxVenue(g); if (!V) return null; if (V.roof) return { dome: 1 }; const w = B3.wx[wxKey(g)]; if (!w || w.err) { wxLoad(g); return null; } return w; }
+function wxFlags(w){ const f = []; if (w.wind > 15) f.push(['wind', '💨 Windy']); if (w.snow) f.push(['snow', '❄️ Snow']); else if (w.rain) f.push(['rain', '🌧 Rain']); return f; }
+function wxChip(g, big){ const w = wxInfo(g); if (!w) return '';
+  if (w.dome) return `<span class="wx-chip dome" title="Indoor or roofed stadium">🏟 Dome</span>`;
+  const f = wxFlags(w), ttl = `Kickoff forecast (Open-Meteo): ${w.temp}°F, wind up to ${w.wind} mph${w.gust ? ` (gusts ${w.gust})` : ''}${w.pop != null ? `, ${w.pop}% chance of precipitation` : ''}`;
+  return `<span class="wx-chip${f.length ? ' flag' : ''}" title="${esc(ttl)}">${w.temp}° · ${w.wind} mph${w.pop != null ? ` · ${w.pop}%💧` : ''}${f.length ? ' · ' + f.map(x => x[1]).join(' ') : ''}</span>`; }
+async function b3LoadWeek(per){ if (B3.wkBusy) return; B3.wkBusy = 1;
+  try { const d = await getJSON(`${API}football/nfl/scoreboard?week=${per}&seasontype=2`, 20000); B3.wkG = { t: Date.now(), per, g: (d.events || []).map(ev => parseEvent(ev, 'nfl')).filter(Boolean) }; }
+  catch (e) { B3.wkG = { t: Date.now() - 25 * 60e3, per, g: [] }; console.warn('weather week', e && e.message); }
+  finally { B3.wkBusy = 0; wxRefresh(); } }
+function wxGame(p){ const g = gdGame(p); if (g && g.state !== 'post') return g;
+  const D = MU.d && MU.d.nfl, per = D && +D.per; if (!per) return null;
+  if ((!B3.wkG || B3.wkG.per !== per || Date.now() - B3.wkG.t > 30 * 60e3) && !B3.wkBusy) b3LoadWeek(per);
+  const gs = (B3.wkG && B3.wkG.per === per ? B3.wkG.g : []).filter(x => x.state !== 'post' && x.teams && x.teams.some(t => String(t.abbr).toUpperCase() === String(p.team).toUpperCase()));
+  return gs[0] || null; }
+function wxSecHTML(){
+  const D = MU.d && MU.d.nfl, L = b2L(); if (!L || !D || !D.me) return '';
+  const by = new Map();
+  for (const p of D.me.ps.filter(p => !SLOTS.nfl.ir.includes(p.sid))) { const g = wxGame(p); if (!g || g.state === 'post') continue; if (!by.has(g.id)) by.set(g.id, { g, ps: [] }); by.get(g.id).ps.push(p); }
+  const es = [...by.values()].sort((a, b) => a.g.date - b.g.date); if (!es.length) return '';
+  const cards = es.map(e => { const g = e.g, [a, h] = g.teams, w = wxInfo(g); if (!w) return '';
+    const f = w.dome ? [] : wxFlags(w);
+    return `<article class="wx-c${f.length ? ' flag' : ''}"><div class="wx-t"><b>${esc(a.abbr)} @ ${esc(h.abbr)}</b><i>${g.state === 'in' ? 'LIVE' : esc(etFmt(g.date, { weekday: 'short' }) + ' ' + timeET(g.date))}</i></div>
+      <div class="wx-v">${esc(g.venue || '')}</div>
+      ${w.dome ? `<div class="wx-m dome">🏟 Dome</div>` : `<div class="wx-m"><span><b>${w.temp}°</b><i>Temp</i></span><span><b>${w.wind}</b><i>mph wind</i></span><span><b>${w.pop != null ? w.pop + '%' : '–'}</b><i>Precip</i></span></div>${f.length ? `<div class="wx-f">${f.map(x => `<span class="wx-fl ${x[0]}">${x[1]}</span>`).join('')}</div>` : ''}`}
+      <div class="wx-ps">${e.ps.map(p => `<span class="rz-chip${SLOTS.nfl.bench.includes(p.sid) ? ' bn' : ''}"${psAttr(p)} role="button" tabindex="0">${b2Img(p.headshot)}${esc(p.short || p.name)}</span>`).join('')}</div></article>`; }).filter(Boolean);
+  if (!cards.length) return '';
+  return `<section class="ss wx" id="wxSec"><div class="ss-h"><b>🌦 Game-day weather</b><small>Kickoff forecast for games with your players · Open-Meteo · flags: wind over 15 mph, rain, snow</small></div><div class="wx-grid">${cards.join('')}</div></section>`;
+}
+function wxFind(id){ id = String(id); return (state.games.nfl || []).find(x => String(x.id) === id) || ((typeof NU !== 'undefined' && NU.nfl && NU.nfl.games) || []).find(x => String(x.id) === id) || ((B3.wkG && B3.wkG.g) || []).find(x => String(x.id) === id) || null; }
+function wxPut(host, h, before){ let ch = host.querySelector(':scope > .wx-chip'); if (!h) { if (ch) ch.remove(); return; } if (ch && ch.outerHTML === h) return;
+  const t = document.createElement('template'); t.innerHTML = h; const n = t.content.firstChild; ch ? ch.replaceWith(n) : before ? host.prepend(n) : host.appendChild(n); }
+function wxDecorate(){
+  document.querySelectorAll('.card.gm[data-gmd^="nfl:"]').forEach(c => { const g = wxFind(c.dataset.gmd.slice(4)), foot = c.querySelector('.card-foot > span:first-child'); if (g && foot) wxPut(foot, g.state === 'post' ? '' : wxChip(g), 1); });
+  document.querySelectorAll('.gr[data-grx^="nfl:"]').forEach(r => { const g = wxFind(r.dataset.grx.slice(4)); if (!g) return; const h = g.state === 'post' ? '' : wxChip(g);
+    let host = r.querySelector(':scope > .gr-wx'); if (!h) { if (host) host.remove(); return; }
+    if (!host) { host = document.createElement('span'); host.className = 'gr-wx'; const det = r.querySelector(':scope > .gr-det'); det ? det.before(host) : r.appendChild(host); }
+    wxPut(host, h); }); }
+var wxRT = 0; function wxRefresh(){ clearTimeout(wxRT); wxRT = setTimeout(() => { try { wxDecorate(); if (typeof gdRender === 'function') gdRender(); } catch (_) {} }, 150); }
+
+/* ---------- 🩺 Injury timeline (Fantasy Lab) ---------- */
+var IT_KEY = 'mannInjTimeline.v1', IT_SEV = { ACTIVE: 0, PROBABLE: 0, QUESTIONABLE: 1, DOUBTFUL: 2, OUT: 3, INJURY_RESERVE: 4, SUSPENSION: 3, PUP: 4 };
+function itStatus(s){ const u = String(s || '').toUpperCase().replace(/\s+/g, '_'); if (!u || u === 'ACTIVE' || u === 'NORMAL') return 'ACTIVE'; if (/RESERVE|^IR$/.test(u)) return 'INJURY_RESERVE'; if (/OUT/.test(u)) return 'OUT'; if (/DOUBT/.test(u)) return 'DOUBTFUL'; if (/QUESTION/.test(u)) return 'QUESTIONABLE'; if (/SUSP/.test(u)) return 'SUSPENSION'; if (/PROB/.test(u)) return 'PROBABLE'; return u; }
+var IT_LBL = { ACTIVE: 'Active', PROBABLE: 'Probable', QUESTIONABLE: 'Q', DOUBTFUL: 'D', OUT: 'Out', INJURY_RESERVE: 'IR', SUSPENSION: 'Susp' };
+function itSince(h){ let i = h.length - 1; while (i > 0 && h[i - 1].s === h[i].s) i--; const e = h[i], d = e.e ? +new Date(e.e) : NaN; return isFinite(d) && d <= e.t ? d : e.t; }
+function itPlayers(){ const D = MU.d && MU.d.nfl, out = new Map();
+  if (D && D.me) for (const p of D.me.ps) if (!p.dst) out.set(String(p.eid), { p, src: 'roster' });
+  try { for (const p of watchList('nfl')) { const id = String(p.eid || p.id); if (!out.has(id) && !p.dst && !/^dst-/.test(id)) out.set(id, { p, src: 'watch' }); } } catch (_) {}
+  return [...out.entries()]; }
+function itSnap(){ // record a snapshot whenever a player's ESPN status or note changes
+  const S = fsS('nfl'), feed = (S && S.injAll) || null, ps = itPlayers(); if (!ps.length) return null;
+  const T = lsGet(IT_KEY, {}) || {}, now = Date.now(); let ch = false;
+  for (const [id, x] of ps) { const f = feed ? feed.find(i => i.athId === id) : null;
+    if (!f && !feed && !x.p.inj) continue;   // no source loaded yet for a healthy player: nothing real to record
+    const st = itStatus(f ? f.status : x.p.inj), note = f ? [f.part, f.comment].filter(Boolean).join(' · ') : '', ed = f && f.date ? +new Date(f.date) : null;
+    const h = T[id] ||= [], last = h[h.length - 1];
+    if (!last || last.s !== st || (note && last.n !== note) || (ed && last.e !== ed)) { h.push({ t: now, s: st, n: note, e: ed }); ch = true; }
+    while (h.length > 14 || (h.length > 1 && now - h[0].t > 21 * 864e5)) h.shift(); }
+  if (ch) lsSet(IT_KEY, T); return T; }
+function itWeekStart(){ const n = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })), d = (n.getDay() + 5) % 7; n.setHours(0, 0, 0, 0); n.setDate(n.getDate() - d); return Date.now() - (new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })) - n); }
+function itHTML(){
+  const L = b2L(); if (!L) return '';
+  const T = itSnap(), ps = itPlayers(); if (!T || !ps.length) return '';
+  const ws = itWeekStart(), when = t => `${etFmt(new Date(t), { weekday: 'short' })} ${timeET(new Date(t)).replace(' ET', '')}`;
+  const rows = [], healthy = [];
+  for (const [id, x] of ps) { const h = T[id] || [], cur = h[h.length - 1]; if (!cur) continue;
+    const wk = h.filter(e => e.t >= ws), first = (wk[0] && h.indexOf(wk[0]) > 0 ? h[h.indexOf(wk[0]) - 1] : wk[0]) || cur;
+    if (cur.s === 'ACTIVE' && !wk.some(e => e.s !== 'ACTIVE')) { healthy.push(x.p); continue; }
+    const a = IT_SEV[first.s] ?? 1, b = IT_SEV[cur.s] ?? 1;
+    const trend = cur.s === 'ACTIVE' ? ['up', 'Cleared: no injury designation'] : b < a ? ['up', 'Trending to play'] : b > a ? ['dn', 'Trending toward sitting'] : ['', `No change since ${when(itSince(h))}`];
+    const chain = (wk.length ? (first !== wk[0] ? [first, ...wk] : wk) : [cur]).slice(-6);
+    rows.push({ sev: b, html: `<article class="it-c ${trend[0]}"><div class="it-id"${psAttr(x.p)} role="button" tabindex="0">${b2Img(x.p.headshot)}<span><b>${esc(x.p.short || x.p.name)}</b><i>${esc(x.p.pos)} · ${esc(x.p.team)} · ${x.src === 'watch' ? 'Watch list' : 'Your roster'}</i></span><span class="it-st s${b}">${esc(IT_LBL[cur.s] || cur.s)}</span></div>
+      <div class="it-tr ${trend[0]}">${trend[0] === 'up' ? '↗ ' : trend[0] === 'dn' ? '↘ ' : ''}${esc(trend[1])}</div>
+      ${cur.n ? `<div class="it-n">${esc(cur.n)}</div>` : ''}
+      <div class="it-tl">${chain.map((e, i) => `${i ? '<span class="it-ar" aria-hidden="true">→</span>' : ''}<span class="it-e s${IT_SEV[e.s] ?? 1}" title="Seen ${esc(when(e.t))}${e.e ? ` · ESPN updated ${esc(when(e.e))}` : ''}${e.n ? ' · ' + esc(e.n) : ''}"><b>${esc(IT_LBL[e.s] || e.s)}</b><i>${esc(when(e.e || e.t))}</i></span>`).join('')}</div></article>` }); }
+  rows.sort((a, b) => b.sev - a.sev);
+  return `<section class="b2 it" id="itSec"><div class="b2-h"><b>🩺 Injury timeline</b><small>Your roster + watch list · ESPN injury status, saved on this device each time it changes this week</small></div>
+    ${rows.length ? `<div class="it-grid">${rows.map(r => r.html).join('')}</div>` : `<div class="b2-ld">No injury designations on your roster or watch list right now.</div>`}
+    ${healthy.length ? `<div class="b2-foot">No designation: ${healthy.map(p => esc(p.short || p.name)).join(', ')}</div>` : ''}
+    <div class="b2-foot">Practice participation (DNP / limited / full) isn't in ESPN's public feed, so the timeline tracks the official status and ESPN's note. History starts from the first time this device saw each status.</div></section>`;
+}
+
+/* ---------- wiring ---------- */
+function b3Render(){
+  if (!b2L()) return;
+  if (state.tab === FANTASY_TAB && (MN.fsTab || 'nfl') === 'nfl') {
+    b3EnsureLeague();
+    b2Set(b2Mount('fzOdds', null, 'fzMatch'), odHTML());
+    b2Set(b2Mount('fzPower', null, 'fzOdds'), prHTML());
+  } else if (state.tab === WATCH_TAB && (MN.fsTab || 'nfl') === 'nfl') {
+    b3EnsureLeague(); b3EnsurePro();
+    const gem = document.getElementById('fzGems') ? 'fzGems' : 'watchArea';
+    b2Set(b2Mount('fzBye', gem), byHTML());
+    b2Set(b2Mount('fzInjTL', 'fzBye'), itHTML());
+  }
+}
+(function(){
+  // rivalry follows power rankings when present (keeps one stable order: Matchup → Odds → Power → Rivalry)
+  if (typeof b2Render === 'function') { const f = b2Render; b2Render = function(){ const r = f.apply(this, arguments); try { const p = document.getElementById('fzPower'), rv = document.getElementById('fzRivals'); if (p && rv && p.nextElementSibling !== rv) p.after(rv); } catch (_) {} return r; }; }
+  if (typeof ssHTML === 'function') { const f = ssHTML; ssHTML = function(){ return f.apply(this, arguments) + wxSecHTML(); }; }
+  for (const n of ['renderFantasy', 'renderWatchTab', 'muRender']) if (typeof window[n] === 'function') { const f = window[n]; window[n] = function(){ const r = f.apply(this, arguments); try { b3Render(); const p = document.getElementById('fzPower'), rv = document.getElementById('fzRivals'); if (p && rv && p.nextElementSibling !== rv) p.after(rv); } catch (e) { console.warn('batch3', e); } return r; }; }
+  if (typeof renderGames === 'function') { const f = renderGames; renderGames = function(){ const r = f.apply(this, arguments); try { wxDecorate(); } catch (_) {} return r; }; }
+  addEventListener('change', e => { const s = e.target && e.target.matches && e.target.matches('[data-prwk]') ? e.target : null; if (!s) return; B3.prWk = +s.value; b3Render(); const n = document.querySelector('[data-prwk]'); if (n) n.focus(); });
 })();
 </script>
 
