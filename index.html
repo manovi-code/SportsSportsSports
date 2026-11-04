@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261103-1500-reorder">
+<meta name="build-id" content="20261104-1129-league-trades">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,7 +18,7 @@
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261103-1500-reorder';
+var BUILD_ID = '20261104-1129-league-trades';
 var FIREBASE_CONFIG = { apiKey: "AIzaSyDVX8Nz5Cpm3cdEdfYKDi9iKZ3eEuEsVlY", authDomain: "sportssportssports-d2cfc.firebaseapp.com", projectId: "sportssportssports-d2cfc",
   storageBucket: "sportssportssports-d2cfc.firebasestorage.app", messagingSenderId: "566191759512", appId: "1:566191759512:web:3b5e44b2547505bf4f70ed" };
 /* ^ Oct 28: optional sign-in + sync. Set to null to turn it off completely (no SDK load, no button). Web config keys are public by design; access is locked by firestore.rules. */
@@ -4173,6 +4173,37 @@ html.tc-open{overflow:hidden}
   @media (max-width:520px){.cz-bar .cz-go{flex:1 0 100%;margin-right:0;text-align:left}.cz-bar button{padding:6px 11px}.cz-bar{gap:6px}}
   @media (max-width:420px){html.cz-reorder .cz-h{gap:6px;padding-left:10px;padding-right:8px}.cz-o{gap:4px}}
   @media (prefers-reduced-motion: reduce){html.cz-dragging .cz-h:not(.cz-drag){transition:none}}
+  /* Nov 4: 🤝 League trades */
+  .lt{margin:8px 0 4px;min-width:0}
+  .lt-note{font-size:12.5px;color:var(--muted,#9fb0cc);margin:0 2px 10px;line-height:1.4}
+  .lt-grid{display:grid;grid-template-columns:1fr;gap:10px;align-items:stretch}
+  @media (min-width:820px){.lt-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .lt-c{display:flex;flex-direction:column;gap:8px;min-width:0;box-sizing:border-box;padding:12px;border-radius:14px;border:1px solid #23304b;background:linear-gradient(180deg,#121c31,#0d1524)}
+  .lt-c.mine{border-color:#c9a227;box-shadow:inset 0 0 0 1px rgba(201,162,39,.35)}
+  .lt-top{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;font-size:12px;color:var(--muted,#9fb0cc)}
+  .lt-rv{color:#ffd27a;font-weight:600}
+  .lt-tag{margin-left:auto;padding:2px 8px;border-radius:999px;background:#2a2f45;color:#cdd6ee;font-size:11px;font-weight:700}
+  .lt-sides{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:start}
+  .lt-x{align-self:center;color:var(--muted,#9fb0cc);font-size:16px}
+  .lt-sd{min-width:0;padding:8px;border-radius:10px;background:rgba(255,255,255,.03)}
+  .lt-sd.me{background:rgba(201,162,39,.12)}
+  .lt-tm{display:flex;align-items:center;gap:6px;min-width:0;flex-wrap:wrap}
+  .lt-tm img{width:22px;height:22px;border-radius:50%;object-fit:cover;flex:0 0 auto;background:#1b2740}
+  .lt-tm b{font-size:13px;line-height:1.25;overflow-wrap:anywhere;min-width:0}
+  .lt-tm i{font-style:normal;font-size:10.5px;font-weight:700;padding:1px 6px;border-radius:999px;background:#c9a227;color:#1a1400}
+  .lt-gets{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted,#9fb0cc);margin:6px 0 2px}
+  .lt-sd ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+  .lt-sd li{display:flex;justify-content:space-between;gap:6px;font-size:13px;min-width:0}
+  .lt-pn{min-width:0;overflow-wrap:anywhere}.lt-pn small{color:var(--muted,#9fb0cc);font-size:11px}
+  .lt-v small{font-size:10.5px;color:var(--muted,#9fb0cc);font-weight:500}.lt-v{flex:0 0 auto;font-variant-numeric:tabular-nums;color:#bfe3ff;font-weight:600}
+  .lt-vd{margin-top:auto;font-size:12.5px;font-weight:600;color:#cfe0ff;padding-top:2px}
+  .lt-vd.me{color:#ffd27a}.lt-vd.rv{color:#cdd6ee}.lt-vd.vt{color:#ff9a9a}.lt-vd.mu{color:var(--muted,#9fb0cc);font-weight:500}
+  .lt-none{font-size:13px;color:var(--muted,#9fb0cc);padding:6px 2px}
+  .lt-ft{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:12px}
+  .lt-dec{font-size:12.5px;color:var(--muted,#9fb0cc);margin-right:auto}
+  .lt-go{display:inline-flex;align-items:center;min-height:40px;padding:8px 14px;border-radius:999px;background:#1d4ed8;color:#fff;font-weight:700;font-size:13px;text-decoration:none}
+  .lt-go.sub{background:transparent;border:1px solid #2c3b5c;color:#cfe0ff}
+  @media (max-width:420px){.lt-sides{grid-template-columns:minmax(0,1fr);}.lt-x{justify-self:center;transform:rotate(90deg)}.lt-go{flex:1 1 auto;justify-content:center}}
 </style>
 </head>
 <body>
@@ -15795,6 +15826,99 @@ function czReveal(el){ if (!el || !el.closest) return; const g = document.getEle
   start();
 })();
 </script>
+<script>
+/* ---------- Nov 4: 🤝 League trades (Fantasy Lab). Read-only, public ESPN league data, no cookies.
+   Pending offers to/from you are private on ESPN (sign-in only), so this shows completed league trades + a link to ESPN.
+   Past weeks cache in localStorage (mannLeagueTrades.v1); the current + previous week refetch. ---------- */
+var LGT_KEY = 'mannLeagueTrades.v1';
+var LGT = { d: null, busy: false, err: 0 };
+function ltL(){ const L = typeof espnLinks !== 'undefined' && espnLinks && espnLinks.nfl; return L && L.source !== 'paste' && L.leagueId && L.teamId && L.season ? L : null; }
+function ltTrim(t){ return { id: t.id, type: t.type, st: t.status, tm: t.teamId, pd: t.proposedDate || 0, xd: t.processDate || 0, rel: t.relatedTransactionId || '',
+  it: (t.items || []).filter(i => i.type === 'TRADE').map(i => ({ p: String(i.playerId), f: i.fromTeamId, t: i.toTeamId })) }; }
+async function ltLoad(){
+  const L = ltL(); if (!L || LGT.busy) return; LGT.busy = true;
+  try {
+    const lg = L.leagueId + ':' + L.season, d0 = await efJSON(efLeagueUrl('nfl', L.season, L.leagueId, 'view=mTeam&view=mStatus'));
+    const cur = Math.max(0, Math.min(25, +((d0.status && d0.status.latestScoringPeriod) || d0.scoringPeriodId || 1)));
+    let C = lsGet(LGT_KEY, null); if (!C || C.lg !== lg || typeof C.wk !== 'object') C = { lg, wk: {} };
+    const wks = Array.from({ length: cur + 1 }, (_, i) => i);
+    const res = await Promise.all(wks.map(w => (w < cur - 1 && Array.isArray(C.wk[w])) ? Promise.resolve(C.wk[w])
+      : efJSON(efLeagueUrl('nfl', L.season, L.leagueId, 'view=mTransactions2&scoringPeriodId=' + w)).then(r => (r.transactions || []).filter(t => /^TRADE_/.test(t.type)).map(ltTrim))));
+    wks.forEach((w, i) => { if (w < cur - 1) C.wk[w] = res[i]; });
+    try { localStorage.setItem(LGT_KEY, JSON.stringify(C)); } catch (_) {}
+    const seen = new Map(); res.flat().forEach(t => seen.set(t.id, t)); const tx = [...seen.values()];
+    const teams = {}; (d0.teams || []).forEach(t => { teams[t.id] = { name: (t.name || [t.location, t.nickname].filter(Boolean).join(' ') || 'Team ' + t.id).trim(), ab: t.abbrev || '', logo: t.logo || '' }; });
+    const ids = [...new Set(tx.flatMap(t => t.it.map(i => +i.p)))], pl = {};
+    if (ids.length) { const r = await fetchWithTimeout(efLeagueUrl('nfl', L.season, L.leagueId, 'view=kona_playercard'), 20000, { credentials: 'omit', headers: { 'X-Fantasy-Filter': JSON.stringify({ players: { filterIds: { value: ids } } }) } }).then(r => r.ok ? r.json() : null).catch(() => null);
+      ((r && r.players) || []).forEach(e => { const p = e.player || {}; pl[String(p.id)] = { n: p.fullName || '', pos: TR_POS[p.defaultPositionId] || '' }; }); }
+    LGT.d = { lg, me: +L.teamId, teams, tx, pl, t: Date.now() }; LGT.err = 0;
+  } catch (e) { LGT.err = Date.now(); console.warn('league trades', e && e.message); }
+  finally { LGT.busy = false; ltRender(); }
+}
+function ltEnsure(){ const L = ltL(); if (!L) return; const D = LGT.d;
+  if ((D && D.lg === L.leagueId + ':' + L.season && Date.now() - D.t < 10 * 60e3) || LGT.busy || (LGT.err && Date.now() - LGT.err < 12e4)) return; ltLoad(); }
+function ltEnsureTr(){ const L = ltL(); if (!L || typeof trLoad !== 'function') return; const D = TR.d;
+  if ((D && D.lg === L.leagueId + ':' + L.teamId && Date.now() - D.t < 15 * 60e3) || TR.busy || (TR.err && Date.now() - TR.err < 12e4)) return;
+  TR.busy = true; trLoad('nfl', L).then(() => { TR.err = 0; }).catch(e => { TR.err = Date.now(); console.warn('trade', e && e.message); })
+    .finally(() => { TR.busy = false; ltRender(); if (state.tab === WATCH_TAB && MN.fsTab === 'nfl' && typeof trRender === 'function') trRender('nfl'); }); }
+/* trades: accepted (executed / under review / vetoed); a mirror trade between the same two teams within a week pairs up as "Reversed" */
+function ltModel(D){
+  const now = Date.now(), veto = new Set(D.tx.filter(t => /VETO/.test(t.type)).map(t => t.rel));
+  const acc = D.tx.filter(t => t.type === 'TRADE_ACCEPT' && t.it.length && !/^(CANCELED|FAILED)/.test(t.st)).sort((a, b) => a.pd - b.pd)
+    .map(t => ({ ...t, sides: [...new Set(t.it.flatMap(i => [i.f, i.t]))].sort((a, b) => a - b), veto: veto.has(t.id) || t.st === 'VETOED',
+      rev: t.st !== 'EXECUTED' && !veto.has(t.id) && t.st !== 'VETOED' && (t.st === 'PENDING' || t.xd > now) }));
+  const key = (t, flip) => t.it.map(i => `${i.p}:${flip ? i.t : i.f}>${flip ? i.f : i.t}`).sort().join(',');
+  const out = [];
+  for (const t of acc) { if (t.pairOf) continue;
+    const m = acc.find(u => u !== t && !u.pairOf && !u.mirror && u.pd >= t.pd && u.pd - t.pd < 7 * 864e5 && key(u) === key(t, true));
+    if (m) { m.pairOf = t; t.mirror = m; } out.push(t); }
+  return { list: out.reverse(), dec: D.tx.filter(t => t.type === 'TRADE_DECLINE').length };
+}
+function ltWhen(ms){ const d = new Date(ms); return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' · ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }); }
+function ltLeft(ms){ const m = Math.max(0, Math.round((ms - Date.now()) / 60e3)), h = Math.floor(m / 60); return h >= 24 ? `${Math.floor(h / 24)}d ${h % 24}h` : h ? `${h}h ${m % 60}m` : `${m}m`; }
+function ltVal(id){ const D = TR.d, p = D && typeof trPl === 'function' ? trPl(D, id) : null; return p && typeof p.rosV === 'number' ? p.rosV : null; }
+function ltSection(){
+  const L = ltL(), D = LGT.d; if (!L || !D || D.lg !== L.leagueId + ':' + L.season) return '';
+  const M = ltModel(D), me = D.me, trOk = !!(TR.d && TR.d.lg === L.leagueId + ':' + L.teamId);
+  const link = `https://fantasy.espn.com/football/team?leagueId=${encodeURIComponent(L.leagueId)}&seasonId=${encodeURIComponent(L.season)}&teamId=${encodeURIComponent(L.teamId)}`;
+  const act = `https://fantasy.espn.com/football/recentactivity?leagueId=${encodeURIComponent(L.leagueId)}`;
+  const tm = id => D.teams[id] || { name: 'Team ' + id, ab: '', logo: '' };
+  const card = t => {
+    const [a, b] = t.sides, mine = t.sides.includes(me);
+    const side = id => { const T = tm(id), got = t.it.filter(i => i.t === id), vs = got.map(i => ltVal(i.p)), tot = vs.every(v => v != null) ? vs.reduce((x, y) => x + y, 0) : null;
+      return { id, T, tot, html: `<div class="lt-sd${id === me ? ' me' : ''}"><div class="lt-tm">${T.logo ? `<img src="${esc(T.logo)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}<b>${esc(T.name)}</b>${id === me ? '<i>You</i>' : ''}</div>
+        <div class="lt-gets">gets</div><ul>${got.map((i, k) => { const tp = TR.d && typeof trPl === 'function' ? trPl(TR.d, i.p) : null, p = D.pl[i.p] && D.pl[i.p].n ? D.pl[i.p] : tp ? { n: tp.name, pos: tp.pos } : {}; return `<li><span class="lt-pn">${esc(p.n || 'Player ' + i.p)}${p.pos ? ` <small>${esc(p.pos)}</small>` : ''}</span>${vs[k] != null ? `<span class="lt-v" title="Rest-of-season points (Trade Lab)">${vs[k]} <small>pts</small></span>` : ''}</li>`; }).join('')}</ul></div>` }; };
+    const A = side(a), B = side(b);
+    let verdict = '';
+    if (t.mirror) verdict = `<div class="lt-vd rv">↩ Reversed ${esc(ltWhen(t.mirror.pd))} · rosters went back, net no change</div>`;
+    else if (t.veto) verdict = '<div class="lt-vd vt">✋ Vetoed</div>';
+    else if (A.tot != null && B.tot != null) { const d = A.tot - B.tot, w = d >= 0 ? A : B; verdict = Math.abs(d) < 3 ? '<div class="lt-vd">⚖️ Even trade by Trade Lab value</div>' : `<div class="lt-vd${w.id === me ? ' me' : ''}">📈 ${esc(w.T.name)} +${Math.abs(d)} ROS pts</div>`; }
+    else if (!trOk) verdict = '<div class="lt-vd mu">Trade Lab values loading…</div>';
+    const rv = t.rev && !t.mirror ? `<span class="lt-rv">⏳ Under review · processes in ${ltLeft(t.xd)}</span>` : '';
+    return `<article class="lt-c${mine ? ' mine' : ''}"><div class="lt-top"><span class="lt-dt">${esc(ltWhen(t.pd))}</span>${rv}${t.mirror ? '<span class="lt-tag">Reversed</span>' : ''}</div>
+      <div class="lt-sides">${A.html}<span class="lt-x" aria-hidden="true">⇄</span>${B.html}</div>${verdict}</article>`; };
+  const body = M.list.length ? `<div class="lt-grid">${M.list.map(card).join('')}</div>` : '<div class="lt-none">No trades in your league yet this season.</div>';
+  return `<section class="lt" id="ltSec"><div class="lt-note">Completed trades in your league${trOk ? ' · values are rest-of-season points from Trade Lab' : ''}. Offers sent to you stay private on ESPN, so check them there.</div>${body}
+    <div class="lt-ft"><span class="lt-dec">Declined: ${M.dec} this season</span><a class="lt-go" href="${link}" target="_blank" rel="noopener noreferrer">View my offers on ESPN →</a><a class="lt-go sub" href="${act}" target="_blank" rel="noopener noreferrer">League activity →</a></div></section>`;
+}
+function ltRender(){
+  const el = document.getElementById('fzLgTr'); if (!el) return;
+  const sp = (typeof MN !== 'undefined' && MN.fsTab) || 'nfl', h = sp === 'nfl' ? ltSection() : '';
+  if (el._h === h) return; el._h = h; el.innerHTML = h;
+}
+CZ_DEF.splice(CZ_DEF.findIndex(d => d[1] === 'trade') + 1, 0, ['watch', 'lgtr', 'fzLgTr', '🤝', 'League trades']);
+try { if (document.getElementById('czStyle')) czCss(); } catch (_) {}   // rebuild the collapse/order rules now that the section exists
+CZ_TEASE.lgtr = function(){ const D = LGT.d; if (!D || !czQ('#ltSec')) return ''; const M = ltModel(D), n = M.list.filter(t => !t.mirror && !t.veto).length, r = M.list.filter(t => t.mirror).length, u = M.list.filter(t => t.rev && !t.mirror).length;
+  return [n ? `${n} trade${n > 1 ? 's' : ''}` : (r ? '' : 'No trades yet'), r ? `${r} reversed trade${r > 1 && !n ? 's' : ''}` : '', u ? `${u} under review` : ''].filter(Boolean).join(' · '); };
+(function(){
+  const rw = renderWatchTab; renderWatchTab = function(){ const r = rw.apply(this, arguments); try { const g = document.getElementById('games'), n = document.getElementById('fzNeeds0');
+      if (g && n && !document.getElementById('fzLgTr') && n.parentElement === g) { const d = document.createElement('div'); d.id = 'fzLgTr'; const t0 = document.getElementById('fzTrade0'); (t0 && t0.parentElement === g ? t0 : n).after(d); }
+      if (MN.fsTab === 'nfl') { ltEnsure(); if (czIs('lgtr')) ltEnsureTr(); } ltRender(); } catch (e) { console.warn('league trades', e); } return r; };
+  const ao = czAfterOpen; czAfterOpen = function(keys){ if (keys.includes('lgtr')) { try { ltEnsure(); ltEnsureTr(); ltRender(); } catch (_) {} } return ao.apply(this, arguments); };
+  const trR = trRender; trRender = function(){ const r = trR.apply(this, arguments); try { ltRender(); } catch (_) {} return r; };
+})();
+</script>
+
 <script>
 /* Oct 19: boot last, after every script block above has defined its globals (see bootDashboard). */
 try { bootDashboard(); } catch (e) { sysFail('boot', e); }
