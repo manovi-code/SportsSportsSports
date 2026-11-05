@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261104-1129-league-trades">
+<meta name="build-id" content="20261104-2102-ipad-redzone-injchart">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,7 +18,7 @@
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261104-1129-league-trades';
+var BUILD_ID = '20261104-2102-ipad-redzone-injchart';
 var FIREBASE_CONFIG = { apiKey: "AIzaSyDVX8Nz5Cpm3cdEdfYKDi9iKZ3eEuEsVlY", authDomain: "sportssportssports-d2cfc.firebaseapp.com", projectId: "sportssportssports-d2cfc",
   storageBucket: "sportssportssports-d2cfc.firebasestorage.app", messagingSenderId: "566191759512", appId: "1:566191759512:web:3b5e44b2547505bf4f70ed" };
 /* ^ Oct 28: optional sign-in + sync. Set to null to turn it off completely (no SDK load, no button). Web config keys are public by design; access is locked by firestore.rules. */
@@ -4204,6 +4204,24 @@ html.tc-open{overflow:hidden}
   .lt-go{display:inline-flex;align-items:center;min-height:40px;padding:8px 14px;border-radius:999px;background:#1d4ed8;color:#fff;font-weight:700;font-size:13px;text-decoration:none}
   .lt-go.sub{background:transparent;border:1px solid #2c3b5c;color:#cfe0ff}
   @media (max-width:420px){.lt-sides{grid-template-columns:minmax(0,1fr);}.lt-x{justify-self:center;transform:rotate(90deg)}.lt-go{flex:1 1 auto;justify-content:center}}
+  /* Nov 4: iPad portrait — the tab strip wraps instead of hiding sports off to the right; root never pans sideways */
+  @media (min-width:600px){.tabs{flex-wrap:wrap;overflow-x:visible;row-gap:2px}.tabs .tab{padding:10px 14px;font-size:16px}}
+  @supports (overflow:clip){html,body{overflow-x:clip}}
+  /* 🩺 injury season chart */
+  .ic-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+  .ic-tabs button{min-height:40px;padding:8px 14px;border-radius:999px;border:1px solid #2c3b5c;background:transparent;color:var(--text,#e8eefc);font:700 13px system-ui;cursor:pointer;max-width:100%;overflow-wrap:anywhere;text-align:left}
+  .ic-tabs button.on{background:#1d4ed8;border-color:#1d4ed8;color:#fff}
+  .ic-wrap{min-width:0}
+  .ic-svg{display:block;width:100%;height:auto;max-height:200px}
+  .ic-gl{stroke:#22304b;stroke-width:1}.ic-ax{fill:#8fa2c4;font:9px system-ui}.ic-ax.now{fill:#ffd27a;font-weight:700}
+  .ic-bar{fill:#5aa9ff}.ic-band{fill:rgba(255,90,90,.16)}.ic-band.cur{fill:rgba(255,90,90,.26)}
+  .ic-bl{fill:#ff9a9a;font:700 9px system-ui}.ic-back{fill:#6ee7a8;font:700 9px system-ui}
+  .ic-bye{fill:#6f82a6;font:700 8px system-ui}.ic-dnp{fill:#ff9a9a;font:700 10px system-ui}
+  .ic-exp{stroke:#ffd27a;stroke-width:1.5;stroke-dasharray:4 3}.ic-expl{fill:#ffd27a;font:700 9px system-ui}
+  .ic-ft{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:12px;margin-top:4px}
+  .ic-ty{color:#cfe0ff}.ic-rt{color:#ffd27a}.ic-rt.unk{color:var(--muted,#9fb0cc)}.ic-rt.ok{color:#6ee7a8}
+  .ic-ld{font-size:12px;color:var(--muted,#9fb0cc)}
+  html.light .ic-gl{stroke:#d6deeb}html.light .ic-ax{fill:#5b6b88}html.light .ic-bar{fill:#2563eb}html.light .ic-ty{color:#1e3a8a}html.light .ic-rt{color:#a16207}html.light .ic-tabs button{color:#0f172a;border-color:#cbd5e1}html.light .ic-tabs button.on{color:#fff}
 </style>
 </head>
 <body>
@@ -5839,7 +5857,7 @@ async function loadInjuries(sp){
       const link = ((a.links || []).find(l => (l.rel || []).includes('playercard')) || {}).href || '';
       const athId = link.match(/\/id\/(\d+)/);
       out.push({ sp, name: a.displayName || '', athId: athId ? athId[1] : '', pos, fantasy: sp !== 'nfl' || FANTASY_POS.has(pos), team: (tm.abbreviation || '').toUpperCase(), logo: ((tm.logos || [])[0] || {}).href || '',
-        code: cc[0], cls: cc[1], status: st, comment: i.shortComment || '', date: i.date ? new Date(i.date) : null, part: (i.details || {}).type || '', link });
+        code: cc[0], cls: cc[1], status: st, comment: i.shortComment || '', date: i.date ? new Date(i.date) : null, part: (i.details || {}).type || '', det: (i.details || {}).detail || '', side: (i.details || {}).side || '', ret: /^\d{4}-\d{2}-\d{2}$/.test((i.details || {}).returnDate || '') ? i.details.returnDate : '', link });
     }
     out.sort((x, y) => (y.date || 0) - (x.date || 0));
     S.injAll = out; S.inj = out.filter(i => i.fantasy); S.src.injuries = 'ok'; S.injT = Date.now();
@@ -15917,6 +15935,133 @@ CZ_TEASE.lgtr = function(){ const D = LGT.d; if (!D || !czQ('#ltSec')) return ''
   const ao = czAfterOpen; czAfterOpen = function(keys){ if (keys.includes('lgtr')) { try { ltEnsure(); ltEnsureTr(); ltRender(); } catch (_) {} } return ao.apply(this, arguments); };
   const trR = trRender; trRender = function(){ const r = trR.apply(this, arguments); try { ltRender(); } catch (_) {} return r; };
 })();
+</script>
+
+<script>
+/* ===== Nov 4 batch: iPad portrait fit · 🔴 Red Zone only while a matchup starter is live · 🩺 Injury timeline: Mine | Opponent + season chart =====
+   Public ESPN reads only (credentials omitted). Read-only: no lineup changes, nothing sent anywhere. */
+
+/* ---------- 🔴 Red Zone entry points: shown only while a game with one of the matchup's starters (yours or your opponent's) is live ---------- */
+function rzLiveStarterGames(){ try { if (((typeof MN !== 'undefined' && MN.fsTab) || 'nfl') !== 'nfl') return 0; return rzGames().live.filter(e => e.xs.some(x => !x.bn)).length; } catch (_) { return 0; } }
+function rzShow(){ return rzLiveStarterGames() > 0; }
+gdBarHTML = function(){ const c = rzLiveStarterGames(); if (!c) return '';
+  return `<div class="gd-bar"><button type="button" class="rz-go" data-rzopen title="Open Red Zone: live games with your fantasy players">🔴 Red Zone <b>${c} live</b></button></div>`; };
+(function(){ const f = qvBarHTML; qvBarHTML = function(){ const h = f.apply(this, arguments).replace(/<button type="button" class="qv-pill rz"[^>]*>[\s\S]*?<\/button>/g, ''), c = rzLiveStarterGames();
+  return c ? h.replace(/<\/div>\s*$/, `<button type="button" class="qv-pill rz" data-rzopen title="Red Zone: live games with your fantasy players">🔴 Red Zone <b>${c}</b></button></div>`) : h; }; })();
+gdPill = function(){ const c = rzLiveStarterGames();
+  document.querySelectorAll('.qv-bar').forEach(bar => { let b = bar.querySelector('.qv-pill.rz');
+    if (!c) { if (b) b.remove(); return; }
+    if (!b) { b = document.createElement('button'); b.type = 'button'; b.className = 'qv-pill rz'; b.dataset.rzopen = ''; b.title = 'Red Zone: live games with your fantasy players'; bar.appendChild(b); }
+    const h = `🔴 Red Zone <b>${c}</b>`; if (b.innerHTML !== h) b.innerHTML = h; });
+  const gb = document.querySelector('#fzGameday > .gd-bar'); if (!!gb !== !!c) { try { gdRender(); } catch (_) {} } };
+/* live refresh cycle: re-check on every scoreboard patch and matchup refresh (already wired to gdPill/gdRender); plus a light 30s check */
+setInterval(() => { try { if (!document.hidden) gdPill(); } catch (_) {} }, 30000);
+
+/* ---------- iPad / rotation: JS-placed fixed popovers re-clamp to the new viewport ---------- */
+addEventListener('resize', () => { document.querySelectorAll('.sx-coach').forEach(c => { const W = c.offsetWidth, l = parseFloat(c.style.left) || 0, nl = Math.max(12, Math.min(innerWidth - W - 12, l)); if (nl !== l) c.style.left = nl + 'px'; }); }, { passive: true });
+
+/* ---------- 🩺 Injury timeline: Mine | Opponent, with a season chart per player ---------- */
+var IC_KEY = 'mannInjChart.v1', IC_VKEY = 'mannInjView.v1', IC = { d: null, busy: false, err: 0 };
+function icView(){ return lsGet(IC_VKEY, 'me') === 'op' ? 'op' : 'me'; }
+async function icLoad(){
+  const L = b2L(), D = MU.d && MU.d.nfl; if (!L || !D || !D.me || IC.busy) return; IC.busy = true;
+  try {
+    const s = +L.season, lg = L.leagueId + ':' + s, per = +D.per || 1;
+    const ids = [...new Set([...D.me.ps, ...(D.op ? D.op.ps : [])].filter(p => !p.dst).map(p => +p.eid).filter(x => x))];
+    let C = lsGet(IC_KEY, null); if (!C || C.lg !== lg || typeof C.ir !== 'object') C = { lg, ir: {} };
+    const wks = Array.from({ length: per }, (_, i) => i + 1);
+    const [kc, sch, irs] = await Promise.all([
+      fetchWithTimeout(efLeagueUrl('nfl', L.season, L.leagueId, 'view=kona_playercard'), 20000, { credentials: 'omit', headers: { 'X-Fantasy-Filter': JSON.stringify({ players: { filterIds: { value: ids }, filterStatsForTopScoringPeriodIds: { value: 20, additionalValue: ['00' + s] } } }) } }).then(r => r.ok ? r.json() : null).catch(() => null),
+      efJSON(`${EF_API}ffl/seasons/${L.season}?view=proTeamSchedules_wl`).catch(() => null),
+      Promise.all(wks.map(w => (w < per && Array.isArray(C.ir[w])) ? C.ir[w]
+        : efJSON(efLeagueUrl('nfl', L.season, L.leagueId, 'view=mRoster&scoringPeriodId=' + w)).then(r => (r.teams || []).flatMap(t => ((t.roster || {}).entries || []).filter(e => e.lineupSlotId === 21).map(e => String(e.playerId)))).catch(() => null)))]);
+    wks.forEach((w, i) => { if (w < per && irs[i]) C.ir[w] = irs[i]; }); try { localStorage.setItem(IC_KEY, JSON.stringify(C)); } catch (_) {}
+    const pts = {}; for (const e of (kc && kc.players) || []) { const pl = e.player || {}, w = {};
+      for (const x of pl.stats || []) if (x.statSourceId === 0 && x.statSplitTypeId === 1 && x.seasonId === s && x.scoringPeriodId >= 1 && typeof x.appliedTotal === 'number') w[x.scoringPeriodId] = r1(x.appliedTotal);
+      pts[String(pl.id)] = w; }
+    const pro = {}; for (const t of ((sch && sch.settings) || {}).proTeams || []) { const gp = t.proGamesByScoringPeriod || {}, o = {}; for (const k in gp) { const g = (gp[k] || [])[0]; if (g && g.date) o[k] = g.date; } pro[String(t.abbrev || '').toUpperCase()] = o; }
+    const ir = {}; wks.forEach((w, i) => { const a = irs[i] || C.ir[w]; if (a) ir[w] = new Set(a.map(String)); });
+    IC.d = { lg, per, pts, pro, ir, okPts: !!kc, okPro: !!sch, t: Date.now() }; IC.err = 0;
+  } catch (e) { IC.err = Date.now(); console.warn('injury chart', e && e.message); }
+  finally { IC.busy = false; try { b3Render(); } catch (_) {} }
+}
+function icEnsure(){ const D = IC.d, M = MU.d && MU.d.nfl; if ((D && M && D.per === +M.per && Date.now() - D.t < 30 * 60e3) || IC.busy || (IC.err && Date.now() - IC.err < 12e4)) return; icLoad(); }
+var IC_OUT = { OUT: 1, INJURY_RESERVE: 1, SUSPENSION: 1, PUP: 1 };
+/* one player's season: weekly points, byes, missed games, injury bands (only where ESPN/IR-slot/saved history backs it), return */
+function icModel(id, team, cur, f, hist){
+  const D = IC.d; if (!D || !D.okPts || !D.okPro) return null;
+  const P = D.pts[id] || {}, G = D.pro[String(team || '').toUpperCase()] || {}, per = D.per, now = Date.now(), ws = itWeekStart(), wk = 7 * 864e5;
+  const wStart = w => ws - (per - w) * wk;
+  const W = []; for (let w = 1; w <= per; w++) { const g = G[w], bye = !g, done = g && g < now - 4 * 3600e3, v = P[w];
+    const hs = (hist || []).filter(e => e.s !== 'ACTIVE' && e.t >= wStart(w) && e.t < wStart(w) + wk), irw = D.ir[w] && D.ir[w].has(id);
+    W.push({ w, bye, done, v: v == null ? null : v, miss: !!(done && (v == null || (v === 0 && (irw || hs.length)))), ev: irw ? 'IR' : hs.length ? (IT_LBL[hs[hs.length - 1].s] || hs[hs.length - 1].s) : '' }); }
+  // current injury: the run of missed weeks right before now belongs to the current OUT/IR status
+  const out = !!IC_OUT[cur]; if (out) { for (let i = W.length - 1; i >= 0; i--) { const x = W[i]; if (x.bye) continue; if (!x.done) { x.cur = true; continue; } if (x.miss) { x.cur = true; continue; } break; } }
+  const bands = []; let b = null;
+  W.forEach(x => { const inj = x.miss && (x.ev || x.cur) || (x.cur && !x.done); if (inj) { if (!b) { b = { a: x.w, z: x.w, lbl: x.cur ? (IT_LBL[cur] || cur) : x.ev, cur: !!x.cur }; bands.push(b); } else { b.z = x.w; if (x.cur) { b.cur = true; b.lbl = IT_LBL[cur] || cur; } } } else if (!x.bye) b = null; });
+  bands.forEach(bd => { if (bd.cur) return; const nx = W.find(x => x.w > bd.z && !x.bye && x.done && x.v != null && !x.miss); if (nx) bd.back = nx.w; });
+  let exp = null; if (out && f && f.ret) { const t = Date.parse(f.ret + 'T12:00:00Z'); if (isFinite(t)) exp = { t, w: per + Math.floor((t - ws) / wk) }; }
+  return { W, bands, exp, out, per };
+}
+function icChart(m, cur){
+  if (!m) return ''; const last = Math.min(18, Math.max(m.per, m.exp && m.exp.w <= 18 ? m.exp.w : 0)), n = last;
+  const VW = 360, VH = 150, L = 26, R = 8, T = 20, B = 24, cw = (VW - L - R) / n, top = Math.max(10, ...m.W.map(x => x.v || 0)), ymax = Math.ceil(top / 10) * 10, y = v => T + (VH - T - B) * (1 - v / ymax), x0 = w => L + (w - 1) * cw;
+  let g = '';
+  for (const v of [0, ymax / 2, ymax]) g += `<line x1="${L}" x2="${VW - R}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}" class="ic-gl"/><text x="${L - 4}" y="${(y(v) + 3).toFixed(1)}" class="ic-ax" text-anchor="end">${v}</text>`;
+  m.bands.forEach(b => { const a = x0(b.a), z = x0(b.z) + cw; g += `<rect x="${a.toFixed(1)}" y="${T - 12}" width="${(z - a).toFixed(1)}" height="${VH - B - T + 12}" class="ic-band${b.cur ? ' cur' : ''}"/><text x="${((a + z) / 2).toFixed(1)}" y="${T - 3}" class="ic-bl" text-anchor="middle">${esc(b.lbl || 'Out')}</text>`;
+    if (b.back) { const bx = x0(b.back) + cw / 2; g += `<text x="${bx.toFixed(1)}" y="${T - 3}" class="ic-back" text-anchor="middle">Back</text>`; } });
+  for (const x of m.W) { const cx = x0(x.w) + cw / 2, bw = Math.max(4, cw * .62);
+    if (x.bye) g += `<text x="${cx.toFixed(1)}" y="${(VH - B - 4).toFixed(1)}" class="ic-bye" text-anchor="middle">BYE</text>`;
+    else if (x.v != null && !x.miss) g += `<rect x="${(cx - bw / 2).toFixed(1)}" y="${y(Math.max(0, x.v)).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1, VH - B - y(Math.max(0, x.v))).toFixed(1)}" rx="2" class="ic-bar"><title>Week ${x.w}: ${x.v} pts</title></rect>`;
+    else if (x.done) g += `<text x="${cx.toFixed(1)}" y="${(VH - B - 4).toFixed(1)}" class="ic-dnp" text-anchor="middle">${x.miss && (x.ev || x.cur) ? '✕' : '–'}</text>`; }
+  if (m.exp && m.exp.w <= 18 && m.exp.w >= 1) { const ex = x0(m.exp.w) + cw / 2; g += `<line x1="${ex.toFixed(1)}" x2="${ex.toFixed(1)}" y1="${T - 12}" y2="${VH - B}" class="ic-exp"/><text x="${Math.min(VW - R - 2, ex + 3).toFixed(1)}" y="${T + 8}" class="ic-expl" text-anchor="${ex > VW - 60 ? 'end' : 'start'}">exp.</text>`; }
+  const step = n > 12 ? 2 : 1; for (let w = 1; w <= n; w++) if (w === 1 || w === n || w % step === 0) g += `<text x="${(x0(w) + cw / 2).toFixed(1)}" y="${VH - 8}" class="ic-ax${w === m.per ? ' now' : ''}" text-anchor="middle">${w}</text>`;
+  return `<svg class="ic-svg" viewBox="0 0 ${VW} ${VH}" role="img" aria-label="Weekly fantasy points, weeks 1 to ${n}${m.bands.length ? ', injury periods shaded' : ''}">${g}</svg>`;
+}
+function icFoot(m, f, cur){
+  const ty = f ? [f.part, f.det, f.side].filter(x => x && !/^not specified$/i.test(x)).join(' · ') : '', bits = [];
+  if (ty) bits.push(`<span class="ic-ty">${esc(IT_LBL[cur] || cur)} · ${esc(ty)}</span>`);
+  if (m && m.out) { if (m.exp) { const d = new Date(m.exp.t), ds = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' }) + (d.getUTCFullYear() !== new Date().getFullYear() ? ', ' + d.getUTCFullYear() : '');
+      bits.push(`<span class="ic-rt">Expected return: ${esc(ds)} (ESPN)${m.exp.w > 18 ? ' · after the regular season' : m.exp.w > m.per ? ` · about week ${m.exp.w}` : ' · this week'}</span>`); }
+    else bits.push('<span class="ic-rt unk">Return date unknown</span>'); }
+  const back = m ? m.bands.filter(b => b.back).map(b => b.back) : []; if (back.length) bits.push(`<span class="ic-rt ok">Returned week ${back.join(', ')}</span>`);
+  return bits.length ? `<div class="ic-ft">${bits.join('')}</div>` : '';
+}
+itPlayers = function(){ const D = MU.d && MU.d.nfl, out = new Map();
+  if (D && D.me) for (const p of D.me.ps) if (!p.dst) out.set(String(p.eid), { p, src: 'roster' });
+  try { for (const p of watchList('nfl')) { const id = String(p.eid || p.id); if (!out.has(id) && !p.dst && !/^dst-/.test(id)) out.set(id, { p, src: 'watch' }); } } catch (_) {}
+  if (D && D.op) for (const p of D.op.ps) { const id = String(p.eid); if (!p.dst && !out.has(id)) out.set(id, { p, src: 'opp' }); }
+  return [...out.entries()]; };
+itHTML = function(){
+  const L = b2L(); if (!L) return '';
+  const T = itSnap(), all = itPlayers(); if (!T || !all.length) return '';
+  const D = MU.d && MU.d.nfl, op = D && D.op, v = op ? icView() : 'me', opIds = new Set(op ? op.ps.map(p => String(p.eid)) : []);
+  const ps = all.filter(([id, x]) => v === 'op' ? opIds.has(id) : x.src !== 'opp').map(([id, x]) => [id, v === 'op' ? { ...x, src: 'opp' } : x]);
+  icEnsure();
+  const S = fsS('nfl'), feed = (S && S.injAll) || [];
+  const ws = itWeekStart(), when = t => `${etFmt(new Date(t), { weekday: 'short' })} ${timeET(new Date(t)).replace(' ET', '')}`;
+  const rows = [], healthy = [], who = v === 'op' ? esc(op.name) : '';
+  for (const [id, x] of ps) { const h = T[id] || [], cur = h[h.length - 1]; if (!cur) continue;
+    const wk = h.filter(e => e.t >= ws), first = (wk[0] && h.indexOf(wk[0]) > 0 ? h[h.indexOf(wk[0]) - 1] : wk[0]) || cur;
+    if (cur.s === 'ACTIVE' && !wk.some(e => e.s !== 'ACTIVE')) { healthy.push(x.p); continue; }
+    const a = IT_SEV[first.s] ?? 1, b = IT_SEV[cur.s] ?? 1, f = feed.find(i => i.athId === id) || null;
+    const trend = cur.s === 'ACTIVE' ? ['up', 'Cleared: no injury designation'] : b < a ? ['up', 'Trending to play'] : b > a ? ['dn', 'Trending toward sitting'] : ['', `No change since ${when(itSince(h))}`];
+    const chain = (wk.length ? (first !== wk[0] ? [first, ...wk] : wk) : [cur]).slice(-6), m = icModel(id, x.p.team, cur.s, f, h);
+    rows.push({ sev: b, html: `<article class="it-c ${trend[0]}"><div class="it-id"${psAttr(x.p)} role="button" tabindex="0">${b2Img(x.p.headshot)}<span><b>${esc(x.p.short || x.p.name)}</b><i>${esc(x.p.pos)} · ${esc(x.p.team)} · ${x.src === 'watch' ? 'Watch list' : x.src === 'opp' ? who : 'Your roster'}</i></span><span class="it-st s${b}">${esc(IT_LBL[cur.s] || cur.s)}</span></div>
+      <div class="it-tr ${trend[0]}">${trend[0] === 'up' ? '↗ ' : trend[0] === 'dn' ? '↘ ' : ''}${esc(trend[1])}</div>
+      ${cur.n ? `<div class="it-n">${esc(cur.n)}</div>` : ''}
+      ${m ? `<div class="ic-wrap">${icChart(m, cur.s)}${icFoot(m, f, cur.s)}</div>` : (IC.busy || !IC.d ? '<div class="ic-ld">Loading season chart…</div>' : '')}
+      <div class="it-tl">${chain.map((e, i) => `${i ? '<span class="it-ar" aria-hidden="true">→</span>' : ''}<span class="it-e s${IT_SEV[e.s] ?? 1}" title="Seen ${esc(when(e.t))}${e.e ? ` · ESPN updated ${esc(when(e.e))}` : ''}${e.n ? ' · ' + esc(e.n) : ''}"><b>${esc(IT_LBL[e.s] || e.s)}</b><i>${esc(when(e.e || e.t))}</i></span>`).join('')}</div></article>` }); }
+  rows.sort((a, b) => b.sev - a.sev);
+  const tabs = op ? `<div class="ic-tabs" role="tablist" aria-label="Whose injuries"><button type="button" role="tab" data-itv="me" aria-selected="${v === 'me'}" class="${v === 'me' ? 'on' : ''}">Mine</button><button type="button" role="tab" data-itv="op" aria-selected="${v === 'op'}" class="${v === 'op' ? 'on' : ''}">Opponent · ${esc(op.name)}</button></div>` : '';
+  const scope = v === 'op' ? `${esc(op.name)}'s roster` : 'Your roster + watch list';
+  return `<section class="b2 it" id="itSec" data-itv="${v}"><div class="b2-h"><b>🩺 Injury timeline</b><small>${scope} · ESPN injury status + weekly fantasy points</small></div>${tabs}
+    ${rows.length ? `<div class="it-grid">${rows.map(r => r.html).join('')}</div>` : `<div class="b2-ld">No injury designations on ${v === 'op' ? esc(op.name) + "'s roster" : 'your roster or watch list'} right now.</div>`}
+    ${healthy.length ? `<div class="b2-foot">No designation: ${healthy.map(p => esc(p.short || p.name)).join(', ')}</div>` : ''}
+    <div class="b2-foot">Chart: weekly fantasy points from your ESPN league. Shaded = missed games backed by ESPN's current status, the league's IR slot that week, or a status this device saved. ✕ = missed while injured · – = no stats (reason not in ESPN's data) · BYE = team off. Expected return dates are ESPN's own; none are estimated here.</div></section>`;
+};
+addEventListener('click', e => { const t = e.target && e.target.closest ? e.target.closest('#itSec [data-itv]') : null; if (!t || t.tagName !== 'BUTTON') return;
+  e.preventDefault(); lsSet(IC_VKEY, t.dataset.itv === 'op' ? 'op' : 'me'); try { b3Render(); } catch (_) {} });
 </script>
 
 <script>
