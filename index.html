@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261108-0405-game-detail">
+<meta name="build-id" content="20261118-1518-cleanup-speed">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,7 +18,7 @@
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261108-0405-game-detail';
+var BUILD_ID = '20261118-1518-cleanup-speed';
 var FIREBASE_CONFIG = { apiKey: "AIzaSyDVX8Nz5Cpm3cdEdfYKDi9iKZ3eEuEsVlY", authDomain: "sportssportssports-d2cfc.firebaseapp.com", projectId: "sportssportssports-d2cfc",
   storageBucket: "sportssportssports-d2cfc.firebasestorage.app", messagingSenderId: "566191759512", appId: "1:566191759512:web:3b5e44b2547505bf4f70ed" };
 /* ^ Oct 28: optional sign-in + sync. Set to null to turn it off completely (no SDK load, no button). Web config keys are public by design; access is locked by firestore.rules. */
@@ -4264,6 +4264,32 @@ html.tc-open{overflow:hidden}
   .ic-ty{color:#cfe0ff}.ic-rt{color:#ffd27a}.ic-rt.unk{color:var(--muted,#9fb0cc)}.ic-rt.ok{color:#6ee7a8}
   .ic-ld{font-size:12px;color:var(--muted,#9fb0cc)}
   html.light .ic-gl{stroke:#d6deeb}html.light .ic-ax{fill:#5b6b88}html.light .ic-bar{fill:#2563eb}html.light .ic-ty{color:#1e3a8a}html.light .ic-rt{color:#a16207}html.light .ic-tabs button{color:#0f172a;border-color:#cbd5e1}html.light .ic-tabs button.on{color:#fff}
+  /* Nov 18: equal-height Spin-it panels/tiles in a row */
+  .sx-grid{align-items:stretch}
+  .sx-grid>.sx-stage{height:100%;display:flex;flex-direction:column;justify-content:center;min-height:0}
+  .sx-side{display:flex;flex-direction:column;gap:12px;min-width:0;height:100%;min-height:0}
+  .sx-side>.sx-pnl{flex:1 1 auto}
+  .sx-parts,.sx-kv{align-items:stretch}
+  .sx-parts>div,.sx-kv>div{height:100%;box-sizing:border-box}
+  .st-hd{align-items:stretch;min-height:56px}
+  .st-hd>*{display:flex;align-items:center}
+  /* Trade Lab: no nested list scrollbar on desktop (or anywhere) */
+  .tr-list,html.lab-full .tr-list{max-height:none!important;overflow:visible!important;overscroll-behavior:auto!important}
+  /* Team needs: stacked cards on phones, no sideways table scroll */
+  .nd-cards{display:none}
+  @media (max-width:520px){
+    .nd-wrap{display:none}
+    .nd-cards{display:flex;flex-direction:column;gap:8px;min-width:0}
+    .nd-card{min-width:0;padding:10px;border-radius:12px;border:1px solid #2a3756;background:#0e1626}
+    .nd-card.me{box-shadow:inset 3px 0 0 var(--accent,#ff8a00)}
+    .nd-card h4{margin:0 0 2px;font-size:14px}
+    .nd-card>p{margin:0 0 8px;font-size:11px;color:var(--muted,#9fb0cc)}
+    .nd-pos{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+    .nd-pos .nd-c{min-width:0;border-radius:8px;padding:6px 8px;text-align:left}
+    .nd-det{margin-top:8px}
+  }
+  .badge-live.cached,.gr-live.cached,.tk-livebadge.cached,.lv.cached{background:#5a6a88;animation:none;letter-spacing:.02em}
+  #updated.cached{opacity:.9}
 </style>
 </head>
 <body>
@@ -9671,8 +9697,13 @@ function ndSection(sp){
   const sum = t => { const N = NX[t.id], n = list(N, 'need'), s = list(N, 'sur'); return [n.length ? 'Needs ' + n.join('/') : '', s.length ? 'Spare ' + s.join('/') : ''].filter(Boolean).join(' · ') || 'Balanced'; };
   const rows = teams.map(t => { const o = TR.ui.ndo.includes(t.id), isMe = t.id === D.me;
     return `<tr class="nd-r${isMe ? ' me' : ''}" data-trn="t:${esc(t.id)}" tabindex="0" role="button" aria-expanded="${o}"><th scope="row"><b>${esc(t.name)}${isMe ? ' (you)' : ''}</b><i>${esc(sum(t))}</i></th>${pos.map(p => cell(NX[t.id][p])).join('')}</tr>${o ? detail(t) : ''}`; }).join('');
+  const cardCell = x => cell(x).replace(/^<td\b/, '<div').replace(/<\/td>$/, '</div>');
+  const cards = teams.map(t => { const o = TR.ui.ndo.includes(t.id), isMe = t.id === D.me;
+    const det = o ? detail(t).replace(/^<tr class="nd-d"><td colspan="[^"]*">/, '<div class="nd-det">').replace(/<\/td><\/tr>$/, '</div>') : '';
+    return `<article class="nd-card${isMe ? ' me' : ''}" data-trn="t:${esc(t.id)}" tabindex="0" role="button" aria-expanded="${o}"><h4>${esc(t.name)}${isMe ? ' (you)' : ''}</h4><p>${esc(sum(t))}</p><div class="nd-pos">${pos.map(p => cardCell(NX[t.id][p])).join('')}</div>${det}</article>`; }).join('');
   return wrap(`<div class="nd-lg"><i><span class="nd-c need" style="padding:0 6px;border-radius:6px"><em style="display:inline">NEED</em></span> below avg starter</i><i><span class="nd-c sur" style="padding:0 6px;border-radius:6px"><em style="display:inline">SURPLUS</em></span> startable bench depth</i><i>Numbers: starters' expected pts/g vs the league-average starter</i><i>Tap a team for details</i></div>
     <div class="nd-wrap"><table class="nd-t"><thead><tr><th>Team</th>${pos.map(p => `<th>${p}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>
+    <div class="nd-cards">${cards}</div>
     <div class="tb-foot">All from ESPN: rosters, projections, season and last-3 points, injury status and bye weeks. Expected pts/g blends ESPN projection, season PPG and last 3 (same as Trade Lab). Analysis only.</div>`);
 }
 function ndRender(sp){ const el = document.getElementById('fzNeeds0'); if (!el) return; const h = ndSection(sp); if (el._h === h) return; el._h = h; el.innerHTML = h; }
@@ -16213,6 +16244,126 @@ itHTML = function(){
 };
 addEventListener('click', e => { const t = e.target && e.target.closest ? e.target.closest('#itSec [data-itv]') : null; if (!t || t.tagName !== 'BUTTON') return;
   e.preventDefault(); lsSet(IC_VKEY, t.dataset.itv === 'op' ? 'op' : 'me'); try { b3Render(); } catch (_) {} });
+</script>
+
+<script>
+/* ===== Nov 18: cleanup + faster loads. Cache last good ESPN / Open-Meteo payloads, paint instantly, refresh in the background.
+   Cached live scores are labeled "Cached", never shown as LIVE. Public reads only; no cookies, no writes to ESPN. ===== */
+var NETC_LS = 'mannNetCache.v1', NETC_MAX = 1.8e6, NETC_TTL = { live: 20 * 60e3, def: 6 * 36e5, fresh: 20e3 };
+var NETC = { mem: new Map(), paintCached: false, bg: 0, t: 0, hyd: null, oldest: 0 };
+function netcLiveUrl(u){ return /\/scoreboard|\/scoreboard\?|\/summary\?event=/.test(u); }
+function netcPeek(u){ const x = NETC.mem.get(u); return x && x.data != null ? x : null; }
+function netcHydrate(){
+  try { const C = JSON.parse(localStorage.getItem(NETC_LS) || 'null');
+    if (C && C.e) for (const u in C.e) { const it = C.e[u]; if (it && it.d != null && it.t) NETC.mem.set(u, { t: it.t, data: it.d }); }
+  } catch (_) {}
+  try { const req = indexedDB.open('mannNetCache', 1);
+    req.onupgradeneeded = ev => ev.target.result.createObjectStore('j');
+    NETC.hyd = new Promise(res => { req.onerror = () => res(); req.onsuccess = ev => { const db = ev.target.result, tx = db.transaction('j', 'readonly'), st = tx.objectStore('j');
+      const g = st.getAllKeys(); g.onsuccess = () => { const keys = g.result || [], n = keys.length; if (!n) return res(); let i = 0; keys.forEach(k => { const r = st.get(k); r.onsuccess = () => { const v = r.result; if (v && v.t && v.d != null && !NETC.mem.has(k)) NETC.mem.set(k, { t: v.t, data: v.d }); if (++i >= n) res(); }; r.onerror = () => { if (++i >= n) res(); }; }); };
+      tx.oncomplete = () => {}; tx.onerror = () => res(); db.close(); }; });
+  } catch (_) { NETC.hyd = Promise.resolve(); }
+}
+function netcSave(u, data){
+  const rec = { t: Date.now(), data }; NETC.mem.set(u, rec);
+  let raw; try { raw = JSON.stringify(data); } catch (_) { return; }
+  if (raw.length > 400000) { netcIdb(u, rec); return; }
+  try { const C = JSON.parse(localStorage.getItem(NETC_LS) || '{"e":{}}'); if (!C.e) C.e = {}; C.e[u] = { t: rec.t, d: data };
+    let s = JSON.stringify(C);
+    while (s.length > NETC_MAX) { const ks = Object.keys(C.e).sort((a, b) => C.e[a].t - C.e[b].t); if (!ks.length) break; delete C.e[ks[0]]; s = JSON.stringify(C); }
+    localStorage.setItem(NETC_LS, s);
+  } catch (_) { try { netcIdb(u, rec); } catch (e) {} }
+}
+function netcIdb(u, rec){ try { const req = indexedDB.open('mannNetCache', 1); req.onupgradeneeded = ev => ev.target.result.createObjectStore('j');
+    req.onsuccess = ev => { const db = ev.target.result, tx = db.transaction('j', 'readwrite'); tx.objectStore('j').put({ t: rec.t, d: rec.data }, u); tx.oncomplete = () => db.close(); tx.onerror = () => db.close(); }; } catch (_) {} }
+function netcStamp(data, t){ try { if (data && typeof data === 'object') Object.defineProperty(data, '__cachedAt', { value: t, enumerable: false, configurable: true }); } catch (_) {} return data; }
+function netcAgo(t){ const m = Math.max(0, Math.round((Date.now() - t) / 60000)); return !t ? '' : m < 1 ? 'just now' : m < 60 ? m + ' min ago' : (Math.round(m / 60) + ' hr ago'); }
+function netcBar(refreshing){
+  const el = document.getElementById('updated'); if (!el) return;
+  const ts = [...NETC.mem.values()].map(x => x.t); const t = ts.length ? Math.max(...ts) : 0;
+  if (NETC.paintCached && t) { el.textContent = (refreshing ? 'Updating… · was ' : 'Updated ') + netcAgo(t); el.classList.add('cached'); el.title = 'Showing the last saved ESPN data while a fresh fetch runs'; }
+  else { el.classList.remove('cached'); }
+}
+function netcFixLive(root){
+  if (!NETC.paintCached) return;
+  (root || document).querySelectorAll('.badge-live:not(.cached), .gr-live:not(.cached), .tk-livebadge:not(.cached)').forEach(el => {
+    el.classList.add('cached'); el.title = 'From a saved fetch, not a live update';
+    if (/^LIVE$/.test((el.textContent || '').trim())) el.textContent = 'CACHED';
+  });
+  (root || document).querySelectorAll('.lv').forEach(el => { if (/LIVE/.test(el.textContent || '')) { el.classList.add('cached'); el.textContent = (el.textContent || '').replace('LIVE', 'CACHED'); } });
+}
+function netcMarkGames(){
+  if (!NETC.paintCached || typeof state === 'undefined') return;
+  const mark = g => { if (g && g.state === 'in') g.cachedLive = true; };
+  Object.values(state.games || {}).forEach(a => (a || []).forEach(mark));
+  Object.values(state.ind || {}).forEach(a => (a || []).forEach(e => { mark(e); (e.fights || e.sessions || []).forEach(mark); }));
+}
+function netcApplyBoards(){
+  if (typeof CAT === 'undefined' || typeof scoreboardUrls !== 'function' || typeof parseEvent !== 'function') return 0;
+  let n = 0, oldest = 0;
+  const lgs = typeof LEAGUES !== 'undefined' ? Object.keys(LEAGUES) : [];
+  for (const lg of lgs) { const L = CAT[lg]; if (!L) continue;
+    const evs = new Map(); let t0 = 0;
+    for (const u of scoreboardUrls(L)) { const c = netcPeek(u); if (!c || !c.data) continue; t0 = t0 ? Math.min(t0, c.t) : c.t;
+      (c.data.events || []).forEach(ev => evs.set(ev.id, ev)); }
+    if (!evs.size) continue; n += evs.size; oldest = oldest ? Math.min(oldest, t0) : t0;
+    const list = [...evs.values()];
+    if (L.kind === 'team') state.games[lg] = list.map(ev => parseEvent(ev, lg)).sort((a, b) => a.date - b.date);
+    else { state.ind[lg] = list.map(ev => (PARSERS[L.kind] || parseEvent)(ev, lg)).sort((a, b) => a.date - b.date); state.games[lg] = []; }
+    if (!state.fetchT) state.fetchT = {}; if (!state.fetchT[lg]) state.fetchT[lg] = t0;
+  }
+  if (n) { NETC.paintCached = true; NETC.oldest = oldest; netcMarkGames(); }
+  return n;
+}
+function netcPaintFresh(){
+  if (!NETC.bg) return;
+  NETC.paintCached = false;
+  try { renderAllSafe('netc'); } catch (_) {}
+  try { if (typeof muRender === 'function') muRender((MN && MN.fsTab) || 'nfl'); } catch (_) {}
+  try { if (typeof renderTicker === 'function') renderTicker(); } catch (_) {}
+  const el = document.getElementById('updated');
+  if (el && !/Updating/.test(el.textContent || '')) { el.classList.remove('cached'); el.textContent = 'Last updated ' + (typeof etFmt === 'function' ? etFmt(new Date(), { hour: 'numeric', minute: '2-digit', second: '2-digit' }) + ' ET' : new Date().toLocaleTimeString()); }
+}
+async function netcJson(orig, url, timeoutMs, opts){
+  const cached = netcPeek(url), age = cached ? Date.now() - cached.t : 1e15, live = netcLiveUrl(url), ttl = live ? NETC_TTL.live : NETC_TTL.def;
+  const go = () => orig(url, timeoutMs).then(d => { netcSave(url, d); return structuredClone(d); });
+  if (cached && age < NETC_TTL.fresh) return netcStamp(structuredClone(cached.data), cached.t);
+  if (cached && age < ttl) {
+    NETC.paintCached = true;
+    go().then(d => { NETC.bg++; clearTimeout(NETC.t); NETC.t = setTimeout(() => { NETC.bg = 0; netcPaintFresh(); }, 80); }).catch(() => {});
+    return netcStamp(structuredClone(cached.data), cached.t);
+  }
+  try { return await go(); }
+  catch (e) { if (cached) { NETC.paintCached = true; return netcStamp(structuredClone(cached.data), cached.t); } throw e; }
+}
+netcHydrate();
+if (typeof getJSON === 'function') { const _gj = getJSON; getJSON = function(url, ms){ return netcJson(_gj, url, ms); }; }
+if (typeof efJSON === 'function') { const _ef = efJSON; efJSON = async function(url){ const cached = netcPeek(url), age = cached ? Date.now() - cached.t : 1e15;
+  const go = () => _ef(url).then(d => { netcSave(url, d); return d; });
+  if (cached && age < NETC_TTL.fresh) return netcStamp(structuredClone(cached.data), cached.t);
+  if (cached && age < NETC_TTL.def) { go().catch(() => {}); return netcStamp(structuredClone(cached.data), cached.t); }
+  try { return await go(); } catch (e) { if (cached) return netcStamp(structuredClone(cached.data), cached.t); throw e; } }; }
+if (typeof fetchWithTimeout === 'function') { const _ft = fetchWithTimeout; fetchWithTimeout = async function(url, ms, opts){
+  const want = !opts || (!opts.headers && (opts.method || 'GET') === 'GET');
+  if (!want || typeof url !== 'string' || !/open-meteo\.com/.test(url)) return _ft(url, ms, opts);
+  const cached = netcPeek(url);
+  if (cached && Date.now() - cached.t < 60 * 60e3) return new Response(JSON.stringify(cached.data), { status: 200, headers: { 'Content-Type': 'application/json' } });
+  const r = await _ft(url, ms, opts);
+  if (r && r.ok) { try { const c = r.clone(), d = await c.json(); netcSave(url, d); } catch (_) {} }
+  return r; }; }
+if (typeof parseEvent === 'function') { const _pe = parseEvent; parseEvent = function(ev, lg){ const g = _pe(ev, lg); if (NETC.paintCached && g && g.state === 'in') g.cachedLive = true; return g; }; }
+if (typeof renderAllSafe === 'function') { const _ra = renderAllSafe; renderAllSafe = function(){ const r = _ra.apply(this, arguments); try { netcFixLive(); if (NETC.paintCached) netcBar(/Updating/.test((document.getElementById('updated') || {}).textContent || '')); } catch (_) {} return r; }; }
+if (typeof bootDashboard === 'function') { const _boot = bootDashboard; bootDashboard = function(){ if (bootDashboard.done) return; try { netcApplyBoards(); } catch (e) { console.warn('netc boot', e); } return _boot.apply(this, arguments); }; }
+if (typeof refresh === 'function') { const _rf = refresh; refresh = async function(force){ const r = await _rf.apply(this, arguments); try { if (!NETC.paintCached) { const el = document.getElementById('updated'); if (el) el.classList.remove('cached'); } else netcBar(false); } catch (_) {} return r; }; }
+if (typeof rzGames === 'function') { const _rz = rzGames; rzGames = function(){ const r = _rz.apply(this, arguments); if (!r || !r.live) return r; return { ...r, live: r.live.filter(e => !(e.g && e.g.cachedLive)) }; }; }
+function czWant(){ try { return [...arguments].some(k => czIs(k)); } catch (_) { return true; } }
+if (typeof b3EnsureLeague === 'function') { const f = b3EnsureLeague; b3EnsureLeague = function(){ if (!((typeof B3 !== 'undefined' && B3.lg) || czWant('odds', 'power', 'bye', 'inj'))) return; return f.apply(this, arguments); }; }
+if (typeof b3EnsurePro === 'function') { const f = b3EnsurePro; b3EnsurePro = function(){ if (!((typeof B3 !== 'undefined' && B3.pro) || czWant('bye'))) return; return f.apply(this, arguments); }; }
+if (typeof ensureRv === 'function') { const f = ensureRv; ensureRv = function(){ if (typeof B2 !== 'undefined' && B2.rv) return f.apply(this, arguments); if (!czWant('rivals', 'recap', 'gems')) return; return f.apply(this, arguments); }; }
+/* wxRender also mounts #fzWx (the collapsed header). Never skip it; Open-Meteo still only runs via wxLoad when a venue is needed. */
+if (typeof icEnsure === 'function') { const f = icEnsure; icEnsure = function(){ if (typeof czIs === 'function' && !czIs('inj') && !(typeof IC !== 'undefined' && IC.d)) return; return f.apply(this, arguments); }; }
+if (typeof ltEnsure === 'function') { const f = ltEnsure; ltEnsure = function(){ if (typeof czIs === 'function' && !czIs('lgtr') && !(typeof LGT !== 'undefined' && LGT.d)) return; return f.apply(this, arguments); }; }
+try { if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {}); } catch (_) {}
 </script>
 
 <script>
