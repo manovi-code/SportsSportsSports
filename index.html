@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="build-id" content="20261118-1518-cleanup-speed">
+<meta name="build-id" content="20261121-2145-tap-live">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,7 +18,7 @@
 <script>
 /* Oct 19 hardening: build id + one global safety net. Any uncaught startup/runtime error from this page shows a small dismissible
    "Something failed to load · Reload" chip (no stack traces on screen) and logs the details with console.error. */
-var BUILD_ID = '20261118-1518-cleanup-speed';
+var BUILD_ID = '20261121-2145-tap-live';
 var FIREBASE_CONFIG = { apiKey: "AIzaSyDVX8Nz5Cpm3cdEdfYKDi9iKZ3eEuEsVlY", authDomain: "sportssportssports-d2cfc.firebaseapp.com", projectId: "sportssportssports-d2cfc",
   storageBucket: "sportssportssports-d2cfc.firebasestorage.app", messagingSenderId: "566191759512", appId: "1:566191759512:web:3b5e44b2547505bf4f70ed" };
 /* ^ Oct 28: optional sign-in + sync. Set to null to turn it off completely (no SDK load, no button). Web config keys are public by design; access is locked by firestore.rules. */
@@ -4288,8 +4288,23 @@ html.tc-open{overflow:hidden}
     .nd-pos .nd-c{min-width:0;border-radius:8px;padding:6px 8px;text-align:left}
     .nd-det{margin-top:8px}
   }
-  .badge-live.cached,.gr-live.cached,.tk-livebadge.cached,.lv.cached{background:#5a6a88;animation:none;letter-spacing:.02em}
-  #updated.cached{opacity:.9}
+  .badge-live.stale,.gr-live.stale,.tk-livebadge.stale,.lv.stale,.lv-badge.stale,.lv-chip.stale{background:#5a6a88;animation:none;letter-spacing:.02em}
+  .badge-live.stale,.gr-live.stale,.tk-livebadge.stale{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  .tap-live{appearance:none;-webkit-appearance:none;display:inline-flex;align-items:center;justify-content:center;gap:5px;margin:0;border:0;border-radius:999px;padding:6px 10px;min-height:32px;font:700 12px/1.1 system-ui,sans-serif;letter-spacing:.02em;color:#0e1626;background:#ffd36a;cursor:pointer;white-space:nowrap;vertical-align:middle;flex:none}
+  .tap-live:hover,.tap-live:focus-visible{outline:2px solid #ffd36a;outline-offset:2px;filter:brightness(1.06)}
+  .tap-live:disabled,.tap-live.busy{opacity:.9;cursor:progress}
+  .tap-live-spin{width:12px;height:12px;border:2px solid rgba(14,22,38,.28);border-top-color:#0e1626;border-radius:50%;animation:tapLiveSpin .7s linear infinite;flex:none}
+  @keyframes tapLiveSpin{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.tap-live-spin{animation:none}}
+  .section-title>.tap-live,.gr-h>.tap-live{margin-left:8px;text-transform:none;letter-spacing:0;font-weight:800}
+  .card-top>.tap-live,.gr-stl>.tap-live,.tk-status>.tap-live{margin-left:6px;min-height:28px;padding:4px 8px;font-size:11px}
+  #updated.stale{opacity:.9}
+  .ft-slot.live.stale,.ft-card.is-live.stale,.fl-line.is-live.stale{animation:none!important;box-shadow:none}
+  .ft-slot.live.stale{border-color:#5a6a88;background:var(--panel2)}
+  .ft-slot.live.stale .ft-lbl{color:var(--muted)}
+  .ft-slot.live.stale .dotl{animation:none;background:#5a6a88}
+  .fp-live.stale,.lv.stale{color:var(--muted);animation:none}
+
 </style>
 </head>
 <body>
@@ -16249,7 +16264,7 @@ addEventListener('click', e => { const t = e.target && e.target.closest ? e.targ
 <script>
 /* ===== Nov 18: cleanup + faster loads. Cache last good ESPN / Open-Meteo payloads, paint instantly, refresh in the background.
    Cached live scores are labeled "Cached", never shown as LIVE. Public reads only; no cookies, no writes to ESPN. ===== */
-var NETC_LS = 'mannNetCache.v1', NETC_MAX = 1.8e6, NETC_TTL = { live: 20 * 60e3, def: 6 * 36e5, fresh: 20e3 };
+var NETC_LS = 'mannNetCache.v1', NETC_MAX = 4e6, NETC_TTL = { live: 20 * 60e3, def: 6 * 36e5, fresh: 20e3 };
 var NETC = { mem: new Map(), paintCached: false, bg: 0, t: 0, hyd: null, oldest: 0 };
 function netcLiveUrl(u){ return /\/scoreboard|\/scoreboard\?|\/summary\?event=/.test(u); }
 function netcPeek(u){ const x = NETC.mem.get(u); return x && x.data != null ? x : null; }
@@ -16260,17 +16275,35 @@ function netcHydrate(){
   try { const req = indexedDB.open('mannNetCache', 1);
     req.onupgradeneeded = ev => ev.target.result.createObjectStore('j');
     NETC.hyd = new Promise(res => { req.onerror = () => res(); req.onsuccess = ev => { const db = ev.target.result, tx = db.transaction('j', 'readonly'), st = tx.objectStore('j');
-      const g = st.getAllKeys(); g.onsuccess = () => { const keys = g.result || [], n = keys.length; if (!n) return res(); let i = 0; keys.forEach(k => { const r = st.get(k); r.onsuccess = () => { const v = r.result; if (v && v.t && v.d != null && !NETC.mem.has(k)) NETC.mem.set(k, { t: v.t, data: v.d }); if (++i >= n) res(); }; r.onerror = () => { if (++i >= n) res(); }; }); };
+      const g = st.getAllKeys(); g.onsuccess = () => { const keys = g.result || [], n = keys.length; if (!n) return res(); let i = 0; keys.forEach(k => { const r = st.get(k); r.onsuccess = () => { const v = r.result; if (v && v.t && v.d != null && !NETC.mem.has(k)) NETC.mem.set(k, { t: v.t, data: v.d }); if (++i >= n) { try { netcAfterHyd(); } catch (_) {} res(); } }; r.onerror = () => { if (++i >= n) res(); }; }); };
       tx.oncomplete = () => {}; tx.onerror = () => res(); db.close(); }; });
   } catch (_) { NETC.hyd = Promise.resolve(); }
 }
+function netcAfterHyd(){
+  if (typeof netcApplyBoards !== 'function') return;
+  try {
+    const empty = typeof state === 'undefined' || !Object.keys(LEAGUES || {}).some(lg => (state.games[lg] || []).length || (state.ind[lg] || []).length);
+    if (!empty && !NETC.paintCached) return;
+    const n = netcApplyBoards();
+    if (n && typeof renderAllSafe === 'function') renderAllSafe('netc-idb');
+  } catch (_) {}
+}
+function netcPri(u){ return netcLiveUrl(String(u)) ? 2 : 0; }
 function netcSave(u, data){
   const rec = { t: Date.now(), data }; NETC.mem.set(u, rec);
   let raw; try { raw = JSON.stringify(data); } catch (_) { return; }
-  if (raw.length > 400000) { netcIdb(u, rec); return; }
-  try { const C = JSON.parse(localStorage.getItem(NETC_LS) || '{"e":{}}'); if (!C.e) C.e = {}; C.e[u] = { t: rec.t, d: data };
+  if (raw.length > (netcPri(u) >= 2 ? 1500000 : 400000)) { netcIdb(u, rec); return; }
+  try {
+    const C = JSON.parse(localStorage.getItem(NETC_LS) || '{"e":{}}'); if (!C.e) C.e = {};
+    const pri = netcPri(u);
+    C.e[u] = { t: rec.t, d: data };
     let s = JSON.stringify(C);
-    while (s.length > NETC_MAX) { const ks = Object.keys(C.e).sort((a, b) => C.e[a].t - C.e[b].t); if (!ks.length) break; delete C.e[ks[0]]; s = JSON.stringify(C); }
+    while (s.length > NETC_MAX) {
+      const ks = Object.keys(C.e).filter(k => k !== u).sort((a, b) => (netcPri(a) - netcPri(b)) || (C.e[a].t - C.e[b].t));
+      if (!ks.length) { if (pri < 2) delete C.e[u]; s = JSON.stringify(C); break; }
+      if (netcPri(ks[0]) > pri || (netcPri(ks[0]) === 2 && pri < 2)) { delete C.e[u]; s = JSON.stringify(C); break; }
+      delete C.e[ks[0]]; s = JSON.stringify(C);
+    }
     localStorage.setItem(NETC_LS, s);
   } catch (_) { try { netcIdb(u, rec); } catch (e) {} }
 }
@@ -16281,27 +16314,83 @@ function netcAgo(t){ const m = Math.max(0, Math.round((Date.now() - t) / 60000))
 function netcBar(refreshing){
   const el = document.getElementById('updated'); if (!el) return;
   const ts = [...NETC.mem.values()].map(x => x.t); const t = ts.length ? Math.max(...ts) : 0;
-  if (NETC.paintCached && t) { el.textContent = (refreshing ? 'Updating… · was ' : 'Updated ') + netcAgo(t); el.classList.add('cached'); el.title = 'Showing the last saved ESPN data while a fresh fetch runs'; }
-  else { el.classList.remove('cached'); }
+  if (NETC.paintCached && t) { el.textContent = (refreshing ? 'Updating… · was ' : 'Updated ') + netcAgo(t); el.classList.add('stale'); el.classList.remove('cached'); el.title = 'Scores are from the last successful fetch. Tap “Tap for live” for the latest.'; }
+  else { el.classList.remove('stale', 'cached'); }
+}
+function netcChipHtml(busy){
+  return busy
+    ? '<button type="button" class="tap-live busy" data-taplive disabled><i class="tap-live-spin" aria-hidden="true"></i> Updating…</button>'
+    : '<button type="button" class="tap-live" data-taplive title="Get the latest scores">Tap for live ›</button>';
+}
+function netcMuteLive(el){
+  if (!el) return;
+  el.classList.add('stale'); el.classList.remove('cached');
+  el.removeAttribute('title');
+  const t = (el.textContent || '').replace(/cached/ig, '').replace(/\s+/g, ' ').trim();
+  if (t !== (el.textContent || '').trim()) el.textContent = t;
+  if (/^LIVE$/i.test((el.textContent || '').trim()) || el.classList.contains('badge-live') || el.classList.contains('gr-live') || el.classList.contains('tk-livebadge')) el.hidden = true;
+}
+function netcChipSlot(host){
+  return (host && (host.querySelector(':scope > .card-top, :scope > .gr-stl, :scope > .tk-status, :scope .card-top, :scope .gr-stl, :scope .tk-status') || host));
+}
+function netcEnsureChip(host){
+  if (!host || host.querySelector('.tap-live')) return;
+  const slot = netcChipSlot(host) || host;
+  slot.insertAdjacentHTML('beforeend', netcChipHtml(!!NETC.refreshing));
+}
+function netcClearChips(root){
+  (root || document).querySelectorAll('.tap-live').forEach(e => e.remove());
+  (root || document).querySelectorAll('.stale').forEach(e => { e.classList.remove('stale'); e.hidden = false; });
+}
+function netcAnyCachedLive(){
+  try {
+    const mark = g => g && (g.cachedLive || (g.state === 'in' && NETC.paintCached));
+    return Object.values(state.games || {}).some(a => (a || []).some(mark))
+      || Object.values(state.ind || {}).some(a => (a || []).some(e => mark(e) || (e.fights || e.sessions || []).some(mark)));
+  } catch (_) { return !!NETC.paintCached; }
 }
 function netcFixLive(root){
-  if (!NETC.paintCached) return;
-  (root || document).querySelectorAll('.badge-live:not(.cached), .gr-live:not(.cached), .tk-livebadge:not(.cached)').forEach(el => {
-    el.classList.add('cached'); el.title = 'From a saved fetch, not a live update';
-    if (/^LIVE$/.test((el.textContent || '').trim())) el.textContent = 'CACHED';
+  const host = root || document;
+  host.querySelectorAll('.badge-live, .gr-live, .tk-livebadge, .lv, .lv-badge, .lv-chip').forEach(el => {
+    el.classList.remove('cached');
+    if (/cached/i.test(el.textContent || '')) el.textContent = (el.textContent || '').replace(/cached/ig, '').replace(/\s+/g, ' ').trim();
   });
-  (root || document).querySelectorAll('.lv').forEach(el => { if (/LIVE/.test(el.textContent || '')) { el.classList.add('cached'); el.textContent = (el.textContent || '').replace('LIVE', 'CACHED'); } });
+  const stale = NETC.paintCached || netcAnyCachedLive();
+  if (!stale) { netcClearChips(host); return; }
+  const headerOf = el => el.closest('.section-title, .gr-h, #gr-live, #favSection > .section-title');
+  const cardOf = el => el.closest('.card, .gr, .tg, .fv-card, .ft-card, .ft-slot, .fl-line, [data-gmd], [data-grx], [data-ftk]');
+  host.querySelectorAll('.badge-live, .gr-live, .tk-livebadge').forEach(el => {
+    const header = headerOf(el), card = header ? null : cardOf(el);
+    netcMuteLive(el);
+    if (header || card) netcEnsureChip(header || card);
+  });
+  host.querySelectorAll('.lv, .lv-badge, .lv-chip, .fp-live').forEach(el => {
+    if (!/\bLIVE\b/i.test(el.textContent || '') && !el.classList.contains('on')) return;
+    const header = headerOf(el), card = header ? null : cardOf(el);
+    netcMuteLive(el);
+    if (header || card) netcEnsureChip(header || card);
+  });
+  host.querySelectorAll('.ft-slot.live, .ft-card.is-live, .fl-line.is-live').forEach(el => {
+    el.classList.add('stale'); el.classList.remove('cached');
+    netcEnsureChip(cardOf(el) || el);
+  });
+  const liveH = host.querySelector('#gr-live'); if (liveH) netcEnsureChip(liveH);
+  const favH = host.querySelector('#favSection > .section-title'); if (favH && host.querySelector('#favSection .tap-live, #favSection .ft-slot.live, #favSection .badge-live')) netcEnsureChip(favH);
 }
 function netcMarkGames(){
-  if (!NETC.paintCached || typeof state === 'undefined') return;
+  if (typeof state === 'undefined') return;
   const mark = g => { if (g && g.state === 'in') g.cachedLive = true; };
+  if (!NETC.paintCached && !NETC._staleOnce) return;
   Object.values(state.games || {}).forEach(a => (a || []).forEach(mark));
   Object.values(state.ind || {}).forEach(a => (a || []).forEach(e => { mark(e); (e.fights || e.sessions || []).forEach(mark); }));
 }
-function netcApplyBoards(){
+function netcApplyBoards(opts){
   if (typeof CAT === 'undefined' || typeof scoreboardUrls !== 'function' || typeof parseEvent !== 'function') return 0;
   let n = 0, oldest = 0;
   const lgs = typeof LEAGUES !== 'undefined' ? Object.keys(LEAGUES) : [];
+  const asFresh = !!(opts && opts.fresh);
+  const prev = NETC.paintCached;
+  if (asFresh) NETC.paintCached = false;
   for (const lg of lgs) { const L = CAT[lg]; if (!L) continue;
     const evs = new Map(); let t0 = 0;
     for (const u of scoreboardUrls(L)) { const c = netcPeek(u); if (!c || !c.data) continue; t0 = t0 ? Math.min(t0, c.t) : c.t;
@@ -16310,36 +16399,120 @@ function netcApplyBoards(){
     const list = [...evs.values()];
     if (L.kind === 'team') state.games[lg] = list.map(ev => parseEvent(ev, lg)).sort((a, b) => a.date - b.date);
     else { state.ind[lg] = list.map(ev => (PARSERS[L.kind] || parseEvent)(ev, lg)).sort((a, b) => a.date - b.date); state.games[lg] = []; }
-    if (!state.fetchT) state.fetchT = {}; if (!state.fetchT[lg]) state.fetchT[lg] = t0;
+    if (!state.fetchT) state.fetchT = {}; if (!state.fetchT[lg]) state.fetchT[lg] = asFresh ? Date.now() : t0;
   }
-  if (n) { NETC.paintCached = true; NETC.oldest = oldest; netcMarkGames(); }
+  if (n) {
+    const fresh = asFresh || (oldest && Date.now() - oldest < NETC_TTL.fresh);
+    if (fresh) NETC.paintCached = false;
+    else { NETC.paintCached = true; NETC.oldest = oldest; netcMarkGames(); }
+  } else if (asFresh) NETC.paintCached = prev;
   return n;
 }
 function netcPaintFresh(){
-  if (!NETC.bg) return;
-  NETC.paintCached = false;
+  if (NETC.bg > 0) return;
+  try { netcApplyBoards({ fresh: true }); } catch (_) { NETC.paintCached = false; }
   try { renderAllSafe('netc'); } catch (_) {}
   try { if (typeof muRender === 'function') muRender((MN && MN.fsTab) || 'nfl'); } catch (_) {}
   try { if (typeof renderTicker === 'function') renderTicker(); } catch (_) {}
   const el = document.getElementById('updated');
-  if (el && !/Updating/.test(el.textContent || '')) { el.classList.remove('cached'); el.textContent = 'Last updated ' + (typeof etFmt === 'function' ? etFmt(new Date(), { hour: 'numeric', minute: '2-digit', second: '2-digit' }) + ' ET' : new Date().toLocaleTimeString()); }
+  if (el && !NETC.paintCached && !/Updating/.test(el.textContent || '')) { el.classList.remove('cached', 'stale'); el.textContent = 'Last updated ' + (typeof etFmt === 'function' ? etFmt(new Date(), { hour: 'numeric', minute: '2-digit', second: '2-digit' }) + ' ET' : new Date().toLocaleTimeString()); }
+}
+function netcHasLive(){
+  try {
+    const lgs = Object.keys(typeof LEAGUES !== 'undefined' ? LEAGUES : {});
+    return lgs.some(lg => (typeof hasLive === 'function' && hasLive(lg))
+      || ((state.games[lg] || []).some(g => g.state === 'in' || g.cachedLive))
+      || ((state.ind[lg] || []).some(e => e.state === 'in' || e.cachedLive)));
+  } catch (_) { return !!NETC.paintCached; }
+}
+function netcLiveLgs(){
+  try {
+    return Object.keys(LEAGUES || {}).filter(lg => {
+      const a = state.games[lg] || [], b = state.ind[lg] || [];
+      return a.some(g => g.state === 'in' || g.cachedLive) || b.some(e => e.state === 'in' || e.cachedLive);
+    });
+  } catch (_) { return []; }
+}
+function netcBusyChips(){
+  document.querySelectorAll('.tap-live').forEach(b => { b.disabled = true; b.classList.add('busy'); b.innerHTML = '<i class="tap-live-spin" aria-hidden="true"></i> Updating…'; });
+  const el = document.getElementById('updated'); if (el) { el.textContent = 'Updating…'; el.classList.remove('cached'); }
+}
+async function netcRunRefresh(lgs){
+  if (typeof lastFull !== 'undefined') lastFull = Date.now();
+  const jobs = (lgs || []).map(lg => loadLeague(lg).then(() => { if (state.errors) delete state.errors[lg]; }).catch(e => { if (state.errors) state.errors[lg] = (typeof errMsg === 'function' ? errMsg(e) : String(e)); }).finally(() => { if (state.fetchT) state.fetchT[lg] = Date.now(); }));
+  await Promise.all(jobs);
+  if (!netcAnyCachedLive()) NETC.paintCached = false;
+  try { renderAllSafe('live-refresh'); } catch (_) {}
+  try { if (typeof renderTicker === 'function') renderTicker(); } catch (_) {}
+  const el = document.getElementById('updated');
+  if (el && !NETC.paintCached) { el.classList.remove('cached', 'stale'); el.textContent = 'Last updated ' + (typeof etFmt === 'function' ? etFmt(new Date(), { hour: 'numeric', minute: '2-digit', second: '2-digit' }) + ' ET' : new Date().toLocaleTimeString()); }
+  else if (NETC.paintCached) netcBar(false);
+}
+async function netcFetchLive(reason){
+  if (NETC.refreshing || (typeof refreshing === 'boolean' && refreshing && reason !== 'tap')) { if (reason === 'tap') NETC.wantTap = true; return; }
+  const lgs = netcLiveLgs();
+  if (!lgs.length && reason !== 'tap' && !NETC.paintCached && !netcAnyCachedLive()) return;
+  NETC.refreshing = true; NETC.force = true;
+  netcBusyChips();
+  try {
+    const list = lgs.length ? lgs : Object.keys(typeof LEAGUES !== 'undefined' ? LEAGUES : {});
+    await netcRunRefresh(list);
+  } catch (e) { console.warn('live refresh', e); }
+  finally {
+    NETC.force = false; NETC.refreshing = false;
+    if (NETC.wantTap) { NETC.wantTap = false; setTimeout(() => netcFetchLive('tap'), 0); }
+  }
+}
+function netcOnVis(){ if (!document.hidden && (netcHasLive() || NETC.paintCached || netcAnyCachedLive())) netcFetchLive('visible'); }
+function netcWatch(){
+  if (NETC.mo || typeof MutationObserver === 'undefined') return;
+  const kick = () => {
+    if (NETC._fixing) return;
+    if (!NETC.paintCached && !netcAnyCachedLive()) return;
+    NETC._fixing = true;
+    requestAnimationFrame(() => { try { netcFixLive(); } finally { NETC._fixing = false; } });
+  };
+  NETC.mo = new MutationObserver(kick);
+  const root = document.getElementById('games') || document.body;
+  if (root) NETC.mo.observe(root, { childList: true, subtree: true });
+}
+function netcArmLive(){
+  if (NETC.liveT) return;
+  NETC.liveT = setInterval(() => { if (!document.hidden && netcHasLive()) netcFetchLive('tick'); }, 30e3);
+  document.addEventListener('visibilitychange', netcOnVis);
+  try { netcWatch(); } catch (_) {}
+}
+if (!netcArmLive._click) {
+  netcArmLive._click = true;
+  document.addEventListener('click', ev => {
+    const b = ev.target && ev.target.closest && ev.target.closest('[data-taplive]');
+    if (!b) return;
+    ev.preventDefault(); ev.stopPropagation();
+    netcFetchLive('tap');
+  }, true);
 }
 async function netcJson(orig, url, timeoutMs, opts){
   const cached = netcPeek(url), age = cached ? Date.now() - cached.t : 1e15, live = netcLiveUrl(url), ttl = live ? NETC_TTL.live : NETC_TTL.def;
   const go = () => orig(url, timeoutMs).then(d => { netcSave(url, d); return structuredClone(d); });
+  if (NETC.force) {
+    try { return await go(); }
+    catch (e) { if (cached) { NETC._staleOnce = true; setTimeout(() => { NETC._staleOnce = false; }, 0); return netcStamp(structuredClone(cached.data), cached.t); } throw e; }
+  }
   if (cached && age < NETC_TTL.fresh) return netcStamp(structuredClone(cached.data), cached.t);
   if (cached && age < ttl) {
     NETC.paintCached = true;
-    go().then(d => { NETC.bg++; clearTimeout(NETC.t); NETC.t = setTimeout(() => { NETC.bg = 0; netcPaintFresh(); }, 80); }).catch(() => {});
+    NETC.bg++;
+    go().then(() => { NETC.bg = Math.max(0, NETC.bg - 1); clearTimeout(NETC.t); if (!NETC.bg) NETC.t = setTimeout(() => netcPaintFresh(), 80); }).catch(() => { NETC.bg = Math.max(0, NETC.bg - 1); });
     return netcStamp(structuredClone(cached.data), cached.t);
   }
   try { return await go(); }
-  catch (e) { if (cached) { NETC.paintCached = true; return netcStamp(structuredClone(cached.data), cached.t); } throw e; }
+  catch (e) { if (cached) { NETC.paintCached = true; NETC._staleOnce = true; setTimeout(() => { NETC._staleOnce = false; }, 0); return netcStamp(structuredClone(cached.data), cached.t); } throw e; }
 }
 netcHydrate();
 if (typeof getJSON === 'function') { const _gj = getJSON; getJSON = function(url, ms){ return netcJson(_gj, url, ms); }; }
 if (typeof efJSON === 'function') { const _ef = efJSON; efJSON = async function(url){ const cached = netcPeek(url), age = cached ? Date.now() - cached.t : 1e15;
   const go = () => _ef(url).then(d => { netcSave(url, d); return d; });
+  if (NETC.force) { try { return await go(); } catch (e) { if (cached) return netcStamp(structuredClone(cached.data), cached.t); throw e; } }
   if (cached && age < NETC_TTL.fresh) return netcStamp(structuredClone(cached.data), cached.t);
   if (cached && age < NETC_TTL.def) { go().catch(() => {}); return netcStamp(structuredClone(cached.data), cached.t); }
   try { return await go(); } catch (e) { if (cached) return netcStamp(structuredClone(cached.data), cached.t); throw e; } }; }
@@ -16347,14 +16520,14 @@ if (typeof fetchWithTimeout === 'function') { const _ft = fetchWithTimeout; fetc
   const want = !opts || (!opts.headers && (opts.method || 'GET') === 'GET');
   if (!want || typeof url !== 'string' || !/open-meteo\.com/.test(url)) return _ft(url, ms, opts);
   const cached = netcPeek(url);
-  if (cached && Date.now() - cached.t < 60 * 60e3) return new Response(JSON.stringify(cached.data), { status: 200, headers: { 'Content-Type': 'application/json' } });
+  if (!NETC.force && cached && Date.now() - cached.t < 60 * 60e3) return new Response(JSON.stringify(cached.data), { status: 200, headers: { 'Content-Type': 'application/json' } });
   const r = await _ft(url, ms, opts);
   if (r && r.ok) { try { const c = r.clone(), d = await c.json(); netcSave(url, d); } catch (_) {} }
   return r; }; }
-if (typeof parseEvent === 'function') { const _pe = parseEvent; parseEvent = function(ev, lg){ const g = _pe(ev, lg); if (NETC.paintCached && g && g.state === 'in') g.cachedLive = true; return g; }; }
+if (typeof parseEvent === 'function') { const _pe = parseEvent; parseEvent = function(ev, lg){ const g = _pe(ev, lg); if (g && g.state === 'in' && (NETC.paintCached || NETC._staleOnce)) g.cachedLive = true; return g; }; }
 if (typeof renderAllSafe === 'function') { const _ra = renderAllSafe; renderAllSafe = function(){ const r = _ra.apply(this, arguments); try { netcFixLive(); if (NETC.paintCached) netcBar(/Updating/.test((document.getElementById('updated') || {}).textContent || '')); } catch (_) {} return r; }; }
-if (typeof bootDashboard === 'function') { const _boot = bootDashboard; bootDashboard = function(){ if (bootDashboard.done) return; try { netcApplyBoards(); } catch (e) { console.warn('netc boot', e); } return _boot.apply(this, arguments); }; }
-if (typeof refresh === 'function') { const _rf = refresh; refresh = async function(force){ const r = await _rf.apply(this, arguments); try { if (!NETC.paintCached) { const el = document.getElementById('updated'); if (el) el.classList.remove('cached'); } else netcBar(false); } catch (_) {} return r; }; }
+if (typeof bootDashboard === 'function') { const _boot = bootDashboard; bootDashboard = function(){ if (bootDashboard.done) return; try { netcApplyBoards(); } catch (e) { console.warn('netc boot', e); } const r = _boot.apply(this, arguments); try { netcArmLive(); } catch (_) {} return r; }; }
+if (typeof refresh === 'function') { const _rf = refresh; refresh = async function(force){ const r = await _rf.apply(this, arguments); try { const el = document.getElementById('updated'); if (!NETC.paintCached && !netcAnyCachedLive()) { if (el) el.classList.remove('cached', 'stale'); } else netcBar(false); } catch (_) {} return r; }; }
 if (typeof rzGames === 'function') { const _rz = rzGames; rzGames = function(){ const r = _rz.apply(this, arguments); if (!r || !r.live) return r; return { ...r, live: r.live.filter(e => !(e.g && e.g.cachedLive)) }; }; }
 function czWant(){ try { return [...arguments].some(k => czIs(k)); } catch (_) { return true; } }
 if (typeof b3EnsureLeague === 'function') { const f = b3EnsureLeague; b3EnsureLeague = function(){ if (!((typeof B3 !== 'undefined' && B3.lg) || czWant('odds', 'power', 'bye', 'inj'))) return; return f.apply(this, arguments); }; }
